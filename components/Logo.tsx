@@ -13,7 +13,7 @@ const Logo = ({ withLabel = false, imageSize, getOpenState }: LogoProps) => {
   return (
     <Link
       href="/dashboard"
-      className={cn("flex items-center px-2", getOpenState() ? "gap-2" : "")}
+      className={cn("flex items-center px-2", getOpenState() ? "gap-4" : "")}
     >
       <div
         className={cn(
@@ -32,13 +32,13 @@ const Logo = ({ withLabel = false, imageSize, getOpenState }: LogoProps) => {
       <div className="grid flex-1 text-left text-sm leading-tight">
         <h1
           className={cn(
-            "font-bold text-foreground text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300",
+            "font-bold text-foreground text-xl whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300 tracking-widest",
             !getOpenState()
               ? "-translate-x-96 opacity-0 hidden"
               : "translate-x-0 opacity-100"
           )}
         >
-          Stella
+          STELLA
         </h1>
         {withLabel && (
           <p className="truncate text-xs">Five Star Finance Inc.</p>
