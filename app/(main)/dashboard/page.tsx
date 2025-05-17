@@ -6,16 +6,18 @@ import RecentClients from "@/features/clients/components/RecentClients";
 
 export default function DashboardPage() {
   return (
-    <ContentLayout title="Dashboard">
+    <ContentLayout title="Dashboard" >
       <BreadcrumbPages
         links={[
           { href: "/", label: "Home" },
           { href: "/dashboard", label: "Dashboard" },
         ]}
       />
-      <Statistics />
-      <RecentProcessTrail />
-      <RecentClients />
+      <div className="flex flex-col gap-6 mt-6">
+        <Statistics />
+        <RecentProcessTrail />
+        <RecentClients />
+      </div>
     </ContentLayout>
   );
 }
