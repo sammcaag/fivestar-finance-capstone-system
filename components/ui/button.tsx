@@ -59,18 +59,17 @@ interface IconRefProps {
   iconPlacement?: undefined;
 }
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+type ButtonBaseProps = VariantProps<typeof buttonVariants> & {
   asChild?: boolean;
-}
+  children?: React.ReactNode;
+};
+
+type ButtonProps = ButtonBaseProps & 
+  Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonBaseProps>;
 
 export type ButtonIconProps = IconProps | IconRefProps;
 
-const Button = React.forwardRef<
-  HTMLButtonElement,
-  ButtonProps & ButtonIconProps
->(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps & ButtonIconProps>(
   (
     {
       className,
@@ -80,37 +79,57 @@ const Button = React.forwardRef<
       icon: Icon,
       iconPlacement,
       asChild = false,
+      children,
       ...props
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : "button";
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, effect, size, className }))}
-        ref={ref}
-        {...props}
-      >
-        {Icon &&
-          iconPlacement === "left" &&
-          (effect === "expandIcon" ? (
+    const buttonClass = cn(buttonVariants({ variant, effect, size, className }));
+    
+    // When asChild is true, we don't wrap the children with our custom content
+    if (asChild) {
+      // When asChild is true, we want to pass all valid HTML attributes to the Slot
+      const { asChild: _, ...slotProps } = props as any;
+      return (
+        <Slot className={buttonClass} ref={ref} {...slotProps}>
+          {children}
+        </Slot>
+      );
+    }
+    
+    // Regular button content with icons and slots
+    const content = (
+      <>
+        {Icon && iconPlacement === "left" && (
+          effect === "expandIcon" ? (
             <div className="w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-100 group-hover:pr-2 group-hover:opacity-100">
               <Icon />
             </div>
           ) : (
             <Icon />
-          ))}
-        <Slottable>{props.children}</Slottable>
-        {Icon &&
-          iconPlacement === "right" &&
-          (effect === "expandIcon" ? (
-            <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
+          )
+        )}
+        <Slottable>{children}</Slottable>
+        {Icon && iconPlacement === "right" && (
+          effect === "expandIcon" ? (
+            <div className="w-0 translate-x-[-100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
               <Icon />
             </div>
           ) : (
             <Icon />
-          ))}
-      </Comp>
+          )
+        )}
+      </>
+    );
+
+    return (
+      <button 
+        className={buttonClass} 
+        ref={ref} 
+        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+      >
+        {content}
+      </button>
     );
   }
 );

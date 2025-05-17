@@ -1,3 +1,10 @@
+  import { useSidebar } from "@/hooks/use-sidebar";
+import { useStore } from "@/hooks/use-store";
+  
+      const sidebar = useStore(useSidebar, (x) => x);
+  if (!sidebar) return null;
+  const { settings, setSettings } = sidebar;
+    
       <TooltipProvider>
         <div className="flex gap-6 mt-6">
           <Tooltip>

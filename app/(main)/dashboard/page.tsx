@@ -1,30 +1,10 @@
-"use client";
-import Link from "next/link";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useSidebar } from "@/hooks/use-sidebar";
-import { useStore } from "@/hooks/use-store";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
+import Statistics from "@/features/clients/components/Statistics";
+import RecentProcessTrail from "@/features/clients/components/RecentProcessTrail";
+import RecentClients from "@/features/clients/components/RecentClients";
 
 export default function DashboardPage() {
-  const sidebar = useStore(useSidebar, (x) => x);
-  if (!sidebar) return null;
-  const { settings, setSettings } = sidebar;
   return (
     <ContentLayout title="Dashboard">
       <BreadcrumbPages
@@ -33,9 +13,9 @@ export default function DashboardPage() {
           { href: "/dashboard", label: "Dashboard" },
         ]}
       />
-      {/* <Statistics />
+      <Statistics />
       <RecentProcessTrail />
-      <RecentClients /> */}
+      <RecentClients />
     </ContentLayout>
   );
 }
