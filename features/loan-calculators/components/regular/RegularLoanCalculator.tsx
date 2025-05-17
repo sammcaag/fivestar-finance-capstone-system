@@ -157,7 +157,7 @@ export default function RegularLoanCalculator({
           : ""
       }`}
     >
-      <div className="mb-10 pl-6">
+      <div className="mb-10 mt-6">
         <h3 className="h3">AFP {clientType} Computation</h3>
         <p className="text-sm text-muted-foreground">
           Calculate potential loan amount of clients
