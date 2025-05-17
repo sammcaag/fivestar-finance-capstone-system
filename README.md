@@ -1,8 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# STELLA
+
+Secure Technology for Electronic Lending & Loan Automation at Five Star Finance Inc.
+
+## Project Overview
+
+This project aims to develop a comprehensive digital loan management system for Five Star Finance Inc., specifically designed to streamline lending processes for AFP retirees and beneficiaries. By automating loan applications, approvals, and financial reporting, the system enhances efficiency, accuracy, and data security, reducing reliance on manual processes like Excel spreadsheets. Ultimately, it seeks to improve customer experience, minimize human errors, and provide a scalable solution for the company's nationwide expansion.
+
+## Team Members
+
+- REY L. DAUG JR. - System Analyst
+- SAMM REYVEN JOEY P. CAAGBAY - Front End Developer
+- MARTE SENARA - Back End Developer
+- RUTHSEN EMBERDA - Database Administrator
+- TRISHA BONEO - Researcher/Writer
+
+## Features
+
+- Modern UI built with Tailwind CSS and Shadcn UI components
+- State management with Zustand
+- Form handling with React Hook Form and Zod validation
+- Interactive tables with TanStack Table
+- Dark/Light theme support with Next-themes
+- Optimized performance with Turbopack
+- Responsive design with mobile-first approach
+
+## Tech Stack
+
+- **Framework**: Next.js 15
+- **Language**: TypeScript
+- **UI Components**: Shadcn UI (Radix UI primitives)
+- **State Management**: Zustand
+- **Form Handling**: React Hook Form + Zod
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **Date Handling**: date-fns
+- **Phone Number Handling**: libphonenumber-js
+- **Icons**: Lucide React
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies:
+
+```bash
+npm install
+# or
+yarn
+# or
+pnpm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -10,27 +57,27 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/app` - Next.js App Router pages and layouts
+- `/components` - Reusable UI components
+- `/features` - Feature-specific components and logic
+- `/hooks` - Custom React hooks
+- `/lib` - Utility functions and configurations
+- `/utils` - Helper functions
 
-## Learn More
+## Development
 
-To learn more about Next.js, take a look at the following resources:
+The project uses:
+- TypeScript for type safety
+- ESLint for code linting
+- Next.js App Router for routing
+- Turbopack for faster development experience
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is private and not open source.
