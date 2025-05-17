@@ -5,7 +5,13 @@ import {
   Bookmark,
   SquarePen,
   LayoutGrid,
-  LucideIcon
+  LucideIcon,
+  UserRoundPlus,
+  Calculator,
+  FilePlus2,
+  ClockPlus,
+  History,
+  StretchHorizontal,
 } from "lucide-react";
 
 type Submenu = {
@@ -30,60 +36,71 @@ type Group = {
 export function getMenuList(pathname: string): Group[] {
   return [
     {
-      groupLabel: "",
+      groupLabel: "Home",
       menus: [
         {
           href: "/dashboard",
           label: "Dashboard",
           icon: LayoutGrid,
-          submenus: []
-        }
-      ]
+          submenus: [],
+        },
+      ],
     },
     {
-      groupLabel: "Contents",
+      groupLabel: "Clients",
       menus: [
         {
-          href: "",
-          label: "Posts",
-          icon: SquarePen,
-          submenus: [
-            {
-              href: "/posts",
-              label: "All Posts"
-            },
-            {
-              href: "/posts/new",
-              label: "New Post"
-            }
-          ]
+          href: "/clients",
+          label: "All Clients",
+          icon: Users,
         },
         {
-          href: "/categories",
-          label: "Categories",
-          icon: Bookmark
+          href: "/clients/register",
+          label: "Register Client",
+          icon: UserRoundPlus,
         },
-        {
-          href: "/tags",
-          label: "Tags",
-          icon: Tag
-        }
-      ]
+      ],
     },
     {
-      groupLabel: "Settings",
+      groupLabel: "Loan Computations",
       menus: [
         {
-          href: "/users",
-          label: "Users",
-          icon: Users
+          href: "/loan-computations/new-client",
+          label: "New Client Computation",
+          icon: Calculator,
         },
         {
-          href: "/account",
-          label: "Account",
-          icon: Settings
-        }
-      ]
-    }
+          href: "/loan-computations/additional",
+          label: "Additional Computation",
+          icon: FilePlus2,
+        },
+        {
+          href: "/loan-computations/reloan",
+          label: "Reloan Computation",
+          icon: History,
+        },
+        {
+          href: "/loan-computations/renewal",
+          label: "Renewal Computation",
+          icon: ClockPlus,
+        },
+        {
+          href: "/loan-computations/extension",
+          label: "Extension Computation",
+          icon: StretchHorizontal,
+        },
+      ],
+    },
   ];
 }
+
+//   submenus: [
+//     {
+//       href: "/clients",
+//       label: "All Clients"
+//     },
+//     {
+//       href: "/posts/new",
+//       label: "New Post"
+//     }
+//   ]

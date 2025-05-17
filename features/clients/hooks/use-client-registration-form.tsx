@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 
 export function useClientRegistrationForm() {
   const [previousStep, setPreviousStep] = useState(0);
-  const [currentStep, setCurrentStep] = useState(3);
+  const [currentStep, setCurrentStep] = useState(0);
   const delta = currentStep - previousStep;
   const [formModified, setFormModified] = useState(false);
   const [submitButton, setSubmitButton] = useState<JSX.Element | null>(null);
