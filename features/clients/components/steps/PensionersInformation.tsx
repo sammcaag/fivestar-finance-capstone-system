@@ -15,19 +15,11 @@ import {
 import React, { useEffect, useRef } from "react";
 import { PensionersInformationProps } from "../../types/types-clients";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { format, getYear } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
+import { getYear } from "date-fns";
+import CustomDatePicker from "@/components/CustomDatePicker";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { preventInvalidInput } from "@/utils/handling-input-numbers";
-import CustomDatePicker from "@/components/custom/custom-date-picker";
-import { pensionTypes, ranks } from "@/lib/client-registration";
+import { pensionTypes, ranks } from "../../lib/client-registration";
 
 const PensionersInformation = ({ form }: PensionersInformationProps) => {
   return (

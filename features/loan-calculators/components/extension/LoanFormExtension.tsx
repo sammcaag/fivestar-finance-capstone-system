@@ -7,32 +7,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import React from "react";
-import { UseFormReturn } from "react-hook-form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { format, getYear } from "date-fns";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
-import CustomDatePicker from "@/components/custom/custom-date-picker";
+import CustomDatePicker from "@/components/CustomDatePicker";
 import { LoanFormProps } from "../../types/types-extension";
 import {
   preventInvalidInput,
   preventNegativeAndLimitDecimals,
-} from "@/utils/handling-input-numbers";
+} from "../../../../utils/handling-input-numbers";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
+import { getYear } from "date-fns";
 
 const LoanForm = ({ form, hasDeductions, setHasDeductions }: LoanFormProps) => {
   return (

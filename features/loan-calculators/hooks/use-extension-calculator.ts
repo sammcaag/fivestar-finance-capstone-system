@@ -1,9 +1,9 @@
-import { FormValues } from "@/components/shared/dashboard/lending-calculator/extension/types-extension";
-import { formatCurrency, removeCommas } from "@/utils/format-currency";
+import { FormValues } from "../types/types-extension";
+import { formatCurrency, removeCommas } from "../utils/format-currency";
 import {
   GpFactorExtensionRates,
   GpFactorRenewalExtensionRates,
-} from "@/utils/gpfactor-rates";
+} from "../utils/gpfactor-rates";
 import { toast } from "sonner";
 
 export const useExtensionCalculator = () => {

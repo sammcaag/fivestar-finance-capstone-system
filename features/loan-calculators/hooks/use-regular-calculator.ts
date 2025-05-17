@@ -1,6 +1,6 @@
-import { FormValues } from "@/components/shared/dashboard/lending-calculator/regular/types-regular";
-import { formatCurrency, removeCommas } from "@/utils/format-currency";
-import { GpFactorRegularRates } from "@/utils/gpfactor-rates";
+import { FormValues } from "../types/types-regular";
+import { formatCurrency, removeCommas } from "../utils/format-currency";
+import { GpFactorRegularRates } from "../utils/gpfactor-rates";
 
 export const useRegularLoanCalculator = () => {
   //For NC/Additional/Reloan current month + 3 month

@@ -6,14 +6,14 @@ import { useForm } from "react-hook-form";
 import { FormValues } from "../../types/types-extension";
 import LoanForm from "./LoanFormExtension";
 import { Form } from "@/components/ui/form";
-import ResultsDisplay from "./results-display-extension";
+import ResultsDisplay from "./ResultsDisplayExtension";
 import { Separator } from "@/components/ui/separator";
 import { ResultsDisplayProps } from "../../types/types-extension";
 
 import { Button } from "@/components/ui/button";
 import { PrinterIcon } from "lucide-react";
 import { ReferencesDisplayProps } from "../../types/types-extension";
-import { extensionCalculatorChecker } from "../../utils/form-calculator-valdiation";
+import { extensionCalculatorChecker } from "../../schema/loan-calculation-zod-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useExtensionCalculator } from "../../hooks/use-extension-calculator";
 import { toast } from "sonner";

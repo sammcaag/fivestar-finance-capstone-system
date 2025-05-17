@@ -1,24 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { CardContent, CardFooter } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { PrinterIcon } from "lucide-react";
 import { FormValues, ResultsProps } from "../../types/types-regular";
-import LoanForm from "./loan-form-regular";
-import ResultsDisplay from "./results-display-regular";
+import LoanForm from "./LoanFormRegular";
+import ResultsDisplay from "./ResultsDisplayRegular";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { regularCalculatorChecker } from "@/utils/form-calculator-valdiation";
-import { useRegularLoanCalculator } from "@/hooks/use-regular-calculator";
+import { regularCalculatorChecker } from "../../schema/loan-calculation-zod-schema";
+import { useRegularLoanCalculator } from "../../hooks/use-regular-calculator";
 import { toast } from "sonner";
 
 interface RegularLoanCalculatorProps {

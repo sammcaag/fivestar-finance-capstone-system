@@ -6,7 +6,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import React from "react";
-import { AccountsInformationProps } from "../../types/types-clients";
+import { AccountsInformationProps } from "@/features/clients/types/types-clients";
 import { CreditCard, Landmark } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { preventInvalidInput } from "@/utils/handling-input-numbers";

@@ -1,14 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import React from "react";
-import ResultCard from "../result-card";
-import ResultOutline from "./result-outline";
+import ResultOutline from "./ResultOutline";
 import {
   ResultsDisplayProps,
   ResultsDisplayDatesProps,
 } from "../../types/types-extension";
 import { Label } from "@/components/ui/label";
-import CustomDatePicker from "@/components/custom/custom-date-picker";
+import CustomDatePicker from "@/components/CustomDatePicker";
 
 const ResultsDisplay = ({
   extensionOiRate,

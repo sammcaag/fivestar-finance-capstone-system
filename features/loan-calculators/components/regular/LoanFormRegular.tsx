@@ -18,16 +18,16 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { UseFormReturn } from "react-hook-form";
 import { LoanFormProps, RateProps } from "../../types/types-regular";
-import RateCards from "./rate-cards";
+import RateCards from "./RateCards";
 import {
   preventInvalidInput,
   preventNegativeAndLimitDecimals,
-} from "@/utils/handling-input-numbers";
+} from "../../../../utils/handling-input-numbers";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import CustomDatePicker from "@/components/custom/custom-date-picker";
+import CustomDatePicker from "@/components/CustomDatePicker";
 import { getYear } from "date-fns";
-import { CustomTooltip } from "@/components/custom/custom-tooltip";
+import { CustomTooltip } from "@/components/CustomTooltip";
 import { Info } from "lucide-react";
 
 export default function LoanForm({

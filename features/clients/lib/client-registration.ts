@@ -1,4 +1,4 @@
-import { ClientFormValues } from "@/components/shared/dashboard/register-clients/types-clients";
+import { ClientFormValues } from "../schema/client-zod-schema";
 
 //steps we created in the stepper
 export const steps = [

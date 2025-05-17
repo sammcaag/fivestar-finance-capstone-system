@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ClientGeneralInformationProps } from "../../types/types-clients";
+import { ClientGeneralInformationProps } from "@/features/clients/types/types-clients";
 import {
   FormControl,
   FormDescription,
@@ -18,17 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
-import { format, getYear } from "date-fns";
-import CustomDatePicker from "@/components/custom/custom-date-picker";
+import { getYear } from "date-fns";
+import CustomDatePicker from "@/components/CustomDatePicker";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 

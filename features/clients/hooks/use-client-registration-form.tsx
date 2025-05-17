@@ -7,7 +7,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { FileCheck, ArrowRight } from "lucide-react";
 
-import { clientFormSchema } from "./form-client-registration-validation";
+import { clientFormSchema } from "../schema/client-zod-schema";
 import type { ClientFormValues } from "../types/types-clients";
 import { loadDraft, saveDraft } from "../utils/draft-computation-storage";
 import {
@@ -50,20 +50,22 @@ export function useClientRegistrationForm() {
     if (draft) {
       // Create a new object to hold the converted dates
       const dateConversions: Partial<ClientFormValues> = {};
-      
+
       // Convert date strings back to Date objects
       formDates.forEach((dateField) => {
         const fieldValue = draft.data[dateField as keyof typeof draft.data];
-        
+
         if (fieldValue) {
-          if (typeof fieldValue === 'string') {
+          if (typeof fieldValue === "string") {
             // Only convert string dates that can be parsed
             const date = new Date(fieldValue);
             if (!isNaN(date.getTime())) {
-              dateConversions[dateField as keyof ClientFormValues] = date as any;
+              dateConversions[dateField as keyof ClientFormValues] =
+                date as any;
             }
           } else if (fieldValue instanceof Date) {
-            dateConversions[dateField as keyof ClientFormValues] = fieldValue as any;
+            dateConversions[dateField as keyof ClientFormValues] =
+              fieldValue as any;
           }
         }
       });

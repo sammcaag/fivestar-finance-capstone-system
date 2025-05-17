@@ -1,5 +1,5 @@
 import React from "react";
-import ResultCard from "../result-card";
+import ResultCard from "../ResultCard";
 import { ReferencesDisplayProps } from "../../types/types-extension";
 
 const ReferencesDisplay = ({

@@ -1,10 +1,10 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import ResultCard from "../result-card";
-import CustomDatePicker from "@/components/custom/custom-date-picker";
+import ResultCard from "../ResultCard";
+import CustomDatePicker from "@/components/CustomDatePicker";
 import { ResultsDisplayProps } from "../../types/types-regular";
 
 // Props Type

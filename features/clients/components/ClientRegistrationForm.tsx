@@ -5,11 +5,11 @@ import { ArrowLeft, Eraser, FileUp, Save, Trash2 } from "lucide-react";
 
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import ClientGeneralInformation from "./steps/client-general-information";
+import ClientGeneralInformation from "./steps/ClientGeneralInformation";
 import { StepIndicator } from "./StepIndicator";
-import FamilyInformation from "./steps/family-information";
-import PensionersInformation from "./steps/pensioners-information";
-import AccountsInformation from "./steps/accounts-information";
+import FamilyInformation from "./steps/FamilyInformation";
+import PensionersInformation from "./steps/PensionersInformation";
+import AccountsInformation from "./steps/AccountsInformation";
 import { steps } from "../lib/client-registration";
 import { useClientRegistrationForm } from "../hooks/use-client-registration-form";
 
