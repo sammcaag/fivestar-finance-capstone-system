@@ -1,15 +1,4 @@
-import Link from "next/link";
-
-import PlaceholderContent from "@/components/placeholder-content";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
@@ -24,9 +13,9 @@ import { ClientsTable } from "@/features/clients/components/ClientsTable";
 import { ClientsOverviewCards } from "@/features/clients/components/ClientsOverviewCards";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 
-export default function AccountPage() {
+export default function ClientsPage() {
   return (
-    <ContentLayout title="Account">
+    <ContentLayout title="All Clients">
       <BreadcrumbPages
         links={[
           {
@@ -44,7 +33,7 @@ export default function AccountPage() {
         ]}
       />
       <div className="flex flex-col">
-        <div className="flex-1 space-y-4 p-8 pt-6">
+        <div className="flex-1 space-y-4 pt-6">
           <div className="flex items-center justify-between space-y-2">
             <h2 className="text-3xl font-bold tracking-tight">
               Clients Overview
