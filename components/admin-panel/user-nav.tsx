@@ -21,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "../mode-toggle";
+import { useRouter } from "next/navigation";
 
 export function UserNav() {
   const user = {
@@ -32,6 +33,8 @@ export function UserNav() {
     .split(" ")
     .map((word) => word[0].toUpperCase())
     .join("");
+
+  const router = useRouter();
   return (
     <DropdownMenu>
       <TooltipProvider disableHoverableContent>
@@ -80,11 +83,17 @@ export function UserNav() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         {/*Add the dark mode theme here below*/}
-        <DropdownMenuItem className="hover:cursor-pointer p-0" onClick={() => {}}>
+        <DropdownMenuItem
+          className="hover:cursor-pointer p-0"
+          onClick={() => {}}
+        >
           <ModeToggle />
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="hover:cursor-pointer" onClick={() => {}}>
+        <DropdownMenuItem
+          className="hover:cursor-pointer"
+          onClick={() => router.replace("/login")}
+        >
           <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
           Sign out
         </DropdownMenuItem>
