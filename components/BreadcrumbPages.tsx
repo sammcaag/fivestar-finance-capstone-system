@@ -27,11 +27,15 @@ export default function BreadcrumbPages({ links }: BreadcrumbPagesProps) {
                 <BreadcrumbPage>{link.label}</BreadcrumbPage>
               ) : (
                 <BreadcrumbLink asChild>
-                  <Link href={link.href}>{link.label}</Link>
+                  <Link href={link.href} className="text-muted-foreground">
+                    {link.label}
+                  </Link>
                 </BreadcrumbLink>
               )}
             </BreadcrumbItem>
-           {index !== links.length - 1 && <BreadcrumbSeparator className="ml-2" />}
+            {index !== links.length - 1 && (
+              <BreadcrumbSeparator className="ml-2" />
+            )}
           </div>
         ))}
       </BreadcrumbList>

@@ -8,6 +8,7 @@ import {
   ClockPlus,
   History,
   StretchHorizontal,
+  FileUser,
 } from "lucide-react";
 
 type Submenu = {
@@ -54,6 +55,11 @@ export function getMenuList(pathname: string): Group[] {
           href: "/clients/register",
           label: "Register Client",
           icon: UserRoundPlus,
+        },
+        {
+          href: "/clients/info",
+          label: "Client Information",
+          icon: FileUser,
         },
       ],
     },

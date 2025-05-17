@@ -214,11 +214,7 @@ export default function RegularLoanCalculator({
                     Print Calculation
                   </Button>
                 )}
-                <Button
-                  type="submit"
-                  className="bg-black text-white hover:bg-black/90"
-                  effect={"ringHover"}
-                >
+                <Button type="submit" effect={"ringHover"}>
                   Compute
                 </Button>
               </div>

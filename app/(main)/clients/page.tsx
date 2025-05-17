@@ -50,12 +50,20 @@ export default function ClientsPage() {
               </span>
             </div>
           </div>
-          <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="active">Active Loans</TabsTrigger>
-              <TabsTrigger value="pending">Pending Approval</TabsTrigger>
-              <TabsTrigger value="overdue">Overdue</TabsTrigger>
+          <Tabs defaultValue="overview" className="space-y-4 ">
+            <TabsList className="tabs-container">
+              <TabsTrigger value="overview" className="tabs-trigger-style">
+                Overview
+              </TabsTrigger>
+              <TabsTrigger value="active" className="tabs-trigger-style">
+                Active Loans
+              </TabsTrigger>
+              <TabsTrigger value="pending" className="tabs-trigger-style">
+                Pending Approval
+              </TabsTrigger>
+              <TabsTrigger value="overdue" className="tabs-trigger-style">
+                Overdue
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
