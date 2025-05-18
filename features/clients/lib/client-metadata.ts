@@ -1,9 +1,9 @@
 export const clientData = {
-  profilePicture: "/placeholder.svg?height=200&width=200",
+  profilePicture: "https://github.com/shadcn.png",
   firstName: "John",
-  midName: "Robert",
-  lastName: "Smith",
-  suffix: "Jr.",
+  midName: "",
+  lastName: "Doe",
+  suffix: "",
   gender: "Male",
   age: 65,
   status: "ACTIVE",
@@ -85,3 +85,21 @@ export const clientData = {
     },
   ],
 };
+
+ export const pensionDetails = [
+    {
+      id: 1,
+      title: "Monthly Pension",
+      details: "12,870.00",
+    },
+    {
+      id: 2,
+      title: "Monthly Deduction",
+      details: "1,500.00",
+    },
+    {
+      id: 3,
+      title: "FI1",
+      details: "1,230.00",
+    },
+  ];

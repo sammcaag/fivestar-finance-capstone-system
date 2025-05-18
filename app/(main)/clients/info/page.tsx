@@ -1,7 +1,8 @@
 "use client";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
-import ClientProfile from "@/features/clients/components/ClientProfile";
+import ClientInformation from "@/features/clients/components/ClientInformation";
+import ClientProfileHeader from "@/features/clients/components/profile/ProfileHeader";
 
 export default function FindClient() {
   return (
@@ -13,7 +14,10 @@ export default function FindClient() {
           { href: "/clients/find", label: "Find Client" },
         ]}
       />
-      <ClientProfile />
+      <div className="mx-auto py-6 space-y-6">
+        <ClientProfileHeader />
+        <ClientInformation />
+      </div>
     </ContentLayout>
-  )
+  );
 }
