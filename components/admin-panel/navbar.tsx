@@ -2,9 +2,9 @@ import { UserNav } from "@/components/admin-panel/user-nav";
 import { SheetMenu } from "@/components/admin-panel/sheet-menu";
 import SearchInput from "@/components/SearchInput";
 
-interface NavbarProps {
+type NavbarProps = {
   title: string;
-}
+};
 
 export function Navbar({ title }: NavbarProps) {
   return (

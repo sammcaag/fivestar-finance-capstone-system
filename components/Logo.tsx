@@ -17,14 +17,14 @@ const Logo = ({ withLabel = false, imageSize, getOpenState }: LogoProps) => {
     >
       <div
         className={cn(
-          "flex aspect-square size-9 items-center justify-center rounded-lg",
+          "flex aspect-square size-10 items-center justify-center rounded-lg",
           !getOpenState() ? "w-full" : ""
         )}
       >
         <Image
           src="/logo.svg"
-          width={imageSize || 32}
-          height={imageSize || 32}
+          width={imageSize || 40}
+          height={imageSize || 40}
           priority={true}
           alt="Stella Logo"
         />
@@ -32,7 +32,7 @@ const Logo = ({ withLabel = false, imageSize, getOpenState }: LogoProps) => {
       <div className="grid flex-1 text-left text-sm leading-tight">
         <h1
           className={cn(
-            "font-bold text-foreground text-xl whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300 tracking-widest",
+            "font-bold text-foreground text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300 tracking-wide",
             !getOpenState()
               ? "-translate-x-96 opacity-0 hidden"
               : "translate-x-0 opacity-100"
@@ -41,10 +41,11 @@ const Logo = ({ withLabel = false, imageSize, getOpenState }: LogoProps) => {
           STELLA
         </h1>
         {withLabel && (
-          <p className="truncate text-xs">Five Star Finance Inc.</p>
+          <p className="truncate text-sm text-muted-foreground">
+            Five Star Finance Inc.
+          </p>
         )}
       </div>
-      
     </Link>
   );
 };

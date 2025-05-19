@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronDown, Dot, LucideIcon } from "lucide-react";
+import { ChevronDown, Dot, type LucideIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -40,6 +40,7 @@ interface CollapseMenuButtonProps {
   active: boolean;
   submenus: Submenu[];
   isOpen: boolean | undefined;
+  onIconHover?: (isHovering: boolean) => void;
 }
 
 export function CollapseMenuButton({
@@ -47,12 +48,21 @@ export function CollapseMenuButton({
   label,
   submenus,
   isOpen,
+  onIconHover,
 }: CollapseMenuButtonProps) {
   const pathname = usePathname();
   const isSubmenuActive = submenus.some((submenu) =>
     submenu.active === undefined ? submenu.href === pathname : submenu.active
   );
   const [isCollapsed, setIsCollapsed] = useState<boolean>(isSubmenuActive);
+
+  const handleIconMouseEnter = () => {
+    onIconHover?.(true);
+  };
+
+  const handleIconMouseLeave = () => {
+    onIconHover?.(false);
+  };
 
   return isOpen ? (
     <Collapsible
@@ -70,12 +80,16 @@ export function CollapseMenuButton({
         >
           <div className="w-full items-center flex justify-between">
             <div className="flex items-center">
-              <span className="mr-4">
+              <span
+                className="mr-4"
+                onMouseEnter={handleIconMouseEnter}
+                onMouseLeave={handleIconMouseLeave}
+              >
                 <Icon size={18} />
               </span>
               <p
                 className={cn(
-                  "max-w-[150px] truncate",
+                  "max-w-[150px] truncate transition-all duration-200",
                   isOpen
                     ? "translate-x-0 opacity-100"
                     : "-translate-x-96 opacity-0"
@@ -86,7 +100,7 @@ export function CollapseMenuButton({
             </div>
             <div
               className={cn(
-                "whitespace-nowrap",
+                "whitespace-nowrap transition-all duration-200",
                 isOpen
                   ? "translate-x-0 opacity-100"
                   : "-translate-x-96 opacity-0"
@@ -118,7 +132,7 @@ export function CollapseMenuButton({
               </span>
               <p
                 className={cn(
-                  "max-w-[170px] truncate",
+                  "max-w-[170px] truncate transition-all duration-200",
                   isOpen
                     ? "translate-x-0 opacity-100"
                     : "-translate-x-96 opacity-0"
@@ -143,12 +157,16 @@ export function CollapseMenuButton({
               >
                 <div className="w-full items-center flex justify-between">
                   <div className="flex items-center">
-                    <span className={cn(isOpen === false ? "" : "mr-4")}>
+                    <span
+                      className={cn(isOpen === false ? "" : "mr-4")}
+                      onMouseEnter={handleIconMouseEnter}
+                      onMouseLeave={handleIconMouseLeave}
+                    >
                       <Icon size={18} />
                     </span>
                     <p
                       className={cn(
-                        "max-w-[200px] truncate",
+                        "max-w-[200px] truncate transition-all duration-200",
                         isOpen === false ? "opacity-0" : "opacity-100"
                       )}
                     >

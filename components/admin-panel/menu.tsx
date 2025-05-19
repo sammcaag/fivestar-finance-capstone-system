@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { Ellipsis, LogOut } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 import { cn } from "@/lib/utils";
 import { getMenuList } from "@/lib/menu-list";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { CollapseMenuButton } from "@/components/admin-panel/collapse-menu-button";
 import {
   Tooltip,
@@ -24,15 +24,37 @@ export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
   const menuList = getMenuList();
   const router = useRouter();
+  const [hoveredIcon, setHoveredIcon] = useState<number | null>(null);
+
+  // Notify parent components about icon hover state
+  useEffect(() => {
+    const isHovering = hoveredIcon !== null;
+    const event = new CustomEvent("menuIconHover", {
+      detail: { isHovering },
+    });
+    window.dispatchEvent(event);
+  }, [hoveredIcon]);
+
+  // Handle icon hover
+  const handleIconMouseEnter = (index: number) => {
+    if (!isOpen) {
+      setHoveredIcon(index);
+    }
+  };
+
+  const handleIconMouseLeave = () => {
+    setHoveredIcon(null);
+  };
 
   return (
-    <ScrollArea className="[&>div>div[style]]:block! h-full mt-4">
-      <nav className="mt-8 h-full w-full">
-        <ul className="relative flex flex-col min-h-[calc(100vh-48px-36px-16px-60px)] lg:min-h-[calc(100vh-32px-65px-32px)] items-start space-y-1 px-2 ">
-          {menuList.map(({ groupLabel, menus }, index) => (
-            <li className={cn("w-full", groupLabel ? "pt-5" : "")} key={index}>
-              {(isOpen && groupLabel) || isOpen === undefined ? (
-                <p className="text-sm font-medium text-muted-foreground px-4 pb-2 max-w-[248px] truncate">
+    <div>
+      <nav className="h-full w-full">
+        <ul className="flex flex-col min-h-[calc(100vh-48px-36px-16px-50px)] lg:min-h-[calc(100vh-32px-60px-32px)] items-start space-y-1 px-2">
+          {menuList.map(({ groupLabel, menus }, groupIndex) => (
+            <li className={cn("w-full")} key={groupIndex}>
+              {/* Only show group label when sidebar is open */}
+              {isOpen ? (
+                <p className="text-sm font-medium text-muted-foreground px-4 pb-2 max-w-[248px] truncate transition-opacity duration-200">
                   {groupLabel}
                 </p>
               ) : !isOpen && isOpen !== undefined && groupLabel ? (
@@ -52,9 +74,10 @@ export function Menu({ isOpen }: MenuProps) {
                 <p className="pb-2"></p>
               )}
               {menus.map(
-                ({ href, label, icon: Icon, active, submenus }, index) =>
-                  !submenus || submenus.length === 0 ? (
-                    <div className="w-full" key={index}>
+                ({ href, label, icon: Icon, active, submenus }, menuIndex) => {
+                  const uniqueIndex = groupIndex * 100 + menuIndex;
+                  return !submenus || submenus.length === 0 ? (
+                    <div className="w-full" key={menuIndex}>
                       <TooltipProvider disableHoverableContent>
                         <Tooltip delayDuration={100}>
                           <TooltipTrigger asChild>
@@ -71,12 +94,16 @@ export function Menu({ isOpen }: MenuProps) {
                               <Link href={href}>
                                 <span
                                   className={cn(isOpen === false ? "" : "mr-4")}
+                                  onMouseEnter={() =>
+                                    handleIconMouseEnter(uniqueIndex)
+                                  }
+                                  onMouseLeave={handleIconMouseLeave}
                                 >
                                   <Icon size={18} />
                                 </span>
                                 <p
                                   className={cn(
-                                    "max-w-[200px] truncate ",
+                                    "max-w-[200px] truncate transition-all duration-200",
                                     isOpen === false
                                       ? "-translate-x-96 opacity-0"
                                       : "translate-x-0 opacity-100"
@@ -96,7 +123,7 @@ export function Menu({ isOpen }: MenuProps) {
                       </TooltipProvider>
                     </div>
                   ) : (
-                    <div className="w-full" key={index}>
+                    <div className="w-full" key={menuIndex}>
                       <CollapseMenuButton
                         icon={Icon}
                         label={label}
@@ -105,9 +132,17 @@ export function Menu({ isOpen }: MenuProps) {
                         }
                         submenus={submenus}
                         isOpen={isOpen}
+                        onIconHover={(isHovering) => {
+                          if (isHovering) {
+                            handleIconMouseEnter(uniqueIndex);
+                          } else {
+                            handleIconMouseLeave();
+                          }
+                        }}
                       />
                     </div>
-                  )
+                  );
+                }
               )}
             </li>
           ))}
@@ -122,12 +157,16 @@ export function Menu({ isOpen }: MenuProps) {
                     variant="outline"
                     className="w-full justify-center h-10 mt-5"
                   >
-                    <span className={cn(isOpen === false ? "" : "mr-4")}>
+                    <span
+                      className={cn(isOpen === false ? "" : "mr-4")}
+                      onMouseEnter={() => handleIconMouseEnter(9999)} // Use a unique index for logout
+                      onMouseLeave={handleIconMouseLeave}
+                    >
                       <LogOut size={18} />
                     </span>
                     <p
                       className={cn(
-                        "whitespace-nowrap",
+                        "whitespace-nowrap transition-all duration-200",
                         isOpen === false ? "opacity-0 hidden" : "opacity-100"
                       )}
                     >
@@ -143,6 +182,6 @@ export function Menu({ isOpen }: MenuProps) {
           </li>
         </ul>
       </nav>
-    </ScrollArea>
+    </div>
   );
 }
