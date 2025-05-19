@@ -30,7 +30,7 @@ export function Menu({ isOpen }: MenuProps) {
                   {groupLabel}
                 </p>
               ) : !isOpen && isOpen !== undefined && groupLabel ? (
-                <div className="w-full flex justify-center items-center">
+                <div className="w-full flex justify-center items-center mt-">
                   <Ellipsis className="h-5 w-5" />
                 </div>
               ) : (

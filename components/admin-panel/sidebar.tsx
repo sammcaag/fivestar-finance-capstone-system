@@ -44,14 +44,18 @@ export function Sidebar() {
   return (
     <div
       className={cn(
-        "fixed top-0 left-0 z-20 h-screen transition-[width] ease-in-out duration-200",
+        "fixed top-0 left-0 z-20 h-screen transition-[width] ease-in-out duration-400",
         // Hide on medium and smaller screens, show on large screens
         "hidden lg:block",
         isExpanded ? "w-72" : "w-[90px]",
         settings.disabled && "hidden"
       )}
     >
-      <SidebarToggle isOpen={isOpen} setIsOpen={toggleOpen} />
+      <SidebarToggle
+        isOpen={isOpen}
+        setIsOpen={toggleOpen}
+        isHovering={isHovering}
+      />
       <div className="relative h-full flex flex-col my-4 overflow-y-hidden shadow-md dark:shadow-zinc-800 bg-background">
         <Button
           className={cn(
@@ -63,7 +67,7 @@ export function Sidebar() {
           <Logo getOpenState={() => isExpanded} withLabel={isExpanded} />
         </Button>
         <aside
-          className="relative p-0 m-0 mt-12 w-full max-h-fit overflow-visible"
+          className="relative p-0 m-0 mt-8 w-full max-h-fit overflow-visible"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
