@@ -15,9 +15,7 @@ export default function SummaryTab() {
           <Card className="border-0  h-full">
             <CardContent className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900">
-                  Payment History
-                </h2>
+                <h2 className="text-xl font-bold ">Payment History</h2>
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-gray-500">Last 12 months</span>
                   <Button variant="outline" size="sm" className="h-8">
@@ -48,7 +46,7 @@ export default function SummaryTab() {
             <CardContent className="p-6">
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold ">
                     {clientData.paymentStatus}
                   </h3>
                   <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4">
@@ -75,16 +73,12 @@ export default function SummaryTab() {
 
           <Card className="border-0 ">
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Location
-              </h3>
+              <h3 className="text-lg font-semibold  mb-4">Location</h3>
               <div className="h-40 w-full bg-blue-50 rounded-lg mb-4 flex items-center justify-center">
                 <p className="text-primary">Map View</p>
               </div>
 
-              <h4 className="font-medium text-gray-900">
-                {clientData.property}
-              </h4>
+              <h4 className="font-medium ">{clientData.property}</h4>
 
               <div className="mt-4 space-y-2">
                 <div>
@@ -111,7 +105,7 @@ export default function SummaryTab() {
       <Card className="border-0  mt-6">
         <CardContent className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900">Family</h2>
+            <h2 className="text-xl font-bold ">Family</h2>
             <p className="text-sm text-gray-500">
               {clientData.familyMembers.length} family members
             </p>

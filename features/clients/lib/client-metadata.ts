@@ -1,3 +1,5 @@
+import { ClientHistoryRecord } from "../types/types-clients";
+
 export const clientData = {
   profilePicture: "https://github.com/shadcn.png",
   firstName: "John",
@@ -84,54 +86,146 @@ export const clientData = {
       status: "Active",
     },
   ],
-   attachments: [
-      {
-        name: "Birth Certificate.pdf",
-        type: "pdf",
-        date: "Jan 15, 2023",
-        size: "1.2 MB",
-      },
-      {
-        name: "Military ID Card.jpg",
-        type: "image",
-        date: "Feb 3, 2023",
-        size: "0.8 MB",
-      },
-      {
-        name: "Service Record.pdf",
-        type: "pdf",
-        date: "Mar 12, 2023",
-        size: "3.5 MB",
-      },
-      {
-        name: "Medical Report.doc",
-        type: "doc",
-        date: "Apr 5, 2023",
-        size: "1.7 MB",
-      },
-      {
-        name: "Pension Application.pdf",
-        type: "pdf",
-        date: "May 20, 2023",
-        size: "2.1 MB",
-      },
-    ],
+  attachments: [
+    {
+      name: "Birth Certificate.pdf",
+      type: "pdf",
+      date: "Jan 15, 2023",
+      size: "1.2 MB",
+    },
+    {
+      name: "Military ID Card.jpg",
+      type: "image",
+      date: "Feb 3, 2023",
+      size: "0.8 MB",
+    },
+    {
+      name: "Service Record.pdf",
+      type: "pdf",
+      date: "Mar 12, 2023",
+      size: "3.5 MB",
+    },
+    {
+      name: "Medical Report.doc",
+      type: "doc",
+      date: "Apr 5, 2023",
+      size: "1.7 MB",
+    },
+    {
+      name: "Pension Application.pdf",
+      type: "pdf",
+      date: "May 20, 2023",
+      size: "2.1 MB",
+    },
+  ],
 };
 
- export const pensionDetails = [
-    {
-      id: 1,
-      title: "Monthly Pension",
-      details: "12,870.00",
-    },
-    {
-      id: 2,
-      title: "Monthly Deduction",
-      details: "1,500.00",
-    },
-    {
-      id: 3,
-      title: "FI1",
-      details: "1,230.00",
-    },
-  ];
+export const pensionDetails = [
+  {
+    id: 1,
+    title: "Monthly Pension",
+    details: "12,870.00",
+  },
+  {
+    id: 2,
+    title: "Monthly Deduction",
+    details: "1,500.00",
+  },
+  {
+    id: 3,
+    title: "FI1",
+    details: "1,230.00",
+  },
+];
+
+
+export const clientHistoryRecords: ClientHistoryRecord[] = [
+  {
+    dedCode: "FI-1",
+    productType: "NC",
+    amount: "2,500.80",
+    term: "60",
+    releasedDate: "Sep 5, 2020",
+    vd: "Dec 1, 2020",
+    md: "Nov 1, 2025",
+    pnNumber: "02-01-1-2020-01-29-000457",
+    status: "PROCESS",
+  },
+  {
+    dedCode: "FI-2",
+    productType: "ADDITIONAL",
+    amount: "3,000.00",
+    term: "48",
+    releasedDate: "Sep 5, 2020",
+    vd: "Dec 1, 2020",
+    md: "Nov 1, 2024",
+    pnNumber: "02-01-1-2020-01-30-000457",
+    status: "RELEASED",
+  },
+  {
+    dedCode: "FI-2",
+    productType: "EXTENSION",
+    amount: "1,500.50",
+    term: "12",
+    releasedDate: "Oct 16, 2020",
+    vd: "Nov 1, 2020",
+    md: "Oct 1, 2023",
+    pnNumber: "342423424",
+    status: "RELEASED",
+  },
+  {
+    dedCode: "FI-3",
+    productType: "ADDITIONAL",
+    amount: "1,000.00",
+    term: "60",
+    releasedDate: "May 12, 2024",
+    vd: "Aug 1, 2024",
+    md: "Jul 1, 2029",
+    pnNumber: "455555555",
+    status: "RELEASED",
+  },
+  {
+    dedCode: "FI-2",
+    productType: "NC",
+    amount: "8,939.00",
+    term: "60",
+    releasedDate: "Sep 28, 2024",
+    vd: "Dec 1, 2024",
+    md: "Nov 1, 2029",
+    pnNumber: "sdsdsd",
+    status: "PROCESS",
+  },
+  {
+    dedCode: "FI-5",
+    productType: "RENEWAL",
+    amount: "6,000.00",
+    term: "60",
+    releasedDate: "Oct 6, 2024",
+    vd: "Jan 1, 2025",
+    md: "Dec 1, 2029",
+    pnNumber: "dfsdf",
+    status: "PROCESS",
+  },
+  {
+    dedCode: "FI-4",
+    productType: "RENEWAL",
+    amount: "1,000.00",
+    term: "60",
+    releasedDate: "Oct 9, 2024",
+    vd: "Jan 1, 2025",
+    md: "Dec 1, 2029",
+    pnNumber: "45345",
+    status: "PROCESS",
+  },
+  {
+    dedCode: "FI-2",
+    productType: "ADDITIONAL",
+    amount: "1,000.00",
+    term: "60",
+    releasedDate: "Feb 14, 2025",
+    vd: "May 1, 2025",
+    md: "Apr 1, 2030",
+    pnNumber: "4353445",
+    status: "RELEASED",
+  },
+];

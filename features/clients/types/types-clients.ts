@@ -83,3 +83,17 @@ export interface AccountsInformationProps {
 export type RegisterClientsFormProps = {
   form: UseFormReturn<ClientFormValues>;
 };
+
+
+
+export interface ClientHistoryRecord {
+  dedCode: string;
+  productType: string;
+  amount: string;
+  term: string;
+  releasedDate: string;
+  vd: string;
+  md: string;
+  pnNumber: string;
+  status: "PROCESS" | "RELEASED";
+}

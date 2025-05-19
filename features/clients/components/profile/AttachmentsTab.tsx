@@ -8,11 +8,11 @@ import { Download, Eye } from "lucide-react";
 
 export default function AttachmentsTab() {
   return (
-    <TabsContent value="attachments" className="mt-6">
+    <TabsContent value="attachments" className="mt-3">
       <Card className="border-0 shadow-md">
         <CardContent className="p-6">
           <div className="flex justify-between items-start mb-6">
-            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <h2 className="text-xl font-bold  flex items-center gap-2">
               <Paperclip className="h-5 w-5 text-primary" />
               Client Attachments
             </h2>
@@ -46,9 +46,7 @@ export default function AttachmentsTab() {
                           <File className="h-12 w-12 text-blue-700" />
                         )}
                       </div>
-                      <h3 className="font-medium text-gray-900 mb-1">
-                        {attachment.name}``
-                      </h3>
+                      <h3 className="font-medium  mb-1">{attachment.name}``</h3>
                       <p className="text-sm text-gray-500 mb-2">
                         Uploaded on {attachment.date}
                       </p>

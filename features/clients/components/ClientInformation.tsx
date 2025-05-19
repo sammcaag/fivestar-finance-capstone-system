@@ -8,6 +8,14 @@ import PensionInformationTab from "./profile/PensionInformationTab";
 import AttachmentsTab from "./profile/AttachmentsTab";
 import { Button } from "@/components/ui/button";
 import { File, FileSearch } from "lucide-react";
+import { AnimatedBackground } from "@/components/motion-primitives/animated-background";
+
+const tabs = [
+  { value: "general", label: "General Information" },
+  { value: "other", label: "Family Information" },
+  { value: "pension", label: "Pension Information" },
+  { value: "attachments", label: "Attachments" },
+];
 
 export default function ClientInformation() {
   const [activeTab, setActiveTab] = useState("general");
@@ -16,25 +24,29 @@ export default function ClientInformation() {
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
       <div className="flex justify-between items-center">
         <TabsList className="tabs-container">
-          {/* <TabsTrigger value="summary" className={`tabs-trigger-style`}>
-          Summary
-        </TabsTrigger> */}
-          <TabsTrigger value="general" className={`tabs-trigger-style`}>
-            General Information
-          </TabsTrigger>
-          <TabsTrigger value="other" className={`tabs-trigger-style`}>
-            Family Information
-          </TabsTrigger>
-          <TabsTrigger value="pension" className={`tabs-trigger-style`}>
-            Pension Information
-          </TabsTrigger>
-          <TabsTrigger value="attachments" className={`tabs-trigger-style`}>
-            Attachments
-          </TabsTrigger>
+          <AnimatedBackground
+            className="bg-muted/50"
+            transition={{
+              type: "spring",
+              bounce: 0.2,
+              duration: 0.6,
+            }}
+            enableHover
+          >
+            {tabs.map((tab, index) => (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                data-id={index}
+                className={`tabs-trigger-style`}
+              >
+                {tab.label}
+              </TabsTrigger>
+            ))}
+          </AnimatedBackground>
         </TabsList>
-        <Button
-         
-        >
+
+        <Button>
           <FileSearch /> Advance Documents
         </Button>
       </div>

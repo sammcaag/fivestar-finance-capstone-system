@@ -7,17 +7,17 @@ import { clientData } from "../../lib/client-metadata";
 
 export default function FamilyInformationTab() {
   return (
-    <TabsContent value="other" className="mt-6">
+    <TabsContent value="other" className="mt-3">
       <Card className="border-0 ">
         <CardContent className="p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <h2 className="text-xl font-bold  mb-6 flex items-center gap-2">
             <Users className="h-5 w-5 text-primary" />
             Family Information
           </h2>
 
           <div className="space-y-8">
             <div>
-              <h3 className="text-lg font-semibold mb-4 pb-2 border-b border-gray-200 text-gray-900">
+              <h3 className="text-lg font-semibold mb-4 pb-2 border-b border-gray-200 ">
                 Spouse Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -45,7 +45,7 @@ export default function FamilyInformationTab() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-4 pb-2 border-b border-gray-200 text-gray-900">
+              <h3 className="text-lg font-semibold mb-4 pb-2 border-b border-gray-200 ">
                 Children Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">

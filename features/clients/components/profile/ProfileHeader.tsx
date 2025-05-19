@@ -10,7 +10,7 @@ import { pensionDetails } from "../../lib/client-metadata";
 
 export default function ClientProfileHeader() {
   return (
-    <Card className="border-0 overflow-hidden p-6 flex flex-col md:flex-row gap-6 items-center md:items-start">
+    <Card className="border-0 overflow-hidden p-6 flex flex-col md:flex-row gap-6 items-center md:items-start mb-8">
       <div className="relative">
         <Avatar className="h-32 w-32 border-4 border-white ">
           <AvatarImage
@@ -28,7 +28,7 @@ export default function ClientProfileHeader() {
         <div className="flex-1 w-full">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold ">
                 {clientData.firstName} {clientData.midName}{" "}
                 {clientData.lastName} {clientData.suffix}
               </h1>

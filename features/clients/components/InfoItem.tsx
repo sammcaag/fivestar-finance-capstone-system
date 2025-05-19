@@ -9,11 +9,11 @@ export default function InfoItem({
 }) {
   return (
     <div className="space-y-1">
-      <div className="text-sm font-medium text-gray-500 flex items-center gap-1">
+      <div className="text-sm font-medium text-muted-foreground flex items-center gap-1">
         {icon}
         {label}
       </div>
-      <div className="font-medium text-gray-900">{value}</div>
+      <div className="font-medium text-foreground">{value}</div>
     </div>
   );
 }

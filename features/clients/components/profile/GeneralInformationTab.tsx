@@ -7,10 +7,10 @@ import InfoItem from "../InfoItem";
 
 export default function GeneralInformationTab() {
   return (
-    <TabsContent value="general" className="mt-6">
+    <TabsContent value="general" className="mt-3">
       <Card className="border-0 ">
         <CardContent className="p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
             <User className="h-5 w-5 text-primary" />
             General Information
           </h2>
