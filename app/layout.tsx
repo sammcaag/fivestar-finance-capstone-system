@@ -8,15 +8,15 @@ export const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
+const appUrl =
+  process.env.APP_URL ||
+  (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : `http://localhost:${process.env.PORT || 3000}`);
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.APP_URL
-      ? `${process.env.APP_URL}`
-      : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : `http://localhost:${process.env.PORT || 3000}`
-  ),
-  title: "Stella | Five Star System",
+  metadataBase: new URL(appUrl),
+  title: "Stella | Five Star Finance Inc.",
   description:
     "A Comprehensive Digital Solution for Streamlining Lending Processes for AFP Retirees and Beneficiaries at Five Star Finance Inc.",
   alternates: {
@@ -24,14 +24,14 @@ export const metadata: Metadata = {
   },
   openGraph: {
     url: "/",
-    title: "Stella | Five Star System",
+    title: "Stella | Five Star Finance Inc.",
     description:
       "A Comprehensive Digital Solution for Streamlining Lending Processes for AFP Retirees and Beneficiaries at Five Star Finance Inc.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Stella | Five Star System",
+    title: "Stella | Five Star Finance Inc.",
     description:
       "A Comprehensive Digital Solution for Streamlining Lending Processes for AFP Retirees and Beneficiaries at Five Star Finance Inc.",
   },
