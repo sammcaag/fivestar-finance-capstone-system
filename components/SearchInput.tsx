@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-export default function Component() {
+export default function SearchInput() {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {

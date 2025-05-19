@@ -13,7 +13,10 @@ const Logo = ({ withLabel = false, imageSize, getOpenState }: LogoProps) => {
   return (
     <Link
       href="/dashboard"
-      className={cn("flex items-center px-2", getOpenState() ? "gap-4" : "")}
+      className={cn(
+        "flex items-center w-full px-6",
+        getOpenState() ? "gap-4" : ""
+      )}
     >
       <div
         className={cn(

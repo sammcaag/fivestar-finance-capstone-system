@@ -46,6 +46,7 @@ export default function AdminPanelLayout({
       <main
         className={cn(
           "min-h-[100vh] bg-zinc-50 dark:bg-zinc-900 transition-[margin-left] ease-in-out duration-300",
+          // Only apply margin on large screens
           !settings.disabled && (isExpanded ? "lg:ml-72" : "lg:ml-[90px]")
         )}
       >

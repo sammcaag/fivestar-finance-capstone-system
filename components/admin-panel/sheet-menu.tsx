@@ -14,7 +14,7 @@ import {
 export function SheetMenu() {
   return (
     <Sheet>
-      <SheetTrigger className="lg:hidden" asChild>
+      <SheetTrigger asChild>
         <Button className="h-8" variant="outline" size="icon">
           <MenuIcon size={20} />
         </Button>
@@ -34,7 +34,7 @@ export function SheetMenu() {
             </Link>
           </Button>
         </SheetHeader>
-        <Menu isOpen />
+        <Menu isOpen={true} />
       </SheetContent>
     </Sheet>
   );
