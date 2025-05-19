@@ -48,7 +48,7 @@ export default function ClientProfileHeader() {
               </Badge>
             </div>
           </div>
-          <div className="mt-4 w-[80%]">
+          <div className="mt-4 w-full">
             <h3 className="text-lg font-medium mb-1">Remarks</h3>
             <Textarea
               className="bg-gray-50"
@@ -57,18 +57,18 @@ export default function ClientProfileHeader() {
             />
           </div>
         </div>
-        <Card className="p-3 gap-y-2 rounded-md flex flex-col border border-transparent group hover:bg-accent hover:border-primary-hover transition-colors">
+        <Card className="p-3 gap-y-2 rounded-md flex flex-col border border-transparent group hover:bg-accent hover:border-primary-hover transition-colors justify-evenly">
           {pensionDetails.map((detail) => {
             return (
               <div
-                className="flex justify-between  gap-x-12 w-full "
+                className="flex justify-between gap-16 w-full"
                 key={detail.id}
               >
                 <p className="font-semibold text-primary group-hover:text-primary-bold transition-colors">
                   {detail.title}:
                 </p>
                 <p className="font-medium text-destructive text-lg">
-                  &#x20B1; {detail.details}
+                  &#8369; {detail.details}
                 </p>
               </div>
             );

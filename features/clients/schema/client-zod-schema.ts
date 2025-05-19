@@ -16,17 +16,16 @@ export const clientGeneralInfoSchema = z.object({
   address: z.string().min(1, "Address is required"),
   contactNumber: z
     .string()
-    .min(1, "Contact number is required")
+    .min(1, "Phone number is required")
     .refine((val) => /^\+639\d{9}$/.test(val), {
-      message: "Contact number must start with +63 9 and have 12 digits total",
+      message: "Phone number must start with 9 and have 10 digits total",
     }),
   alternativeContactNumber: z
     .string()
-    .optional()
-    .refine((val) => !val || /^\+639\d{9}$/.test(val), {
-      message:
-        "Alternative contact number must start with +63 9 and have 12 digits total if provided",
-    }),
+    .refine((val) => /^\+639\d{9}$/.test(val), {
+      message: "Phone number must start with 9 and have 10 digits total",
+    })
+    .optional(),
   religion: z.string().optional(),
   civilStatus: z
     .string()

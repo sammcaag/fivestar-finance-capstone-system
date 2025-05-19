@@ -23,14 +23,23 @@ export function Menu({ isOpen }: MenuProps) {
       <nav className="h-full w-full">
         <ul className="flex flex-col min-h-[calc(100vh-48px-36px-16px-30px)] lg:min-h-[calc(100vh-32px-60px-32px)] items-start space-y-1 px-3 lg:px-5">
           {menuList.map(({ groupLabel, menus }, groupIndex) => (
-            <li className={cn("w-full")} key={groupIndex}>
-              {/* Only show group label when sidebar is open */}
+            <li className="w-full" key={groupIndex}>
               {isOpen ? (
-                <p className="text-sm font-medium text-muted-foreground px-4 pb-2 max-w-[248px] truncate transition-opacity duration-200">
+                <p
+                  className={cn(
+                    "text-sm font-medium text-muted-foreground px-4 pb-2 max-w-[248px] truncate transition-opacity duration-200",
+                    groupIndex !== 0 && "mt-2"
+                  )}
+                >
                   {groupLabel}
                 </p>
               ) : !isOpen && isOpen !== undefined && groupLabel ? (
-                <div className="w-full flex justify-center items-center mt-">
+                <div
+                  className={cn(
+                    "w-full flex justify-center items-center",
+                    groupIndex !== 0 && "mt-2"
+                  )}
+                >
                   <Ellipsis className="h-5 w-5" />
                 </div>
               ) : (
@@ -50,8 +59,11 @@ export function Menu({ isOpen }: MenuProps) {
                         asChild
                       >
                         <Link href={href}>
-                          <span className={cn(isOpen === false ? "" : "mr-4")}>
-                            <Icon size={18} />
+                          <span className={cn(isOpen === false ? "" : "mr-2")}>
+                            <Icon
+                              size={300}
+                              className="w-[300px] h-[300px] shrink-0"
+                            />
                           </span>
                           <p
                             className={cn(

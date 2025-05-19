@@ -1,5 +1,4 @@
 import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
 
 export interface Step {
   //used in step-indicator
@@ -84,8 +83,6 @@ export type RegisterClientsFormProps = {
   form: UseFormReturn<ClientFormValues>;
 };
 
-
-
 export interface ClientHistoryRecord {
   dedCode: string;
   productType: string;
@@ -97,3 +94,23 @@ export interface ClientHistoryRecord {
   pnNumber: string;
   status: "PROCESS" | "RELEASED";
 }
+
+export const suffixOptions = [
+  // { label: "None", value: "" },
+  { label: "Jr.", value: "Jr." },
+  { label: "Sr.", value: "Sr." },
+  { label: "Nr.", value: "Nr." },
+  { label: "Jd.", value: "Jd." },
+  { label: "I", value: "I" },
+  { label: "II", value: "II" },
+  { label: "III", value: "III" },
+  { label: "IV", value: "IV" },
+];
+
+export const civilStatusOptions = [
+  { label: "Single", value: "single" },
+  { label: "Married", value: "married" },
+  { label: "Divorced", value: "divorced" },
+  { label: "Widowed", value: "widowed" },
+  { label: "Separated", value: "separated" },
+];

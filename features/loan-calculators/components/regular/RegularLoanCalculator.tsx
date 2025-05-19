@@ -152,9 +152,7 @@ export default function RegularLoanCalculator({
     // Main Card Component
     <section
       className={`w-full ${
-        !isDoneCalculate
-          ? "flex flex-col justify-center min-h-[calc(100vh-35%)]"
-          : ""
+        !isDoneCalculate ? "flex flex-col justify-center min-h-2xl" : ""
       }`}
     >
       <div className="mb-10 mt-6">

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import RegularLoanCalculator from "@/features/loan-calculators/components/regular/RegularLoanCalculator";
 import React, { useState, useEffect } from "react";
 import { ContentLayout } from "@/components/admin-panel/content-layout";

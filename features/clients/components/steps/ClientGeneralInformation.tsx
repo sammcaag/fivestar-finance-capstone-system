@@ -1,10 +1,13 @@
 "use client";
 
 import React from "react";
-import { ClientGeneralInformationProps } from "@/features/clients/types/types-clients";
+import {
+  civilStatusOptions,
+  ClientGeneralInformationProps,
+  suffixOptions,
+} from "@/features/clients/types/types-clients";
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,7 +24,6 @@ import {
 import { getYear } from "date-fns";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { PhoneInput } from "@/components/ui/phone-input";
-import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
   return (
@@ -84,20 +86,16 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
               <FormLabel>Suffix</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select suffix" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="none">None</SelectItem>
-                  <SelectItem value="Jr.">Jr.</SelectItem>
-                  <SelectItem value="Sr.">Sr.</SelectItem>
-                  <SelectItem value="Nr.">Nr.</SelectItem>
-                  <SelectItem value="Jd.">Jd.</SelectItem>
-                  <SelectItem value="I">I</SelectItem>
-                  <SelectItem value="II">II</SelectItem>
-                  <SelectItem value="III">III</SelectItem>
-                  <SelectItem value="IV">IV</SelectItem>
+                  {suffixOptions.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -144,7 +142,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
                 </FormControl>
@@ -194,13 +192,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                   {...field}
                   defaultCountry="PH"
                   placeholder="+63 912 345 6789"
-                  disableCountrySelect={true}
-                  value={
-                    parsePhoneNumberFromString(field.value || "", "PH")?.format(
-                      "E.164"
-                    ) || ""
-                  }
-                  onChange={(value) => field.onChange(value)}
+                  disabled
                 />
               </FormControl>
               <FormMessage />
@@ -219,13 +211,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                   {...field}
                   defaultCountry="PH"
                   placeholder="+63 912 345 6789"
-                  disableCountrySelect={true}
-                  value={
-                    parsePhoneNumberFromString(field.value || "", "PH")?.format(
-                      "E.164"
-                    ) || ""
-                  }
-                  onChange={(value) => field.onChange(value)}
+                  disabled
                 />
               </FormControl>
               <FormMessage />
@@ -265,16 +251,16 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="single">Single</SelectItem>
-                  <SelectItem value="married">Married</SelectItem>
-                  <SelectItem value="divorced">Divorced</SelectItem>
-                  <SelectItem value="widowed">Widowed</SelectItem>
-                  <SelectItem value="separated">Separated</SelectItem>
+                  {civilStatusOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -286,7 +272,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
           name="mothersMaidenName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Mother's Maiden Name</FormLabel>
+              <FormLabel>Mother&apos;s Maiden Name</FormLabel>
               <FormControl>
                 <Input placeholder="Marites" {...field} />
               </FormControl>

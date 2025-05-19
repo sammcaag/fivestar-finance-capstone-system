@@ -1,7 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { format, getMonth, getYear, setMonth, setYear } from "date-fns";
+import {
+  addDays,
+  format,
+  getMonth,
+  getYear,
+  setMonth,
+  setYear,
+} from "date-fns";
 import { CalendarIcon, ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -24,11 +31,12 @@ interface DatePickerProps {
   startYear?: number;
   endYear?: number;
   date: Date;
-  setDate: React.Dispatch<React.SetStateAction<Date>>;
+  setDate: (date: Date) => void;
   editable?: boolean;
   customDateFormat?: string;
   isPreviousMonthsUnselectable?: boolean;
   isFutureDatesUnselectable?: boolean;
+  numberOfFutureDaysDisable?: number;
   showCalendar?: boolean;
 }
 
@@ -41,6 +49,7 @@ export default function CustomDatePicker({
   customDateFormat = "MMMM, yyyy",
   isPreviousMonthsUnselectable = false,
   isFutureDatesUnselectable = false,
+  numberOfFutureDaysDisable = 0,
   showCalendar = true,
 }: DatePickerProps) {
   const months = [
@@ -65,8 +74,12 @@ export default function CustomDatePicker({
 
   // Get current date information
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const currentMonth = getMonth(today);
   const currentYear = getYear(today);
+  const isSameMonth =
+    getMonth(date) === currentMonth && getYear(date) === currentYear;
+  const minDate = addDays(today, numberOfFutureDaysDisable);
 
   const handleMonthChange = (month: string) => {
     const newDate = setMonth(date, months.indexOf(month));
@@ -111,17 +124,30 @@ export default function CustomDatePicker({
         }
       }
 
+      if (numberOfFutureDaysDisable !== 0) {
+        if (today > minDate) {
+          return;
+        }
+      }
+
       setDate(selectedDate);
     }
   };
 
   // Custom function to disable dates
   const disableDate = (date: Date) => {
-    // Disable dates from previous months in the current year
     if (isPreviousMonthsUnselectable) {
+      // Disable dates before today in the same month and year
+      if (isSameMonth && date < today) {
+        return true;
+      }
+
+      // Disable months before the current month in the same year
       if (getYear(date) === currentYear && getMonth(date) < currentMonth) {
         return true;
       }
+
+      // Disable dates from previous years
       if (getYear(date) < currentYear) {
         return true;
       }
@@ -134,6 +160,10 @@ export default function CustomDatePicker({
       return date > today;
     }
 
+    if (numberOfFutureDaysDisable !== 0) {
+      return date < minDate;
+    }
+
     return false;
   };
 
@@ -141,30 +171,44 @@ export default function CustomDatePicker({
   React.useEffect(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const minDate = addDays(today, numberOfFutureDaysDisable);
 
-    let shouldUpdateDate = false;
     let newDate = new Date(date);
+    let shouldUpdateDate = false;
 
-    // Check for previous months restriction
+    // If date is before minDate, reset to minDate
+    if (!date || date < minDate) {
+      newDate = minDate;
+      shouldUpdateDate = true;
+    }
+
+    // Your existing restrictions
     if (
       isPreviousMonthsUnselectable &&
-      ((getYear(date) === currentYear && getMonth(date) < currentMonth) ||
-        getYear(date) < currentYear)
+      ((getYear(newDate) === currentYear && getMonth(newDate) < currentMonth) ||
+        getYear(newDate) < currentYear)
     ) {
       newDate = new Date(currentYear, currentMonth, 1);
       shouldUpdateDate = true;
     }
 
-    // Check for future dates restriction
-    if (isFutureDatesUnselectable && date > today) {
-      newDate = new Date(today);
+    if (isFutureDatesUnselectable && newDate > today) {
+      newDate = today;
       shouldUpdateDate = true;
     }
 
     if (shouldUpdateDate) {
       setDate(newDate);
     }
-  }, [isPreviousMonthsUnselectable, isFutureDatesUnselectable, date, setDate]);
+  }, [
+    date,
+    numberOfFutureDaysDisable,
+    isPreviousMonthsUnselectable,
+    isFutureDatesUnselectable,
+    setDate,
+    currentMonth,
+    currentYear,
+  ]);
 
   return (
     <Popover>
@@ -235,7 +279,38 @@ export default function CustomDatePicker({
             onSelect={handleSelect}
             initialFocus
             month={date}
-            onMonthChange={setDate}
+            onMonthChange={(newMonth) => {
+              const maxMonth = new Date(endYear, 11); // December of endYear
+              const targetMonth = new Date(newMonth); // first day of selected month
+              const currentDay = date.getDate();
+              const targetYear = targetMonth.getFullYear();
+              const targetMonthIndex = targetMonth.getMonth();
+              const daysInTargetMonth = new Date(
+                targetYear,
+                targetMonthIndex + 1,
+                0
+              ).getDate();
+
+              const desiredDay = Math.min(currentDay, daysInTargetMonth);
+
+              let newDate = new Date(targetYear, targetMonthIndex, desiredDay);
+
+              if (newMonth > maxMonth) return;
+
+              // Handle restriction: Prevent setting to a disabled date (before the minDate or today + numberOfFutureDaysDisable)
+              if (
+                isPreviousMonthsUnselectable &&
+                newDate < new Date(currentYear, currentMonth, minDate.getDate())
+              ) {
+                newDate = new Date(
+                  currentYear,
+                  currentMonth,
+                  minDate.getDate()
+                );
+              }
+
+              setDate(newDate);
+            }}
             disabled={disableDate}
           />
         )}
