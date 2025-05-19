@@ -57,14 +57,14 @@ export default function ClientProfileHeader() {
             />
           </div>
         </div>
-        <Card className="p-3 gap-y-2 rounded-md flex flex-col border border-transparent group hover:bg-accent hover:border-primary transition-colors">
+        <Card className="p-3 gap-y-2 rounded-md flex flex-col border border-transparent group hover:bg-accent hover:border-primary-hover transition-colors">
           {pensionDetails.map((detail) => {
             return (
               <div
                 className="flex justify-between  gap-x-12 w-full "
                 key={detail.id}
               >
-                <p className="font-semibold text-primary group-hover:text-foreground transition-colors">
+                <p className="font-semibold text-primary group-hover:text-primary-bold transition-colors">
                   {detail.title}:
                 </p>
                 <p className="font-medium text-destructive text-lg">

@@ -12,6 +12,14 @@ import { ClientsFilter } from "@/features/clients/components/ClientsFilter";
 import { ClientsTable } from "@/features/clients/components/ClientsTable";
 import { ClientsOverviewCards } from "@/features/clients/components/ClientsOverviewCards";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
+import { AnimatedBackground } from "@/components/motion-primitives/animated-background";
+
+const tabs = [
+  { value: "overview", label: "Overview" },
+  { value: "active", label: "Active Loans" },
+  { value: "pending", label: "Pending Approval" },
+  { value: "overdue", label: "Overdue" },
+];
 
 export default function ClientsPage() {
   return (
@@ -51,19 +59,27 @@ export default function ClientsPage() {
             </div>
           </div>
           <Tabs defaultValue="overview" className="space-y-4 ">
-            <TabsList className="tabs-container">
-              <TabsTrigger value="overview" className="tabs-trigger-style">
-                Overview
-              </TabsTrigger>
-              <TabsTrigger value="active" className="tabs-trigger-style">
-                Active Loans
-              </TabsTrigger>
-              <TabsTrigger value="pending" className="tabs-trigger-style">
-                Pending Approval
-              </TabsTrigger>
-              <TabsTrigger value="overdue" className="tabs-trigger-style">
-                Overdue
-              </TabsTrigger>
+            <TabsList className="tabs-container ">
+              <AnimatedBackground
+                className="bg-primary-hover"
+                transition={{
+                  type: "spring",
+                  bounce: 0.2,
+                  duration: 0.6,
+                }}
+                enableHover
+              >
+                {tabs.map((tab, index) => (
+                  <TabsTrigger
+                    key={tab.value}
+                    value={tab.value}
+                    data-id={index}
+                    className="tabs-trigger-style"
+                  >
+                    {tab.label}
+                  </TabsTrigger>
+                ))}
+              </AnimatedBackground>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

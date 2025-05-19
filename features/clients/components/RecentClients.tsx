@@ -97,7 +97,7 @@ const RecentClients = () => {
               {recentClients.map((client) => (
                 <TableRow
                   key={client.id}
-                  className="border-b transition-colors hover:bg-muted/50"
+                  className="border-b transition-colors hover:bg-primary-hover"
                 >
                   <TableCell className="px-4 py-3 font-medium">
                     {client.name}

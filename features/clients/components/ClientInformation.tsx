@@ -25,7 +25,7 @@ export default function ClientInformation() {
       <div className="flex justify-between items-center">
         <TabsList className="tabs-container">
           <AnimatedBackground
-            className="bg-muted/50"
+            className="bg-primary-hover"
             transition={{
               type: "spring",
               bounce: 0.2,
@@ -46,7 +46,7 @@ export default function ClientInformation() {
           </AnimatedBackground>
         </TabsList>
 
-        <Button>
+        <Button effect={"ringHover"}>
           <FileSearch /> Advance Documents
         </Button>
       </div>

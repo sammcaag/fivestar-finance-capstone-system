@@ -11,6 +11,11 @@
 
   --color-primary: hsl(var(--primary));
   --color-primary-bold: var(--color-blue-700);
+  --color-primary-hover: color-mix(
+    in oklab,
+    var(--color-muted) 50%,
+    transparent
+  );
   --color-primary-foreground: hsl(var(--primary-foreground));
 
   --color-secondary: hsl(var(--secondary));
@@ -207,6 +212,6 @@
     @apply bg-card p-0 h-12 rounded-lg shadow-md overflow-hidden;
   }
   .tabs-trigger-style {
-    @apply rounded-none border !border-x-transparent !border-t-transparent h-full px-6 data-[state=active]:bg-muted/50 dark:data-[state=active]:bg-muted/50 data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-b-primary dark:data-[state=active]:border-b-primary-bold;
+    @apply rounded-none border !border-x-transparent !border-t-transparent h-full px-6 data-[state=active]:bg-primary-hover dark:data-[state=active]:bg-primary-hover data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-b-primary dark:data-[state=active]:border-b-primary-bold;
   }
 }
