@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Circle } from "lucide-react";
 import { pensionDetails } from "../../lib/client-metadata";
+import { avatarFallBack } from "@/utils/avatar-fallback";
 
 export default function ClientProfileHeader() {
   return (
@@ -18,8 +19,7 @@ export default function ClientProfileHeader() {
             alt="Profile picture"
           />
           <AvatarFallback className="text-3xl bg-blue-100 text-primary">
-            {clientData.firstName.charAt(0)}
-            {clientData.lastName.charAt(0)}
+            {avatarFallBack(clientData.firstName + " " + clientData.lastName)}
           </AvatarFallback>
         </Avatar>
       </div>
@@ -48,7 +48,7 @@ export default function ClientProfileHeader() {
               </Badge>
             </div>
           </div>
-          <div className="mt-4">
+          <div className="mt-4 w-[80%]">
             <h3 className="text-lg font-medium mb-1">Remarks</h3>
             <Textarea
               className="bg-gray-50"

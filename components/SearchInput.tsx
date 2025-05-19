@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export default function Component() {
   const [open, setOpen] = React.useState(false);
@@ -43,7 +44,13 @@ export default function Component() {
     <>
       <Button
         variant="outline"
-        className="border-input bg-background text-foreground placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-ring/50 inline-flex h-9 w-fit rounded-md border px-4 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px]"
+        className={cn(
+          "border-input bg-background text-foreground placeholder:text-muted-foreground/70",
+          "focus-visible:border-ring focus-visible:ring-ring/50",
+          "inline-flex h-9 w-fit rounded-md border px-4 py-2 text-sm shadow-xs",
+          "transition-[color,box-shadow] outline-none focus-visible:ring-[3px] min-w-xs",
+          open && "hidden"
+        )}
         onClick={() => setOpen(true)}
       >
         <span className="flex grow items-center">

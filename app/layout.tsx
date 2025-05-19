@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-
+import { Poppins } from "next/font/google";
 import "./globals.css";
-
 import { ThemeProvider } from "@/components/providers/theme-provider";
+
+export const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -17,31 +20,31 @@ export const metadata: Metadata = {
   description:
     "A Comprehensive Digital Solution for Streamlining Lending Processes for AFP Retirees and Beneficiaries at Five Star Finance Inc.",
   alternates: {
-    canonical: "/"
+    canonical: "/",
   },
   openGraph: {
     url: "/",
     title: "Stella | Five Star System",
     description:
       "A Comprehensive Digital Solution for Streamlining Lending Processes for AFP Retirees and Beneficiaries at Five Star Finance Inc.",
-    type: "website"
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Stella | Five Star System",
     description:
-      "A Comprehensive Digital Solution for Streamlining Lending Processes for AFP Retirees and Beneficiaries at Five Star Finance Inc."
-  }
+      "A Comprehensive Digital Solution for Streamlining Lending Processes for AFP Retirees and Beneficiaries at Five Star Finance Inc.",
+  },
 };
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={GeistSans.className}>
+      <body className={`${poppins.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>
