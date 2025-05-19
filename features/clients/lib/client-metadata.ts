@@ -84,6 +84,38 @@ export const clientData = {
       status: "Active",
     },
   ],
+   attachments: [
+      {
+        name: "Birth Certificate.pdf",
+        type: "pdf",
+        date: "Jan 15, 2023",
+        size: "1.2 MB",
+      },
+      {
+        name: "Military ID Card.jpg",
+        type: "image",
+        date: "Feb 3, 2023",
+        size: "0.8 MB",
+      },
+      {
+        name: "Service Record.pdf",
+        type: "pdf",
+        date: "Mar 12, 2023",
+        size: "3.5 MB",
+      },
+      {
+        name: "Medical Report.doc",
+        type: "doc",
+        date: "Apr 5, 2023",
+        size: "1.7 MB",
+      },
+      {
+        name: "Pension Application.pdf",
+        type: "pdf",
+        date: "May 20, 2023",
+        size: "2.1 MB",
+      },
+    ],
 };
 
  export const pensionDetails = [

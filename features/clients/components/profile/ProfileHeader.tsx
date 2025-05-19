@@ -68,7 +68,7 @@ export default function ClientProfileHeader() {
                   {detail.title}:
                 </p>
                 <p className="font-medium text-destructive text-lg">
-                  {detail.details}
+                  &#x20B1; {detail.details}
                 </p>
               </div>
             );

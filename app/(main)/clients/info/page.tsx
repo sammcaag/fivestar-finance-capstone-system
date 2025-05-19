@@ -17,6 +17,7 @@ export default function FindClient() {
       <div className="mx-auto py-6 space-y-6">
         <ClientProfileHeader />
         <ClientInformation />
+        
       </div>
     </ContentLayout>
   );
