@@ -6,10 +6,14 @@ import Link from "next/link";
 interface LogoProps {
   withLabel?: boolean;
   imageSize?: number;
-  getOpenState: () => boolean;
+  getOpenState?: () => boolean;
 }
 
-const Logo = ({ withLabel = false, imageSize, getOpenState }: LogoProps) => {
+const Logo = ({
+  withLabel = false,
+  imageSize,
+  getOpenState = () => true,
+}: LogoProps) => {
   return (
     <Link
       href="/dashboard"

@@ -21,7 +21,7 @@ export function Menu({ isOpen }: MenuProps) {
   return (
     <div>
       <nav className="h-full w-full">
-        <ul className="flex flex-col min-h-[calc(100vh-48px-36px-16px-50px)] lg:min-h-[calc(100vh-32px-60px-32px)] items-start space-y-1 px-5">
+        <ul className="flex flex-col min-h-[calc(100vh-48px-36px-16px-30px)] lg:min-h-[calc(100vh-32px-60px-32px)] items-start space-y-1 px-3 lg:px-5">
           {menuList.map(({ groupLabel, menus }, groupIndex) => (
             <li className={cn("w-full")} key={groupIndex}>
               {/* Only show group label when sidebar is open */}
