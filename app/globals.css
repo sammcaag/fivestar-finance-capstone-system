@@ -135,6 +135,18 @@
     --chart-4: 212.73 26.83% 83.92%;
     --chart-5: 198.63 88.66% 48.43%;
     --radius: 0.5rem;
+
+    /* Animation durations */
+    --animation-duration-fast: 0.1s;
+    --animation-duration-normal: 0.2s;
+    --animation-duration-slow: 0.3s;
+    --animation-duration-slower: 0.5s;
+
+    /* Animation easings */
+    --animation-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --animation-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --animation-ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --animation-ease-in: cubic-bezier(0.4, 0, 1, 1);
   }
 
   .dark {
@@ -171,6 +183,16 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Reduce animation for users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -214,4 +236,87 @@
   .tabs-trigger-style {
     @apply rounded-none border !border-x-transparent !border-t-transparent h-full px-6 data-[state=active]:bg-primary-hover dark:data-[state=active]:bg-primary-hover data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-b-primary dark:data-[state=active]:border-b-primary-bold;
   }
+
+  /* Animation utilities */
+  .animate-none {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .transform-gpu {
+    transform: translateZ(0);
+  }
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Fix for flickering animations */
+.framer-motion-fix {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+/* Prevent text wrapping in tables */
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Rounded corners for cards */
+.rounded-lg {
+  border-radius: 0.75rem;
 }
