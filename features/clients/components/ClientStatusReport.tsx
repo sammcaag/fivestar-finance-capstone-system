@@ -1,45 +1,20 @@
-"use client";
-
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import React from "react";
+import { reportStatusData } from "../data/client-mock-stats";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-export function ClientsOverviewCards() {
-  const statusData = [
-    {
-      status: "Active Loans",
-      count: 842,
-      percentage: 67.5,
-      color: "bg-green-500",
-    },
-    {
-      status: "Pending Approval",
-      count: 156,
-      percentage: 12.5,
-      color: "bg-blue-500",
-    },
-    {
-      status: "Overdue Payments",
-      count: 124,
-      percentage: 9.9,
-      color: "bg-red-500",
-    },
-    {
-      status: "Completed Loans",
-      count: 98,
-      percentage: 7.9,
-      color: "bg-gray-500",
-    },
-    {
-      status: "Rejected Applications",
-      count: 28,
-      percentage: 2.2,
-      color: "bg-gray-400",
-    },
-  ];
-
+function ClientsOverviewCards() {
   return (
     <div className="space-y-4">
-      {statusData.map((item) => (
+      {reportStatusData.map((item) => (
         <Card key={item.status} className="overflow-hidden">
           <CardContent className="p-4">
             <div className="flex justify-between items-center mb-2">
@@ -95,5 +70,26 @@ export function ClientsOverviewCards() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function ClientStatusReport() {
+  return (
+    <Card className="col-span-3">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle className="h4">Client Status Report Overview</CardTitle>
+          <CardDescription>
+            Distribution of clients by loan status
+          </CardDescription>
+        </div>
+        <Button variant="outline" asChild>
+          <Link href="/reports">View Reports</Link>
+        </Button>
+      </CardHeader>
+      <CardContent>
+        <ClientsOverviewCards />
+      </CardContent>
+    </Card>
   );
 }

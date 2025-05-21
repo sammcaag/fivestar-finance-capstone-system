@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-export default function SearchInput() {
+export default function SearchInput(fullWidth: string) {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -49,7 +49,9 @@ export default function SearchInput() {
           "focus-visible:border-ring focus-visible:ring-ring/50",
           "inline-flex h-9 w-fit rounded-md border px-4 py-2 text-sm shadow-xs",
           "transition-[color,box-shadow] outline-none focus-visible:ring-[3px] min-w-xs",
-          open && "hidden"
+          open && "hidden",
+          "bg-transparent border-input text-foreground placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-ring/50 inline-flex h-full rounded-md border px-4 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px]",
+          fullWidth ? "w-full" : "w-fit"
         )}
         onClick={() => setOpen(true)}
       >
@@ -61,7 +63,7 @@ export default function SearchInput() {
           />
           <span className="text-muted-foreground/70 font-normal">Search</span>
         </span>
-        <kbd className="bg-background text-muted-foreground/70 ms-12 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
+        <kbd className="text-muted-foreground/70 ms-12 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
           {navigator.userAgent.includes("Mac") ? "⌘K" : "Ctrl+K"}
         </kbd>
       </Button>

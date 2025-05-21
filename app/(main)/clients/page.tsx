@@ -10,15 +10,17 @@ import {
 import { CalendarDays, CreditCard, DollarSign, Users } from "lucide-react";
 import { ClientsFilter } from "@/features/clients/components/ClientsFilter";
 import { ClientsTable } from "@/features/clients/components/ClientsTable";
-import { ClientsOverviewCards } from "@/features/clients/components/ClientsOverviewCards";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { AnimatedBackground } from "@/components/motion-primitives/animated-background";
+import ClientStatistics from "@/features/clients/components/ClientStatistics";
+import { clientsOverviewStatistics } from "@/features/clients/data/client-mock-stats";
 
 const tabs = [
-  { value: "overview", label: "Overview" },
+  { value: "overview", label: "All Clients" },
   { value: "active", label: "Active Loans" },
-  { value: "pending", label: "Pending Approval" },
-  { value: "overdue", label: "Overdue" },
+  { value: "inactive", label: "Inactive Loans" },
+  { value: "processed", label: "Processed Loans" },
+  { value: "released", label: "Released Loans" },
 ];
 
 export default function ClientsPage() {
@@ -40,6 +42,7 @@ export default function ClientsPage() {
           },
         ]}
       />
+
       <div className="flex flex-col">
         <div className="flex-1 space-y-4 pt-6">
           <div className="flex items-center justify-between space-y-2">
@@ -58,7 +61,9 @@ export default function ClientsPage() {
               </span>
             </div>
           </div>
-          <Tabs defaultValue="overview" className="space-y-4 ">
+          <ClientStatistics statistics={clientsOverviewStatistics} />
+
+          <Tabs defaultValue="overview" className="space-y-4">
             <TabsList className="tabs-container ">
               <AnimatedBackground
                 className="bg-primary-hover"
@@ -82,89 +87,18 @@ export default function ClientsPage() {
               </AnimatedBackground>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Total Clients
-                    </CardTitle>
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">1,248</div>
-                    <p className="text-xs text-muted-foreground">
-                      +12% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Active Loans
-                    </CardTitle>
-                    <CreditCard className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">842</div>
-                    <p className="text-xs text-muted-foreground">
-                      +4% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Total Portfolio
-                    </CardTitle>
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">$4.2M</div>
-                    <p className="text-xs text-muted-foreground">
-                      +8% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Overdue Payments
-                    </CardTitle>
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">$24,500</div>
-                    <p className="text-xs text-muted-foreground">
-                      -2% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-4">
-                  <CardHeader>
-                    <CardTitle>Clients</CardTitle>
-                    <CardDescription>
-                      Manage your client portfolio and loan statuses
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ClientsFilter />
-                    <ClientsTable />
-                  </CardContent>
-                </Card>
-                <Card className="col-span-3">
-                  <CardHeader>
-                    <CardTitle>Client Status Overview</CardTitle>
-                    <CardDescription>
-                      Distribution of clients by loan status
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ClientsOverviewCards />
-                  </CardContent>
-                </Card>
-              </div>
+              <Card className="col-span-4">
+                <CardHeader>
+                  <CardTitle>Clients</CardTitle>
+                  <CardDescription>
+                    Manage your client portfolio and loan statuses
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ClientsFilter />
+                  <ClientsTable />
+                </CardContent>
+              </Card>
             </TabsContent>
             <TabsContent value="active" className="space-y-4">
               <Card>
@@ -180,31 +114,45 @@ export default function ClientsPage() {
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="pending" className="space-y-4">
+            <TabsContent value="inactive" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Pending Approval</CardTitle>
+                  <CardTitle>Inactive Loans</CardTitle>
                   <CardDescription>
                     Review and process loan applications awaiting approval
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ClientsFilter />
-                  <ClientsTable filterStatus="pending" />
+                  <ClientsTable filterStatus="inactive" />
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="overdue" className="space-y-4">
+            <TabsContent value="processed" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Overdue Payments</CardTitle>
+                  <CardTitle>Processed Loans</CardTitle>
                   <CardDescription>
-                    Manage clients with overdue loan payments
+                    View and manage all processed loans in your portfolio
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ClientsFilter />
-                  <ClientsTable filterStatus="overdue" />
+                  <ClientsTable filterStatus="processed" />
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="released" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Released Loans</CardTitle>
+                  <CardDescription>
+                    View and manage all released loans in your portfolio
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ClientsFilter />
+                  <ClientsTable filterStatus="released" />
                 </CardContent>
               </Card>
             </TabsContent>

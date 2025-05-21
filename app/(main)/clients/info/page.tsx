@@ -4,7 +4,7 @@ import BreadcrumbPages from "@/components/BreadcrumbPages";
 import ClientInformation from "@/features/clients/components/ClientInformation";
 import ClientHistoryTable from "@/features/clients/components/profile/ClientHistoryTable";
 import ClientProfileHeader from "@/features/clients/components/profile/ProfileHeader";
-import { clientHistoryRecords } from "@/features/clients/lib/client-metadata";
+import { loanHistory } from "@/features/clients/data/client-mock";
 
 export default function FindClient() {
   return (
@@ -19,7 +19,7 @@ export default function FindClient() {
       <div className="mx-auto py-6">
         <ClientProfileHeader />
         <ClientInformation />
-        <ClientHistoryTable records={clientHistoryRecords} />
+        <ClientHistoryTable records={loanHistory} />
       </div>
     </ContentLayout>
   );

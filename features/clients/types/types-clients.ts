@@ -89,9 +89,8 @@ export interface ClientHistoryRecord {
   amount: string;
   term: string;
   releasedDate: string;
-  vd: string;
-  md: string;
-  pnNumber: string;
+  valueDate: string;
+  maturityDate: string;
   status: "PROCESS" | "RELEASED";
 }
 

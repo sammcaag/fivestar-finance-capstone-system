@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 import { Briefcase, Calendar, MapPin, Phone, User, Users } from "lucide-react";
 import React from "react";
-import { clientData } from "../../lib/client-metadata";
+import { clientData } from "../../data/client-mock";
 import InfoItem from "../InfoItem";
 
 export default function GeneralInformationTab() {
