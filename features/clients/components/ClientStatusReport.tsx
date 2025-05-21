@@ -8,6 +8,8 @@ import {
 import React from "react";
 import { reportStatusData } from "../data/client-mock-stats";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 function ClientsOverviewCards() {
   return (
@@ -74,11 +76,16 @@ function ClientsOverviewCards() {
 export default function ClientStatusReport() {
   return (
     <Card className="col-span-3">
-      <CardHeader>
-        <CardTitle>Client Status Report Overview</CardTitle>
-        <CardDescription>
-          Distribution of clients by loan status
-        </CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle className="h4">Client Status Report Overview</CardTitle>
+          <CardDescription>
+            Distribution of clients by loan status
+          </CardDescription>
+        </div>
+        <Button variant="outline" asChild>
+          <Link href="/reports">View Reports</Link>
+        </Button>
       </CardHeader>
       <CardContent>
         <ClientsOverviewCards />

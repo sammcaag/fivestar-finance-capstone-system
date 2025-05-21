@@ -41,6 +41,7 @@ export default function ClientsPage() {
           },
         ]}
       />
+
       <div className="flex flex-col">
         <div className="flex-1 space-y-4 pt-6">
           <div className="flex items-center justify-between space-y-2">
