@@ -105,9 +105,9 @@ const getColumns = (dashboard = false): ColumnDef<Client>[] => {
         > = {
           active: { label: "Active", variant: "default" },
           pending: { label: "Pending", variant: "secondary" },
-          overdue: { label: "Overdue", variant: "destructive" },
-          completed: { label: "Completed", variant: "outline" },
-          rejected: { label: "Rejected", variant: "outline" },
+          inactive: { label: "Inactive", variant: "destructive" },
+          processed: { label: "Processed", variant: "outline" },
+          released: { label: "Released", variant: "outline" },
         };
 
         const { label, variant } = statusMap[status] || {
@@ -146,6 +146,7 @@ const getColumns = (dashboard = false): ColumnDef<Client>[] => {
     ...baseColumns,
     {
       id: "actions",
+      header: "Actions",
       enableHiding: false,
       cell: ({ row }) => {
         const client = row.original;

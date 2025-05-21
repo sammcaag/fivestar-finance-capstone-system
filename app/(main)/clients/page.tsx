@@ -16,10 +16,11 @@ import ClientStatistics from "@/features/clients/components/ClientStatistics";
 import { clientsOverviewStatistics } from "@/features/clients/data/client-mock-stats";
 
 const tabs = [
-  { value: "overview", label: "Overview" },
+  { value: "overview", label: "All Clients" },
   { value: "active", label: "Active Loans" },
-  { value: "pending", label: "Pending Approval" },
-  { value: "overdue", label: "Overdue" },
+  { value: "inactive", label: "Inactive Loans" },
+  { value: "processed", label: "Processed Loans" },
+  { value: "released", label: "Released Loans" },
 ];
 
 export default function ClientsPage() {
@@ -113,31 +114,45 @@ export default function ClientsPage() {
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="pending" className="space-y-4">
+            <TabsContent value="inactive" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Pending Approval</CardTitle>
+                  <CardTitle>Inactive Loans</CardTitle>
                   <CardDescription>
                     Review and process loan applications awaiting approval
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ClientsFilter />
-                  <ClientsTable filterStatus="pending" />
+                  <ClientsTable filterStatus="inactive" />
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="overdue" className="space-y-4">
+            <TabsContent value="processed" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Overdue Payments</CardTitle>
+                  <CardTitle>Processed Loans</CardTitle>
                   <CardDescription>
-                    Manage clients with overdue loan payments
+                    View and manage all processed loans in your portfolio
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ClientsFilter />
-                  <ClientsTable filterStatus="overdue" />
+                  <ClientsTable filterStatus="processed" />
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="released" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Released Loans</CardTitle>
+                  <CardDescription>
+                    View and manage all released loans in your portfolio
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ClientsFilter />
+                  <ClientsTable filterStatus="released" />
                 </CardContent>
               </Card>
             </TabsContent>

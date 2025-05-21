@@ -110,7 +110,7 @@ export type Client = {
   email: string;
   loanAmount: number;
   loanType: string;
-  status: "active" | "pending" | "overdue" | "completed" | "rejected";
+  status: "active" | "pending" | "overdue" | "completed" | "rejected" | "inactive" | "processed" | "released";
   lastPayment: string;
   nextPayment: string;
 };
