@@ -98,6 +98,7 @@ export default function ClientsPage() {
                 </CardHeader>
                 <CardContent>
                   <ClientsFilter />
+
                   <ClientsTable />
                 </CardContent>
               </Card>
@@ -140,6 +141,7 @@ export default function ClientsPage() {
                 </CardHeader>
                 <CardContent>
                   <ClientsFilter />
+
                   <ClientsTable filterStatus="processed" />
                 </CardContent>
               </Card>
