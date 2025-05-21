@@ -1,4 +1,4 @@
-import { Clock, CreditCard, DollarSign, Users } from "lucide-react";
+import { Clock, CreditCard, PhilippinePeso, Users } from "lucide-react";
 import { StatisticProps } from "../types/types-clients";
 
 export const dashboardStatistics: StatisticProps[] = [
@@ -16,9 +16,9 @@ export const dashboardStatistics: StatisticProps[] = [
   },
   {
     title: "Disbursements Today",
-    statistic: "₱45,270",
+    statistic: "₱ 45,270",
     summary: "+8.2% from yesterday",
-    Icon: DollarSign,
+    Icon: PhilippinePeso,
   },
 ];
 
@@ -37,48 +37,41 @@ export const clientsOverviewStatistics: StatisticProps[] = [
   },
   {
     title: "Total Portfolio",
-    statistic: "₱4.2M",
+    statistic: "₱ 4.2M",
     summary: "+8% from last month",
-    Icon: DollarSign,
-  },
-  {
-    title: "Overdue Payments",
-    statistic: "₱24,500",
-    summary: "-2% from last month",
-    Icon: DollarSign,
+    Icon: PhilippinePeso,
   },
 ];
 
-
- export const reportStatusData = [
-   {
-     status: "Active Loans",
-     count: 842,
-     percentage: 67.5,
-     color: "bg-green-500",
-   },
-   {
-     status: "Pending Approval",
-     count: 156,
-     percentage: 12.5,
-     color: "bg-blue-500",
-   },
-   {
-     status: "Overdue Payments",
-     count: 124,
-     percentage: 9.9,
-     color: "bg-red-500",
-   },
-   {
-     status: "Completed Loans",
-     count: 98,
-     percentage: 7.9,
-     color: "bg-gray-500",
-   },
-   {
-     status: "Rejected Applications",
-     count: 28,
-     percentage: 2.2,
-     color: "bg-gray-400",
-   },
- ];
+export const reportStatusData = [
+  {
+    status: "Active Loans",
+    count: 842,
+    percentage: 67.5,
+    color: "bg-green-500",
+  },
+  {
+    status: "Pending Approval",
+    count: 156,
+    percentage: 12.5,
+    color: "bg-blue-500",
+  },
+  {
+    status: "Overdue Payments",
+    count: 124,
+    percentage: 9.9,
+    color: "bg-red-500",
+  },
+  {
+    status: "Completed Loans",
+    count: 98,
+    percentage: 7.9,
+    color: "bg-gray-500",
+  },
+  {
+    status: "Rejected Applications",
+    count: 28,
+    percentage: 2.2,
+    color: "bg-gray-400",
+  },
+];

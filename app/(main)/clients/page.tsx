@@ -1,3 +1,5 @@
+"use client";
+
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -7,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CalendarDays, CreditCard, DollarSign, Users } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { ClientsFilter } from "@/features/clients/components/ClientsFilter";
 import { ClientsTable } from "@/features/clients/components/ClientsTable";
 import BreadcrumbPages from "@/components/BreadcrumbPages";

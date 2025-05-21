@@ -11,7 +11,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CalendarDays, Clock, MapPin, Users } from "lucide-react";
+import {
+  Calculator,
+  CalendarDays,
+  FileChartColumn,
+  MapPin,
+  Users,
+} from "lucide-react";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import ClientStatistics from "@/features/clients/components/ClientStatistics";
@@ -19,6 +25,14 @@ import { dashboardStatistics } from "@/features/clients/data/client-mock-stats";
 import { ClientsFilter } from "@/features/clients/components/ClientsFilter";
 import { ClientsTable } from "@/features/clients/components/ClientsTable";
 import ClientStatusReport from "@/features/clients/components/ClientStatusReport";
+import RealTime from "@/components/RealTime";
+import { AnimatedBackground } from "@/components/motion-primitives/animated-background";
+
+const tabs = [
+  { value: "overview", label: "Overview" },
+  { value: "clients", label: "Clients" },
+  { value: "reports", label: "Report" },
+];
 
 export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
@@ -78,19 +92,19 @@ export default function DashboardPage() {
 
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
-              Welcome to the Dashboard!
+            <h1 className="text-3xl font-bold tracking-wide text-white md:text-4xl">
+              Welcome to STELLA!
             </h1>
             <div className="flex items-center space-x-2">
               <MapPin className="h-5 w-5 text-blue-200" />
               <p className="text-xl font-medium text-blue-100">
-                Branch of Cagayan de Oro City
+                Branch of Cagayan de Oro
               </p>
             </div>
           </div>
 
-          <div className="mt-4 flex flex-col items-end space-y-1 md:mt-0">
-            <div className="flex items-center space-x-2 text-blue-100">
+          <div className="mt-4 flex flex-col items-end space-y-2 md:mt-0">
+            <div className="flex items-center space-x-2 text-lg text-background">
               <CalendarDays className="h-4 w-4" />
               <span>
                 {currentTime.toLocaleDateString("en-US", {
@@ -101,15 +115,8 @@ export default function DashboardPage() {
                 })}
               </span>
             </div>
-            <div className="flex items-center space-x-2 text-blue-100">
-              <Clock className="h-4 w-4" />
-              <span>
-                {currentTime.toLocaleTimeString("en-US", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit",
-                })}
-              </span>
+            <div className="flex items-center space-x-2 text-lg text-background">
+              <RealTime />
             </div>
           </div>
         </div>
@@ -118,24 +125,32 @@ export default function DashboardPage() {
           <Button
             variant="secondary"
             className="bg-white/20 text-white hover:bg-white/30"
-            onClick={() => (window.location.href = "/clients/new")}
+            asChild
           >
-            <Users className="mr-2 h-4 w-4" />
-            Add New Client
+            <Link href={"/clients"}>
+              <Users className="h-4 w-4" />
+              Add New Client
+            </Link>
           </Button>
           <Button
             variant="secondary"
             className="bg-white/20 text-white hover:bg-white/30"
-            onClick={() => (window.location.href = "/reports/generate")}
+            asChild
           >
-            Generate Reports
+            <Link href={"/loan-computations/new-client"}>
+              <Calculator className="h-4 w-4" />
+              New Client Computation
+            </Link>
           </Button>
           <Button
             variant="secondary"
             className="bg-white/20 text-white hover:bg-white/30"
-            onClick={() => (window.location.href = "/analytics")}
+            asChild
           >
-            View Analytics
+            <Link href={"/reports"}>
+              <FileChartColumn className="h-4 w-4" />
+              View Reports
+            </Link>
           </Button>
         </div>
       </motion.div>
@@ -145,12 +160,29 @@ export default function DashboardPage() {
           <ClientStatistics statistics={dashboardStatistics} />
         </motion.div>
 
-        <motion.div variants={item} className="mt-8">
+        <motion.div variants={item} className="mt-10">
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:w-auto md:grid-cols-3">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="clients">Clients</TabsTrigger>
-              <TabsTrigger value="reports">Reports</TabsTrigger>
+            <TabsList className="tabs-container w-1/2">
+              <AnimatedBackground
+                className="bg-primary-hover"
+                transition={{
+                  type: "spring",
+                  bounce: 0.2,
+                  duration: 0.6,
+                }}
+                enableHover
+              >
+                {tabs.map((tab, index) => (
+                  <TabsTrigger
+                    key={tab.value}
+                    value={tab.value}
+                    data-id={index}
+                    className="tabs-trigger-style"
+                  >
+                    {tab.label}
+                  </TabsTrigger>
+                ))}
+              </AnimatedBackground>
             </TabsList>
 
             <TabsContent value="overview" className="mt-4 space-y-6">
