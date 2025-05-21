@@ -91,9 +91,8 @@ export interface ClientHistoryRecord {
   amount: string;
   term: string;
   releasedDate: string;
-  vd: string;
-  md: string;
-  pnNumber: string;
+  valueDate: string;
+  maturityDate: string;
   status: "PROCESS" | "RELEASED";
 }
 
@@ -114,3 +113,31 @@ export type Client = {
   lastPayment: string;
   nextPayment: string;
 };
+
+
+interface LoanDocument {
+  id: string
+  name: string
+  type: string
+  date: string
+  url: string
+}
+
+export interface LoanRecord {
+  id: string
+  dedCode: string
+  productType: string
+  amount: string
+  term: string
+  releasedDate: string
+  valueDate: string
+  maturityDate: string
+  status: "PROCESS" | "RELEASED"
+  pnNumber?: string
+  parentId?: string | null
+  isExtension?: boolean
+  isFullyPaid?: boolean
+  extensionType?: "Ext." | "Add." | null
+  documents?: LoanDocument[]
+}
+

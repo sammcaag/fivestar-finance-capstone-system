@@ -68,7 +68,8 @@ export default function ClientProfileHeader() {
                   {detail.title}:
                 </p>
                 <p className="font-medium text-destructive text-lg">
-                  &#8369;{detail.details}
+                  {detail.id !== 4 && "₱ "}
+                  {detail.details}
                 </p>
               </div>
             );
