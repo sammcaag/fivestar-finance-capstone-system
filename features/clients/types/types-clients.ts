@@ -1,3 +1,4 @@
+import { LucideIcon } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 
 export interface Step {
@@ -113,6 +114,13 @@ export const civilStatusOptions = [
   { label: "Widowed", value: "widowed" },
   { label: "Separated", value: "separated" },
 ];
+
+export type StatisticProps = {
+  title: string;
+  statistic: number | string;
+  summary: string;
+  Icon: LucideIcon;
+};
 
 export type Client = {
   id: string;
