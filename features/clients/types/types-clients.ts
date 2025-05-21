@@ -113,3 +113,48 @@ export const civilStatusOptions = [
   { label: "Widowed", value: "widowed" },
   { label: "Separated", value: "separated" },
 ];
+
+export type Client = {
+  id: string;
+  name: string;
+  email: string;
+  loanAmount: number;
+  loanType: string;
+  status:
+    | "active"
+    | "pending"
+    | "overdue"
+    | "completed"
+    | "rejected"
+    | "inactive"
+    | "processed"
+    | "released";
+  lastPayment: string;
+  nextPayment: string;
+};
+
+interface LoanDocument {
+  id: string;
+  name: string;
+  type: string;
+  date: string;
+  url: string;
+}
+
+export interface LoanRecord {
+  id: string;
+  dedCode: string;
+  productType: string;
+  amount: string;
+  term: string;
+  releasedDate: string;
+  valueDate: string;
+  maturityDate: string;
+  status: "PROCESS" | "RELEASED";
+  pnNumber?: string;
+  parentId?: string | null;
+  isExtension?: boolean;
+  isFullyPaid?: boolean;
+  extensionType?: "Ext." | "Add." | null;
+  documents?: LoanDocument[];
+}
