@@ -48,3 +48,37 @@ export const clientsOverviewStatistics: StatisticProps[] = [
     Icon: DollarSign,
   },
 ];
+
+
+ export const reportStatusData = [
+   {
+     status: "Active Loans",
+     count: 842,
+     percentage: 67.5,
+     color: "bg-green-500",
+   },
+   {
+     status: "Pending Approval",
+     count: 156,
+     percentage: 12.5,
+     color: "bg-blue-500",
+   },
+   {
+     status: "Overdue Payments",
+     count: 124,
+     percentage: 9.9,
+     color: "bg-red-500",
+   },
+   {
+     status: "Completed Loans",
+     count: 98,
+     percentage: 7.9,
+     color: "bg-gray-500",
+   },
+   {
+     status: "Rejected Applications",
+     count: 28,
+     percentage: 2.2,
+     color: "bg-gray-400",
+   },
+ ];

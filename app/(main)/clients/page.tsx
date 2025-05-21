@@ -10,7 +10,6 @@ import {
 import { CalendarDays, CreditCard, DollarSign, Users } from "lucide-react";
 import { ClientsFilter } from "@/features/clients/components/ClientsFilter";
 import { ClientsTable } from "@/features/clients/components/ClientsTable";
-import { ClientsOverviewCards } from "@/features/clients/components/ClientsOverviewCards";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { AnimatedBackground } from "@/components/motion-primitives/animated-background";
 import ClientStatistics from "@/features/clients/components/ClientStatistics";
@@ -60,7 +59,9 @@ export default function ClientsPage() {
               </span>
             </div>
           </div>
-          <Tabs defaultValue="overview" className="space-y-4 ">
+          <ClientStatistics statistics={clientsOverviewStatistics} />
+
+          <Tabs defaultValue="overview" className="space-y-4">
             <TabsList className="tabs-container ">
               <AnimatedBackground
                 className="bg-primary-hover"
@@ -84,32 +85,18 @@ export default function ClientsPage() {
               </AnimatedBackground>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
-              <ClientStatistics statistics={clientsOverviewStatistics} />
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-4">
-                  <CardHeader>
-                    <CardTitle>Clients</CardTitle>
-                    <CardDescription>
-                      Manage your client portfolio and loan statuses
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ClientsFilter />
-                    <ClientsTable />
-                  </CardContent>
-                </Card>
-                <Card className="col-span-3">
-                  <CardHeader>
-                    <CardTitle>Client Status Overview</CardTitle>
-                    <CardDescription>
-                      Distribution of clients by loan status
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ClientsOverviewCards />
-                  </CardContent>
-                </Card>
-              </div>
+              <Card className="col-span-4">
+                <CardHeader>
+                  <CardTitle>Clients</CardTitle>
+                  <CardDescription>
+                    Manage your client portfolio and loan statuses
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ClientsFilter />
+                  <ClientsTable />
+                </CardContent>
+              </Card>
             </TabsContent>
             <TabsContent value="active" className="space-y-4">
               <Card>
