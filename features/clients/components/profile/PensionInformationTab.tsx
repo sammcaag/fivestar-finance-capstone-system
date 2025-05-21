@@ -3,7 +3,7 @@ import { TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Building2, Calendar, CreditCard, User } from "lucide-react";
 import InfoItem from "../InfoItem";
-import { clientData } from "../../lib/client-metadata";
+import { clientData } from "../../data/client-mock";
 
 export default function PensionInformationTab() {
   return (

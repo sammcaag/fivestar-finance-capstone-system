@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LucideIcon } from "lucide-react";
+import { StatisticProps } from "@/features/clients/types/types-clients";
+import { cn } from "@/lib/utils";
 
 type StatsCardProps = {
   title: string;
@@ -23,4 +25,25 @@ const StatCards = ({ title, statistics, summary, Icon }: StatsCardProps) => {
   );
 };
 
-export default StatCards;
+const ClientStatistics = ({ statistics }: { statistics: StatisticProps[] }) => {
+  return (
+    <section
+      className={cn(
+        "grid gap-4 md:grid-cols-3",
+        statistics.length === 4 ? "md:grid-cols-4" : ""
+      )}
+    >
+      {statistics.map((data) => (
+        <StatCards
+          title={data.title}
+          statistics={data.statistic}
+          summary={data.summary}
+          Icon={data.Icon}
+          key={data.title}
+        />
+      ))}
+    </section>
+  );
+};
+
+export default ClientStatistics;

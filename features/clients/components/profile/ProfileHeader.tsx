@@ -2,11 +2,11 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { clientData } from "../../lib/client-metadata";
+import { clientData } from "../../data/client-mock";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Circle } from "lucide-react";
-import { pensionDetails } from "../../lib/client-metadata";
+import { pensionDetails } from "../../data/client-mock";
 
 export default function ClientProfileHeader() {
   return (
@@ -68,7 +68,7 @@ export default function ClientProfileHeader() {
                   {detail.title}:
                 </p>
                 <p className="font-medium text-destructive text-lg">
-                  &#x20B1; {detail.details}
+                  &#8369;{detail.details}
                 </p>
               </div>
             );

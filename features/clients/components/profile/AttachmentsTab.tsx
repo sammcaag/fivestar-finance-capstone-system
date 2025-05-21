@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 import { File, FileText, ImageIcon, Paperclip } from "lucide-react";
 import React from "react";
-import { clientData } from "../../lib/client-metadata";
+import { clientData } from "../../data/client-mock";
 import { Download, Eye } from "lucide-react";
 
 export default function AttachmentsTab() {

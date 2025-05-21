@@ -1,3 +1,4 @@
+import { LucideIcon } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
@@ -84,8 +85,6 @@ export type RegisterClientsFormProps = {
   form: UseFormReturn<ClientFormValues>;
 };
 
-
-
 export interface ClientHistoryRecord {
   dedCode: string;
   productType: string;
@@ -97,3 +96,21 @@ export interface ClientHistoryRecord {
   pnNumber: string;
   status: "PROCESS" | "RELEASED";
 }
+
+export type StatisticProps = {
+  title: string;
+  statistic: number | string;
+  summary: string;
+  Icon: LucideIcon;
+};
+
+export type Client = {
+  id: string;
+  name: string;
+  email: string;
+  loanAmount: number;
+  loanType: string;
+  status: "active" | "pending" | "overdue" | "completed" | "rejected";
+  lastPayment: string;
+  nextPayment: string;
+};

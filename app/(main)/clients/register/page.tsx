@@ -9,7 +9,7 @@ import PensionersInformation from "@/features/clients/components/steps/Pensioner
 import AccountsInformation from "@/features/clients/components/steps/AccountsInformation";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Eraser, FileUp, Save, Trash2 } from "lucide-react";
-import { steps } from "@/features/clients/lib/client-registration";
+import { steps } from "@/features/clients/components/lib/client-registration-form";
 import ClientGeneralInformation from "@/features/clients/components/steps/ClientGeneralInformation";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";

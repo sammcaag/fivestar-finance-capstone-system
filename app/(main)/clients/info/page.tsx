@@ -4,7 +4,7 @@ import BreadcrumbPages from "@/components/BreadcrumbPages";
 import ClientInformation from "@/features/clients/components/ClientInformation";
 import ClientHistoryTable from "@/features/clients/components/profile/ClientHistoryTable";
 import ClientProfileHeader from "@/features/clients/components/profile/ProfileHeader";
-import { clientHistoryRecords } from "@/features/clients/lib/client-metadata";
+import { clientHistoryRecords } from "@/features/clients/data/client-mock";
 
 export default function FindClient() {
   return (

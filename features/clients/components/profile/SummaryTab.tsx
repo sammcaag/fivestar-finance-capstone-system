@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 import { BarChart4 } from "lucide-react";
 import React from "react";
-import { clientData } from "../../lib/client-metadata";
+import { clientData } from "../../data/client-mock";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
@@ -65,7 +65,7 @@ export default function SummaryTab() {
                   </div>
                 </div>
                 <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 text-xl">$</span>
+                  <span className="text-green-600 text-xl">&#8369;</span>
                 </div>
               </div>
             </CardContent>

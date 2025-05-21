@@ -3,7 +3,7 @@ import { TabsContent } from "@/components/ui/tabs";
 import { Calendar, MapPin, Phone, User, Users } from "lucide-react";
 import React from "react";
 import InfoItem from "../InfoItem";
-import { clientData } from "../../lib/client-metadata";
+import { clientData } from "../../data/client-mock";
 
 export default function FamilyInformationTab() {
   return (

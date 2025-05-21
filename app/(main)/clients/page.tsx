@@ -13,6 +13,8 @@ import { ClientsTable } from "@/features/clients/components/ClientsTable";
 import { ClientsOverviewCards } from "@/features/clients/components/ClientsOverviewCards";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { AnimatedBackground } from "@/components/motion-primitives/animated-background";
+import ClientStatistics from "@/features/clients/components/ClientStatistics";
+import { clientsOverviewStatistics } from "@/features/clients/data/client-mock-stats";
 
 const tabs = [
   { value: "overview", label: "Overview" },
@@ -82,64 +84,7 @@ export default function ClientsPage() {
               </AnimatedBackground>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Total Clients
-                    </CardTitle>
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">1,248</div>
-                    <p className="text-xs text-muted-foreground">
-                      +12% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Active Loans
-                    </CardTitle>
-                    <CreditCard className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">842</div>
-                    <p className="text-xs text-muted-foreground">
-                      +4% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Total Portfolio
-                    </CardTitle>
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">$4.2M</div>
-                    <p className="text-xs text-muted-foreground">
-                      +8% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Overdue Payments
-                    </CardTitle>
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">$24,500</div>
-                    <p className="text-xs text-muted-foreground">
-                      -2% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
+              <ClientStatistics statistics={clientsOverviewStatistics} />
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
                   <CardHeader>

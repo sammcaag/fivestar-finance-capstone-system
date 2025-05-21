@@ -19,7 +19,7 @@ import { getYear } from "date-fns";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { preventInvalidInput } from "@/utils/handling-input-numbers";
-import { pensionTypes, ranks } from "../../lib/client-registration";
+import { pensionTypes, ranks } from "../lib/client-registration-form";
 
 const PensionersInformation = ({ form }: PensionersInformationProps) => {
   return (
