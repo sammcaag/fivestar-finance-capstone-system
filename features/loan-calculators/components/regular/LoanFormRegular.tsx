@@ -16,7 +16,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { UseFormReturn } from "react-hook-form";
 import { LoanFormProps, RateProps } from "../../types/types-regular";
 import RateCards from "./RateCards";
 import {
