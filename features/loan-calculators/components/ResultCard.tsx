@@ -28,7 +28,7 @@ export default function ResultCard({
         isHighlighted ? "ring-2 ring-red-300 dark:ring-red-800" : ""
       }`}
     >
-      <div className={`absolute inset-0 bg-gradient-to-br ${bgGradient}`}></div>
+      <div className={`relative inset-0 bg-gradient-to-br ${bgGradient}`}></div>
       <CardHeader className="relative p-4 pb-2">
         <CardTitle className="text-sm font-medium w-full flex items-center">
           {Icon && <Icon className={`h-4 w-4 mr-2 ${iconColor}`} />}
