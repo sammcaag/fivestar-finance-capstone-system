@@ -16,7 +16,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import type { LoanFormProps, RateProps } from "../../types/types-regular";
+import type {
+  LoanFormProps,
+  RateProps,
+  FormValues,
+} from "../../types/types-regular";
 import RateCards from "./RateCards";
 import {
   preventInvalidInput,
@@ -62,6 +66,11 @@ export default function LoanForm({
     },
   };
 
+  // Helper function to determine if a field has an error
+  const hasFieldError = (fieldName: keyof FormValues) => {
+    return !!form.formState.errors[fieldName];
+  };
+
   return (
     <div className="space-y-8">
       <motion.div
@@ -87,19 +96,31 @@ export default function LoanForm({
                 className={`overflow-hidden rounded-lg border ${
                   focusedField === "monthlyAmortization"
                     ? "ring-2 ring-blue-200 border-blue-300"
+                    : hasFieldError("monthlyAmortization")
+                    ? "ring-2 ring-red-200 border-red-300"
                     : "border-gray-200 dark:border-gray-800"
                 } bg-white dark:bg-gray-950 transition-all duration-200 shadow-sm`}
               >
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <FormLabel className="text-base font-medium flex items-center">
-                      <DollarSign className="h-4 w-4 mr-2 text-blue-500" />
+                      <DollarSign
+                        className={`h-4 w-4 mr-2 ${
+                          hasFieldError("monthlyAmortization")
+                            ? "text-red-500"
+                            : "text-blue-500"
+                        }`}
+                      />
                       Monthly Amortization (MA)
                     </FormLabel>
                     <CustomTooltip
                       icon={Info}
                       description="The fixed amount paid by the client each month"
-                      iconClassName="text-blue-500"
+                      iconClassName={
+                        hasFieldError("monthlyAmortization")
+                          ? "text-red-500"
+                          : "text-blue-500"
+                      }
                     />
                   </div>
                   <FormControl>
@@ -109,7 +130,7 @@ export default function LoanForm({
                       min={0}
                       max={35000}
                       step="1000"
-                      className="border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto"
+                      className="border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto w-full"
                       {...field}
                       onKeyDown={preventInvalidInput}
                       onChange={(e) =>
@@ -137,19 +158,29 @@ export default function LoanForm({
                 className={`overflow-hidden rounded-lg border ${
                   focusedField === "term"
                     ? "ring-2 ring-blue-200 border-blue-300"
+                    : hasFieldError("term")
+                    ? "ring-2 ring-red-200 border-red-300"
                     : "border-gray-200 dark:border-gray-800"
                 } bg-white dark:bg-gray-950 transition-all duration-200 shadow-sm`}
               >
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <FormLabel className="text-base font-medium flex items-center">
-                      <Clock className="h-4 w-4 mr-2 text-blue-500" />
+                      <Clock
+                        className={`h-4 w-4 mr-2 ${
+                          hasFieldError("term")
+                            ? "text-red-500"
+                            : "text-blue-500"
+                        }`}
+                      />
                       Term (Months)
                     </FormLabel>
                     <CustomTooltip
                       icon={Info}
                       description="The duration of the loan in months"
-                      iconClassName="text-blue-500"
+                      iconClassName={
+                        hasFieldError("term") ? "text-red-500" : "text-blue-500"
+                      }
                     />
                   </div>
                   <Select
@@ -161,7 +192,7 @@ export default function LoanForm({
                     }}
                   >
                     <FormControl>
-                      <SelectTrigger className="border-0 bg-transparent text-lg focus:ring-0 p-0 h-auto shadow-none">
+                      <SelectTrigger className="border-0 bg-transparent text-lg focus:ring-0 p-0 h-auto shadow-none w-full">
                         <SelectValue
                           placeholder="Select Term"
                           className={`${
@@ -282,7 +313,7 @@ export default function LoanForm({
                         placeholder="0"
                         type="number"
                         {...field}
-                        className="border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto disabled:opacity-100"
+                        className="border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto disabled:opacity-100 w-full"
                         disabled={true}
                       />
                       <span className="text-muted-foreground">months</span>
@@ -322,6 +353,8 @@ export default function LoanForm({
                 className={`overflow-hidden rounded-lg border ${
                   focusedField === "outstandingBalance"
                     ? "ring-2 ring-blue-200 border-blue-300"
+                    : hasFieldError("outstandingBalance")
+                    ? "ring-2 ring-red-200 border-red-300"
                     : "border-gray-200 dark:border-gray-800"
                 } ${
                   !hasDeduction || clientType === "Renewal"
@@ -338,7 +371,9 @@ export default function LoanForm({
                     >
                       <DollarSign
                         className={`h-4 w-4 mr-2 ${
-                          !hasDeduction || clientType === "Renewal"
+                          hasFieldError("outstandingBalance")
+                            ? "text-red-500"
+                            : !hasDeduction || clientType === "Renewal"
                             ? "text-muted-foreground"
                             : "text-blue-500"
                         }`}
@@ -349,7 +384,11 @@ export default function LoanForm({
                       <CustomTooltip
                         icon={Info}
                         description="Automatically computed based on remaining months × monthly amortization"
-                        iconClassName="text-blue-500"
+                        iconClassName={
+                          hasFieldError("outstandingBalance")
+                            ? "text-red-500"
+                            : "text-blue-500"
+                        }
                       />
                     )}
                   </div>
@@ -358,7 +397,7 @@ export default function LoanForm({
                       placeholder="Outstanding Balance"
                       type="number"
                       step="1000"
-                      className={`border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto ${
+                      className={`border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto w-full ${
                         !hasDeduction || clientType === "Renewal"
                           ? "text-muted-foreground"
                           : ""
@@ -391,6 +430,8 @@ export default function LoanForm({
                 className={`overflow-hidden rounded-lg border ${
                   focusedField === "otherDeduction"
                     ? "ring-2 ring-blue-200 border-blue-300"
+                    : hasFieldError("otherDeduction")
+                    ? "ring-2 ring-red-200 border-red-300"
                     : "border-gray-200 dark:border-gray-800"
                 } ${
                   !hasDeduction
@@ -407,7 +448,9 @@ export default function LoanForm({
                     >
                       <DollarSign
                         className={`h-4 w-4 mr-2 ${
-                          !hasDeduction
+                          hasFieldError("otherDeduction")
+                            ? "text-red-500"
+                            : !hasDeduction
                             ? "text-muted-foreground"
                             : "text-blue-500"
                         }`}
@@ -421,7 +464,9 @@ export default function LoanForm({
                       icon={Info}
                       description="Additional deductions to be applied to the loan"
                       iconClassName={
-                        !hasDeduction
+                        hasFieldError("otherDeduction")
+                          ? "text-red-500"
+                          : !hasDeduction
                           ? "text-muted-foreground"
                           : "text-blue-500"
                       }
@@ -432,7 +477,7 @@ export default function LoanForm({
                       placeholder="0.00"
                       type="number"
                       step="1000"
-                      className={`border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto ${
+                      className={`border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto w-full ${
                         !hasDeduction ? "text-muted-foreground" : ""
                       }`}
                       {...field}

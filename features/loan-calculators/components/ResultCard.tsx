@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { LucideIcon } from "lucide-react";
 
-interface EnhancedResultCardProps {
+interface ResultCardProps {
   title: string;
   value: string;
   textColorClass?: string;
@@ -13,7 +13,7 @@ interface EnhancedResultCardProps {
   isHighlighted?: boolean;
 }
 
-export default function EnhancedResultCard({
+export default function ResultCard({
   title,
   value,
   textColorClass = "text-blue-700 dark:text-blue-400",
@@ -21,7 +21,7 @@ export default function EnhancedResultCard({
   iconColor = "text-blue-500",
   bgGradient = "from-blue-50 to-blue-100 dark:from-blue-950/40 dark:to-blue-900/20",
   isHighlighted = false,
-}: EnhancedResultCardProps) {
+}: ResultCardProps) {
   return (
     <Card
       className={`overflow-hidden border-none shadow-md transition-all duration-300 hover:shadow-lg ${
