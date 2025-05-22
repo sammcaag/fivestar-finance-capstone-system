@@ -12,12 +12,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { PensionersInformationProps } from "../../types/types-clients";
 import { Input } from "@/components/ui/input";
 import { getYear } from "date-fns";
 import CustomDatePicker from "@/components/CustomDatePicker";
-import { PhoneInput } from "@/components/ui/phone-input";
 import { preventInvalidInput } from "@/utils/handling-input-numbers";
 import { pensionTypes, ranks } from "../lib/client-registration-form";
 

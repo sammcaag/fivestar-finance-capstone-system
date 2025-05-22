@@ -18,7 +18,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
     <div className="space-y-5">
       <div className="space-y-2 mb-5">
         <h2 className="text-2xl font-bold">Client Family Information</h2>
-        <p>Please provide details about client's spouse and children.</p>
+        <p>Please provide details about client&apos;s spouse and children.</p>
       </div>
 
       <h3 className="text-lg font-medium pt-4">Spouse Information</h3>

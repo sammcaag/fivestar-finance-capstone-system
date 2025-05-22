@@ -82,15 +82,12 @@ export default function ExtensionLoanCalculator() {
   const [hasDeductions, setHasDeductions] = useState<boolean>(false);
   const [isDoneCalculate, setIsDoneCalculate] = useState<boolean>(false);
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
-  const [hasFormErrors, setHasFormErrors] = useState<boolean>(false);
   const [netAmount, setNetAmount] = useState<string>(`₱\t0.00`);
 
   // Watch for form errors
   useEffect(() => {
     const subscription = form.watch(() => {
       // Check if there are any errors in the form
-      const hasErrors = Object.keys(form.formState.errors).length > 0;
-      setHasFormErrors(hasErrors);
     });
 
     return () => subscription.unsubscribe();
@@ -99,14 +96,12 @@ export default function ExtensionLoanCalculator() {
   const handleCompute = (values: FormValues) => {
     // Check if there are any validation errors
     if (Object.keys(form.formState.errors).length > 0) {
-      setHasFormErrors(true);
       toast.error("Please fix the form errors before computing");
       return;
     }
 
     try {
       setIsCalculating(true);
-      setHasFormErrors(false);
 
       // Simulate calculation delay for better UX
       setTimeout(() => {
@@ -176,7 +171,6 @@ export default function ExtensionLoanCalculator() {
     setRenewalExtensionMaturityDate(new Date());
     setNetAmount(`₱\t0.00`);
     setIsDoneCalculate(false);
-    setHasFormErrors(false);
 
     toast.success("Computation cleared successfully");
   };
