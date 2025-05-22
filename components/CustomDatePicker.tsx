@@ -8,8 +8,17 @@ import {
   getYear,
   setMonth,
   setYear,
+  isBefore,
+  isAfter,
+  startOfDay,
 } from "date-fns";
-import { CalendarIcon, ChevronDown } from "lucide-react";
+import {
+  CalendarIcon,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -38,6 +47,7 @@ interface DatePickerProps {
   isFutureDatesUnselectable?: boolean;
   numberOfFutureDaysDisable?: number;
   showCalendar?: boolean;
+  placeholder?: string;
 }
 
 export default function CustomDatePicker({
@@ -46,12 +56,16 @@ export default function CustomDatePicker({
   date,
   setDate,
   editable = true,
-  customDateFormat = "MMMM, yyyy",
+  customDateFormat = "MMMM d, yyyy",
   isPreviousMonthsUnselectable = false,
   isFutureDatesUnselectable = false,
   numberOfFutureDaysDisable = 0,
   showCalendar = true,
+  placeholder = "Pick a date",
 }: DatePickerProps) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [displayMonth, setDisplayMonth] = React.useState(date);
+
   const months = [
     "January",
     "February",
@@ -73,247 +87,315 @@ export default function CustomDatePicker({
   );
 
   // Get current date information
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = startOfDay(new Date());
   const currentMonth = getMonth(today);
   const currentYear = getYear(today);
-  const isSameMonth =
-    getMonth(date) === currentMonth && getYear(date) === currentYear;
   const minDate = addDays(today, numberOfFutureDaysDisable);
 
+  // Fixed: Determine if a date should be disabled
+  const isDateDisabled = React.useCallback(
+    (checkDate: Date) => {
+      const normalizedDate = startOfDay(checkDate);
+
+      // Handle numberOfFutureDaysDisable
+      if (numberOfFutureDaysDisable > 0) {
+        return isBefore(normalizedDate, minDate);
+      }
+
+      // Handle isPreviousMonthsUnselectable
+      if (isPreviousMonthsUnselectable) {
+        const dateYear = getYear(normalizedDate);
+        const dateMonth = getMonth(normalizedDate);
+
+        // Allow current month and future months/years
+        if (dateYear > currentYear) return false;
+        if (dateYear === currentYear && dateMonth >= currentMonth) {
+          // For current month, only disable past dates
+          if (dateMonth === currentMonth) {
+            return isBefore(normalizedDate, today);
+          }
+          return false;
+        }
+        // Disable all dates from previous months/years
+        return true;
+      }
+
+      // Handle isFutureDatesUnselectable - Fixed: Only disable future dates, allow past dates
+      if (isFutureDatesUnselectable) {
+        return isAfter(normalizedDate, today);
+      }
+
+      return false;
+    },
+    [
+      isPreviousMonthsUnselectable,
+      isFutureDatesUnselectable,
+      numberOfFutureDaysDisable,
+      today,
+      currentMonth,
+      currentYear,
+      minDate,
+    ]
+  );
+
+  // Fixed: Handle month navigation properly
+  const canNavigateToMonth = React.useCallback(
+    (targetDate: Date) => {
+      const targetYear = getYear(targetDate);
+      const targetMonth = getMonth(targetDate);
+
+      if (isPreviousMonthsUnselectable) {
+        // Allow navigation to current month and future months
+        if (targetYear > currentYear) return true;
+        if (targetYear === currentYear && targetMonth >= currentMonth)
+          return true;
+        return false;
+      }
+
+      // For isFutureDatesUnselectable, allow navigation to any month
+      // The individual dates will be disabled, not the entire month
+      return true;
+    },
+    [isPreviousMonthsUnselectable, currentYear, currentMonth]
+  );
+
   const handleMonthChange = (month: string) => {
-    const newDate = setMonth(date, months.indexOf(month));
-    setDate(newDate);
+    const monthIndex = months.indexOf(month);
+    const newDate = setMonth(displayMonth, monthIndex);
+
+    if (canNavigateToMonth(newDate)) {
+      setDisplayMonth(newDate);
+
+      // Update the selected date if it's valid
+      const updatedDate = setMonth(date, monthIndex);
+      if (!isDateDisabled(updatedDate)) {
+        setDate(updatedDate);
+      }
+    }
   };
 
   const handleYearChange = (year: string) => {
     const newYear = Number.parseInt(year);
-    let newDate = setYear(date, newYear);
+    const newDate = setYear(displayMonth, newYear);
 
-    // If enabling restriction and changing to current year with a month before current,
-    // adjust the month accordingly
-    if (
-      isPreviousMonthsUnselectable &&
-      newYear === currentYear &&
-      getMonth(newDate) < currentMonth
-    ) {
-      newDate = setMonth(newDate, currentMonth);
+    if (canNavigateToMonth(newDate)) {
+      setDisplayMonth(newDate);
+
+      // Update the selected date if it's valid
+      const updatedDate = setYear(date, newYear);
+      if (!isDateDisabled(updatedDate)) {
+        setDate(updatedDate);
+      }
     }
-
-    setDate(newDate);
   };
 
   const handleSelect = (selectedDate: Date | undefined) => {
-    if (selectedDate) {
-      // Check if the date should be disabled based on the restrictions
-      if (
-        isPreviousMonthsUnselectable &&
-        ((getYear(selectedDate) === currentYear &&
-          getMonth(selectedDate) < currentMonth) ||
-          getYear(selectedDate) < currentYear)
-      ) {
-        return; // Do not update if the date is in a previous month of the current year or a previous year
-      }
-
-      // Check if the date is in the future and should be disabled
-      if (isFutureDatesUnselectable) {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        if (selectedDate > today) {
-          return; // Do not update if the date is in the future
-        }
-      }
-
-      if (numberOfFutureDaysDisable !== 0) {
-        if (today > minDate) {
-          return;
-        }
-      }
-
+    if (selectedDate && !isDateDisabled(selectedDate)) {
       setDate(selectedDate);
+      setIsOpen(false);
     }
   };
 
-  // Custom function to disable dates
-  const disableDate = (date: Date) => {
+  // Fixed: Handle month navigation in calendar
+  const handleMonthNavigation = (newMonth: Date) => {
+    if (canNavigateToMonth(newMonth)) {
+      setDisplayMonth(newMonth);
+    }
+  };
+
+  // Get available months for current year (when isPreviousMonthsUnselectable is true)
+  const getAvailableMonths = () => {
+    const displayYear = getYear(displayMonth);
+
+    if (isPreviousMonthsUnselectable && displayYear === currentYear) {
+      return months.map((month, index) => ({
+        month,
+        disabled: index < currentMonth,
+      }));
+    }
+
+    return months.map((month) => ({ month, disabled: false }));
+  };
+
+  // Get available years
+  const getAvailableYears = () => {
     if (isPreviousMonthsUnselectable) {
-      // Disable dates before today in the same month and year
-      if (isSameMonth && date < today) {
-        return true;
-      }
-
-      // Disable months before the current month in the same year
-      if (getYear(date) === currentYear && getMonth(date) < currentMonth) {
-        return true;
-      }
-
-      // Disable dates from previous years
-      if (getYear(date) < currentYear) {
-        return true;
-      }
+      return years.filter((year) => year >= currentYear);
     }
-
-    // Disable future dates
-    if (isFutureDatesUnselectable) {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return date > today;
-    }
-
-    if (numberOfFutureDaysDisable !== 0) {
-      return date < minDate;
-    }
-
-    return false;
+    return years;
   };
-
-  // Ensure date is valid based on restrictions
-  React.useEffect(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const minDate = addDays(today, numberOfFutureDaysDisable);
-
-    let newDate = new Date(date);
-    let shouldUpdateDate = false;
-
-    // If date is before minDate, reset to minDate
-    if (!date || date < minDate) {
-      newDate = minDate;
-      shouldUpdateDate = true;
-    }
-
-    // Your existing restrictions
-    if (
-      isPreviousMonthsUnselectable &&
-      ((getYear(newDate) === currentYear && getMonth(newDate) < currentMonth) ||
-        getYear(newDate) < currentYear)
-    ) {
-      newDate = new Date(currentYear, currentMonth, 1);
-      shouldUpdateDate = true;
-    }
-
-    if (isFutureDatesUnselectable && newDate > today) {
-      newDate = today;
-      shouldUpdateDate = true;
-    }
-
-    if (shouldUpdateDate) {
-      setDate(newDate);
-    }
-  }, [
-    date,
-    numberOfFutureDaysDisable,
-    isPreviousMonthsUnselectable,
-    isFutureDatesUnselectable,
-    setDate,
-    currentMonth,
-    currentYear,
-  ]);
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground",
-            !editable && "pointer-events-none"
-          )}
+        <motion.div
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+          transition={{ duration: 0.1 }}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          <div className="flex items-center justify-between w-full">
-            {date ? format(date, customDateFormat) : <span>Pick a date</span>}
-            {editable && <ChevronDown />}
-          </div>
-        </Button>
+          <Button
+            variant="outline"
+            className={cn(
+              "w-full justify-start text-left font-normal relative overflow-hidden",
+              "border border-input hover:border-primary focus:border-primary",
+              "bg-background hover:bg-accent/20",
+              "transition-all duration-300 ease-in-out",
+              "shadow-sm hover:shadow",
+              !date && "text-muted-foreground",
+              !editable && "pointer-events-none opacity-60"
+            )}
+            disabled={!editable}
+          >
+            <CalendarIcon className="mr-3 h-4 w-4 text-primary" />
+            <div className="flex items-center justify-between w-full">
+              <span
+                className={cn(
+                  "font-medium",
+                  date ? "text-foreground" : "text-muted-foreground"
+                )}
+              >
+                {date ? format(date, customDateFormat) : placeholder}
+              </span>
+              {editable && (
+                <motion.div
+                  animate={{ rotate: isOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                </motion.div>
+              )}
+            </div>
+          </Button>
+        </motion.div>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <div className="flex justify-between p-2 gap-x-2">
-          <Select
-            onValueChange={handleMonthChange}
-            value={months[getMonth(date)]}
+      <PopoverContent
+        className="w-auto p-0 shadow-md border border-border"
+        align="start"
+      >
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="bg-popover rounded-lg overflow-hidden"
           >
-            <SelectTrigger className="w-[110px]">
-              <SelectValue placeholder="Month" />
-            </SelectTrigger>
-            <SelectContent>
-              {isPreviousMonthsUnselectable && getYear(date) === currentYear
-                ? months.map((month, index) => (
-                    <SelectItem
-                      key={month}
-                      value={month}
-                      disabled={index < currentMonth}
-                    >
-                      {month}
-                    </SelectItem>
-                  ))
-                : months.map((month) => (
-                    <SelectItem key={month} value={month}>
-                      {month}
-                    </SelectItem>
-                  ))}
-            </SelectContent>
-          </Select>
-          <Select
-            onValueChange={handleYearChange}
-            value={getYear(date).toString()}
-          >
-            <SelectTrigger className="w-[110px]">
-              <SelectValue placeholder="Year" />
-            </SelectTrigger>
-            <SelectContent>
-              {years.map((year) => (
-                <SelectItem key={year} value={year.toString()}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+            {/* Header with Month/Year Selectors */}
+            <div className="bg-primary p-4">
+              <div className="flex justify-between items-center gap-3">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <Select
+                    onValueChange={handleMonthChange}
+                    value={months[getMonth(displayMonth)]}
+                  >
+                    <SelectTrigger className="w-[130px] bg-popover border-primary-foreground/20 text-popover-foreground hover:bg-background focus:bg-background">
+                      <SelectValue placeholder="Month" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getAvailableMonths().map(({ month, disabled }) => (
+                        <SelectItem
+                          key={month}
+                          value={month}
+                          disabled={disabled}
+                          className={cn(
+                            disabled && "opacity-50 cursor-not-allowed"
+                          )}
+                        >
+                          {month}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </motion.div>
 
-        {showCalendar && (
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={handleSelect}
-            initialFocus
-            month={date}
-            onMonthChange={(newMonth) => {
-              const maxMonth = new Date(endYear, 11); // December of endYear
-              const targetMonth = new Date(newMonth); // first day of selected month
-              const currentDay = date.getDate();
-              const targetYear = targetMonth.getFullYear();
-              const targetMonthIndex = targetMonth.getMonth();
-              const daysInTargetMonth = new Date(
-                targetYear,
-                targetMonthIndex + 1,
-                0
-              ).getDate();
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <Select
+                    onValueChange={handleYearChange}
+                    value={getYear(displayMonth).toString()}
+                  >
+                    <SelectTrigger className="w-[100px] bg-popover border-primary-foreground/20 text-popover-foreground hover:bg-background focus:bg-background">
+                      <SelectValue placeholder="Year" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getAvailableYears().map((year) => (
+                        <SelectItem key={year} value={year.toString()}>
+                          {year}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </motion.div>
+              </div>
+            </div>
 
-              const desiredDay = Math.min(currentDay, daysInTargetMonth);
-
-              let newDate = new Date(targetYear, targetMonthIndex, desiredDay);
-
-              if (newMonth > maxMonth) return;
-
-              // Handle restriction: Prevent setting to a disabled date (before the minDate or today + numberOfFutureDaysDisable)
-              if (
-                isPreviousMonthsUnselectable &&
-                newDate < new Date(currentYear, currentMonth, minDate.getDate())
-              ) {
-                newDate = new Date(
-                  currentYear,
-                  currentMonth,
-                  minDate.getDate()
-                );
-              }
-
-              setDate(newDate);
-            }}
-            disabled={disableDate}
-          />
-        )}
+            {/* Calendar */}
+            {showCalendar && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="p-4"
+              >
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={handleSelect}
+                  month={displayMonth}
+                  onMonthChange={handleMonthNavigation}
+                  disabled={isDateDisabled}
+                  initialFocus
+                  className="rounded-md"
+                  classNames={{
+                    months:
+                      "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+                    month: "space-y-4",
+                    caption: "flex justify-center pt-1 relative items-center",
+                    caption_label: "text-sm font-medium text-foreground",
+                    nav: "space-x-1 flex items-center",
+                    nav_button: cn(
+                      "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 text-foreground",
+                      "hover:bg-accent rounded-md transition-colors"
+                    ),
+                    nav_button_previous: "absolute left-1",
+                    nav_button_next: "absolute right-1",
+                    table: "w-full border-collapse space-y-1",
+                    head_row: "flex",
+                    head_cell:
+                      "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+                    row: "flex w-full mt-2",
+                    cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+                    day: cn(
+                      "h-9 w-9 p-0 font-normal aria-selected:opacity-100 text-foreground",
+                      "hover:bg-accent hover:text-accent-foreground rounded-md transition-colors",
+                      "focus:bg-accent focus:text-accent-foreground"
+                    ),
+                    day_selected:
+                      "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+                    day_today: "bg-accent text-accent-foreground font-semibold",
+                    day_outside: "text-muted-foreground opacity-50",
+                    day_disabled:
+                      "text-muted-foreground opacity-30 cursor-not-allowed hover:bg-transparent",
+                    day_range_middle:
+                      "aria-selected:bg-accent aria-selected:text-accent-foreground",
+                    day_hidden: "invisible",
+                  }}
+                  components={{
+                    IconLeft: () => <ChevronLeft className="h-4 w-4" />,
+                    IconRight: () => <ChevronRight className="h-4 w-4" />,
+                  }}
+                />
+              </motion.div>
+            )}
+          </motion.div>
+        </AnimatePresence>
       </PopoverContent>
     </Popover>
   );
