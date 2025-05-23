@@ -7,7 +7,14 @@ import FamilyInformation from "@/features/clients/components/steps/FamilyInforma
 import PensionersInformation from "@/features/clients/components/steps/PensionersInformation";
 import AccountsInformation from "@/features/clients/components/steps/AccountsInformation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Eraser, FileUp, Save, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Eraser,
+  FileUp,
+  Save,
+  Trash2,
+  ArrowRight,
+} from "lucide-react";
 import { steps } from "@/features/clients/components/lib/client-registration-form";
 import ClientGeneralInformation from "@/features/clients/components/steps/ClientGeneralInformation";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
@@ -18,9 +25,7 @@ export default function RegisterClient() {
   const {
     form,
     currentStep,
-    delta,
     prev,
-    submitButton,
     nextButton,
     formModified,
     hasDraft,
@@ -30,6 +35,13 @@ export default function RegisterClient() {
     clearForm,
     processForm,
   } = useClientRegistrationForm();
+
+  // Simple slide animation without alternating behavior
+  const slideVariants = {
+    initial: { opacity: 0, x: 20 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -20 },
+  };
 
   return (
     <ContentLayout title="Register Client">
@@ -61,58 +73,64 @@ export default function RegisterClient() {
       >
         <StepIndicator steps={steps} currentStep={currentStep} />
 
-        <div className="bg-card rounded-lg shadow-sm border">
+        <div className="bg-card rounded-lg shadow-lg border mt-10">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(processForm)} className="p-6">
-              <AnimatePresence mode="wait">
-                {currentStep === 0 && (
-                  <motion.div
-                    key="step-0"
-                    initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: delta >= 0 ? "-50%" : "50%", opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    <ClientGeneralInformation form={form} />
-                  </motion.div>
-                )}
+              <div className="relative overflow-hidden">
+                <AnimatePresence mode="wait">
+                  {currentStep === 0 && (
+                    <motion.div
+                      key="step-0"
+                      variants={slideVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <ClientGeneralInformation form={form} />
+                    </motion.div>
+                  )}
 
-                {currentStep === 1 && (
-                  <motion.div
-                    key="step-1"
-                    initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: delta >= 0 ? "-50%" : "50%", opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    <FamilyInformation form={form} />
-                  </motion.div>
-                )}
+                  {currentStep === 1 && (
+                    <motion.div
+                      key="step-1"
+                      variants={slideVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <FamilyInformation form={form} />
+                    </motion.div>
+                  )}
 
-                {currentStep === 2 && (
-                  <motion.div
-                    key="step-2"
-                    initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: delta >= 0 ? "-50%" : "50%", opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    <PensionersInformation form={form} />
-                  </motion.div>
-                )}
+                  {currentStep === 2 && (
+                    <motion.div
+                      key="step-2"
+                      variants={slideVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <PensionersInformation form={form} />
+                    </motion.div>
+                  )}
 
-                {currentStep === 3 && (
-                  <motion.div
-                    key="step-3"
-                    initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: delta >= 0 ? "-50%" : "50%", opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    <AccountsInformation form={form} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                  {currentStep === 3 && (
+                    <motion.div
+                      key="step-3"
+                      variants={slideVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <AccountsInformation form={form} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
               <motion.div
                 className="flex justify-between mt-8 pt-6 border-t border-border"
@@ -125,9 +143,8 @@ export default function RegisterClient() {
                     type="button"
                     onClick={prev}
                     disabled={currentStep === 0}
-                    variant="outline"
                     className={cn(
-                      "min-w-24 flex items-center gap-2 rounded-md border-0 bg-background shadow-sm hover:shadow-md transition-all duration-200",
+                      "min-w-24 flex items-center gap-2 rounded-md bg-primary text-primary-foreground shadow-sm hover:shadow-md hover:bg-primary/90 transition-all duration-200",
                       currentStep === 0 && "opacity-50 cursor-not-allowed"
                     )}
                   >
@@ -136,8 +153,8 @@ export default function RegisterClient() {
                   </Button>
                   <Button
                     type="reset"
-                    variant="ghost"
-                    className="group rounded-md hover:bg-accent transition-all duration-200"
+                    variant="outline"
+                    className="group rounded-md bg-background text-foreground border border-border hover:bg-accent hover:text-accent-foreground transition-all duration-200"
                     onClick={clearForm}
                   >
                     <div className="flex items-center gap-2">
@@ -167,8 +184,8 @@ export default function RegisterClient() {
                       <Button
                         type="button"
                         onClick={loadSavedDraft}
-                        variant="secondary"
-                        className="group flex items-center gap-1 rounded-md border-0 bg-background shadow-sm hover:shadow-md transition-all duration-200"
+                        variant="outline"
+                        className="group flex items-center gap-1 rounded-md bg-background text-foreground border border-border shadow-sm hover:shadow-md hover:bg-accent hover:text-accent-foreground transition-all duration-200"
                       >
                         <div className="flex items-center gap-2">
                           <FileUp className="size-4" />
@@ -182,10 +199,10 @@ export default function RegisterClient() {
                   <Button
                     type="button"
                     onClick={handleSaveDraft}
-                    variant="secondary"
+                    variant="outline"
                     disabled={!formModified}
                     className={cn(
-                      "group rounded-md border-0 bg-background shadow-sm hover:shadow-md transition-all duration-200",
+                      "group rounded-md bg-background text-foreground border border-border shadow-sm hover:shadow-md hover:bg-accent hover:text-accent-foreground transition-all duration-200",
                       !formModified && "opacity-50 cursor-not-allowed"
                     )}
                   >
@@ -196,8 +213,25 @@ export default function RegisterClient() {
                       </span>
                     </div>
                   </Button>
-                  {submitButton}
-                  {nextButton}
+                  {/*  Next/Submit Button */}
+                  {currentStep < steps.length - 1 ? (
+                    <Button
+                      type="button"
+                      onClick={() => nextButton?.props?.onClick?.()}
+                      className="min-w-24 flex items-center gap-2 rounded-md bg-primary text-primary-foreground shadow-sm hover:shadow-md hover:bg-primary/90 transition-all duration-200"
+                    >
+                      Next
+                      <ArrowRight className="size-4" />
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      className="min-w-24 flex items-center gap-2 rounded-md bg-primary text-primary-foreground shadow-sm hover:shadow-md hover:bg-primary/90 transition-all duration-200"
+                    >
+                      Submit
+                      <ArrowRight className="size-4" />
+                    </Button>
+                  )}
                 </div>
               </motion.div>
             </form>
