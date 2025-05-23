@@ -18,52 +18,66 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.3,
-      },
+      transition: { duration: 0.5, ease: "easeOut" },
     },
   };
 
   return (
     <motion.div
-      className="space-y-6"
+      variants={containerVariants}
       initial="hidden"
       animate="visible"
-      variants={containerVariants}
+      className="space-y-6"
     >
-      <motion.div className="space-y-2 mb-5" variants={itemVariants}>
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text">
-          Account&apos;s Information
-        </h2>
-        <p className="text-muted-foreground">
-          Please provide details about client&apos;s pension and banking
-          information.
-        </p>
+      {/* Step Title Card */}
+      <motion.div
+        variants={itemVariants}
+        className="bg-card rounded-lg shadow-sm border p-6"
+      >
+        <div className="text-center space-y-2">
+          <h2 className="h2 bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">
+            Account&apos;s Information
+          </h2>
+          <p className="text-muted-foreground">
+            Please provide details about client&apos;s pension and banking
+            information.
+          </p>
+        </div>
       </motion.div>
 
-      <motion.div variants={itemVariants}>
-        <div className="flex items-center mb-4">
-          <DollarSign className="h-5 w-5 mr-2 text-blue-500" />
-          <h3 className="text-lg font-medium">Pension Details</h3>
-        </div>
-        <div className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 p-5 shadow-sm">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      {/* Pension Details Section */}
+      <motion.div
+        variants={itemVariants}
+        className="bg-card rounded-lg shadow-sm border"
+      >
+        <div className="p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-primary rounded-lg">
+              <DollarSign className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <h3 className="h4">Pension Details</h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <FormField
               control={form.control}
               name="accountNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Account Number</FormLabel>
+                  <FormLabel className="text-foreground font-medium">
+                    Account Number
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Hash className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -72,7 +86,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
                         type="number"
                         min={0}
                         onKeyDown={preventInvalidInput}
-                        className="pl-10 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
+                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
                         {...field}
                         onChange={(e) => {
                           const value =
@@ -92,14 +106,16 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
               name="monthlyPension"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Monthly Pension</FormLabel>
+                  <FormLabel className="text-foreground font-medium">
+                    Monthly Pension
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
                         ₱
                       </span>
                       <Input
-                        className="pl-8 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
+                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-8"
                         placeholder="0.00"
                         type="number"
                         min={0}
@@ -122,14 +138,16 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
               name="monthlyDeduction"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Monthly Deduction</FormLabel>
+                  <FormLabel className="text-foreground font-medium">
+                    Monthly Deduction
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
                         ₱
                       </span>
                       <Input
-                        className="pl-8 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
+                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-8"
                         placeholder="0.00"
                         type="number"
                         min={0}
@@ -151,24 +169,33 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
         </div>
       </motion.div>
 
-      <motion.div variants={itemVariants}>
-        <div className="flex items-center mb-4">
-          <Building className="h-5 w-5 mr-2 text-blue-500" />
-          <h3 className="text-lg font-medium">Banking Information</h3>
-        </div>
-        <div className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 p-5 shadow-sm">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {/* Banking Information Section */}
+      <motion.div
+        variants={itemVariants}
+        className="bg-card rounded-lg shadow-sm border"
+      >
+        <div className="p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-chart-2 rounded-lg">
+              <Building className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <h3 className="h4">Banking Information</h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
               name="atmAccountNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>ATM Account Number</FormLabel>
+                  <FormLabel className="text-foreground font-medium">
+                    ATM Account Number
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <CreditCard className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
-                        className="pl-10 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
+                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
                         placeholder="Enter ATM Account Number"
                         type="number"
                         min={0}
@@ -191,12 +218,14 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
               name="bankName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Bank Name</FormLabel>
+                  <FormLabel className="text-foreground font-medium">
+                    Bank Name
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Landmark className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
-                        className="pl-10 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
+                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
                         placeholder="Enter Bank Name"
                         {...field}
                       />
@@ -208,18 +237,20 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
             />
           </div>
 
-          <div className="mt-5">
+          <div className="mt-6">
             <FormField
               control={form.control}
               name="branchOfBank"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Branch of Bank</FormLabel>
+                  <FormLabel className="text-foreground font-medium">
+                    Branch of Bank
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Landmark className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
-                        className="pl-10 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
+                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
                         placeholder="Enter Branch of Bank"
                         {...field}
                       />
