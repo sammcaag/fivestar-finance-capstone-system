@@ -13,7 +13,7 @@ import { getYear } from "date-fns";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { PhoneInput } from "@/components/ui/phone-input";
 import parsePhoneNumberFromString from "libphonenumber-js";
-import { Users, User } from "lucide-react";
+import { Users, User, MapPin } from "lucide-react";
 
 const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
   const containerVariants = {
@@ -21,56 +21,70 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.3,
-      },
+      transition: { duration: 0.5, ease: "easeOut" },
     },
   };
 
   return (
     <motion.div
-      className="space-y-6"
+      variants={containerVariants}
       initial="hidden"
       animate="visible"
-      variants={containerVariants}
+      className="space-y-6"
     >
-      <motion.div className="space-y-2 mb-5" variants={itemVariants}>
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text">
-          Client Family Information
-        </h2>
-        <p className="text-muted-foreground">
-          Please provide details about client&apos;s spouse and children.
-        </p>
+      {/* Step Title Card */}
+      <motion.div
+        variants={itemVariants}
+        className="bg-card rounded-lg shadow-sm border p-6"
+      >
+        <div className="text-center space-y-2">
+          <h2 className="h2 bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">
+            Client Family Information
+          </h2>
+          <p className="text-muted-foreground">
+            Please provide details about client&apos;s spouse and children.
+          </p>
+        </div>
       </motion.div>
 
-      <motion.div variants={itemVariants}>
-        <div className="flex items-center mb-4">
-          <User className="h-5 w-5 mr-2 text-blue-500" />
-          <h3 className="text-lg font-medium">Spouse Information</h3>
-        </div>
-        <div className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 p-5 shadow-sm">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      {/* Spouse Information Section */}
+      <motion.div
+        variants={itemVariants}
+        className="bg-card rounded-lg shadow-sm border"
+      >
+        <div className="p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-primary rounded-lg">
+              <User className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <h3 className="h4">Spouse Information</h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <FormField
               control={form.control}
               name="spouseFirstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel className="text-foreground font-medium">
+                    First Name
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Susette"
+                      className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200"
                       {...field}
-                      className="transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
                     />
                   </FormControl>
                   <FormMessage />
@@ -82,12 +96,14 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               name="spouseMiddleName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Middle Name</FormLabel>
+                  <FormLabel className="text-foreground font-medium">
+                    Middle Name
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Avengers"
+                      className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200"
                       {...field}
-                      className="transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
                     />
                   </FormControl>
                   <FormMessage />
@@ -99,12 +115,14 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               name="spouseLastName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel className="text-foreground font-medium">
+                    Last Name
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Daug"
+                      className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200"
                       {...field}
-                      className="transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
                     />
                   </FormControl>
                   <FormMessage />
@@ -113,13 +131,15 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
             <FormField
               control={form.control}
               name="spouseDateOfBirth"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel className="mb-1">Date of Birth</FormLabel>
+                  <FormLabel className="text-foreground font-medium mb-2">
+                    Date of Birth
+                  </FormLabel>
                   <FormControl>
                     <CustomDatePicker
                       date={field.value || new Date()}
@@ -127,6 +147,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                       endYear={getYear(new Date())}
                       isFutureDatesUnselectable={true}
                       customDateFormat="MMMM d, yyyy"
+                      placeholder="Select birth date"
                     />
                   </FormControl>
                   <FormMessage />
@@ -138,13 +159,16 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               name="spouseContactNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contact Number</FormLabel>
+                  <FormLabel className="text-foreground font-medium">
+                    Contact Number
+                  </FormLabel>
                   <FormControl>
                     <PhoneInput
                       {...field}
                       defaultCountry="PH"
                       placeholder="+63 912 345 6789"
-                      className="transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
+                      // disableCountrySelect={true}
+                      className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200"
                       value={
                         parsePhoneNumberFromString(
                           field.value || "",
@@ -160,19 +184,24 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
             />
           </div>
 
-          <div className="mt-5">
+          <div className="mt-6">
             <FormField
               control={form.control}
               name="spouseAddress"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Address</FormLabel>
+                  <FormLabel className="text-foreground font-medium">
+                    Address
+                  </FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Door 203, De Leon Plaza Bldg., Yacapin Velez St. Cagayan De Oro"
-                      {...field}
-                      className="transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
-                    />
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        placeholder="Door 203, De Leon Plaza Bldg., Yacapin Velez St. Cagayan De Oro"
+                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
+                        {...field}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -182,27 +211,36 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
         </div>
       </motion.div>
 
-      <motion.div variants={itemVariants}>
-        <div className="flex items-center mb-4">
-          <Users className="h-5 w-5 mr-2 text-blue-500" />
-          <h3 className="text-lg font-medium">Children Information</h3>
-        </div>
-        <div className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 p-5 shadow-sm">
+      {/* Children Information Section */}
+      <motion.div
+        variants={itemVariants}
+        className="bg-card rounded-lg shadow-sm border"
+      >
+        <div className="p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-chart-2 rounded-lg">
+              <Users className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <h3 className="h4">Children Information</h3>
+          </div>
+
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
                 name="firstChildName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name of Child 1</FormLabel>
+                    <FormLabel className="text-foreground font-medium">
+                      Name of Child 1
+                    </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                         <Input
                           placeholder="Rey Daug Jr."
+                          className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
                           {...field}
-                          className="pl-10 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
                         />
                       </div>
                     </FormControl>
@@ -215,7 +253,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                 name="firstChildDateOfBirth"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel className="mb-1">
+                    <FormLabel className="text-foreground font-medium mb-2">
                       Birth Date of Child 1
                     </FormLabel>
                     <FormControl>
@@ -225,6 +263,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                         endYear={getYear(new Date())}
                         isFutureDatesUnselectable={true}
                         customDateFormat="MMMM d, yyyy"
+                        placeholder="Select birth date"
                       />
                     </FormControl>
                     <FormMessage />
@@ -233,20 +272,22 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
                 name="secondChildName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name of Child 2</FormLabel>
+                    <FormLabel className="text-foreground font-medium">
+                      Name of Child 2
+                    </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                         <Input
                           placeholder="Samm Caagbay"
+                          className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
                           {...field}
-                          className="pl-10 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
                         />
                       </div>
                     </FormControl>
@@ -259,7 +300,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                 name="secondChildDateOfBirth"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel className="mb-1">
+                    <FormLabel className="text-foreground font-medium mb-2">
                       Birth Date of Child 2
                     </FormLabel>
                     <FormControl>
@@ -269,6 +310,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                         endYear={getYear(new Date())}
                         isFutureDatesUnselectable={true}
                         customDateFormat="MMMM d, yyyy"
+                        placeholder="Select birth date"
                       />
                     </FormControl>
                     <FormMessage />
