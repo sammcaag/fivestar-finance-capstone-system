@@ -212,47 +212,41 @@ export default function CustomDatePicker({
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <motion.div
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.99 }}
-          transition={{ duration: 0.1 }}
+        <Button
+          variant="outline"
+          className={cn(
+            "w-full justify-start text-left font-normal rounded-md",
+            "border-0 bg-background hover:bg-accent/50 focus:bg-accent/50",
+            "shadow-sm hover:shadow-md transition-all duration-200",
+            "text-foreground",
+            !date && "text-muted-foreground",
+            !editable && "pointer-events-none opacity-60"
+          )}
+          disabled={!editable}
         >
-          <Button
-            variant="outline"
-            className={cn(
-              "w-full justify-start text-left font-normal relative overflow-hidden rounded-md",
-              "border-0 bg-card hover:bg-accent/50 focus:bg-accent/50",
-              "transition-all duration-200 ease-in-out",
-              "shadow-sm hover:shadow-md",
-              !date && "text-muted-foreground",
-              !editable && "pointer-events-none opacity-60"
-            )}
-            disabled={!editable}
-          >
-            <CalendarIcon className="mr-3 h-4 w-4 text-primary" />
-            <div className="flex items-center justify-between w-full">
-              <span
-                className={cn(
-                  "font-medium",
-                  date ? "text-foreground" : "text-muted-foreground"
-                )}
-              >
-                {date ? format(date, customDateFormat) : placeholder}
-              </span>
-              {editable && (
-                <motion.div
-                  animate={{ rotate: isOpen ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                </motion.div>
+          <CalendarIcon className="mr-3 h-4 w-4 text-primary" />
+          <div className="flex items-center justify-between w-full">
+            <span
+              className={cn(
+                "font-medium",
+                date ? "text-foreground" : "text-muted-foreground"
               )}
-            </div>
-          </Button>
-        </motion.div>
+            >
+              {date ? format(date, customDateFormat) : placeholder}
+            </span>
+            {editable && (
+              <motion.div
+                animate={{ rotate: isOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              </motion.div>
+            )}
+          </div>
+        </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-auto p-0 shadow-lg border bg-card rounded-lg"
+        className="w-auto p-0 shadow-lg border bg-popover rounded-lg"
         align="center"
         side="bottom"
         sideOffset={4}
@@ -260,26 +254,22 @@ export default function CustomDatePicker({
         collisionPadding={8}
       >
         <AnimatePresence>
-          <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="bg-card rounded-lg overflow-hidden"
-          >
-            {/* Header with Month/Year Selectors */}
-            <div className="bg-primary p-4">
-              <div className="flex justify-between items-center gap-3">
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="bg-popover rounded-lg overflow-hidden"
+            >
+              {/* Header with Month/Year Selectors */}
+              <div className="bg-primary p-4">
+                <div className="flex justify-between items-center gap-3">
                   <Select
                     onValueChange={handleMonthChange}
                     value={months[getMonth(displayMonth)]}
                   >
-                    <SelectTrigger className="w-[130px] bg-primary-foreground/90 border-0 text-primary rounded-md hover:bg-primary-foreground focus:bg-primary-foreground">
+                    <SelectTrigger className="w-[130px] bg-primary-foreground border-0 text-primary rounded-md hover:bg-primary-foreground/90 focus:bg-primary-foreground/90">
                       <SelectValue placeholder="Month" />
                     </SelectTrigger>
                     <SelectContent>
@@ -297,18 +287,12 @@ export default function CustomDatePicker({
                       ))}
                     </SelectContent>
                   </Select>
-                </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
                   <Select
                     onValueChange={handleYearChange}
                     value={getYear(displayMonth).toString()}
                   >
-                    <SelectTrigger className="w-[100px] bg-primary-foreground/90 border-0 text-primary rounded-md hover:bg-primary-foreground focus:bg-primary-foreground">
+                    <SelectTrigger className="w-[100px] bg-primary-foreground border-0 text-primary rounded-md hover:bg-primary-foreground/90 focus:bg-primary-foreground/90">
                       <SelectValue placeholder="Year" />
                     </SelectTrigger>
                     <SelectContent>
@@ -319,69 +303,65 @@ export default function CustomDatePicker({
                       ))}
                     </SelectContent>
                   </Select>
-                </motion.div>
+                </div>
               </div>
-            </div>
 
-            {/* Calendar */}
-            {showCalendar && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="p-4"
-              >
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={handleSelect}
-                  month={displayMonth}
-                  onMonthChange={handleMonthNavigation}
-                  disabled={isDateDisabled}
-                  initialFocus
-                  className="rounded-md"
-                  classNames={{
-                    months:
-                      "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-                    month: "space-y-4",
-                    caption: "flex justify-center pt-1 relative items-center",
-                    caption_label: "text-sm font-medium text-foreground",
-                    nav: "space-x-1 flex items-center",
-                    nav_button: cn(
-                      "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 text-foreground",
-                      "hover:bg-accent rounded-md transition-colors"
-                    ),
-                    nav_button_previous: "absolute left-1",
-                    nav_button_next: "absolute right-1",
-                    table: "w-full border-collapse space-y-1",
-                    head_row: "flex",
-                    head_cell:
-                      "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
-                    row: "flex w-full mt-2",
-                    cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
-                    day: cn(
-                      "h-9 w-9 p-0 font-normal aria-selected:opacity-100 text-foreground",
-                      "hover:bg-accent hover:text-accent-foreground rounded-md transition-colors",
-                      "focus:bg-accent focus:text-accent-foreground"
-                    ),
-                    day_selected:
-                      "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-                    day_today: "bg-accent text-accent-foreground font-semibold",
-                    day_outside: "text-muted-foreground opacity-50",
-                    day_disabled:
-                      "text-muted-foreground opacity-30 cursor-not-allowed hover:bg-transparent",
-                    day_range_middle:
-                      "aria-selected:bg-accent aria-selected:text-accent-foreground",
-                    day_hidden: "invisible",
-                  }}
-                  components={{
-                    IconLeft: () => <ChevronLeft className="h-4 w-4" />,
-                    IconRight: () => <ChevronRight className="h-4 w-4" />,
-                  }}
-                />
-              </motion.div>
-            )}
-          </motion.div>
+              {/* Calendar */}
+              {showCalendar && (
+                <div className="p-4">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={handleSelect}
+                    month={displayMonth}
+                    onMonthChange={handleMonthNavigation}
+                    disabled={isDateDisabled}
+                    initialFocus
+                    className="rounded-md"
+                    classNames={{
+                      months:
+                        "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+                      month: "space-y-4",
+                      caption: "flex justify-center pt-1 relative items-center",
+                      caption_label: "text-sm font-medium text-foreground",
+                      nav: "space-x-1 flex items-center",
+                      nav_button: cn(
+                        "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 text-foreground",
+                        "hover:bg-accent rounded-md transition-colors"
+                      ),
+                      nav_button_previous: "absolute left-1",
+                      nav_button_next: "absolute right-1",
+                      table: "w-full border-collapse space-y-1",
+                      head_row: "flex",
+                      head_cell:
+                        "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+                      row: "flex w-full mt-2",
+                      cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+                      day: cn(
+                        "h-9 w-9 p-0 font-normal aria-selected:opacity-100 text-foreground",
+                        "hover:bg-accent hover:text-accent-foreground rounded-md transition-colors",
+                        "focus:bg-accent focus:text-accent-foreground"
+                      ),
+                      day_selected:
+                        "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+                      day_today:
+                        "bg-accent text-accent-foreground font-semibold",
+                      day_outside: "text-muted-foreground opacity-50",
+                      day_disabled:
+                        "text-muted-foreground opacity-30 cursor-not-allowed hover:bg-transparent",
+                      day_range_middle:
+                        "aria-selected:bg-accent aria-selected:text-accent-foreground",
+                      day_hidden: "invisible",
+                    }}
+                    components={{
+                      IconLeft: () => <ChevronLeft className="h-4 w-4" />,
+                      IconRight: () => <ChevronRight className="h-4 w-4" />,
+                    }}
+                  />
+                </div>
+              )}
+            </motion.div>
+          )}
         </AnimatePresence>
       </PopoverContent>
     </Popover>
