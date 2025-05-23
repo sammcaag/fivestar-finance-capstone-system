@@ -84,12 +84,12 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-start">
             <FormField
               control={form.control}
               name="firstName"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     First Name <span className="text-destructive">*</span>
                   </FormLabel>
@@ -100,7 +100,9 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -108,7 +110,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
               control={form.control}
               name="middleName"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     Middle Name
                   </FormLabel>
@@ -119,7 +121,9 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -127,7 +131,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
               control={form.control}
               name="lastName"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     Last Name <span className="text-destructive">*</span>
                   </FormLabel>
@@ -138,7 +142,9 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -146,7 +152,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
               control={form.control}
               name="suffix"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     Suffix
                   </FormLabel>
@@ -167,18 +173,20 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 items-start">
             <FormField
               control={form.control}
               name="dateOfBirth"
               render={({ field }) => (
-                <FormItem className="w-full flex flex-col">
+                <FormItem className="w-full min-h-[100px] flex flex-col">
                   <FormLabel className="text-foreground font-medium mb-2">
                     Date of Birth <span className="text-destructive">*</span>
                   </FormLabel>
@@ -197,7 +205,9 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -205,7 +215,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
               control={form.control}
               name="gender"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     Gender <span className="text-destructive">*</span>
                   </FormLabel>
@@ -227,7 +237,9 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                       <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -238,7 +250,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
               control={form.control}
               name="address"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     Address <span className="text-destructive">*</span>
                   </FormLabel>
@@ -252,7 +264,9 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -338,12 +352,12 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             <FormField
               control={form.control}
               name="religion"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     Religion
                   </FormLabel>
@@ -354,7 +368,9 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -362,7 +378,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
               control={form.control}
               name="civilStatus"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     Civil Status <span className="text-destructive">*</span>
                   </FormLabel>
@@ -386,7 +402,9 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -394,7 +412,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
               control={form.control}
               name="mothersMaidenName"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     Mother&apos;s Maiden Name
                   </FormLabel>
@@ -405,7 +423,9 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -413,7 +433,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
               control={form.control}
               name="placeOfBirth"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     Place of Birth
                   </FormLabel>
@@ -424,7 +444,9 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />

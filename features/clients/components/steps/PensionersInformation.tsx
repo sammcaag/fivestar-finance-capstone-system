@@ -88,12 +88,12 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             <FormField
               control={form.control}
               name="rank"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Award className="h-4 w-4 text-primary" />
@@ -120,7 +120,9 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -128,7 +130,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="pensionType"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <FileText className="h-4 w-4 text-primary" />
@@ -155,18 +157,20 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 items-start">
             <FormField
               control={form.control}
               name="serialNumber"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Hash className="h-4 w-4 text-primary" />
@@ -192,7 +196,9 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -200,7 +206,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="idNumber"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Hash className="h-4 w-4 text-primary" />
@@ -226,7 +232,9 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -249,12 +257,12 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
             <FormField
               control={form.control}
               name="dateEnteredService"
               render={({ field }) => (
-                <FormItem className="w-full flex flex-col">
+                <FormItem className="w-full flex flex-col min-h-[80px]">
                   <FormLabel className="text-foreground font-medium mb-2">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-primary" />
@@ -273,7 +281,9 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -281,7 +291,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="dateSeparationService"
               render={({ field }) => (
-                <FormItem className="w-full flex flex-col">
+                <FormItem className="w-full flex flex-col min-h-[80px]">
                   <FormLabel className="text-foreground font-medium mb-2">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-primary" />
@@ -300,7 +310,9 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -308,7 +320,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="dateRetiredService"
               render={({ field }) => (
-                <FormItem className="w-full flex flex-col">
+                <FormItem className="w-full flex flex-col min-h-[80px]">
                   <FormLabel className="text-foreground font-medium mb-2">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-primary" />
@@ -327,7 +339,9 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -350,12 +364,12 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
             <FormField
               control={form.control}
               name="lengthOfService"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Clock className="h-4 w-4 text-primary" />
@@ -380,7 +394,9 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -389,7 +405,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="lastUnitAssigned"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Building className="h-4 w-4 text-primary" />
@@ -406,7 +422,9 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -414,7 +432,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="branchOfService"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Building className="h-4 w-4 text-primary" />
@@ -431,7 +449,9 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />

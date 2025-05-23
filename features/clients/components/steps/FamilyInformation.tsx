@@ -73,12 +73,12 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
             <FormField
               control={form.control}
               name="spouseFirstName"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     First Name
                   </FormLabel>
@@ -89,7 +89,9 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -97,7 +99,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               control={form.control}
               name="spouseMiddleName"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     Middle Name
                   </FormLabel>
@@ -108,7 +110,9 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -116,7 +120,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               control={form.control}
               name="spouseLastName"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     Last Name
                   </FormLabel>
@@ -127,13 +131,15 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 items-start">
             <FormField
               control={form.control}
               name="spouseDateOfBirth"
@@ -165,7 +171,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               control={form.control}
               name="spouseContactNumber"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Phone className="h-4 w-4 text-primary" />
@@ -188,7 +194,9 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                       onChange={(value) => field.onChange(value)}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -199,7 +207,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               control={form.control}
               name="spouseAddress"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <MapPin className="h-4 w-4 text-primary" />
@@ -216,7 +224,9 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -240,12 +250,12 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
           </div>
 
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
               <FormField
                 control={form.control}
                 name="firstChildName"
                 render={({ field }) => (
-                  <FormItem className="w-full">
+                  <FormItem className="w-full min-h-[80px] flex flex-col">
                     <FormLabel className="text-foreground font-medium">
                       <div className="flex items-center gap-2">
                         <User className="h-4 w-4 text-primary" />
@@ -262,7 +272,9 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                         />
                       </div>
                     </FormControl>
-                    <FormMessage />
+                    <div className="min-h-[20px]">
+                      <FormMessage />
+                    </div>
                   </FormItem>
                 )}
               />
@@ -295,12 +307,12 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
               <FormField
                 control={form.control}
                 name="secondChildName"
                 render={({ field }) => (
-                  <FormItem className="w-full">
+                  <FormItem className="w-full min-h-[80px] flex flex-col">
                     <FormLabel className="text-foreground font-medium">
                       <div className="flex items-center gap-2">
                         <User className="h-4 w-4 text-primary" />
@@ -317,7 +329,9 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                         />
                       </div>
                     </FormControl>
-                    <FormMessage />
+                    <div className="min-h-[20px]">
+                      <FormMessage />
+                    </div>
                   </FormItem>
                 )}
               />

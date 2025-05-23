@@ -33,7 +33,7 @@ export default function RegisterClient() {
     deleteSavedDraft,
     handleSaveDraft,
     clearForm,
-    processForm,
+    processForm: formProcessor,
   } = useClientRegistrationForm();
 
   // Simple slide animation without alternating behavior
@@ -75,7 +75,7 @@ export default function RegisterClient() {
 
         <div className="bg-card rounded-lg shadow-lg border mt-10">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(processForm)} className="p-6">
+            <form onSubmit={form.handleSubmit(formProcessor)} className="p-6">
               <div className="relative overflow-hidden">
                 <AnimatePresence mode="wait">
                   {currentStep === 0 && (

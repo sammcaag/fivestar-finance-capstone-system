@@ -78,12 +78,12 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
             <FormField
               control={form.control}
               name="accountNumber"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Hash className="h-4 w-4 text-primary" />
@@ -109,7 +109,9 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -117,7 +119,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
               control={form.control}
               name="monthlyPension"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Banknote className="h-4 w-4 text-primary" />
@@ -144,7 +146,9 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -152,7 +156,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
               control={form.control}
               name="monthlyDeduction"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Banknote className="h-4 w-4 text-primary" />
@@ -179,7 +183,9 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -202,12 +208,12 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             <FormField
               control={form.control}
               name="atmAccountNumber"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <CreditCard className="h-4 w-4 text-primary" />
@@ -232,7 +238,9 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -240,7 +248,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
               control={form.control}
               name="bankName"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Landmark className="h-4 w-4 text-primary" />
@@ -257,7 +265,9 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -268,7 +278,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
               control={form.control}
               name="branchOfBank"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full min-h-[80px] flex flex-col">
                   <FormLabel className="text-foreground font-medium">
                     <div className="flex items-center gap-2">
                       <Landmark className="h-4 w-4 text-primary" />
@@ -285,7 +295,9 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <div className="min-h-[20px]">
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
