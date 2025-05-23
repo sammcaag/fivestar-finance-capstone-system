@@ -97,30 +97,24 @@ export default function CustomDatePicker({
     (checkDate: Date) => {
       const normalizedDate = startOfDay(checkDate);
 
-      // Handle numberOfFutureDaysDisable
       if (numberOfFutureDaysDisable > 0) {
         return isBefore(normalizedDate, minDate);
       }
 
-      // Handle isPreviousMonthsUnselectable
       if (isPreviousMonthsUnselectable) {
         const dateYear = getYear(normalizedDate);
         const dateMonth = getMonth(normalizedDate);
 
-        // Allow current month and future months/years
         if (dateYear > currentYear) return false;
         if (dateYear === currentYear && dateMonth >= currentMonth) {
-          // For current month, only disable past dates
           if (dateMonth === currentMonth) {
             return isBefore(normalizedDate, today);
           }
           return false;
         }
-        // Disable all dates from previous months/years
         return true;
       }
 
-      // Handle isFutureDatesUnselectable - Fixed: Only disable future dates, allow past dates
       if (isFutureDatesUnselectable) {
         return isAfter(normalizedDate, today);
       }
@@ -145,15 +139,12 @@ export default function CustomDatePicker({
       const targetMonth = getMonth(targetDate);
 
       if (isPreviousMonthsUnselectable) {
-        // Allow navigation to current month and future months
         if (targetYear > currentYear) return true;
         if (targetYear === currentYear && targetMonth >= currentMonth)
           return true;
         return false;
       }
 
-      // For isFutureDatesUnselectable, allow navigation to any month
-      // The individual dates will be disabled, not the entire month
       return true;
     },
     [isPreviousMonthsUnselectable, currentYear, currentMonth]
@@ -165,8 +156,6 @@ export default function CustomDatePicker({
 
     if (canNavigateToMonth(newDate)) {
       setDisplayMonth(newDate);
-
-      // Update the selected date if it's valid
       const updatedDate = setMonth(date, monthIndex);
       if (!isDateDisabled(updatedDate)) {
         setDate(updatedDate);
@@ -180,8 +169,6 @@ export default function CustomDatePicker({
 
     if (canNavigateToMonth(newDate)) {
       setDisplayMonth(newDate);
-
-      // Update the selected date if it's valid
       const updatedDate = setYear(date, newYear);
       if (!isDateDisabled(updatedDate)) {
         setDate(updatedDate);
@@ -196,14 +183,12 @@ export default function CustomDatePicker({
     }
   };
 
-  // Fixed: Handle month navigation in calendar
   const handleMonthNavigation = (newMonth: Date) => {
     if (canNavigateToMonth(newMonth)) {
       setDisplayMonth(newMonth);
     }
   };
 
-  // Get available months for current year (when isPreviousMonthsUnselectable is true)
   const getAvailableMonths = () => {
     const displayYear = getYear(displayMonth);
 
@@ -217,7 +202,6 @@ export default function CustomDatePicker({
     return months.map((month) => ({ month, disabled: false }));
   };
 
-  // Get available years
   const getAvailableYears = () => {
     if (isPreviousMonthsUnselectable) {
       return years.filter((year) => year >= currentYear);
@@ -236,11 +220,10 @@ export default function CustomDatePicker({
           <Button
             variant="outline"
             className={cn(
-              "w-full justify-start text-left font-normal relative overflow-hidden",
-              "border border-input hover:border-primary focus:border-primary",
-              "bg-background hover:bg-accent/20",
-              "transition-all duration-300 ease-in-out",
-              "shadow-sm hover:shadow",
+              "w-full justify-start text-left font-normal relative overflow-hidden rounded-md",
+              "border-0 bg-card hover:bg-accent/50 focus:bg-accent/50",
+              "transition-all duration-200 ease-in-out",
+              "shadow-sm hover:shadow-md",
               !date && "text-muted-foreground",
               !editable && "pointer-events-none opacity-60"
             )}
@@ -269,16 +252,20 @@ export default function CustomDatePicker({
         </motion.div>
       </PopoverTrigger>
       <PopoverContent
-        className="w-auto p-0 shadow-md border border-border"
-        align="start"
+        className="w-auto p-0 shadow-lg border bg-card rounded-lg"
+        align="center"
+        side="bottom"
+        sideOffset={4}
+        avoidCollisions={true}
+        collisionPadding={8}
       >
         <AnimatePresence>
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="bg-popover rounded-lg overflow-hidden"
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="bg-card rounded-lg overflow-hidden"
           >
             {/* Header with Month/Year Selectors */}
             <div className="bg-primary p-4">
@@ -292,7 +279,7 @@ export default function CustomDatePicker({
                     onValueChange={handleMonthChange}
                     value={months[getMonth(displayMonth)]}
                   >
-                    <SelectTrigger className="w-[130px] bg-popover border-primary-foreground/20 text-popover-foreground hover:bg-background focus:bg-background">
+                    <SelectTrigger className="w-[130px] bg-primary-foreground/90 border-0 text-primary rounded-md hover:bg-primary-foreground focus:bg-primary-foreground">
                       <SelectValue placeholder="Month" />
                     </SelectTrigger>
                     <SelectContent>
@@ -321,7 +308,7 @@ export default function CustomDatePicker({
                     onValueChange={handleYearChange}
                     value={getYear(displayMonth).toString()}
                   >
-                    <SelectTrigger className="w-[100px] bg-popover border-primary-foreground/20 text-popover-foreground hover:bg-background focus:bg-background">
+                    <SelectTrigger className="w-[100px] bg-primary-foreground/90 border-0 text-primary rounded-md hover:bg-primary-foreground focus:bg-primary-foreground">
                       <SelectValue placeholder="Year" />
                     </SelectTrigger>
                     <SelectContent>
