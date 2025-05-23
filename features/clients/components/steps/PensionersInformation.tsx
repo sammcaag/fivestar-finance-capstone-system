@@ -20,7 +20,15 @@ import { getYear } from "date-fns";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { preventInvalidInput } from "@/utils/handling-input-numbers";
 import { pensionTypes, ranks } from "../lib/client-registration-form";
-import { Medal, Calendar, Hash, Building, Clock } from "lucide-react";
+import {
+  Medal,
+  Calendar,
+  Hash,
+  Building,
+  Clock,
+  Award,
+  FileText,
+} from "lucide-react";
 
 const PensionersInformation = ({ form }: PensionersInformationProps) => {
   const containerVariants = {
@@ -53,10 +61,10 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
       {/* Step Title Card */}
       <motion.div
         variants={itemVariants}
-        className="bg-card rounded-lg shadow-sm border p-6"
+        className="bg-card rounded-lg shadow-lg border p-6"
       >
         <div className="text-center space-y-2">
-          <h2 className="h2 bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold text-foreground">
             Pensioner&apos;s Information
           </h2>
           <p className="text-muted-foreground">
@@ -68,14 +76,16 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
       {/* Service Information Section */}
       <motion.div
         variants={itemVariants}
-        className="bg-card rounded-lg shadow-sm border"
+        className="bg-card rounded-lg shadow-lg border"
       >
         <div className="p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-primary rounded-lg">
+            <div className="p-2 bg-primary rounded-lg shadow-md">
               <Medal className="h-5 w-5 text-primary-foreground" />
             </div>
-            <h3 className="h4">Service Information</h3>
+            <h3 className="text-xl font-semibold text-foreground">
+              Service Information
+            </h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -83,9 +93,12 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="rank"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel className="text-foreground font-medium">
-                    Rank
+                    <div className="flex items-center gap-2">
+                      <Award className="h-4 w-4 text-primary" />
+                      Rank
+                    </div>
                   </FormLabel>
                   <Select
                     onValueChange={(value) => {
@@ -95,7 +108,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200">
+                      <SelectTrigger className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200">
                         <SelectValue placeholder="Select rank" />
                       </SelectTrigger>
                     </FormControl>
@@ -115,9 +128,12 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="pensionType"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel className="text-foreground font-medium">
-                    Pension Type
+                    <div className="flex items-center gap-2">
+                      <FileText className="h-4 w-4 text-primary" />
+                      Pension Type
+                    </div>
                   </FormLabel>
                   <Select
                     onValueChange={(value) => {
@@ -127,7 +143,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200">
+                      <SelectTrigger className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200">
                         <SelectValue placeholder="Select pension type" />
                       </SelectTrigger>
                     </FormControl>
@@ -150,19 +166,22 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="serialNumber"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel className="text-foreground font-medium">
-                    Serial Number
+                    <div className="flex items-center gap-2">
+                      <Hash className="h-4 w-4 text-primary" />
+                      Serial Number
+                    </div>
                   </FormLabel>
                   <FormControl>
-                    <div className="relative">
+                    <div className="relative w-full">
                       <Hash className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         placeholder="Enter serial number"
                         type="number"
                         min={0}
                         onKeyDown={preventInvalidInput}
-                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
+                        className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
                         {...field}
                         onChange={(e) => {
                           const value =
@@ -181,19 +200,22 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="idNumber"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel className="text-foreground font-medium">
-                    ID Number
+                    <div className="flex items-center gap-2">
+                      <Hash className="h-4 w-4 text-primary" />
+                      ID Number
+                    </div>
                   </FormLabel>
                   <FormControl>
-                    <div className="relative">
+                    <div className="relative w-full">
                       <Hash className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         placeholder="Enter ID number"
                         type="number"
                         min={0}
                         onKeyDown={preventInvalidInput}
-                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
+                        className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
                         {...field}
                         onChange={(e) => {
                           const value =
@@ -215,14 +237,16 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
       {/* Service Dates Section */}
       <motion.div
         variants={itemVariants}
-        className="bg-card rounded-lg shadow-sm border"
+        className="bg-card rounded-lg shadow-lg border"
       >
         <div className="p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-chart-2 rounded-lg">
+            <div className="p-2 bg-primary rounded-lg shadow-md">
               <Calendar className="h-5 w-5 text-primary-foreground" />
             </div>
-            <h3 className="h4">Service Dates</h3>
+            <h3 className="text-xl font-semibold text-foreground">
+              Service Dates
+            </h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -230,19 +254,24 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="dateEnteredService"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem className="w-full flex flex-col">
                   <FormLabel className="text-foreground font-medium mb-2">
-                    Date Entered Service
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-primary" />
+                      Date Entered Service
+                    </div>
                   </FormLabel>
-                  <FormControl>
-                    <CustomDatePicker
-                      date={field.value || new Date()}
-                      setDate={(date) => field.onChange(date)}
-                      endYear={getYear(new Date())}
-                      isFutureDatesUnselectable={true}
-                      customDateFormat="MMMM d, yyyy"
-                      placeholder="Select service date"
-                    />
+                  <FormControl className="w-full">
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <CustomDatePicker
+                        date={field.value || new Date()}
+                        setDate={(date) => field.onChange(date)}
+                        endYear={getYear(new Date())}
+                        isFutureDatesUnselectable={true}
+                        customDateFormat="MMMM d, yyyy"
+                        placeholder="Select service date"
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -252,19 +281,24 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="dateSeparationService"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem className="w-full flex flex-col">
                   <FormLabel className="text-foreground font-medium mb-2">
-                    Date Separation Service
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-primary" />
+                      Date Separation Service
+                    </div>
                   </FormLabel>
-                  <FormControl>
-                    <CustomDatePicker
-                      date={field.value || new Date()}
-                      setDate={(date) => field.onChange(date)}
-                      endYear={getYear(new Date())}
-                      isFutureDatesUnselectable={true}
-                      customDateFormat="MMMM d, yyyy"
-                      placeholder="Select separation date"
-                    />
+                  <FormControl className="w-full">
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <CustomDatePicker
+                        date={field.value || new Date()}
+                        setDate={(date) => field.onChange(date)}
+                        endYear={getYear(new Date())}
+                        isFutureDatesUnselectable={true}
+                        customDateFormat="MMMM d, yyyy"
+                        placeholder="Select separation date"
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -274,19 +308,24 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="dateRetiredService"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem className="w-full flex flex-col">
                   <FormLabel className="text-foreground font-medium mb-2">
-                    Date Retired Service
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-primary" />
+                      Date Retired Service
+                    </div>
                   </FormLabel>
-                  <FormControl>
-                    <CustomDatePicker
-                      date={field.value || new Date()}
-                      setDate={(date) => field.onChange(date)}
-                      endYear={getYear(new Date())}
-                      isFutureDatesUnselectable={true}
-                      customDateFormat="MMMM d, yyyy"
-                      placeholder="Select retirement date"
-                    />
+                  <FormControl className="w-full">
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <CustomDatePicker
+                        date={field.value || new Date()}
+                        setDate={(date) => field.onChange(date)}
+                        endYear={getYear(new Date())}
+                        isFutureDatesUnselectable={true}
+                        customDateFormat="MMMM d, yyyy"
+                        placeholder="Select retirement date"
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -299,14 +338,16 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
       {/* Additional Service Details Section */}
       <motion.div
         variants={itemVariants}
-        className="bg-card rounded-lg shadow-sm border"
+        className="bg-card rounded-lg shadow-lg border"
       >
         <div className="p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-chart-3 rounded-lg">
+            <div className="p-2 bg-primary rounded-lg shadow-md">
               <Building className="h-5 w-5 text-primary-foreground" />
             </div>
-            <h3 className="h4">Additional Service Details</h3>
+            <h3 className="text-xl font-semibold text-foreground">
+              Additional Service Details
+            </h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -314,18 +355,21 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="lengthOfService"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel className="text-foreground font-medium">
-                    Length of Service
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-primary" />
+                      Length of Service
+                    </div>
                   </FormLabel>
                   <FormControl>
-                    <div className="relative">
+                    <div className="relative w-full">
                       <Clock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         placeholder="Enter Length of Service"
                         type="number"
                         min={0}
-                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
+                        className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
                         {...field}
                         onChange={(e) => {
                           const value =
@@ -345,16 +389,19 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="lastUnitAssigned"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel className="text-foreground font-medium">
-                    Last Unit Assigned
+                    <div className="flex items-center gap-2">
+                      <Building className="h-4 w-4 text-primary" />
+                      Last Unit Assigned
+                    </div>
                   </FormLabel>
                   <FormControl>
-                    <div className="relative">
+                    <div className="relative w-full">
                       <Building className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         placeholder="Enter last unit assigned"
-                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
+                        className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
                         {...field}
                       />
                     </div>
@@ -367,16 +414,19 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
               control={form.control}
               name="branchOfService"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel className="text-foreground font-medium">
-                    Branch of Service
+                    <div className="flex items-center gap-2">
+                      <Building className="h-4 w-4 text-primary" />
+                      Branch of Service
+                    </div>
                   </FormLabel>
                   <FormControl>
-                    <div className="relative">
+                    <div className="relative w-full">
                       <Building className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         placeholder="Enter Branch of Service"
-                        className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
+                        className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pl-10"
                         {...field}
                       />
                     </div>
