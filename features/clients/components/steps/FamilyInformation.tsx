@@ -14,27 +14,10 @@ import CustomDatePicker from "@/components/CustomDatePicker";
 import { PhoneInput } from "@/components/ui/phone-input";
 import parsePhoneNumberFromString from "libphonenumber-js";
 import { Users, User, MapPin, Calendar, Phone } from "lucide-react";
+import useClientAnimation from "../../hooks/use-client-animation";
 
 const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
-  };
+  const { containerVariants, itemVariants } = useClientAnimation();
 
   return (
     <motion.div
