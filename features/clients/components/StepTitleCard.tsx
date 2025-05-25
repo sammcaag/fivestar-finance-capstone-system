@@ -2,15 +2,15 @@
 import { motion, Variants } from "framer-motion";
 
 interface StepTitleCardProps {
+  variants: Variants;
   title: string;
   description: string;
-  variants?: Variants;
 }
 
 export function StepTitleCard({
+  variants,
   title,
   description,
-  variants,
 }: StepTitleCardProps) {
   return (
     <motion.div

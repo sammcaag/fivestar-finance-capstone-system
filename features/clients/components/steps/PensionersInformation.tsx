@@ -30,6 +30,7 @@ import {
   FileText,
 } from "lucide-react";
 import useClientAnimation from "../../hooks/use-client-animation";
+import { StepTitleCard } from "../StepTitleCard";
 
 const PensionersInformation = ({ form }: PensionersInformationProps) => {
   const { containerVariants, itemVariants } = useClientAnimation();
@@ -42,19 +43,11 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
       className="space-y-6"
     >
       {/* Step Title Card */}
-      <motion.div
+      <StepTitleCard
         variants={itemVariants}
-        className="bg-card rounded-lg shadow-lg border p-6"
-      >
-        <div className="text-center space-y-2">
-          <h2 className="text-2xl font-bold text-foreground">
-            Pensioner&apos;s Information
-          </h2>
-          <p className="text-muted-foreground">
-            Please provide details about client&apos;s military service.
-          </p>
-        </div>
-      </motion.div>
+        title={"Pensioner's Information"}
+        description={"Please provide details about client's military service."}
+      />
 
       {/* Service Information Section */}
       <motion.div

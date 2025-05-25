@@ -15,6 +15,7 @@ import { PhoneInput } from "@/components/ui/phone-input";
 import parsePhoneNumberFromString from "libphonenumber-js";
 import { Users, User, MapPin, Calendar, Phone } from "lucide-react";
 import useClientAnimation from "../../hooks/use-client-animation";
+import { StepTitleCard } from "../StepTitleCard";
 
 const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
   const { containerVariants, itemVariants } = useClientAnimation();
@@ -27,19 +28,13 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
       className="space-y-6"
     >
       {/* Step Title Card */}
-      <motion.div
+      <StepTitleCard
         variants={itemVariants}
-        className="bg-card rounded-lg shadow-lg border p-6"
-      >
-        <div className="text-center space-y-2">
-          <h2 className="text-2xl font-bold text-foreground">
-            Client Family Information
-          </h2>
-          <p className="text-muted-foreground">
-            Please provide details about client&apos;s spouse and children.
-          </p>
-        </div>
-      </motion.div>
+        title={"Client Family Information"}
+        description={
+          "Please provide details about client's spouse and children."
+        }
+      />
 
       {/* Spouse Information Section */}
       <motion.div

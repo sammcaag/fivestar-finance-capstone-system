@@ -25,6 +25,7 @@ import CustomDatePicker from "@/components/CustomDatePicker";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { User, Phone, Heart, MapPin } from "lucide-react";
 import useClientAnimation from "../../hooks/use-client-animation";
+import { StepTitleCard } from "../StepTitleCard";
 
 const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
   const { containerVariants, itemVariants } = useClientAnimation();
@@ -37,20 +38,13 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
       className="space-y-6"
     >
       {/* Step Title Card */}
-      <motion.div
+      <StepTitleCard
         variants={itemVariants}
-        className="bg-card rounded-lg shadow-lg border p-6"
-      >
-        <div className="text-center space-y-2">
-          <h2 className="text-2xl font-bold text-foreground">
-            Client General Information
-          </h2>
-          <p className="text-muted-foreground">
-            Please fill out all the required information below to begin the
-            client registration process.
-          </p>
-        </div>
-      </motion.div>
+        title={"Client General Information"}
+        description={
+          "Please fill out all the required information below to begin the client registration process."
+        }
+      />
 
       {/* Basic Information Section */}
       <motion.div
