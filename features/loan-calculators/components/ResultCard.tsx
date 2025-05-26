@@ -24,13 +24,13 @@ export default function ResultCard({
 }: ResultCardProps) {
   return (
     <Card
-      className={`overflow-hidden border shadow-sm transition-all duration-200 hover:shadow-md ${
+      className={`overflow-hidden border-none shadow-md transition-all duration-300 hover:shadow-lg ${
         isHighlighted ? "ring-2 ring-red-300 dark:ring-red-800" : ""
       }`}
     >
-      <div className={`absolute inset-0 bg-gradient-to-br ${bgGradient}`}></div>
+      <div className={`relative inset-0 bg-gradient-to-br ${bgGradient}`}></div>
       <CardHeader className="relative p-4 pb-2">
-        <CardTitle className="text-sm font-medium w-full flex items-center text-gray-700 dark:text-gray-300">
+        <CardTitle className="text-sm font-medium w-full flex items-center">
           {Icon && <Icon className={`h-4 w-4 mr-2 ${iconColor}`} />}
           {title}
         </CardTitle>
@@ -38,9 +38,9 @@ export default function ResultCard({
       <CardContent className="relative p-4 pt-2">
         <motion.span
           className={`text-xl font-bold ${textColorClass}`}
-          initial={{ opacity: 0, y: 5 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
           {value}
         </motion.span>

@@ -10,14 +10,16 @@ import { toast } from "sonner";
 import type { FormValues, ResultsProps } from "../../types/types-regular";
 import { regularCalculatorChecker } from "../../schema/loan-calculation-zod-schema";
 import { useRegularLoanCalculator } from "../../hooks/use-regular-calculator";
-import LoanFormRegular from "./LoanFormRegular";
-import ResultsDisplayRegular from "./ResultsDisplayRegular";
+import LoanForm from "./LoanFormRegular";
+import ResultsDisplay from "./ResultsDisplayRegular";
 
-interface LoanCalculatorProps {
+interface RegularLoanCalculatorProps {
   clientType: string;
 }
 
-export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
+export default function RegularLoanCalculator({
+  clientType,
+}: RegularLoanCalculatorProps) {
   const { calculateRegularLoan } = useRegularLoanCalculator();
 
   const form = useForm<FormValues>({
@@ -29,7 +31,6 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
       otherDeduction: 0,
       remainingMonths: 0,
     },
-    mode: "onSubmit",
   });
 
   // States
@@ -52,25 +53,15 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
   const [netAmount, setNetAmount] = useState<string>(`₱\t0.00`);
   const [isDoneCalculate, setIsDoneCalculate] = useState<boolean>(false);
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
-  const [hasFormErrors, setHasFormErrors] = useState<boolean>(false);
 
   const amortizationWatch =
     clientType === "Renewal" ? form.watch("monthlyAmortization") : undefined;
-
-  // Watch for form errors
-  useEffect(() => {
-    const subscription = form.watch(() => {
-      const hasErrors = Object.keys(form.formState.errors).length > 0;
-      setHasFormErrors(hasErrors);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [form, form.formState, form.watch]);
 
   const calculate = (values: FormValues, selectedCard: string) => {
     try {
       setIsCalculating(true);
 
+      // Simulate calculation delay for better UX
       setTimeout(() => {
         const calculationResults = calculateRegularLoan(values, selectedCard);
 
@@ -85,7 +76,7 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
         setNetAmount(`₱\t${calculationResults.netAmount}`);
         setIsDoneCalculate(true);
         setIsCalculating(false);
-      }, 400);
+      }, 600);
     } catch (error) {
       setIsCalculating(false);
       toast.error(error instanceof Error ? error.message : String(error));
@@ -93,24 +84,11 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
   };
 
   const handleCompute = (values: FormValues) => {
-    if (Object.keys(form.formState.errors).length > 0) {
-      setHasFormErrors(true);
-      toast.error("Please fix the form errors before computing");
-      return;
-    }
-
-    setHasFormErrors(false);
     calculate(values, selectedCard);
   };
 
   const handleClear = () => {
-    form.reset({
-      term: 0,
-      monthlyAmortization: 0,
-      outstandingBalance: 0,
-      otherDeduction: 0,
-      remainingMonths: 0,
-    });
+    form.reset();
     setSelectedCard("1");
     setResults({
       effectiveInterestRate: "0.00",
@@ -127,7 +105,6 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
     setMaturityDate(new Date());
     setNetAmount(`₱\t0.00`);
     setIsDoneCalculate(false);
-    setHasFormErrors(false);
 
     toast.success("Computation cleared successfully");
   };
@@ -155,6 +132,7 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
       currentDate.getMonth();
     form.setValue("remainingMonths", calculatedRemainingMonths);
 
+    // Ensure outstandingBalance updates AFTER remainingMonths is set
     setTimeout(() => {
       const remainingMonths = form.getValues("remainingMonths") || 0;
       const monthlyAmortization = form.getValues("monthlyAmortization") || 0;
@@ -183,18 +161,18 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.1,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.3,
+        duration: 0.5,
       },
     },
   };
@@ -207,11 +185,14 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
       variants={containerVariants}
     >
       <motion.div
-        className="mb-6 mt-6 relative overflow-hidden rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 p-6 text-white shadow-md"
+        className="mb-8 mt-6 relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 p-8 text-white shadow-lg"
         variants={itemVariants}
       >
+        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
+        <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
+
         <div className="relative z-10">
-          <h3 className="text-2xl font-bold tracking-tight">
+          <h3 className="text-3xl font-bold tracking-tight">
             AFP {clientType} Computation
           </h3>
           <p className="text-blue-100 mt-2">
@@ -221,16 +202,16 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
       </motion.div>
 
       <motion.div
-        className="bg-white dark:bg-gray-950 rounded-lg shadow-md border border-gray-200 dark:border-gray-800"
+        className="bg-white dark:bg-gray-950 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800"
         variants={itemVariants}
       >
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-8">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleCompute)}
-              className="space-y-6"
+              className="space-y-8"
             >
-              <LoanFormRegular
+              <LoanForm
                 form={form}
                 selectedCard={selectedCard}
                 onCardSelect={setSelectedCard}
@@ -242,16 +223,15 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
                   setMaturityDate: setLoanMaturityDate,
                 })}
                 isDoneCalculate={isDoneCalculate}
-                hasFormErrors={hasFormErrors}
               />
 
               {isDoneCalculate && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.5 }}
                 >
-                  <ResultsDisplayRegular
+                  <ResultsDisplay
                     {...results}
                     netAmount={netAmount}
                     valueDate={valueDate}
@@ -267,9 +247,9 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
                   type="button"
                   variant="outline"
                   onClick={handleClear}
-                  className="h-12 text-base transition-all duration-200 hover:border-red-300 hover:bg-red-50 dark:hover:bg-red-950/30"
+                  className="group transition-all duration-300 hover:border-red-300 hover:bg-red-50 dark:hover:bg-red-950/30"
                 >
-                  <RefreshCw className="mr-2 h-4 w-4" />
+                  <RefreshCw className="mr-2 h-4 w-4 transition-transform group-hover:rotate-180" />
                   Clear Computations
                 </Button>
 
@@ -279,7 +259,7 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
                       type="button"
                       onClick={handlePrint}
                       variant="outline"
-                      className="h-12 text-base hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+                      className="hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950/30"
                     >
                       <PrinterIcon className="mr-2 h-4 w-4" />
                       Print Calculation
@@ -288,7 +268,7 @@ export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
 
                   <Button
                     type="submit"
-                    className="h-12 text-base bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transition-all duration-200"
+                    className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transition-all duration-300"
                     disabled={isCalculating}
                   >
                     {isCalculating ? (

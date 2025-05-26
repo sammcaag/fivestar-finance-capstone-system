@@ -13,21 +13,21 @@ export default function RateCards({
       {rates.map((rate, index) => (
         <motion.div
           key={rate.id}
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{
             opacity: 1,
             y: 0,
             transition: {
-              delay: index * 0.05,
-              duration: 0.2,
+              delay: index * 0.1,
+              duration: 0.4,
             },
           }}
-          whileHover={{ y: -2 }}
+          whileHover={{ y: -5 }}
           className={`
-            relative overflow-hidden rounded-lg cursor-pointer transition-all duration-200
+            relative overflow-hidden rounded-xl cursor-pointer transition-all duration-300
             ${
               selectedCard === rate.id
-                ? "bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-400 dark:border-blue-500 shadow-md"
+                ? "bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border-2 border-blue-400 dark:border-blue-500 shadow-lg"
                 : "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-800 shadow-sm hover:shadow-md"
             }
           `}
@@ -41,7 +41,7 @@ export default function RateCards({
 
           <div className="p-6 flex flex-col items-center justify-center min-h-[120px]">
             <h3
-              className={`text-lg font-semibold mb-2 text-center ${
+              className={`text-xl font-semibold mb-2 text-center ${
                 selectedCard === rate.id
                   ? "text-blue-700 dark:text-blue-400"
                   : "text-gray-800 dark:text-gray-200"
@@ -67,7 +67,7 @@ export default function RateCards({
                 className="w-16 h-1 bg-blue-500 rounded-full mt-4"
                 initial={{ width: 0 }}
                 animate={{ width: 64 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.3 }}
               />
             )}
           </div>
