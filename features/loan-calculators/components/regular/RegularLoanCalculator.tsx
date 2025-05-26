@@ -12,6 +12,7 @@ import { regularCalculatorChecker } from "../../schema/loan-calculation-zod-sche
 import { useRegularLoanCalculator } from "../../hooks/use-regular-calculator";
 import LoanForm from "./LoanFormRegular";
 import ResultsDisplay from "./ResultsDisplayRegular";
+import ClientTitleCard from "../ClientTitleCard";
 
 interface RegularLoanCalculatorProps {
   clientType: string;
@@ -184,22 +185,11 @@ export default function RegularLoanCalculator({
       animate="visible"
       variants={containerVariants}
     >
-      <motion.div
-        className="mb-8 mt-6 relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 p-8 text-white shadow-lg"
+      <ClientTitleCard
         variants={itemVariants}
-      >
-        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
-        <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
-
-        <div className="relative z-10">
-          <h3 className="text-3xl font-bold tracking-tight">
-            AFP {clientType} Computation
-          </h3>
-          <p className="text-blue-100 mt-2">
-            Calculate potential loan amount for clients with precision and ease
-          </p>
-        </div>
-      </motion.div>
+        title={`AFP ${clientType} Computation`}
+        description="Calculate potential loan amount for clients with precision and ease"
+      />
 
       <motion.div
         className="bg-white dark:bg-gray-950 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800"

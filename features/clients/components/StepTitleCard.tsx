@@ -1,11 +1,11 @@
 "use client";
 import { motion, Variants } from "framer-motion";
 
-interface StepTitleCardProps {
+type StepTitleCardProps = {
   variants: Variants;
   title: string;
   description: string;
-}
+};
 
 export function StepTitleCard({
   variants,

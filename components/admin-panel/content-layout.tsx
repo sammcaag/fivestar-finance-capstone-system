@@ -16,12 +16,12 @@ export function ContentLayout({
   return (
     <div>
       <Navbar title={title} />
-      <div
+      <main
         className={cn("container pt-8 pb-8 px-4 sm:px-8", className)}
         {...props}
       >
         {children}
-      </div>
+      </main>
     </div>
   );
 }
