@@ -38,10 +38,17 @@ export default function RegisterClient() {
 
   // Simple slide animation without alternating behavior
   const slideVariants = {
-    initial: { opacity: 0, x: 20 },
+    initial: { opacity: 0, x: 50 },
     animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -20 },
+    exit: { opacity: 0, x: -50 },
   };
+
+  const formSteps = [
+    { key: "step-0", component: <ClientGeneralInformation form={form} /> },
+    { key: "step-1", component: <FamilyInformation form={form} /> },
+    { key: "step-2", component: <PensionersInformation form={form} /> },
+    { key: "step-3", component: <AccountsInformation form={form} /> },
+  ];
 
   return (
     <ContentLayout title="Register Client">
@@ -78,57 +85,16 @@ export default function RegisterClient() {
             <form onSubmit={form.handleSubmit(formProcessor)} className="p-6">
               <div className="relative overflow-hidden">
                 <AnimatePresence mode="wait">
-                  {currentStep === 0 && (
-                    <motion.div
-                      key="step-0"
-                      variants={slideVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      <ClientGeneralInformation form={form} />
-                    </motion.div>
-                  )}
-
-                  {currentStep === 1 && (
-                    <motion.div
-                      key="step-1"
-                      variants={slideVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      <FamilyInformation form={form} />
-                    </motion.div>
-                  )}
-
-                  {currentStep === 2 && (
-                    <motion.div
-                      key="step-2"
-                      variants={slideVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      <PensionersInformation form={form} />
-                    </motion.div>
-                  )}
-
-                  {currentStep === 3 && (
-                    <motion.div
-                      key="step-3"
-                      variants={slideVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      <AccountsInformation form={form} />
-                    </motion.div>
-                  )}
+                  <motion.div
+                    key={formSteps[currentStep].key}
+                    variants={slideVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  >
+                    {formSteps[currentStep].component}
+                  </motion.div>
                 </AnimatePresence>
               </div>
 

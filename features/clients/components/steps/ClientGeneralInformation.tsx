@@ -62,7 +62,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
                 <FormLabel className="text-foreground font-medium">
                   First Name <span className="text-destructive">*</span>
                 </FormLabel>
-                <FormControl>
+                <FormControl className="bg-background">
                   <Input
                     placeholder="Rey"
                     className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200"

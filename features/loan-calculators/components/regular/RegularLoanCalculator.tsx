@@ -10,16 +10,14 @@ import { toast } from "sonner";
 import type { FormValues, ResultsProps } from "../../types/types-regular";
 import { regularCalculatorChecker } from "../../schema/loan-calculation-zod-schema";
 import { useRegularLoanCalculator } from "../../hooks/use-regular-calculator";
-import LoanForm from "./LoanFormRegular";
-import ResultsDisplay from "./ResultsDisplayRegular";
+import LoanFormRegular from "./LoanFormRegular";
+import ResultsDisplayRegular from "./ResultsDisplayRegular";
 
-interface RegularLoanCalculatorProps {
+interface LoanCalculatorProps {
   clientType: string;
 }
 
-export default function RegularLoanCalculator({
-  clientType,
-}: RegularLoanCalculatorProps) {
+export default function LoanCalculator({ clientType }: LoanCalculatorProps) {
   const { calculateRegularLoan } = useRegularLoanCalculator();
 
   const form = useForm<FormValues>({
@@ -31,6 +29,7 @@ export default function RegularLoanCalculator({
       otherDeduction: 0,
       remainingMonths: 0,
     },
+    mode: "onSubmit",
   });
 
   // States
@@ -53,15 +52,25 @@ export default function RegularLoanCalculator({
   const [netAmount, setNetAmount] = useState<string>(`₱\t0.00`);
   const [isDoneCalculate, setIsDoneCalculate] = useState<boolean>(false);
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
+  const [hasFormErrors, setHasFormErrors] = useState<boolean>(false);
 
   const amortizationWatch =
     clientType === "Renewal" ? form.watch("monthlyAmortization") : undefined;
+
+  // Watch for form errors
+  useEffect(() => {
+    const subscription = form.watch(() => {
+      const hasErrors = Object.keys(form.formState.errors).length > 0;
+      setHasFormErrors(hasErrors);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form, form.formState, form.watch]);
 
   const calculate = (values: FormValues, selectedCard: string) => {
     try {
       setIsCalculating(true);
 
-      // Simulate calculation delay for better UX
       setTimeout(() => {
         const calculationResults = calculateRegularLoan(values, selectedCard);
 
@@ -76,7 +85,7 @@ export default function RegularLoanCalculator({
         setNetAmount(`₱\t${calculationResults.netAmount}`);
         setIsDoneCalculate(true);
         setIsCalculating(false);
-      }, 600);
+      }, 400);
     } catch (error) {
       setIsCalculating(false);
       toast.error(error instanceof Error ? error.message : String(error));
@@ -84,11 +93,24 @@ export default function RegularLoanCalculator({
   };
 
   const handleCompute = (values: FormValues) => {
+    if (Object.keys(form.formState.errors).length > 0) {
+      setHasFormErrors(true);
+      toast.error("Please fix the form errors before computing");
+      return;
+    }
+
+    setHasFormErrors(false);
     calculate(values, selectedCard);
   };
 
   const handleClear = () => {
-    form.reset();
+    form.reset({
+      term: 0,
+      monthlyAmortization: 0,
+      outstandingBalance: 0,
+      otherDeduction: 0,
+      remainingMonths: 0,
+    });
     setSelectedCard("1");
     setResults({
       effectiveInterestRate: "0.00",
@@ -105,6 +127,7 @@ export default function RegularLoanCalculator({
     setMaturityDate(new Date());
     setNetAmount(`₱\t0.00`);
     setIsDoneCalculate(false);
+    setHasFormErrors(false);
 
     toast.success("Computation cleared successfully");
   };
@@ -132,7 +155,6 @@ export default function RegularLoanCalculator({
       currentDate.getMonth();
     form.setValue("remainingMonths", calculatedRemainingMonths);
 
-    // Ensure outstandingBalance updates AFTER remainingMonths is set
     setTimeout(() => {
       const remainingMonths = form.getValues("remainingMonths") || 0;
       const monthlyAmortization = form.getValues("monthlyAmortization") || 0;
@@ -161,18 +183,18 @@ export default function RegularLoanCalculator({
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.05,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5,
+        duration: 0.3,
       },
     },
   };
@@ -185,14 +207,11 @@ export default function RegularLoanCalculator({
       variants={containerVariants}
     >
       <motion.div
-        className="mb-8 mt-6 relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 p-8 text-white shadow-lg"
+        className="mb-6 mt-6 relative overflow-hidden rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 p-6 text-white shadow-md"
         variants={itemVariants}
       >
-        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
-        <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
-
         <div className="relative z-10">
-          <h3 className="text-3xl font-bold tracking-tight">
+          <h3 className="text-2xl font-bold tracking-tight">
             AFP {clientType} Computation
           </h3>
           <p className="text-blue-100 mt-2">
@@ -202,16 +221,16 @@ export default function RegularLoanCalculator({
       </motion.div>
 
       <motion.div
-        className="bg-white dark:bg-gray-950 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800"
+        className="bg-white dark:bg-gray-950 rounded-lg shadow-md border border-gray-200 dark:border-gray-800"
         variants={itemVariants}
       >
-        <div className="p-6 space-y-8">
+        <div className="p-6 space-y-6">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleCompute)}
-              className="space-y-8"
+              className="space-y-6"
             >
-              <LoanForm
+              <LoanFormRegular
                 form={form}
                 selectedCard={selectedCard}
                 onCardSelect={setSelectedCard}
@@ -223,15 +242,16 @@ export default function RegularLoanCalculator({
                   setMaturityDate: setLoanMaturityDate,
                 })}
                 isDoneCalculate={isDoneCalculate}
+                hasFormErrors={hasFormErrors}
               />
 
               {isDoneCalculate && (
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <ResultsDisplay
+                  <ResultsDisplayRegular
                     {...results}
                     netAmount={netAmount}
                     valueDate={valueDate}
@@ -247,9 +267,9 @@ export default function RegularLoanCalculator({
                   type="button"
                   variant="outline"
                   onClick={handleClear}
-                  className="group transition-all duration-300 hover:border-red-300 hover:bg-red-50 dark:hover:bg-red-950/30"
+                  className="h-12 text-base transition-all duration-200 hover:border-red-300 hover:bg-red-50 dark:hover:bg-red-950/30"
                 >
-                  <RefreshCw className="mr-2 h-4 w-4 transition-transform group-hover:rotate-180" />
+                  <RefreshCw className="mr-2 h-4 w-4" />
                   Clear Computations
                 </Button>
 
@@ -259,7 +279,7 @@ export default function RegularLoanCalculator({
                       type="button"
                       onClick={handlePrint}
                       variant="outline"
-                      className="hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+                      className="h-12 text-base hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950/30"
                     >
                       <PrinterIcon className="mr-2 h-4 w-4" />
                       Print Calculation
@@ -268,7 +288,7 @@ export default function RegularLoanCalculator({
 
                   <Button
                     type="submit"
-                    className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transition-all duration-300"
+                    className="h-12 text-base bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transition-all duration-200"
                     disabled={isCalculating}
                   >
                     {isCalculating ? (
