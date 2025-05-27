@@ -21,7 +21,7 @@ import type {
   RateProps,
   FormValues,
 } from "../../types/types-regular";
-import RateCards from "./RateCards";
+import dRateCards from "./dRateCards";
 import {
   preventInvalidInput,
   preventNegativeAndLimitDecimals,
@@ -34,7 +34,11 @@ import { CustomTooltip } from "@/components/CustomTooltip";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { getYear } from "date-fns";
 
-export default function LoanForm({
+interface dLoanFormProps extends LoanFormProps {
+  hasFormErrors?: boolean;
+}
+
+export default function dLoanForm({
   form,
   selectedCard,
   onCardSelect,
@@ -44,7 +48,7 @@ export default function LoanForm({
   maturityDate,
   setMaturityDate,
   isDoneCalculate,
-}: LoanFormProps) {
+}: dLoanFormProps) {
   // Base rates used for the RateCards component
   const rates: RateProps[] = [
     { id: "1", title: "Regular Rate" },
@@ -513,7 +517,7 @@ export default function LoanForm({
             </p>
             <Separator className="flex-1" />
           </div>
-          <RateCards
+          <dRateCards
             rates={rates}
             selectedCard={selectedCard}
             onCardClick={onCardSelect}
