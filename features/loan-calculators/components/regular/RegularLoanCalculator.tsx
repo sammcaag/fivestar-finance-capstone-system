@@ -1,24 +1,18 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { PrinterIcon, Calculator, ArrowRight, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
-import type { FormValues } from "../../types/types-regular";
+import type { FormValues, ResultsProps } from "../../types/types-regular";
 import { regularCalculatorChecker } from "../../schema/loan-calculation-zod-schema";
 import { useRegularLoanCalculator } from "../../hooks/use-regular-calculator";
+import LoanForm from "./LoanFormRegular";
+import ResultsDisplay from "./ResultsDisplayRegular";
 import ClientTitleCard from "../ClientTitleCard";
-import { useCalculatorState } from "../../hooks/use-regular-calculator-state";
-import { useRenewalCalculations } from "../../hooks/use-renewal-calculations";
-import {
-  containerVariants,
-  fadeInVariants,
-  itemVariants,
-} from "../../utils/animation-variants";
-import LoanFormRegular from "./LoanFormRegular";
-import ResultsDisplayRegularRefactored from "./ResultsDisplayRegular";
-import { CalculatorActions } from "../CalculatorActions";
 
 interface RegularLoanCalculatorProps {
   clientType: string;
@@ -28,21 +22,6 @@ export default function RegularLoanCalculator({
   clientType,
 }: RegularLoanCalculatorProps) {
   const { calculateRegularLoan } = useRegularLoanCalculator();
-  const {
-    state,
-    resetState,
-    setSelectedCard,
-    setResults,
-    setHasDeduction,
-    setValueDate,
-    setMaturityDate,
-    setLoanMaturityDate,
-    setNetAmount,
-    setIsDoneCalculate,
-    setIsCalculating,
-  } = useCalculatorState();
-
-  const [hasMounted, setHasMounted] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(regularCalculatorChecker),
@@ -55,94 +34,149 @@ export default function RegularLoanCalculator({
     },
   });
 
+  // States
+  const [selectedCard, setSelectedCard] = useState<string>("1");
+  const [results, setResults] = useState<ResultsProps>({
+    effectiveInterestRate: "0.00",
+    gpFactor: "0.00",
+    principalAmount: "0.00",
+    unearnedInterest: "0.00",
+    grossProceeds: "0.00",
+    documentaryStamp: "0.00",
+    grossRevenueTax: "0.00",
+    insurance: "0.00",
+    totalDeductions: "0.00",
+  });
+  const [hasDeduction, setHasDeduction] = useState<boolean>(false);
+  const [valueDate, setValueDate] = useState<Date>(new Date());
+  const [maturityDate, setMaturityDate] = useState<Date>(new Date());
+  const [loanMaturityDate, setLoanMaturityDate] = useState<Date>(new Date());
+  const [netAmount, setNetAmount] = useState<string>(`₱\t0.00`);
+  const [isDoneCalculate, setIsDoneCalculate] = useState<boolean>(false);
+  const [isCalculating, setIsCalculating] = useState<boolean>(false);
+
   const amortizationWatch =
     clientType === "Renewal" ? form.watch("monthlyAmortization") : undefined;
 
-  // Memoize the calculate function to prevent unnecessary re-renders
-  const calculate = useCallback(
-    async (values: FormValues, selectedCard: string) => {
-      try {
-        setIsCalculating(true);
+  const calculate = (values: FormValues, selectedCard: string) => {
+    try {
+      setIsCalculating(true);
 
-        // Simulate calculation delay for better UX
-        setTimeout(() => {
-          const calculationResults = calculateRegularLoan(values, selectedCard);
+      // Simulate calculation delay for better UX
+      setTimeout(() => {
+        const calculationResults = calculateRegularLoan(values, selectedCard);
 
-          setResults(calculationResults.results);
-          if (clientType === "Renewal") {
-            setValueDate(calculationResults.renewalValueDate);
-            setMaturityDate(calculationResults.renewalMaturityDate);
-          } else {
-            setValueDate(calculationResults.valueDate);
-            setMaturityDate(calculationResults.maturityDate);
-          }
-          setNetAmount(`₱\t${calculationResults.netAmount}`);
-          setIsDoneCalculate(true);
-          setIsCalculating(false);
-        }, 600);
-      } catch (error) {
+        setResults(calculationResults.results);
+        if (clientType === "Renewal") {
+          setValueDate(calculationResults.renewalValueDate);
+          setMaturityDate(calculationResults.renewalMaturityDate);
+        } else {
+          setValueDate(calculationResults.valueDate);
+          setMaturityDate(calculationResults.maturityDate);
+        }
+        setNetAmount(`₱\t${calculationResults.netAmount}`);
+        setIsDoneCalculate(true);
         setIsCalculating(false);
-        toast.error(error instanceof Error ? error.message : String(error));
-      }
-    },
-    [
-      calculateRegularLoan,
-      clientType,
-      setIsCalculating,
-      setResults,
-      setValueDate,
-      setMaturityDate,
-      setNetAmount,
-      setIsDoneCalculate,
-    ]
-  );
+      }, 600);
+    } catch (error) {
+      setIsCalculating(false);
+      toast.error(error instanceof Error ? error.message : String(error));
+    }
+  };
 
-  // Custom hooks for complex logic
-  useRenewalCalculations({
-    clientType,
-    loanMaturityDate: state.loanMaturityDate,
-    form,
-    amortizationWatch,
-  });
+  const handleCompute = (values: FormValues) => {
+    calculate(values, selectedCard);
+  };
 
-  const handleCompute = useCallback(
-    (values: FormValues) => {
-      calculate(values, state.selectedCard);
-    },
-    [calculate, state.selectedCard]
-  );
-
-  const handleClear = useCallback(() => {
+  const handleClear = () => {
     form.reset();
-    resetState();
-    toast.success("Computation cleared successfully");
-  }, [form, resetState]);
+    setSelectedCard("1");
+    setResults({
+      effectiveInterestRate: "0.00",
+      gpFactor: "0.00",
+      principalAmount: "0.00",
+      unearnedInterest: "0.00",
+      grossProceeds: "0.00",
+      documentaryStamp: "0.00",
+      grossRevenueTax: "0.00",
+      insurance: "0.00",
+      totalDeductions: "0.00",
+    });
+    setValueDate(new Date());
+    setMaturityDate(new Date());
+    setNetAmount(`₱\t0.00`);
+    setIsDoneCalculate(false);
 
-  const handlePrint = useCallback(() => {
+    toast.success("Computation cleared successfully");
+  };
+
+  const handlePrint = () => {
     toast.info("Preparing document for printing...");
     setTimeout(() => {
       window.print();
     }, 500);
-  }, []);
+  };
 
-  // Initialize deduction state for renewal clients
   useEffect(() => {
     if (clientType === "Renewal") {
       setHasDeduction(true);
     }
-  }, [clientType, setHasDeduction]);
+  }, [clientType]);
 
-  // Handle rate card changes after calculation
+  useEffect(() => {
+    if (clientType !== "Renewal" || !loanMaturityDate) return;
+
+    const currentDate = new Date();
+    const calculatedRemainingMonths =
+      (loanMaturityDate.getFullYear() - currentDate.getFullYear()) * 12 +
+      loanMaturityDate.getMonth() -
+      currentDate.getMonth();
+    form.setValue("remainingMonths", calculatedRemainingMonths);
+
+    // Ensure outstandingBalance updates AFTER remainingMonths is set
+    setTimeout(() => {
+      const remainingMonths = form.getValues("remainingMonths") || 0;
+      const monthlyAmortization = form.getValues("monthlyAmortization") || 0;
+      form.setValue(
+        "outstandingBalance",
+        remainingMonths * monthlyAmortization
+      );
+    }, 0);
+  }, [clientType, loanMaturityDate, amortizationWatch, form]);
+
+  const [hasMounted, setHasMounted] = useState(false);
+
   useEffect(() => {
     if (!hasMounted) {
       setHasMounted(true);
       return;
     }
 
-    if (state.isDoneCalculate) {
-      calculate(form.getValues(), state.selectedCard);
+    if (isDoneCalculate) {
+      calculate(form.getValues(), selectedCard);
     }
-  }, [state.selectedCard, hasMounted, state.isDoneCalculate, calculate, form]);
+  }, [selectedCard]);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  };
 
   return (
     <motion.section
@@ -167,43 +201,81 @@ export default function RegularLoanCalculator({
               onSubmit={form.handleSubmit(handleCompute)}
               className="space-y-8"
             >
-              <LoanFormRegular
+              <LoanForm
                 form={form}
-                selectedCard={state.selectedCard}
+                selectedCard={selectedCard}
                 onCardSelect={setSelectedCard}
-                hasDeduction={state.hasDeduction}
+                hasDeduction={hasDeduction}
                 setHasDeduction={setHasDeduction}
                 clientType={clientType}
                 {...(clientType === "Renewal" && {
-                  maturityDate: state.loanMaturityDate,
+                  maturityDate: loanMaturityDate,
                   setMaturityDate: setLoanMaturityDate,
                 })}
-                isDoneCalculate={state.isDoneCalculate}
+                isDoneCalculate={isDoneCalculate}
               />
 
-              {state.isDoneCalculate && (
+              {isDoneCalculate && (
                 <motion.div
-                  variants={fadeInVariants}
-                  initial="hidden"
-                  animate="visible"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
                 >
-                  <ResultsDisplayRegularRefactored
-                    {...state.results}
-                    netAmount={state.netAmount}
-                    valueDate={state.valueDate}
+                  <ResultsDisplay
+                    {...results}
+                    netAmount={netAmount}
+                    valueDate={valueDate}
                     setValueDate={setValueDate}
-                    maturityDate={state.maturityDate}
+                    maturityDate={maturityDate}
                     setMaturityDate={setMaturityDate}
                   />
                 </motion.div>
               )}
 
-              <CalculatorActions
-                isDoneCalculate={state.isDoneCalculate}
-                isCalculating={state.isCalculating}
-                onClear={handleClear}
-                onPrint={handlePrint}
-              />
+              <div className="flex flex-col sm:flex-row justify-between gap-4 pt-4 border-t">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleClear}
+                  className="group transition-all duration-300 hover:border-red-300 hover:bg-red-50 dark:hover:bg-red-950/30"
+                >
+                  <RefreshCw className="mr-2 h-4 w-4 transition-transform group-hover:rotate-180" />
+                  Clear Computations
+                </Button>
+
+                <div className="flex items-center gap-3">
+                  {isDoneCalculate && (
+                    <Button
+                      type="button"
+                      onClick={handlePrint}
+                      variant="outline"
+                      className="hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+                    >
+                      <PrinterIcon className="mr-2 h-4 w-4" />
+                      Print Calculation
+                    </Button>
+                  )}
+
+                  <Button
+                    type="submit"
+                    className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transition-all duration-300"
+                    disabled={isCalculating}
+                  >
+                    {isCalculating ? (
+                      <>
+                        <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                        Computing...
+                      </>
+                    ) : (
+                      <>
+                        <Calculator className="mr-2 h-4 w-4" />
+                        Compute
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
             </form>
           </Form>
         </div>
