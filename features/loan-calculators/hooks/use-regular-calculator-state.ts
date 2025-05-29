@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import type { ResultsProps } from "@/features/loan-calculators/types/types-regular";
+import type { Dispatch, SetStateAction } from "react";
 
 interface CalculatorState {
   selectedCard: string;
@@ -41,27 +42,67 @@ const initialState: CalculatorState = {
 export function useCalculatorState() {
   const [state, setState] = useState<CalculatorState>(initialState);
 
-  const updateState = (updates: Partial<CalculatorState>) => {
+  const updateState = useCallback((updates: Partial<CalculatorState>) => {
     setState((prev) => ({ ...prev, ...updates }));
-  };
+  }, []);
 
-  const resetState = () => {
+  const resetState = useCallback(() => {
     setState(initialState);
-  };
+  }, []);
 
-  const setSelectedCard = (card: string) => updateState({ selectedCard: card });
-  const setResults = (results: ResultsProps) => updateState({ results });
-  const setHasDeduction = (hasDeduction: boolean) =>
-    updateState({ hasDeduction });
-  const setValueDate = (valueDate: Date) => updateState({ valueDate });
-  const setMaturityDate = (maturityDate: Date) => updateState({ maturityDate });
-  const setLoanMaturityDate = (loanMaturityDate: Date) =>
-    updateState({ loanMaturityDate });
-  const setNetAmount = (netAmount: string) => updateState({ netAmount });
-  const setIsDoneCalculate = (isDoneCalculate: boolean) =>
-    updateState({ isDoneCalculate });
-  const setIsCalculating = (isCalculating: boolean) =>
-    updateState({ isCalculating });
+  const setSelectedCard = useCallback(
+    (card: string) => updateState({ selectedCard: card }),
+    [updateState]
+  );
+  const setResults = useCallback(
+    (results: ResultsProps) => updateState({ results }),
+    [updateState]
+  );
+  const setHasDeduction = useCallback(
+    (hasDeduction: boolean) => updateState({ hasDeduction }),
+    [updateState]
+  );
+
+  // Fix: Use proper React setState type
+  const setValueDate = useCallback<Dispatch<SetStateAction<Date>>>(
+    (value) => {
+      const newDate =
+        typeof value === "function" ? value(state.valueDate) : value;
+      updateState({ valueDate: newDate });
+    },
+    [updateState, state.valueDate]
+  );
+
+  const setMaturityDate = useCallback<Dispatch<SetStateAction<Date>>>(
+    (value) => {
+      const newDate =
+        typeof value === "function" ? value(state.maturityDate) : value;
+      updateState({ maturityDate: newDate });
+    },
+    [updateState, state.maturityDate]
+  );
+
+  const setLoanMaturityDate = useCallback<Dispatch<SetStateAction<Date>>>(
+    (value) => {
+      const newDate =
+        typeof value === "function" ? value(state.loanMaturityDate) : value;
+      updateState({ loanMaturityDate: newDate });
+    },
+    [updateState, state.loanMaturityDate]
+  );
+
+  const setNetAmount = useCallback(
+    (netAmount: string) => updateState({ netAmount }),
+    [updateState]
+  );
+  const setIsDoneCalculate = useCallback(
+    (isDoneCalculate: boolean) => updateState({ isDoneCalculate }),
+    [updateState]
+  );
+  const setIsCalculating = useCallback(
+    (isCalculating: boolean) => updateState({ isCalculating }),
+    [updateState]
+  );
 
   return {
     state,

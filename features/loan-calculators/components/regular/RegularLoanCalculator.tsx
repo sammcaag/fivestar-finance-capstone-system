@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -17,14 +17,14 @@ import {
   itemVariants,
 } from "../../utils/animation-variants";
 import LoanFormRegular from "./LoanFormRegular";
-import ResultsDisplayRegular from "./ResultsDisplayRegular";
+import ResultsDisplayRegularRefactored from "./ResultsDisplayRegular";
 import { CalculatorActions } from "../CalculatorActions";
 
 interface RegularLoanCalculatorProps {
   clientType: string;
 }
 
-export default function RegularLoanCalculatorRefactored({
+export default function RegularLoanCalculator({
   clientType,
 }: RegularLoanCalculatorProps) {
   const { calculateRegularLoan } = useRegularLoanCalculator();
@@ -58,6 +58,45 @@ export default function RegularLoanCalculatorRefactored({
   const amortizationWatch =
     clientType === "Renewal" ? form.watch("monthlyAmortization") : undefined;
 
+  // Memoize the calculate function to prevent unnecessary re-renders
+  const calculate = useCallback(
+    async (values: FormValues, selectedCard: string) => {
+      try {
+        setIsCalculating(true);
+
+        // Simulate calculation delay for better UX
+        setTimeout(() => {
+          const calculationResults = calculateRegularLoan(values, selectedCard);
+
+          setResults(calculationResults.results);
+          if (clientType === "Renewal") {
+            setValueDate(calculationResults.renewalValueDate);
+            setMaturityDate(calculationResults.renewalMaturityDate);
+          } else {
+            setValueDate(calculationResults.valueDate);
+            setMaturityDate(calculationResults.maturityDate);
+          }
+          setNetAmount(`₱\t${calculationResults.netAmount}`);
+          setIsDoneCalculate(true);
+          setIsCalculating(false);
+        }, 600);
+      } catch (error) {
+        setIsCalculating(false);
+        toast.error(error instanceof Error ? error.message : String(error));
+      }
+    },
+    [
+      calculateRegularLoan,
+      clientType,
+      setIsCalculating,
+      setResults,
+      setValueDate,
+      setMaturityDate,
+      setNetAmount,
+      setIsDoneCalculate,
+    ]
+  );
+
   // Custom hooks for complex logic
   useRenewalCalculations({
     clientType,
@@ -66,48 +105,25 @@ export default function RegularLoanCalculatorRefactored({
     amortizationWatch,
   });
 
-  const calculate = async (values: FormValues, selectedCard: string) => {
-    try {
-      setIsCalculating(true);
+  const handleCompute = useCallback(
+    (values: FormValues) => {
+      calculate(values, state.selectedCard);
+    },
+    [calculate, state.selectedCard]
+  );
 
-      // Simulate calculation delay for better UX
-      setTimeout(() => {
-        const calculationResults = calculateRegularLoan(values, selectedCard);
-
-        setResults(calculationResults.results);
-        if (clientType === "Renewal") {
-          setValueDate(calculationResults.renewalValueDate);
-          setMaturityDate(calculationResults.renewalMaturityDate);
-        } else {
-          setValueDate(calculationResults.valueDate);
-          setMaturityDate(calculationResults.maturityDate);
-        }
-        setNetAmount(`₱\t${calculationResults.netAmount}`);
-        setIsDoneCalculate(true);
-        setIsCalculating(false);
-      }, 600);
-    } catch (error) {
-      setIsCalculating(false);
-      toast.error(error instanceof Error ? error.message : String(error));
-    }
-  };
-
-  const handleCompute = (values: FormValues) => {
-    calculate(values, state.selectedCard);
-  };
-
-  const handleClear = () => {
+  const handleClear = useCallback(() => {
     form.reset();
     resetState();
     toast.success("Computation cleared successfully");
-  };
+  }, [form, resetState]);
 
-  const handlePrint = () => {
+  const handlePrint = useCallback(() => {
     toast.info("Preparing document for printing...");
     setTimeout(() => {
       window.print();
     }, 500);
-  };
+  }, []);
 
   // Initialize deduction state for renewal clients
   useEffect(() => {
@@ -126,7 +142,7 @@ export default function RegularLoanCalculatorRefactored({
     if (state.isDoneCalculate) {
       calculate(form.getValues(), state.selectedCard);
     }
-  }, [state.selectedCard, hasMounted, state.isDoneCalculate]);
+  }, [state.selectedCard, hasMounted, state.isDoneCalculate, calculate, form]);
 
   return (
     <motion.section
@@ -171,7 +187,7 @@ export default function RegularLoanCalculatorRefactored({
                   initial="hidden"
                   animate="visible"
                 >
-                  <ResultsDisplayRegular
+                  <ResultsDisplayRegularRefactored
                     {...state.results}
                     netAmount={state.netAmount}
                     valueDate={state.valueDate}
