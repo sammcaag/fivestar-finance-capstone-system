@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import ResultCard from "../ResultCard";
 import CustomDatePicker from "@/components/CustomDatePicker";
-import type { ResultsDisplayProps } from "../../types/types-regular";
+import type { ResultsDisplayRegularProps } from "../../types/types-regular";
 import {
   Calendar,
   DollarSign,
@@ -14,7 +14,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 
-export default function EnhancedResultsDisplay({
+export default function ResultsDisplayRegular({
   effectiveInterestRate,
   gpFactor,
   principalAmount,
@@ -29,7 +29,7 @@ export default function EnhancedResultsDisplay({
   setValueDate,
   maturityDate,
   setMaturityDate,
-}: ResultsDisplayProps) {
+}: ResultsDisplayRegularProps) {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {

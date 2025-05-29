@@ -16,7 +16,7 @@ export type RateProps = {
 };
 
 //types for Loan Values that is from the FormValues Props that makes the form to be a component used in LoanForm.tsx
-export interface LoanFormProps {
+export interface LoanFormRegularProps {
   form: UseFormReturn<FormValues>;
   selectedCard: string;
   onCardSelect: (cardId: string) => void;
@@ -48,7 +48,7 @@ export type ResultsProps = {
 };
 
 //types for displaying the Results Props used in ResultsDisplay.tsx
-export interface ResultsDisplayProps {
+export interface ResultsDisplayRegularProps {
   effectiveInterestRate: string;
   gpFactor: string;
   principalAmount: string;

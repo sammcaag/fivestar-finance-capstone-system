@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import type {
-  LoanFormProps,
+  LoanFormRegularProps,
   RateProps,
   FormValues,
 } from "../../types/types-regular";
@@ -34,7 +34,7 @@ import { CustomTooltip } from "@/components/CustomTooltip";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { getYear } from "date-fns";
 
-export default function LoanForm({
+export default function LoanFormRegular({
   form,
   selectedCard,
   onCardSelect,
@@ -44,7 +44,7 @@ export default function LoanForm({
   maturityDate,
   setMaturityDate,
   isDoneCalculate,
-}: LoanFormProps) {
+}: LoanFormRegularProps) {
   // Base rates used for the RateCards component
   const rates: RateProps[] = [
     { id: "1", title: "Regular Rate" },
