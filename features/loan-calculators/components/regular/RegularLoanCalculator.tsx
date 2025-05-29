@@ -64,7 +64,22 @@ export default function RegularLoanCalculator({
 
       // Simulate calculation delay for better UX
       setTimeout(() => {
-        const calculationResults = calculateRegularLoan(values, selectedCard);
+        let calculationResults;
+
+        if (!hasDeduction) {
+          const { outstandingBalance, otherDeduction, ...filteredValues } =
+            values;
+          calculationResults = calculateRegularLoan(
+            {
+              ...filteredValues,
+              outstandingBalance: 0,
+              otherDeduction: 0,
+            },
+            selectedCard
+          );
+        } else {
+          calculationResults = calculateRegularLoan(values, selectedCard);
+        }
 
         setResults(calculationResults.results);
         if (clientType === "Renewal") {

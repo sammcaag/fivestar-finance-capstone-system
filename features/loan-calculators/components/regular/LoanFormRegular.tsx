@@ -130,7 +130,7 @@ export default function LoanFormRegular({
                       min={0}
                       max={35000}
                       step="1000"
-                      className="border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto w-full"
+                      className="border-0 bg-transparent text-lg focus-visible:ring-0 p-2 h-auto w-full"
                       {...field}
                       onKeyDown={preventInvalidInput}
                       onChange={(e) =>
@@ -397,7 +397,7 @@ export default function LoanFormRegular({
                       placeholder="Outstanding Balance"
                       type="number"
                       step="1000"
-                      className={`border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto w-full ${
+                      className={`border-0 bg-transparent text-lg focus-visible:ring-0 p-2 h-auto w-full ${
                         !hasDeduction || clientType === "Renewal"
                           ? "text-muted-foreground"
                           : ""
@@ -477,7 +477,7 @@ export default function LoanFormRegular({
                       placeholder="0.00"
                       type="number"
                       step="1000"
-                      className={`border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto w-full ${
+                      className={`border-0 bg-transparent text-lg focus-visible:ring-0 p-2 h-auto w-full ${
                         !hasDeduction ? "text-muted-foreground" : ""
                       }`}
                       {...field}
