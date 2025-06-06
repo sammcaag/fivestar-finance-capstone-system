@@ -92,7 +92,7 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="hover:cursor-pointer"
-          onClick={() => router.replace("/login")}
+          onClick={() => router.replace("/sign-in")}
         >
           <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
           Sign out
