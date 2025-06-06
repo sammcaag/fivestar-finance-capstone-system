@@ -7,7 +7,7 @@ export default function HomePage() {
 
   useEffect(() => {
     router.replace("/dashboard");
-  }, []);
+  }, [router]);
 
   return null;
 }
