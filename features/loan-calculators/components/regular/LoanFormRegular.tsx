@@ -1,12 +1,8 @@
 "use client";
 import { useState } from "react";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import type React from "react";
+
+import { FormControl, FormField, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -27,12 +23,18 @@ import {
   preventNegativeAndLimitDecimals,
 } from "../../../../utils/handling-input-numbers";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { motion } from "framer-motion";
-import { Info, DollarSign, Calendar, Clock, AlertCircle } from "lucide-react";
-import { CustomTooltip } from "@/components/CustomTooltip";
+import { Calendar, Clock, AlertCircle, PhilippinePeso } from "lucide-react";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { getYear } from "date-fns";
+import {
+  COLORS,
+  containerVariants,
+  FORM_STYLES,
+  FormFieldWrapper,
+  FormHeader,
+  formItemVariants,
+} from "../../utils/style-helper";
 
 export default function LoanFormRegular({
   form,
@@ -45,7 +47,6 @@ export default function LoanFormRegular({
   setMaturityDate,
   isDoneCalculate,
 }: LoanFormRegularProps) {
-  // Base rates used for the RateCards component
   const rates: RateProps[] = [
     { id: "1", title: "Regular Rate" },
     { id: "2", title: "Special Rate" },
@@ -54,22 +55,19 @@ export default function LoanFormRegular({
 
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
-  const formItemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeOut",
-      },
-    },
-  };
+  const hasFieldError = (fieldName: keyof FormValues) =>
+    !!form.formState.errors[fieldName];
 
-  // Helper function to determine if a field has an error
-  const hasFieldError = (fieldName: keyof FormValues) => {
-    return !!form.formState.errors[fieldName];
-  };
+  const createInputHandlers = (
+    fieldName: string,
+    onChange: (value: string | number) => void
+  ) => ({
+    onFocus: () => setFocusedField(fieldName),
+    onBlur: () => setFocusedField(null),
+    onKeyDown: preventInvalidInput,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+      preventNegativeAndLimitDecimals(e, onChange),
+  });
 
   return (
     <div className="space-y-8">
@@ -77,52 +75,25 @@ export default function LoanFormRegular({
         className="grid grid-cols-1 md:grid-cols-2 gap-6"
         initial="hidden"
         animate="visible"
-        variants={{
-          hidden: { opacity: 0 },
-          visible: {
-            opacity: 1,
-            transition: {
-              staggerChildren: 0.1,
-            },
-          },
-        }}
+        variants={containerVariants}
       >
         <motion.div variants={formItemVariants}>
           <FormField
             control={form.control}
             name="monthlyAmortization"
             render={({ field }) => (
-              <FormItem
-                className={`overflow-hidden rounded-lg border ${
-                  focusedField === "monthlyAmortization"
-                    ? "ring-2 ring-blue-200 border-blue-300"
-                    : hasFieldError("monthlyAmortization")
-                    ? "ring-2 ring-red-200 border-red-300"
-                    : "border-gray-200 dark:border-gray-800"
-                } bg-white dark:bg-gray-950 transition-all duration-200 shadow-sm`}
+              <FormFieldWrapper
+                fieldName="monthlyAmortization"
+                focusedField={focusedField}
+                hasError={hasFieldError("monthlyAmortization")}
               >
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <FormLabel className="text-base font-medium flex items-center">
-                      <DollarSign
-                        className={`h-4 w-4 mr-2 ${
-                          hasFieldError("monthlyAmortization")
-                            ? "text-red-500"
-                            : "text-blue-500"
-                        }`}
-                      />
-                      Monthly Amortization (MA)
-                    </FormLabel>
-                    <CustomTooltip
-                      icon={Info}
-                      description="The fixed amount paid by the client each month"
-                      iconClassName={
-                        hasFieldError("monthlyAmortization")
-                          ? "text-red-500"
-                          : "text-blue-500"
-                      }
-                    />
-                  </div>
+                <div className={FORM_STYLES.padding}>
+                  <FormHeader
+                    icon={PhilippinePeso}
+                    label="Monthly Amortization (MA)"
+                    tooltip="The fixed amount paid by the client each month"
+                    hasError={hasFieldError("monthlyAmortization")}
+                  />
                   <FormControl>
                     <Input
                       placeholder="Enter amount"
@@ -130,21 +101,19 @@ export default function LoanFormRegular({
                       min={0}
                       max={35000}
                       step="1000"
-                      className="border-0 bg-background !text-lg focus-visible:ring-0 px-4 py-1 h-auto w-full"
+                      className={FORM_STYLES.input}
                       {...field}
-                      onKeyDown={preventInvalidInput}
-                      onChange={(e) =>
-                        preventNegativeAndLimitDecimals(e, field.onChange)
-                      }
-                      onFocus={() => setFocusedField("monthlyAmortization")}
-                      onBlur={() => setFocusedField(null)}
+                      {...createInputHandlers(
+                        "monthlyAmortization",
+                        field.onChange
+                      )}
                     />
                   </FormControl>
                 </div>
-                <div className="px-4 pb-3">
+                <div className={FORM_STYLES.messagePadding}>
                   <FormMessage />
                 </div>
-              </FormItem>
+              </FormFieldWrapper>
             )}
           />
         </motion.div>
@@ -154,69 +123,49 @@ export default function LoanFormRegular({
             control={form.control}
             name="term"
             render={({ field }) => (
-              <FormItem
-                className={`overflow-hidden rounded-lg border ${
-                  focusedField === "term"
-                    ? "ring-2 ring-blue-200 border-blue-300"
-                    : hasFieldError("term")
-                    ? "ring-2 ring-red-200 border-red-300"
-                    : "border-gray-200 dark:border-gray-800"
-                } bg-white dark:bg-gray-950 transition-all duration-200 shadow-sm`}
+              <FormFieldWrapper
+                fieldName="term"
+                focusedField={focusedField}
+                hasError={hasFieldError("term")}
               >
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <FormLabel className="text-base font-medium flex items-center">
-                      <Clock
-                        className={`h-4 w-4 mr-2 ${
-                          hasFieldError("term")
-                            ? "text-red-500"
-                            : "text-blue-500"
-                        }`}
-                      />
-                      Term (Months)
-                    </FormLabel>
-                    <CustomTooltip
-                      icon={Info}
-                      description="The duration of the loan in months"
-                      iconClassName={
-                        hasFieldError("term") ? "text-red-500" : "text-blue-500"
-                      }
-                    />
-                  </div>
+                <div className={FORM_STYLES.padding}>
+                  <FormHeader
+                    icon={Clock}
+                    label="Term (Months)"
+                    tooltip="The duration of the loan in months"
+                    hasError={hasFieldError("term")}
+                  />
                   <Select
                     onValueChange={(value) => field.onChange(Number(value))}
                     defaultValue={field.value ? String(field.value) : ""}
                     onOpenChange={(open) => {
-                      if (open) setFocusedField("term");
-                      else setFocusedField(null);
+                      setFocusedField(open ? "term" : null);
                     }}
                   >
                     <FormControl>
-                      <SelectTrigger className="border-0 bg-transparent text-lg focus:ring-0 p-0 h-auto shadow-none w-full">
+                      <SelectTrigger className={FORM_STYLES.selectTrigger}>
                         <SelectValue
                           placeholder="Select Term"
-                          className={`${
-                            field.value === 0 && "text-muted-foreground"
-                          }`}
+                          className={field.value === 0 ? COLORS.muted : ""}
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="0" className="text-muted-foreground">
+                      <SelectItem value="0" className={COLORS.muted}>
                         Select Term
                       </SelectItem>
-                      <SelectItem value="12">12 Months</SelectItem>
-                      <SelectItem value="24">24 Months</SelectItem>
-                      <SelectItem value="36">36 Months</SelectItem>
-                      <SelectItem value="48">48 Months</SelectItem>
-                      <SelectItem value="60">60 Months</SelectItem>
+                      {[12, 24, 36, 48, 60].map((months) => (
+                        <SelectItem key={months} value={String(months)}>
+                          {months} Months
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="px-4 pb-3">
+                <div className={FORM_STYLES.messagePadding}>
                   <FormMessage />
                 </div>
-              </FormItem>
+              </FormFieldWrapper>
             )}
           />
         </motion.div>
@@ -259,23 +208,15 @@ export default function LoanFormRegular({
           animate="visible"
         >
           <div
-            className={`overflow-hidden rounded-lg border ${
-              focusedField === "maturityDate"
-                ? "ring-2 ring-blue-200 border-blue-300"
-                : "border-gray-200 dark:border-gray-800"
-            } bg-white dark:bg-gray-950 transition-all duration-200 shadow-sm p-4`}
+            className={`${FORM_STYLES.container} ${
+              focusedField === "maturityDate" ? COLORS.focus : COLORS.default
+            } bg-card ${FORM_STYLES.padding}`}
           >
-            <div className="flex items-center justify-between mb-2">
-              <Label className="text-base font-medium flex items-center">
-                <Calendar className="h-4 w-4 mr-2 text-blue-500" />
-                Maturity Date
-              </Label>
-              <CustomTooltip
-                icon={Info}
-                description="The date when the loan will be fully paid"
-                iconClassName="text-blue-500"
-              />
-            </div>
+            <FormHeader
+              icon={Calendar}
+              label="Maturity Date"
+              tooltip="The date when the loan will be fully paid"
+            />
             <CustomDatePicker
               date={maturityDate ?? new Date()}
               setDate={setMaturityDate ?? (() => {})}
@@ -291,40 +232,43 @@ export default function LoanFormRegular({
           <FormField
             control={form.control}
             name="remainingMonths"
-            render={({ field }) => (
-              <FormItem
-                className={`overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 transition-all duration-200 shadow-sm`}
-              >
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <FormLabel className="text-base font-medium flex items-center pointer-events-none">
-                      <Clock className="h-4 w-4 mr-2 text-blue-500" />
-                      Remaining Months
-                    </FormLabel>
-                    <CustomTooltip
-                      icon={Info}
-                      description="Automatically calculated based on maturity date"
-                      iconClassName="text-blue-500"
+            render={({ field }) => {
+              return (
+                <FormFieldWrapper
+                  fieldName="remainingMonths"
+                  focusedField={focusedField}
+                  hasError={hasFieldError("remainingMonths")}
+                >
+                  <div className={FORM_STYLES.padding}>
+                    <FormHeader
+                      icon={Clock}
+                      label="Remaining Months"
+                      tooltip="Automatically calculated based on maturity date"
+                      isDisabled={true}
                     />
+                    <FormControl>
+                      <div className="flex items-center bg-background rounded-md px-2 py-0.5">
+                        <Input
+                          placeholder="0"
+                          type="number"
+                          {...field}
+                          className={`${FORM_STYLES.input} ${
+                            !hasDeduction
+                              ? `${COLORS.muted} disabled:opacity-100`
+                              : ""
+                          }`}
+                          disabled={true}
+                        />
+                        <span className={COLORS.muted}>months</span>
+                      </div>
+                    </FormControl>
                   </div>
-                  <FormControl>
-                    <div className="flex items-center bg-gray-50 dark:bg-gray-900/50 rounded-md px-3 py-2">
-                      <Input
-                        placeholder="0"
-                        type="number"
-                        {...field}
-                        className="border-0 bg-transparent text-lg focus-visible:ring-0 p-0 h-auto disabled:opacity-100 w-full"
-                        disabled={true}
-                      />
-                      <span className="text-muted-foreground">months</span>
-                    </div>
-                  </FormControl>
-                </div>
-                <div className="px-4 pb-3">
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
+                  <div className={FORM_STYLES.messagePadding}>
+                    <FormMessage />
+                  </div>
+                </FormFieldWrapper>
+              );
+            }}
           />
         </motion.div>
       )}
@@ -332,9 +276,9 @@ export default function LoanFormRegular({
       <motion.div
         className="grid grid-cols-1 md:grid-cols-2 gap-6"
         variants={{
-          hidden: { opacity: 0 },
+          ...containerVariants,
           visible: {
-            opacity: 1,
+            ...containerVariants.visible,
             transition: {
               staggerChildren: 0.1,
               delayChildren: 0.2,
@@ -348,76 +292,49 @@ export default function LoanFormRegular({
           <FormField
             control={form.control}
             name="outstandingBalance"
-            render={({ field }) => (
-              <FormItem
-                className={`overflow-hidden rounded-lg border ${
-                  focusedField === "outstandingBalance"
-                    ? "ring-2 ring-blue-200 border-blue-300"
-                    : hasFieldError("outstandingBalance")
-                    ? "ring-2 ring-red-200 border-red-300"
-                    : "border-gray-200 dark:border-gray-800"
-                } ${
-                  !hasDeduction || clientType === "Renewal"
-                    ? "bg-gray-50 dark:bg-gray-900/50"
-                    : "bg-white dark:bg-gray-950"
-                } transition-all duration-200 shadow-sm`}
-              >
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <FormLabel
-                      className={`text-base font-medium flex items-center ${
-                        !hasDeduction ? "text-muted-foreground" : ""
-                      } ${clientType === "Renewal" && "pointer-events-none"}`}
-                    >
-                      <DollarSign
-                        className={`h-4 w-4 mr-2 ${
-                          hasFieldError("outstandingBalance")
-                            ? "text-red-500"
-                            : !hasDeduction || clientType === "Renewal"
-                            ? "text-muted-foreground"
-                            : "text-blue-500"
-                        }`}
-                      />
-                      Outstanding Balance
-                    </FormLabel>
-                    {clientType === "Renewal" && (
-                      <CustomTooltip
-                        icon={Info}
-                        description="Automatically computed based on remaining months × monthly amortization"
-                        iconClassName={
-                          hasFieldError("outstandingBalance")
-                            ? "text-red-500"
-                            : "text-blue-500"
-                        }
-                      />
-                    )}
-                  </div>
-                  <FormControl>
-                    <Input
-                      placeholder="Outstanding Balance"
-                      type="number"
-                      step="1000"
-                      className={`border-0 bg-transparent text-lg focus-visible:ring-0 p-2 h-auto w-full ${
-                        !hasDeduction || clientType === "Renewal"
-                          ? "text-muted-foreground"
-                          : ""
-                      } ${clientType === "Renewal" && "disabled:opacity-100"}`}
-                      {...field}
-                      onKeyDown={preventInvalidInput}
-                      onChange={(e) =>
-                        preventNegativeAndLimitDecimals(e, field.onChange)
+            render={({ field }) => {
+              const isDisabled = !hasDeduction || clientType === "Renewal";
+              return (
+                <FormFieldWrapper
+                  fieldName="outstandingBalance"
+                  focusedField={focusedField}
+                  hasError={hasFieldError("outstandingBalance")}
+                >
+                  <div className={FORM_STYLES.padding}>
+                    <FormHeader
+                      icon={PhilippinePeso}
+                      label="Outstanding Balance"
+                      tooltip={
+                        clientType === "Renewal"
+                          ? "Automatically computed based on remaining months × monthly amortization"
+                          : "The remaining balance on the loan"
                       }
-                      disabled={!hasDeduction || clientType === "Renewal"}
-                      onFocus={() => setFocusedField("outstandingBalance")}
-                      onBlur={() => setFocusedField(null)}
+                      hasError={hasFieldError("outstandingBalance")}
+                      isDisabled={isDisabled}
                     />
-                  </FormControl>
-                </div>
-                <div className="px-4 pb-3">
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
+                    <FormControl>
+                      <Input
+                        placeholder="Outstanding Balance"
+                        type="number"
+                        step="1000"
+                        className={`${FORM_STYLES.input} ${
+                          isDisabled && `${COLORS.muted} disabled:opacity-100`
+                        }`}
+                        {...field}
+                        {...createInputHandlers(
+                          "outstandingBalance",
+                          field.onChange
+                        )}
+                        disabled={isDisabled}
+                      />
+                    </FormControl>
+                  </div>
+                  <div className={FORM_STYLES.messagePadding}>
+                    <FormMessage />
+                  </div>
+                </FormFieldWrapper>
+              );
+            }}
           />
         </motion.div>
 
@@ -425,77 +342,52 @@ export default function LoanFormRegular({
           <FormField
             control={form.control}
             name="otherDeduction"
-            render={({ field }) => (
-              <FormItem
-                className={`overflow-hidden rounded-lg border ${
-                  focusedField === "otherDeduction"
-                    ? "ring-2 ring-blue-200 border-blue-300"
-                    : hasFieldError("otherDeduction")
-                    ? "ring-2 ring-red-200 border-red-300"
-                    : "border-gray-200 dark:border-gray-800"
-                } ${
-                  !hasDeduction
-                    ? "bg-gray-50 dark:bg-gray-900/50"
-                    : "bg-white dark:bg-gray-950"
-                } transition-all duration-200 shadow-sm`}
-              >
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <FormLabel
-                      className={`text-base font-medium flex items-center ${
-                        !hasDeduction ? "text-muted-foreground" : ""
-                      }`}
-                    >
-                      <DollarSign
-                        className={`h-4 w-4 mr-2 ${
-                          hasFieldError("otherDeduction")
-                            ? "text-red-500"
-                            : !hasDeduction
-                            ? "text-muted-foreground"
-                            : "text-blue-500"
+            render={({ field }) => {
+              const isDisabled = !hasDeduction;
+              return (
+                <FormFieldWrapper
+                  fieldName="otherDeduction"
+                  focusedField={focusedField}
+                  hasError={hasFieldError("otherDeduction")}
+                >
+                  <div className={FORM_STYLES.padding}>
+                    <FormHeader
+                      icon={PhilippinePeso}
+                      label="Other Deduction/s"
+                      tooltip="Additional deductions to be applied to the loan"
+                      hasError={hasFieldError("otherDeduction")}
+                      isDisabled={isDisabled}
+                      extraContent={
+                        <span className="ml-2 text-xs font-normal text-muted-foreground italic">
+                          (e.g. UA, SP, OI)
+                        </span>
+                      }
+                    />
+                    <FormControl>
+                      <Input
+                        placeholder="0.00"
+                        type="number"
+                        step="1000"
+                        className={`${FORM_STYLES.input} ${
+                          isDisabled
+                            ? `${COLORS.muted} disabled:opacity-100`
+                            : ""
                         }`}
+                        {...field}
+                        {...createInputHandlers(
+                          "otherDeduction",
+                          field.onChange
+                        )}
+                        disabled={isDisabled}
                       />
-                      Other Deduction/s
-                      <span className="ml-2 text-xs font-normal text-muted-foreground italic">
-                        (e.g. UA, SP, OI)
-                      </span>
-                    </FormLabel>
-                    <CustomTooltip
-                      icon={Info}
-                      description="Additional deductions to be applied to the loan"
-                      iconClassName={
-                        hasFieldError("otherDeduction")
-                          ? "text-red-500"
-                          : !hasDeduction
-                          ? "text-muted-foreground"
-                          : "text-blue-500"
-                      }
-                    />
+                    </FormControl>
                   </div>
-                  <FormControl>
-                    <Input
-                      placeholder="0.00"
-                      type="number"
-                      step="1000"
-                      className={`border-0 bg-transparent text-lg focus-visible:ring-0 p-2 h-auto w-full ${
-                        !hasDeduction ? "text-muted-foreground" : ""
-                      }`}
-                      {...field}
-                      onKeyDown={preventInvalidInput}
-                      onChange={(e) =>
-                        preventNegativeAndLimitDecimals(e, field.onChange)
-                      }
-                      disabled={!hasDeduction}
-                      onFocus={() => setFocusedField("otherDeduction")}
-                      onBlur={() => setFocusedField(null)}
-                    />
-                  </FormControl>
-                </div>
-                <div className="px-4 pb-3">
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
+                  <div className={FORM_STYLES.messagePadding}>
+                    <FormMessage />
+                  </div>
+                </FormFieldWrapper>
+              );
+            }}
           />
         </motion.div>
       </motion.div>
