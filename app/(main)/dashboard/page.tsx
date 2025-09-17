@@ -18,7 +18,7 @@ import {
   MapPin,
   Users,
 } from "lucide-react";
-import { ContentLayout } from "@/components/admin-panel/content-layout";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import ClientStatistics from "@/features/clients/components/ClientStatistics";
 import { dashboardStatistics } from "@/features/clients/data/client-mock-stats";

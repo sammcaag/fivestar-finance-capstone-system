@@ -1,6 +1,6 @@
 import React from "react";
 import ExtensionLoanCalculator from "@/features/loan-calculators/components/extension/ExtensionLoanCalculator";
-import { ContentLayout } from "@/components/admin-panel/content-layout";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 
 export default function Extension() {

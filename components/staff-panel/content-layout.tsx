@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/admin-panel/navbar";
+import { Navbar } from "@/components/staff-panel/navbar";
 import { cn } from "@/lib/utils";
 
 interface ContentLayoutProps extends React.HTMLAttributes<HTMLDivElement> {

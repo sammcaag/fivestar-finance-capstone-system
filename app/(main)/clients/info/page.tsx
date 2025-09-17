@@ -1,5 +1,5 @@
 "use client";
-import { ContentLayout } from "@/components/admin-panel/content-layout";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import ClientInformation from "@/features/clients/components/ClientInformation";
 import ClientHistoryTable from "@/features/clients/components/profile/ClientHistoryTable";

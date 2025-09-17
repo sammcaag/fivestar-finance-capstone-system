@@ -1,7 +1,7 @@
 import { MenuIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Menu } from "@/components/admin-panel/menu";
+import { Menu } from "@/components/staff-panel/menu";
 import {
   Sheet,
   SheetHeader,

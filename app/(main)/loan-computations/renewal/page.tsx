@@ -1,6 +1,6 @@
-import RegularLoanCalculator from '@/features/loan-calculators/components/regular/RegularLoanCalculator'
-import { ContentLayout } from '@/components/admin-panel/content-layout'
-import BreadcrumbPages from '@/components/BreadcrumbPages'
+import RegularLoanCalculator from "@/features/loan-calculators/components/regular/RegularLoanCalculator";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
+import BreadcrumbPages from "@/components/BreadcrumbPages";
 
 export default function Renewal() {
   return (

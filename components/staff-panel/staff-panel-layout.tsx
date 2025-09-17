@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { Sidebar } from "@/components/admin-panel/sidebar";
+import { Sidebar } from "@/components/staff-panel/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useStore } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";

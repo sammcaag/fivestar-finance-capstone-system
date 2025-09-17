@@ -1,5 +1,5 @@
-import { UserNav } from "@/components/admin-panel/user-nav";
-import { SheetMenu } from "@/components/admin-panel/sheet-menu";
+import { UserNav } from "@/components/staff-panel/user-nav";
+import { SheetMenu } from "@/components/staff-panel/sheet-menu";
 import SearchInput from "@/components/SearchInput";
 
 export function Navbar({ title }: { title: string }) {

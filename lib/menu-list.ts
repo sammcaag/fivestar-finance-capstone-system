@@ -11,18 +11,11 @@ import {
   FileUser,
 } from "lucide-react";
 
-type Submenu = {
-  href: string;
-  label: string;
-  active?: boolean;
-};
-
 type Menu = {
   href: string;
   label: string;
   active?: boolean;
   icon: LucideIcon;
-  submenus?: Submenu[];
 };
 
 type Group = {
@@ -39,7 +32,6 @@ export function getMenuList(): Group[] {
           href: "/dashboard",
           label: "Dashboard",
           icon: LayoutGrid,
-          submenus: [],
         },
       ],
     },
@@ -95,14 +87,3 @@ export function getMenuList(): Group[] {
     },
   ];
 }
-
-//   submenus: [
-//     {
-//       href: "/clients",
-//       label: "All Clients"
-//     },
-//     {
-//       href: "/posts/new",
-//       label: "New Post"
-//     }
-//   ]

@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { steps } from "@/features/clients/components/lib/client-registration-form";
 import ClientGeneralInformation from "@/features/clients/components/steps/ClientGeneralInformation";
-import { ContentLayout } from "@/components/admin-panel/content-layout";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { cn } from "@/lib/utils";
 
