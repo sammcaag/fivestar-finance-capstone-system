@@ -1,85 +1,91 @@
 "use client";
 
-import React, { useState } from "react"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { 
+import React, { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { 
-  Building2, 
-  MoreVertical, 
-  FileText, 
-  Download, 
-  Printer, 
+} from "@/components/ui/card";
+import {
+  Building2,
+  MoreVertical,
+  FileText,
+  Download,
+  Printer,
   Eye,
-  Ellipsis 
-} from "lucide-react"
-import { cn } from "@/lib/utils"
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogHeader, 
-  DialogTitle 
-} from "@/components/ui/dialog"
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
-} from "@/components/ui/dropdown-menu"
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { LoanRecord } from "../../types/types-clients";
 
 interface ClientHistoryTableProps {
-  records: LoanRecord[]
-  onViewLoanDetails?: (loan: LoanRecord) => void
+  records: LoanRecord[];
+  onViewLoanDetails?: (loan: LoanRecord) => void;
 }
 
-export default function ClientHistoryTable({ records, onViewLoanDetails }: ClientHistoryTableProps) {
-  const [selectedLoan, setSelectedLoan] = useState<LoanRecord | null>(null)
+export default function ClientHistoryTable({
+  records,
+  onViewLoanDetails,
+}: ClientHistoryTableProps) {
+  const [selectedLoan, setSelectedLoan] = useState<LoanRecord | null>(null);
 
   // Function to check if a date is in the past
   const isDateInPast = (dateString: string) => {
-    const date = new Date(dateString)
-    const today = new Date()
-    return date < today
-  }
+    const date = new Date(dateString);
+    const today = new Date();
+    return date < today;
+  };
 
   // Function to organize loans into a hierarchical structure
   const organizeLoansByParent = (loans: LoanRecord[]) => {
     // First, find all parent loans (those without a parentId)
-    const parentLoans = loans.filter((loan) => !loan.parentId)
+    const parentLoans = loans.filter((loan) => !loan.parentId);
 
     // Then, for each parent loan, find its children
     return parentLoans.map((parentLoan) => {
-      const children = loans.filter((loan) => loan.parentId === parentLoan.id)
+      const children = loans.filter((loan) => loan.parentId === parentLoan.id);
       return {
         ...parentLoan,
         children,
-        isAllChildrenPaid: children.every((child) => isDateInPast(child.maturityDate)),
-      }
-    })
-  }
+        isAllChildrenPaid: children.every((child) =>
+          isDateInPast(child.maturityDate)
+        ),
+      };
+    });
+  };
 
-  const organizedLoans = organizeLoansByParent(records)
+  const organizedLoans = organizeLoansByParent(records);
 
   // Function to determine if a loan group is fully paid
-  const isLoanGroupFullyPaid = (loan: LoanRecord & { children: LoanRecord[]; isAllChildrenPaid: boolean }) => {
-    return isDateInPast(loan.maturityDate) && loan.isAllChildrenPaid
-  }
+  const isLoanGroupFullyPaid = (
+    loan: LoanRecord & { children: LoanRecord[]; isAllChildrenPaid: boolean }
+  ) => {
+    return isDateInPast(loan.maturityDate) && loan.isAllChildrenPaid;
+  };
 
   return (
     <Card className="mt-3">
@@ -99,38 +105,66 @@ export default function ClientHistoryTable({ records, onViewLoanDetails }: Clien
           <Table className="w-full text-sm">
             <TableHeader>
               <TableRow className="border-b text-left">
-                <TableHead className="px-4 py-3 font-medium">DED CODE</TableHead>
-                <TableHead className="px-4 py-3 font-medium">PRODUCT TYPE</TableHead>
+                <TableHead className="px-4 py-3 font-medium">
+                  DED CODE
+                </TableHead>
+                <TableHead className="px-4 py-3 font-medium">
+                  PRODUCT TYPE
+                </TableHead>
                 <TableHead className="px-4 py-3 font-medium">MA</TableHead>
                 <TableHead className="px-4 py-3 font-medium">TERM</TableHead>
-                <TableHead className="px-4 py-3 font-medium">RELEASED DATE</TableHead>
-                <TableHead className="px-4 py-3 font-medium">VALUE DATE</TableHead>
-                <TableHead className="px-4 py-3 font-medium">MATURITY DATE</TableHead>
+                <TableHead className="px-4 py-3 font-medium">
+                  RELEASED DATE
+                </TableHead>
+                <TableHead className="px-4 py-3 font-medium">
+                  VALUE DATE
+                </TableHead>
+                <TableHead className="px-4 py-3 font-medium">
+                  MATURITY DATE
+                </TableHead>
                 <TableHead className="px-4 py-3 font-medium">STATUS</TableHead>
                 <TableHead className="px-4 py-3 font-medium">ACTION</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {organizedLoans.map((parentLoan) => {
-                const isFullyPaid = isLoanGroupFullyPaid(parentLoan)
-                const isParentPaid = isDateInPast(parentLoan.maturityDate)
+                const isFullyPaid = isLoanGroupFullyPaid(parentLoan);
+                const isParentPaid = isDateInPast(parentLoan.maturityDate);
 
                 return (
                   <React.Fragment key={parentLoan.id}>
                     {/* Parent loan row */}
                     <TableRow
                       className={`border-b transition-colors ${
-                        isFullyPaid ? "bg-red-50 border-red-200" : isParentPaid ? "text-gray-400" : ""
+                        isFullyPaid
+                          ? "bg-red-50 border-red-200"
+                          : isParentPaid
+                          ? "text-gray-400"
+                          : ""
                       }`}
                       onClick={() => onViewLoanDetails?.(parentLoan)}
                     >
-                      <TableCell className="px-4 py-3">{parentLoan.dedCode}</TableCell>
-                      <TableCell className="px-4 py-3">{parentLoan.productType}</TableCell>
-                      <TableCell className="px-4 py-3">{parentLoan.amount}</TableCell>
-                      <TableCell className="px-4 py-3">{parentLoan.term}</TableCell>
-                      <TableCell className="px-4 py-3">{parentLoan.releasedDate}</TableCell>
-                      <TableCell className="px-4 py-3">{parentLoan.valueDate}</TableCell>
-                      <TableCell className="px-4 py-3">{parentLoan.maturityDate}</TableCell>
+                      <TableCell className="px-4 py-3">
+                        {parentLoan.dedCode}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {parentLoan.productType}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {parentLoan.amount}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {parentLoan.term}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {parentLoan.releasedDate}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {parentLoan.valueDate}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {parentLoan.maturityDate}
+                      </TableCell>
                       <TableCell className="px-4 py-3">
                         <Badge
                           className={cn(
@@ -145,13 +179,20 @@ export default function ClientHistoryTable({ records, onViewLoanDetails }: Clien
                       <TableCell className="px-4 py-3">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8"
+                              onClick={(e) => e.stopPropagation()}
+                            >
                               <MoreVertical className="h-4 w-4" />
                               <span className="sr-only">Open menu</span>
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => setSelectedLoan(parentLoan)}>
+                            <DropdownMenuItem
+                              onClick={() => setSelectedLoan(parentLoan)}
+                            >
                               <Eye className="mr-2 h-4 w-4" />
                               <span>View Documents</span>
                             </DropdownMenuItem>
@@ -178,14 +219,28 @@ export default function ClientHistoryTable({ records, onViewLoanDetails }: Clien
                         onClick={() => onViewLoanDetails?.(childLoan)}
                       >
                         <TableCell className="px-4 py-3 pl-8">
-                          {childLoan.dedCode} {childLoan.extensionType && `(${childLoan.extensionType})`}
+                          {childLoan.dedCode}{" "}
+                          {childLoan.extensionType &&
+                            `(${childLoan.extensionType})`}
                         </TableCell>
-                        <TableCell className="px-4 py-3">{childLoan.productType}</TableCell>
-                        <TableCell className="px-4 py-3">{childLoan.amount}</TableCell>
-                        <TableCell className="px-4 py-3">{childLoan.term}</TableCell>
-                        <TableCell className="px-4 py-3">{childLoan.releasedDate}</TableCell>
-                        <TableCell className="px-4 py-3">{childLoan.valueDate}</TableCell>
-                        <TableCell className="px-4 py-3">{childLoan.maturityDate}</TableCell>
+                        <TableCell className="px-4 py-3">
+                          {childLoan.productType}
+                        </TableCell>
+                        <TableCell className="px-4 py-3">
+                          {childLoan.amount}
+                        </TableCell>
+                        <TableCell className="px-4 py-3">
+                          {childLoan.term}
+                        </TableCell>
+                        <TableCell className="px-4 py-3">
+                          {childLoan.releasedDate}
+                        </TableCell>
+                        <TableCell className="px-4 py-3">
+                          {childLoan.valueDate}
+                        </TableCell>
+                        <TableCell className="px-4 py-3">
+                          {childLoan.maturityDate}
+                        </TableCell>
                         <TableCell className="px-4 py-3">
                           <Badge
                             className={cn(
@@ -200,13 +255,20 @@ export default function ClientHistoryTable({ records, onViewLoanDetails }: Clien
                         <TableCell className="px-4 py-3">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                                onClick={(e) => e.stopPropagation()}
+                              >
                                 <MoreVertical className="h-4 w-4" />
                                 <span className="sr-only">Open menu</span>
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => setSelectedLoan(childLoan)}>
+                              <DropdownMenuItem
+                                onClick={() => setSelectedLoan(childLoan)}
+                              >
                                 <Eye className="mr-2 h-4 w-4" />
                                 <span>View Documents</span>
                               </DropdownMenuItem>
@@ -224,7 +286,7 @@ export default function ClientHistoryTable({ records, onViewLoanDetails }: Clien
                       </TableRow>
                     ))}
                   </React.Fragment>
-                )
+                );
               })}
             </TableBody>
           </Table>
@@ -232,23 +294,32 @@ export default function ClientHistoryTable({ records, onViewLoanDetails }: Clien
       </CardContent>
 
       {/* Document Dialog */}
-      <Dialog open={!!selectedLoan} onOpenChange={(open) => !open && setSelectedLoan(null)}>
+      <Dialog
+        open={!!selectedLoan}
+        onOpenChange={(open) => !open && setSelectedLoan(null)}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Loan Documents</DialogTitle>
             <DialogDescription>
-              Documents generated for loan {selectedLoan?.dedCode} on {selectedLoan?.releasedDate}
+              Documents generated for loan {selectedLoan?.dedCode} on{" "}
+              {selectedLoan?.releasedDate}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 mt-4">
             {selectedLoan?.documents && selectedLoan.documents.length > 0 ? (
               selectedLoan.documents.map((doc) => (
-                <div key={doc.id} className="flex items-center justify-between p-3 border rounded-md">
+                <div
+                  key={doc.id}
+                  className="flex items-center justify-between p-3 border rounded-md"
+                >
                   <div className="flex items-center gap-3">
                     <FileText className="h-5 w-5 text-blue-600" />
                     <div>
                       <p className="font-medium text-sm">{doc.name}</p>
-                      <p className="text-xs text-gray-500">Generated on {doc.date}</p>
+                      <p className="text-xs text-gray-500">
+                        Generated on {doc.date}
+                      </p>
                     </div>
                   </div>
                   <Button variant="outline" size="sm">
@@ -258,11 +329,13 @@ export default function ClientHistoryTable({ records, onViewLoanDetails }: Clien
                 </div>
               ))
             ) : (
-              <div className="text-center py-6 text-gray-500">No documents available for this loan</div>
+              <div className="text-center py-6 text-gray-500">
+                No documents available for this loan
+              </div>
             )}
           </div>
         </DialogContent>
       </Dialog>
     </Card>
-  )
+  );
 }

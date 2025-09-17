@@ -19,7 +19,10 @@ export function SheetMenu() {
           <MenuIcon size={20} />
         </Button>
       </SheetTrigger>
-      <SheetContent className="sm:w-72 px-0 h-full flex flex-col" side="left">
+      <SheetContent
+        className="w-auto px-0 h-full flex flex-col overflow-y-auto"
+        side="left"
+      >
         <SheetHeader>
           <SheetTitle className="sr-only">Five Star Finance Inc.</SheetTitle>
           <Button

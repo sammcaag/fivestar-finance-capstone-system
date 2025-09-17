@@ -130,7 +130,7 @@ export default function LoanFormRegular({
                       min={0}
                       max={35000}
                       step="1000"
-                      className="border-0 bg-transparent text-lg focus-visible:ring-0 p-2 h-auto w-full"
+                      className="border-0 bg-background !text-lg focus-visible:ring-0 px-4 py-1 h-auto w-full"
                       {...field}
                       onKeyDown={preventInvalidInput}
                       onChange={(e) =>
