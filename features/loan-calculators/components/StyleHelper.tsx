@@ -1,7 +1,8 @@
 import { CustomTooltip } from "@/components/CustomTooltip";
-import { FormValues } from "../types/types-regular";
+import { FormValues as FormValuesRegular } from "../types/types-regular";
 import { FormItem, FormLabel } from "@/components/ui/form";
 import { Info } from "lucide-react";
+import { FormValues as FormValuesExtension } from "../types/types-extension";
 
 export const FORM_STYLES = {
   container:
@@ -49,7 +50,7 @@ export const containerVariants = {
 };
 
 interface FormFieldWrapperProps {
-  fieldName: keyof FormValues;
+  fieldName: keyof FormValuesRegular | keyof FormValuesExtension;
   focusedField: string | null;
   hasError: boolean;
   isDisabled?: boolean;

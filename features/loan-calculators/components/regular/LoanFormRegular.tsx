@@ -34,7 +34,7 @@ import {
   FormFieldWrapper,
   FormHeader,
   formItemVariants,
-} from "../../utils/style-helper";
+} from "../StyleHelper";
 
 export default function LoanFormRegular({
   form,
