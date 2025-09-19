@@ -207,7 +207,7 @@ export default function RegularLoanCalculator({
       />
 
       <motion.div
-        className="bg-card dark:bg-background rounded-xl shadow-lg border border-gray-100 dark:border-gray-800"
+        className="bg-white dark:bg-gray-950 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800"
         variants={itemVariants}
       >
         <div className="p-6 space-y-8">

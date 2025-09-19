@@ -80,7 +80,7 @@ export default function RegisterClient() {
       >
         <StepIndicator steps={steps} currentStep={currentStep} />
 
-        <div className="bg-card dark:bg-background rounded-lg shadow-lg border mt-10 transition-colors ease-in-out">
+        <div className="bg-white dark:bg-gray-950 rounded-lg shadow-lg border mt-10 transition-colors ease-in-out">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(formProcessor)} className="p-6">
               <div className="relative overflow-hidden">

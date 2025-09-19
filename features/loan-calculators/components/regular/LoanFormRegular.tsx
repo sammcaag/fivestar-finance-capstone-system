@@ -238,6 +238,7 @@ export default function LoanFormRegular({
                   fieldName="remainingMonths"
                   focusedField={focusedField}
                   hasError={hasFieldError("remainingMonths")}
+                  isDisabled={true}
                 >
                   <div className={FORM_STYLES.padding}>
                     <FormHeader
@@ -299,6 +300,7 @@ export default function LoanFormRegular({
                   fieldName="outstandingBalance"
                   focusedField={focusedField}
                   hasError={hasFieldError("outstandingBalance")}
+                  isDisabled={isDisabled}
                 >
                   <div className={FORM_STYLES.padding}>
                     <FormHeader
@@ -349,6 +351,7 @@ export default function LoanFormRegular({
                   fieldName="otherDeduction"
                   focusedField={focusedField}
                   hasError={hasFieldError("otherDeduction")}
+                  isDisabled={isDisabled}
                 >
                   <div className={FORM_STYLES.padding}>
                     <FormHeader

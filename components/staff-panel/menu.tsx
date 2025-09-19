@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -24,6 +24,17 @@ export function Menu({ isOpen }: MenuProps) {
   const menuList = getMenuList();
   const router = useRouter();
   const [accordionValue, setAccordionValue] = useState<string>("");
+
+  // Load saved value on first render
+  useEffect(() => {
+    const saved = localStorage.getItem("accordionValue");
+    if (saved) setAccordionValue(saved);
+  }, []);
+
+  // Save value when it changes
+  useEffect(() => {
+    localStorage.setItem("accordionValue", accordionValue);
+  }, [accordionValue]);
 
   return (
     <div>

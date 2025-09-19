@@ -24,7 +24,7 @@ export const COLORS = {
   focus: "ring-2 ring-blue-200 border-blue-300",
   error: "ring-2 ring-red-200 border-red-300",
   default: "border-gray-200 dark:border-gray-800",
-  disabled: "bg-gray-50 dark:bg-gray-900/50",
+  disabled: "bg-gray-50 dark:bg-gray-900/50 cursor-not-allowed",
 } as const;
 
 export const formItemVariants = {
