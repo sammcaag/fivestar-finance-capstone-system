@@ -14,6 +14,7 @@ import {
   Save,
   Trash2,
   ArrowRight,
+  LucideIcon,
 } from "lucide-react";
 import { steps } from "@/features/clients/components/lib/client-registration-form";
 import ClientGeneralInformation from "@/features/clients/components/steps/ClientGeneralInformation";
@@ -36,7 +37,7 @@ export default function RegisterClient() {
     processForm: formProcessor,
   } = useClientRegistrationForm();
 
-  // Simple slide animation without alternating behavior
+  // Simplified slide animation
   const slideVariants = {
     initial: { opacity: 0, x: 50 },
     animate: { opacity: 1, x: 0 },
@@ -50,37 +51,49 @@ export default function RegisterClient() {
     { key: "step-3", component: <AccountsInformation form={form} /> },
   ];
 
+  // Consolidated button styles
+  const buttonStyles = {
+    primary:
+      "min-w-24 flex items-center gap-2 rounded-md bg-primary text-primary-foreground shadow-sm hover:shadow-md hover:bg-primary/90 transition-all duration-200",
+    outline:
+      "group flex items-center gap-1 rounded-md border border-border shadow-sm hover:shadow-md hover:bg-accent hover:text-accent-foreground transition-all duration-200",
+    disabled: "opacity-50 cursor-not-allowed",
+  };
+
+  // Reusable button content component with explicit types
+  const ButtonContent = ({
+    icon: Icon,
+    text,
+  }: {
+    icon: LucideIcon;
+    text: string;
+  }) => (
+    <div className="flex items-center gap-2">
+      <Icon className="size-4" />
+      <span className="w-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:w-auto group-hover:opacity-100 group-hover:ml-1">
+        {text}
+      </span>
+    </div>
+  );
+
   return (
     <ContentLayout title="Register Client">
       <BreadcrumbPages
         links={[
-          {
-            href: "/dashboard",
-            label: "Home",
-          },
-          {
-            href: "/dashboard",
-            label: "Dashboard",
-          },
-          {
-            href: "/clients",
-            label: "Clients",
-          },
-          {
-            href: "/clients/register",
-            label: "Register Client",
-          },
+          { href: "/dashboard", label: "Home" },
+          { href: "/dashboard", label: "Dashboard" },
+          { href: "/clients", label: "Clients" },
+          { href: "/clients/register", label: "Register Client" },
         ]}
       />
       <motion.div
         className="w-full mx-auto mt-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.5 }}
       >
         <StepIndicator steps={steps} currentStep={currentStep} />
-
-        <div className="bg-white dark:bg-gray-950 rounded-lg shadow-lg border mt-10 transition-colors ease-in-out">
+        <div className="bg-background rounded-lg shadow-lg border mt-10">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(formProcessor)} className="p-6">
               <div className="relative overflow-hidden">
@@ -91,13 +104,12 @@ export default function RegisterClient() {
                     initial="initial"
                     animate="animate"
                     exit="exit"
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    transition={{ duration: 0.3 }}
                   >
                     {formSteps[currentStep].component}
                   </motion.div>
                 </AnimatePresence>
               </div>
-
               <motion.div
                 className="flex justify-between mt-8 pt-6 border-t border-border"
                 initial={{ opacity: 0, y: 20 }}
@@ -110,8 +122,8 @@ export default function RegisterClient() {
                     onClick={prev}
                     disabled={currentStep === 0}
                     className={cn(
-                      "min-w-24 flex items-center gap-2 rounded-md bg-primary text-primary-foreground shadow-sm hover:shadow-md hover:bg-primary/90 transition-all duration-200",
-                      currentStep === 0 && "opacity-50 cursor-not-allowed"
+                      buttonStyles.primary,
+                      currentStep === 0 && buttonStyles.disabled
                     )}
                   >
                     <ArrowLeft className="size-4" />
@@ -120,47 +132,32 @@ export default function RegisterClient() {
                   <Button
                     type="reset"
                     variant="outline"
-                    className="group rounded-md bg-background text-foreground border border-border hover:bg-accent hover:text-accent-foreground transition-all duration-200"
+                    className={buttonStyles.outline}
                     onClick={clearForm}
                   >
-                    <div className="flex items-center gap-2">
-                      <Eraser className="size-4" />
-                      <span className="w-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:w-auto group-hover:opacity-100 group-hover:ml-1">
-                        Clear Data
-                      </span>
-                    </div>
+                    <ButtonContent icon={Eraser} text="Clear Data" />
                   </Button>
                 </div>
                 <div className="flex gap-3">
                   {hasDraft && (
-                    <div className="flex gap-3">
+                    <>
                       <Button
                         type="button"
                         onClick={deleteSavedDraft}
                         variant="destructive"
-                        className="group flex items-center gap-1 rounded-md shadow-sm hover:shadow-md transition-all duration-200"
+                        className={buttonStyles.outline}
                       >
-                        <div className="flex items-center gap-2">
-                          <Trash2 className="size-4" />
-                          <span className="w-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:w-auto group-hover:opacity-100 group-hover:ml-1">
-                            Delete Draft
-                          </span>
-                        </div>
+                        <ButtonContent icon={Trash2} text="Delete Draft" />
                       </Button>
                       <Button
                         type="button"
                         onClick={loadSavedDraft}
                         variant="outline"
-                        className="group flex items-center gap-1 rounded-md bg-background text-foreground border border-border shadow-sm hover:shadow-md hover:bg-accent hover:text-accent-foreground transition-all duration-200"
+                        className={buttonStyles.outline}
                       >
-                        <div className="flex items-center gap-2">
-                          <FileUp className="size-4" />
-                          <span className="w-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:w-auto group-hover:opacity-100 group-hover:ml-1">
-                            Load Saved Draft
-                          </span>
-                        </div>
+                        <ButtonContent icon={FileUp} text="Load Saved Draft" />
                       </Button>
-                    </div>
+                    </>
                   )}
                   <Button
                     type="button"
@@ -168,32 +165,23 @@ export default function RegisterClient() {
                     variant="outline"
                     disabled={!formModified}
                     className={cn(
-                      "group rounded-md bg-background text-foreground border border-border shadow-sm hover:shadow-md hover:bg-accent hover:text-accent-foreground transition-all duration-200",
-                      !formModified && "opacity-50 cursor-not-allowed"
+                      buttonStyles.outline,
+                      !formModified && buttonStyles.disabled
                     )}
                   >
-                    <div className="flex items-center gap-2">
-                      <Save className="size-4" />
-                      <span className="w-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:w-auto group-hover:opacity-100 group-hover:ml-1">
-                        Save Draft
-                      </span>
-                    </div>
+                    <ButtonContent icon={Save} text="Save Draft" />
                   </Button>
-                  {/*  Next/Submit Button */}
                   {currentStep < steps.length - 1 ? (
                     <Button
                       type="button"
                       onClick={() => nextButton?.props?.onClick?.()}
-                      className="min-w-24 flex items-center gap-2 rounded-md bg-primary text-primary-foreground shadow-sm hover:shadow-md hover:bg-primary/90 transition-all duration-200"
+                      className={buttonStyles.primary}
                     >
                       Next
                       <ArrowRight className="size-4" />
                     </Button>
                   ) : (
-                    <Button
-                      type="submit"
-                      className="min-w-24 flex items-center gap-2 rounded-md bg-primary text-primary-foreground shadow-sm hover:shadow-md hover:bg-primary/90 transition-all duration-200"
-                    >
+                    <Button type="submit" className={buttonStyles.primary}>
                       Submit
                       <ArrowRight className="size-4" />
                     </Button>
