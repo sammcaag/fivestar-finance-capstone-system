@@ -37,6 +37,16 @@ export function debounce<Args extends unknown[]>(
   };
 }
 
+export function validateEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+export function validatePhone(phone: string): boolean {
+  const phoneRegex = /^(\+63|0)?[0-9]{10}$/;
+  return phoneRegex.test(phone.replace(/\s/g, ""));
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

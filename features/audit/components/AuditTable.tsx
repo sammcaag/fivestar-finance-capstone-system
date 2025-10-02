@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/utils";
 import { AuditLog } from "../types/audit-types";
-import { Column, DataTable } from "./DataTable";
+import { Column, DataTable } from "../../../components/DataTable";
 
 interface AuditTableProps {
   logs: AuditLog[];
