@@ -3,40 +3,36 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { PrinterIcon, Calculator, ArrowRight, RefreshCw } from "lucide-react";
-import LoanFormRegular from "./LoanFormRegular";
-import ResultsDisplay from "./ResultsDisplayRegular";
-import ClientTitleCard from "../ClientTitleCard";
-import { useRegularCalculatorForm } from "../../hooks/use-regular-calculator-form";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import ReferencesDisplay from "./extension/References";
+import ResultsDisplay from "./extension/ResultsDisplayExtension";
+import ClientTitleCard from "./ClientTitleCard";
+import { useExtensionCalculatorForm } from "../hooks/use-extension-calculator-form";
+import LoanFormExtension from "./extension/LoanFormExtension";
 
-interface RegularLoanCalculatorProps {
-  clientType: "Renewal" | "New Client" | "Reloan" | "Additional";
-}
-
-export default function RegularLoanCalculator({
-  clientType,
-}: RegularLoanCalculatorProps) {
+export default function ExtensionLoanCalculator() {
   const {
-    calculatorForm,
-    selectedCard,
-    setSelectedCard,
-    results,
-    setHasDeduction,
-    hasDeduction,
-    valueDate,
-    setValueDate,
-    maturityDate,
-    setMaturityDate,
-    loanMaturityDate,
-    setLoanMaturityDate,
-    netAmount,
-    isDoneCalculate,
-    isCalculating,
+    extensionForm,
+    setExtensionValueDate,
+    setExtensionMaturityDate,
+    setRenewalExtensionValueDate,
+    setRenewalExtensionMaturityDate,
     handleCompute,
     handleClear,
     handlePrint,
-  } = useRegularCalculatorForm(clientType);
-
-  const { handleSubmit } = calculatorForm;
+    isCalculating,
+    isDoneCalculate,
+    netAmount,
+    results,
+    references,
+    extensionValueDate,
+    extensionMaturityDate,
+    renewalExtensionValueDate,
+    renewalExtensionMaturityDate,
+    hasDeductions,
+    setHasDeductions,
+  } = useExtensionCalculatorForm();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -68,7 +64,7 @@ export default function RegularLoanCalculator({
     >
       <ClientTitleCard
         variants={itemVariants}
-        title={`AFP ${clientType} Computation`}
+        title={`AFP Extension Computation`}
         description="Calculate potential loan amount for clients with precision and ease"
       />
 
@@ -76,22 +72,15 @@ export default function RegularLoanCalculator({
         className="bg-white dark:bg-gray-950 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800"
         variants={itemVariants}
       >
-        <Form {...calculatorForm}>
+        <Form {...extensionForm}>
           <form
-            onSubmit={handleSubmit(handleCompute)}
-            className="p-6 space-y-8"
+            onSubmit={extensionForm.handleSubmit(handleCompute)}
+            className="space-y-8 p-6"
           >
-            <LoanFormRegular
-              selectedCard={selectedCard}
-              onCardSelect={setSelectedCard}
-              hasDeduction={hasDeduction}
-              setHasDeduction={setHasDeduction}
-              clientType={clientType}
-              {...(clientType === "Renewal" && {
-                maturityDate: loanMaturityDate,
-                setMaturityDate: setLoanMaturityDate,
-              })}
-              isDoneCalculate={isDoneCalculate}
+            <LoanFormExtension
+              form={extensionForm}
+              hasDeductions={hasDeductions}
+              setHasDeductions={setHasDeductions}
             />
 
             {isDoneCalculate && (
@@ -99,15 +88,52 @@ export default function RegularLoanCalculator({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
+                className="space-y-8"
               >
+                <ReferencesDisplay {...references} />
+
+                <Separator className="my-8" />
+
                 <ResultsDisplay
                   {...results}
-                  netAmount={netAmount}
-                  valueDate={valueDate}
-                  setValueDate={setValueDate}
-                  maturityDate={maturityDate}
-                  setMaturityDate={setMaturityDate}
+                  extensionValueDate={extensionValueDate}
+                  setExtensionValueDate={setExtensionValueDate}
+                  extensionMaturityDate={extensionMaturityDate}
+                  setExtensionMaturityDate={setExtensionMaturityDate}
+                  renewalExtensionValueDate={renewalExtensionValueDate}
+                  setRenewalExtensionValueDate={setRenewalExtensionValueDate}
+                  renewalExtensionMaturityDate={renewalExtensionMaturityDate}
+                  setRenewalExtensionMaturityDate={
+                    setRenewalExtensionMaturityDate
+                  }
                 />
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <Card className="overflow-hidden border-none shadow-lg bg-gradient-to-r from-green-50 to-emerald-100 dark:from-green-950/40 dark:to-emerald-900/20">
+                    <CardContent className="p-6">
+                      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <h3 className="text-xl font-bold">NET Amount:</h3>
+                        <motion.span
+                          className="text-3xl font-bold text-green-600 dark:text-green-400"
+                          initial={{ scale: 0.9, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 10,
+                            delay: 0.5,
+                          }}
+                        >
+                          {netAmount}
+                        </motion.span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               </motion.div>
             )}
 

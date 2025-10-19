@@ -1,10 +1,9 @@
 "use client";
 
-
 import React from "react";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
-import RegularLoanCalculator from "@/features/loans/computations/components/regular/RegularLoanCalculator";
+import RegularLoanCalculator from "@/features/loans/computations/components/RegularLoanCalculator";
 
 export default function Additional() {
   return (

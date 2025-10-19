@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { getYear } from "date-fns";
-import type { UseFormReturn } from "react-hook-form";
+import { useFormContext, type UseFormReturn } from "react-hook-form";
 import type { FormValues } from "../../types/types-extension";
 import {
   COLORS,
@@ -29,6 +29,7 @@ import {
   FormHeader,
   formItemVariants,
 } from "../StyleHelper";
+import { ExtensionCalculatorSchema } from "../../schema/loan-extension-schema";
 
 interface LoanFormExtensionProps {
   form: UseFormReturn<FormValues>;
@@ -41,14 +42,9 @@ export default function LoanFormExtension({
   form,
   hasDeductions,
   setHasDeductions,
-}: // hasFormErrors,
-LoanFormExtensionProps) {
+}: LoanFormExtensionProps) {
+  const { control } = useFormContext<ExtensionCalculatorSchema>();
   const [focusedField, setFocusedField] = useState<string | null>(null);
-
-  // Helper function to determine if a field has an error
-  const hasFieldError = (fieldName: keyof FormValues) => {
-    return !!form.formState.errors[fieldName];
-  };
 
   const createInputHandlers = (
     fieldName: string,
@@ -71,20 +67,20 @@ LoanFormExtensionProps) {
       >
         <motion.div variants={formItemVariants}>
           <FormField
-            control={form.control}
+            control={control}
             name="monthlyAmortization"
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <FormFieldWrapper
                 fieldName="monthlyAmortization"
                 focusedField={focusedField}
-                hasError={hasFieldError("monthlyAmortization")}
+                hasError={Boolean(error)}
               >
                 <div className={FORM_STYLES.padding}>
                   <FormHeader
                     icon={PhilippinePeso}
                     label="Monthly Amortization (MA)"
                     tooltip="The fixed amount paid by the client each month"
-                    hasError={hasFieldError("monthlyAmortization")}
+                    hasError={Boolean(error)}
                   />
                   <FormControl>
                     <Input
@@ -111,20 +107,20 @@ LoanFormExtensionProps) {
 
         <motion.div variants={formItemVariants}>
           <FormField
-            control={form.control}
+            control={control}
             name="term"
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <FormFieldWrapper
                 fieldName="term"
                 focusedField={focusedField}
-                hasError={hasFieldError("term")}
+                hasError={Boolean(error)}
               >
                 <div className={FORM_STYLES.padding}>
                   <FormHeader
                     icon={Clock}
                     label="Term (Months)"
                     tooltip="The duration of the extension in months (6-25)"
-                    hasError={hasFieldError("term")}
+                    hasError={Boolean(error)}
                   />
                   <FormControl>
                     <Input
@@ -154,20 +150,20 @@ LoanFormExtensionProps) {
 
         <motion.div variants={formItemVariants}>
           <FormField
-            control={form.control}
+            control={control}
             name="settedMaturityDate"
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <FormFieldWrapper
                 fieldName="settedMaturityDate"
                 focusedField={focusedField}
-                hasError={hasFieldError("settedMaturityDate")}
+                hasError={Boolean(error)}
               >
                 <div className={FORM_STYLES.padding}>
                   <FormHeader
                     icon={Calendar}
                     label="Maturity Date"
                     tooltip="The date when the current loan will be fully paid"
-                    hasError={hasFieldError("settedMaturityDate")}
+                    hasError={Boolean(error)}
                   />
                   <FormControl>
                     <CustomDatePicker
@@ -238,13 +234,13 @@ LoanFormExtensionProps) {
           <FormField
             control={form.control}
             name="settedOutstandingBalance"
-            render={({ field }) => {
+            render={({ field, fieldState: { error } }) => {
               const isDisabled = !hasDeductions;
               return (
                 <FormFieldWrapper
                   fieldName="settedOutstandingBalance"
                   focusedField={focusedField}
-                  hasError={hasFieldError("settedOutstandingBalance")}
+                  hasError={Boolean(error)}
                   isDisabled={isDisabled}
                 >
                   <div className={FORM_STYLES.padding}>
@@ -252,7 +248,7 @@ LoanFormExtensionProps) {
                       icon={PhilippinePeso}
                       label="Outstanding Balance"
                       tooltip="The remaining balance on the loan (UAI/SPOI)"
-                      hasError={hasFieldError("settedOutstandingBalance")}
+                      hasError={Boolean(error)}
                       isDisabled={isDisabled}
                     />
                     <FormControl>
@@ -283,15 +279,15 @@ LoanFormExtensionProps) {
 
         <motion.div variants={formItemVariants}>
           <FormField
-            control={form.control}
+            control={control}
             name="otherDeduction"
-            render={({ field }) => {
+            render={({ field, fieldState: { error } }) => {
               const isDisabled = !hasDeductions;
               return (
                 <FormFieldWrapper
                   fieldName="otherDeduction"
                   focusedField={focusedField}
-                  hasError={hasFieldError("otherDeduction")}
+                  hasError={Boolean(error)}
                   isDisabled={isDisabled}
                 >
                   <div className={FORM_STYLES.padding}>
@@ -299,7 +295,7 @@ LoanFormExtensionProps) {
                       icon={PhilippinePeso}
                       label="Other Deduction/s"
                       tooltip="Additional deductions to be applied to the loan"
-                      hasError={hasFieldError("otherDeduction")}
+                      hasError={Boolean(error)}
                       isDisabled={isDisabled}
                       extraContent={
                         <span className="ml-2 text-xs font-normal text-muted-foreground italic">

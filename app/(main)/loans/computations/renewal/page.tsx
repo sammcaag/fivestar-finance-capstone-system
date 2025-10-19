@@ -1,4 +1,4 @@
-import RegularLoanCalculator from "@/features/loans/computations/components/regular/RegularLoanCalculator";
+import RegularLoanCalculator from "@/features/loans/computations/components/RegularLoanCalculator";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 

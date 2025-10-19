@@ -1,5 +1,5 @@
 import React from "react";
-import ExtensionLoanCalculator from "@/features/loans/computations/components/extension/ExtensionLoanCalculator";
+import ExtensionLoanCalculator from "@/features/loans/computations/components/ExtensionLoanCalculator";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 
