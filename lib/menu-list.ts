@@ -38,7 +38,7 @@ export function getMenuList(): Group[] {
       groupLabel: "Home",
       menus: [
         {
-          href: "/dashboard",
+          href: "/dashboard", // has page
           label: "Dashboard",
           icon: LayoutGrid,
         },
@@ -48,17 +48,17 @@ export function getMenuList(): Group[] {
       groupLabel: "Clients",
       menus: [
         {
-          href: "/clients",
+          href: "/clients", //split the page
           label: "All Clients",
           icon: Users,
         },
         {
-          href: "/clients/register",
+          href: "/clients/register", // refine form
           label: "Register Client",
           icon: UserRoundPlus,
         },
         {
-          href: "/clients/info",
+          href: "/clients/info", // with page client info
           label: "Client Information",
           icon: FileUser,
         },
@@ -67,10 +67,10 @@ export function getMenuList(): Group[] {
     {
       groupLabel: "Loans",
       menus: [
-        // loan applications
+        // All Loans showcase
         {
-          href: "/loans/applications",
-          label: "Loan Applications",
+          href: "/loans", // get from /clients
+          label: "All Loans",
           icon: FilePenLine,
         },
         // loan appointments
