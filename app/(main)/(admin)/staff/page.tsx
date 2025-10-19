@@ -90,6 +90,7 @@ export default function UsersPage() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleDeactivate = async (userId: string) => {
     if (!confirm("Are you sure you want to deactivate this user?")) return;
 

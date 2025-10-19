@@ -4,11 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import {
   ChevronDown,
-  ChevronRight,
-  Dot,
-  Plus,
   Sparkle,
-  SquarePlus,
   type LucideIcon,
 } from "lucide-react";
 

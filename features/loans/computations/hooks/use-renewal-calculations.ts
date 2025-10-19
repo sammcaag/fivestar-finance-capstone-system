@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import type { UseFormReturn } from "react-hook-form";
-import type { FormValues } from "@/features/loan-calculators/types/types-regular";
+import type { FormValues } from "@/features/loans/computations/types/types-regular";
 
 interface UseRenewalCalculationsProps {
   clientType: string;

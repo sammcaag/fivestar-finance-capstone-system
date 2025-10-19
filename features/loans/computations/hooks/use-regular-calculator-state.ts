@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback } from "react";
-import type { ResultsProps } from "@/features/loan-calculators/types/types-regular";
 import type { Dispatch, SetStateAction } from "react";
+import type { ResultsProps } from "@/features/loans/computations/types/types-regular";
 
 interface CalculatorState {
   selectedCard: string;
