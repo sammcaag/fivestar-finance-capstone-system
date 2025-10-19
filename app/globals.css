@@ -82,13 +82,16 @@
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
+
   @media (width >= --theme(--breakpoint-sm)) {
     max-width: none;
   }
-  @media (width >= 1350px) {
-    max-width: 1350px;
+
+  @media (width >= 1600px) {
+    max-width: 1600px;
   }
 }
+
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
