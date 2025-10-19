@@ -64,7 +64,7 @@ export default function SearchInput({ fullWidth }: { fullWidth: boolean }) {
           <span className="text-muted-foreground/70 font-normal">Search</span>
         </span>
         <kbd className="text-muted-foreground/70 ms-12 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
-          {navigator.userAgent.includes("Mac") ? "⌘K" : "Ctrl+K"}
+          Ctrl+K
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -90,7 +90,7 @@ export default function SearchInput({ fullWidth }: { fullWidth: boolean }) {
                 <span>Register a New Client</span>
               </Link>
               <CommandShortcut className="justify-center">
-                {navigator.userAgent.includes("Mac") ? "⌘N" : "Ctrl+N"}
+                Ctrl+N
               </CommandShortcut>
             </CommandItem>
             <CommandItem>
@@ -106,7 +106,7 @@ export default function SearchInput({ fullWidth }: { fullWidth: boolean }) {
                 <span>New Client Computation</span>
               </Link>
               <CommandShortcut className="justify-center">
-                {navigator.userAgent.includes("Mac") ? "⌘I" : "Ctrl+I"}
+                Ctrl+I
               </CommandShortcut>
             </CommandItem>
           </CommandGroup>

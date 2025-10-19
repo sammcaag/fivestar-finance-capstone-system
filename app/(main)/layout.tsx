@@ -1,6 +1,6 @@
 import AdminPanelLayout from "@/components/staff-panel/staff-panel-layout";
 
-export default function DemoLayout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;

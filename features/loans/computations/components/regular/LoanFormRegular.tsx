@@ -4,23 +4,29 @@ import type React from "react";
 
 import { FormControl, FormField, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import type {
+  LoanFormRegularProps,
+  RateProps,
+  FormValues,
+} from "../../types/types-regular";
+import RateCards from "./RateCards";
 import {
   preventInvalidInput,
   preventNegativeAndLimitDecimals,
-} from "../../../../utils/handling-input-numbers";
+} from "../../../../../utils/handling-input-numbers";
 import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from "framer-motion";
-import {
-  AlertCircle,
-  AudioLines as PhilippinePeso,
-  Calendar,
-  Clock,
-} from "lucide-react";
+import { Calendar, Clock, AlertCircle, PhilippinePeso } from "lucide-react";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { getYear } from "date-fns";
-import type { UseFormReturn } from "react-hook-form";
-import type { FormValues } from "../../types/types-extension";
 import {
   COLORS,
   containerVariants,
@@ -30,25 +36,27 @@ import {
   formItemVariants,
 } from "../StyleHelper";
 
-interface LoanFormExtensionProps {
-  form: UseFormReturn<FormValues>;
-  hasDeductions: boolean;
-  setHasDeductions: (hasDeduction: boolean) => void;
-  hasFormErrors?: boolean;
-}
-
-export default function LoanFormExtension({
+export default function LoanFormRegular({
   form,
-  hasDeductions,
-  setHasDeductions,
-}: // hasFormErrors,
-LoanFormExtensionProps) {
+  selectedCard,
+  onCardSelect,
+  hasDeduction,
+  setHasDeduction,
+  clientType,
+  maturityDate,
+  setMaturityDate,
+  isDoneCalculate,
+}: LoanFormRegularProps) {
+  const rates: RateProps[] = [
+    { id: "1", title: "Regular Rate" },
+    { id: "2", title: "Special Rate" },
+    { id: "3", title: "A Rate" },
+  ];
+
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
-  // Helper function to determine if a field has an error
-  const hasFieldError = (fieldName: keyof FormValues) => {
-    return !!form.formState.errors[fieldName];
-  };
+  const hasFieldError = (fieldName: keyof FormValues) =>
+    !!form.formState.errors[fieldName];
 
   const createInputHandlers = (
     fieldName: string,
@@ -64,7 +72,7 @@ LoanFormExtensionProps) {
   return (
     <div className="space-y-8">
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
@@ -91,6 +99,7 @@ LoanFormExtensionProps) {
                       placeholder="Enter amount"
                       type="number"
                       min={0}
+                      max={35000}
                       step="1000"
                       className={FORM_STYLES.input}
                       {...field}
@@ -123,26 +132,35 @@ LoanFormExtensionProps) {
                   <FormHeader
                     icon={Clock}
                     label="Term (Months)"
-                    tooltip="The duration of the extension in months (6-25)"
+                    tooltip="The duration of the loan in months"
                     hasError={hasFieldError("term")}
                   />
-                  <FormControl>
-                    <Input
-                      placeholder="Enter term (6-25 months)"
-                      type="number"
-                      min={6}
-                      max={25}
-                      className={FORM_STYLES.input}
-                      {...field}
-                      onChange={(e) => {
-                        const value =
-                          e.target.value === "" ? "" : Number(e.target.value);
-                        field.onChange(value);
-                      }}
-                      onFocus={() => setFocusedField("term")}
-                      onBlur={() => setFocusedField(null)}
-                    />
-                  </FormControl>
+                  <Select
+                    onValueChange={(value) => field.onChange(Number(value))}
+                    defaultValue={field.value ? String(field.value) : ""}
+                    onOpenChange={(open) => {
+                      setFocusedField(open ? "term" : null);
+                    }}
+                  >
+                    <FormControl>
+                      <SelectTrigger className={FORM_STYLES.selectTrigger}>
+                        <SelectValue
+                          placeholder="Select Term"
+                          className={field.value === 0 ? COLORS.muted : ""}
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="0" className={COLORS.muted}>
+                        Select Term
+                      </SelectItem>
+                      {[12, 24, 36, 48, 60].map((months) => (
+                        <SelectItem key={months} value={String(months)}>
+                          {months} Months
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className={FORM_STYLES.messagePadding}>
                   <FormMessage />
@@ -151,73 +169,110 @@ LoanFormExtensionProps) {
             )}
           />
         </motion.div>
+      </motion.div>
 
-        <motion.div variants={formItemVariants}>
+      {clientType !== "Renewal" ? (
+        <motion.div
+          className="flex items-center gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50"
+          variants={formItemVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id="deductions"
+              checked={hasDeduction}
+              onCheckedChange={setHasDeduction}
+              className="data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500"
+            />
+            <label
+              htmlFor="deductions"
+              className="text-sm font-medium leading-none cursor-pointer select-none"
+            >
+              Apply deductions to this calculation
+            </label>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <AlertCircle className="h-4 w-4" />
+            <span>
+              Enabling this will allow you to specify outstanding balance and
+              other deductions
+            </span>
+          </div>
+        </motion.div>
+      ) : (
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          variants={formItemVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <div
+            className={`${FORM_STYLES.container} ${
+              focusedField === "maturityDate" ? COLORS.focus : COLORS.default
+            } bg-card ${FORM_STYLES.padding}`}
+          >
+            <FormHeader
+              icon={Calendar}
+              label="Maturity Date"
+              tooltip="The date when the loan will be fully paid"
+            />
+            <CustomDatePicker
+              date={maturityDate ?? new Date()}
+              setDate={setMaturityDate ?? (() => {})}
+              editable={true}
+              startYear={getYear(new Date())}
+              endYear={getYear(new Date()) + 5}
+              isPreviousMonthsUnselectable={true}
+              showCalendar={false}
+              customDateFormat="MMMM d, yyyy"
+            />
+          </div>
+
           <FormField
             control={form.control}
-            name="settedMaturityDate"
-            render={({ field }) => (
-              <FormFieldWrapper
-                fieldName="settedMaturityDate"
-                focusedField={focusedField}
-                hasError={hasFieldError("settedMaturityDate")}
-              >
-                <div className={FORM_STYLES.padding}>
-                  <FormHeader
-                    icon={Calendar}
-                    label="Maturity Date"
-                    tooltip="The date when the current loan will be fully paid"
-                    hasError={hasFieldError("settedMaturityDate")}
-                  />
-                  <FormControl>
-                    <CustomDatePicker
-                      date={field.value || new Date()}
-                      setDate={(date) => field.onChange(date)}
-                      startYear={getYear(new Date())}
-                      endYear={getYear(new Date()) + 5}
-                      showCalendar={false}
-                      isPreviousMonthsUnselectable={true}
-                      customDateFormat="MMMM d, yyyy"
+            name="remainingMonths"
+            render={({ field }) => {
+              return (
+                <FormFieldWrapper
+                  fieldName="remainingMonths"
+                  focusedField={focusedField}
+                  hasError={hasFieldError("remainingMonths")}
+                  isDisabled={true}
+                >
+                  <div className={FORM_STYLES.padding}>
+                    <FormHeader
+                      icon={Clock}
+                      label="Remaining Months"
+                      tooltip="Automatically calculated based on maturity date"
+                      isDisabled={true}
                     />
-                  </FormControl>
-                </div>
-                <div className={FORM_STYLES.messagePadding}>
-                  <FormMessage />
-                </div>
-              </FormFieldWrapper>
-            )}
+                    <FormControl>
+                      <div className="flex items-center bg-background rounded-md px-2 py-0.5">
+                        <Input
+                          placeholder="0"
+                          type="number"
+                          {...field}
+                          className={`${FORM_STYLES.input} ${
+                            !hasDeduction
+                              ? `${COLORS.muted} disabled:opacity-100`
+                              : ""
+                          }`}
+                          disabled={true}
+                        />
+                        <span className={COLORS.muted}>months</span>
+                      </div>
+                    </FormControl>
+                  </div>
+                  <div className={FORM_STYLES.messagePadding}>
+                    <FormMessage />
+                  </div>
+                </FormFieldWrapper>
+              );
+            }}
           />
         </motion.div>
-      </motion.div>
-
-      <motion.div
-        className="flex items-center gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50"
-        variants={formItemVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <div className="flex items-center gap-2">
-          <Checkbox
-            id="deductions"
-            checked={hasDeductions}
-            onCheckedChange={setHasDeductions}
-            className="data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500"
-          />
-          <label
-            htmlFor="deductions"
-            className="text-sm font-medium leading-none cursor-pointer select-none"
-          >
-            Apply deductions to this calculation
-          </label>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <AlertCircle className="h-4 w-4" />
-          <span>
-            Enabling this will allow you to specify outstanding balance and
-            other deductions
-          </span>
-        </div>
-      </motion.div>
+      )}
 
       <motion.div
         className="grid grid-cols-1 md:grid-cols-2 gap-6"
@@ -237,22 +292,26 @@ LoanFormExtensionProps) {
         <motion.div variants={formItemVariants}>
           <FormField
             control={form.control}
-            name="settedOutstandingBalance"
+            name="outstandingBalance"
             render={({ field }) => {
-              const isDisabled = !hasDeductions;
+              const isDisabled = !hasDeduction || clientType === "Renewal";
               return (
                 <FormFieldWrapper
-                  fieldName="settedOutstandingBalance"
+                  fieldName="outstandingBalance"
                   focusedField={focusedField}
-                  hasError={hasFieldError("settedOutstandingBalance")}
+                  hasError={hasFieldError("outstandingBalance")}
                   isDisabled={isDisabled}
                 >
                   <div className={FORM_STYLES.padding}>
                     <FormHeader
                       icon={PhilippinePeso}
                       label="Outstanding Balance"
-                      tooltip="The remaining balance on the loan (UAI/SPOI)"
-                      hasError={hasFieldError("settedOutstandingBalance")}
+                      tooltip={
+                        clientType === "Renewal"
+                          ? "Automatically computed based on remaining months × monthly amortization"
+                          : "The remaining balance on the loan"
+                      }
+                      hasError={hasFieldError("outstandingBalance")}
                       isDisabled={isDisabled}
                     />
                     <FormControl>
@@ -265,7 +324,7 @@ LoanFormExtensionProps) {
                         }`}
                         {...field}
                         {...createInputHandlers(
-                          "settedOutstandingBalance",
+                          "outstandingBalance",
                           field.onChange
                         )}
                         disabled={isDisabled}
@@ -286,7 +345,7 @@ LoanFormExtensionProps) {
             control={form.control}
             name="otherDeduction"
             render={({ field }) => {
-              const isDisabled = !hasDeductions;
+              const isDisabled = !hasDeduction;
               return (
                 <FormFieldWrapper
                   fieldName="otherDeduction"
@@ -335,6 +394,27 @@ LoanFormExtensionProps) {
           />
         </motion.div>
       </motion.div>
+
+      {isDoneCalculate && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="flex items-center justify-center mb-6">
+            <Separator className="flex-1" />
+            <p className="px-6 text-center font-bold text-base whitespace-nowrap bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text">
+              Select Client Rate
+            </p>
+            <Separator className="flex-1" />
+          </div>
+          <RateCards
+            rates={rates}
+            selectedCard={selectedCard}
+            onCardClick={onCardSelect}
+          />
+        </motion.div>
+      )}
 
       <Separator className="my-6" />
     </div>

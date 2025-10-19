@@ -4,16 +4,13 @@ import {
   LucideIcon,
   UserRoundPlus,
   Calculator,
-  FilePlus2,
-  ClockPlus,
   History,
-  StretchHorizontal,
   FileUser,
   Settings,
   FileChartColumn,
-  FilePen,
   FilePenLine,
   CalendarClock,
+  UserCog,
 } from "lucide-react";
 
 type Submenu = {
@@ -89,23 +86,23 @@ export function getMenuList(): Group[] {
           icon: Calculator,
           submenus: [
             {
-              href: "/loan-computations/new-client",
+              href: "/loans/computations/new-client",
               label: "New Client",
             },
             {
-              href: "/loan-computations/additional",
+              href: "/loans/computations/additional",
               label: "Additional",
             },
             {
-              href: "/loan-computations/reloan",
+              href: "/loans/computations/reloan",
               label: "Reloan",
             },
             {
-              href: "/loan-computations/renewal",
+              href: "/loans/computations/renewal",
               label: "Renewal",
             },
             {
-              href: "/loan-computations/extension",
+              href: "/loans/computations/extension",
               label: "Extension",
             },
           ],
@@ -123,9 +120,15 @@ export function getMenuList(): Group[] {
         },
         // Activity & Audit Logs
         {
-          href: "/activity",
+          href: "/audit",
           label: "Activity & Audit Logs",
           icon: History,
+        },
+        // Staff Management
+        {
+          href: "/staff",
+          label: "Staff Management",
+          icon: UserCog,
         },
         // Settings
         {
