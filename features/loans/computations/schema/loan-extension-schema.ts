@@ -1,18 +1,7 @@
-import { z } from "zod";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export const regularCalculatorChecker = z.object({
-  term: z.number().min(12, "Term must be greater than or equal to 12 months"),
-  monthlyAmortization: z
-    .number()
-    .min(1000, "Monthly Amortization must be greater than or equal to 1,000")
-    .max(32000, "Monthly Amortization must not exceed to 32,000"),
-  outstandingBalance: z
-    .number()
-    .min(0, "Outstanding balance must be at least 0"),
-  otherDeduction: z.number().min(0, "Other deduction must be at least 0"),
-});
-
-export const extensionCalculatorChecker = z.object({
+export const extensionCalculatorSchema = z.object({
   monthlyAmortization: z
     .number()
     .min(1000, "Monthly Amortization must be greater than or equal to 1,000"),
@@ -35,3 +24,18 @@ export const extensionCalculatorChecker = z.object({
     .min(0, "Outstanding balance must be at least 0"),
   otherDeduction: z.number().min(0, "Other deduction must be at least 0"),
 });
+
+// zod resolver
+export const extensionCalculatorResolver = zodResolver(extensionCalculatorSchema);
+
+// type
+export type ExtensionCalculatorSchema = z.infer<typeof extensionCalculatorSchema>;
+
+// default values
+export const extensionCalculatorDefaultValues = {
+  monthlyAmortization: 0,
+  term: 0,
+  settedMaturityDate: new Date(),
+  settedOutstandingBalance: 0,
+  otherDeduction: 0,
+};

@@ -1,5 +1,5 @@
 import { CustomTooltip } from "@/components/CustomTooltip";
-import { FormValues as FormValuesRegular } from "../types/types-regular";
+import { RegularCalculatorSchema } from "../schema/loan-regular-schema";
 import { FormItem, FormLabel } from "@/components/ui/form";
 import { Info } from "lucide-react";
 import { FormValues as FormValuesExtension } from "../types/types-extension";
@@ -50,9 +50,9 @@ export const containerVariants = {
 };
 
 interface FormFieldWrapperProps {
-  fieldName: keyof FormValuesRegular | keyof FormValuesExtension;
+  fieldName: keyof RegularCalculatorSchema | keyof FormValuesExtension;
   focusedField: string | null;
-  hasError: boolean;
+  hasError?: boolean;
   isDisabled?: boolean;
   children: React.ReactNode;
 }

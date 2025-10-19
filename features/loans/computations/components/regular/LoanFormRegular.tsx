@@ -15,7 +15,6 @@ import { Separator } from "@/components/ui/separator";
 import type {
   LoanFormRegularProps,
   RateProps,
-  FormValues,
 } from "../../types/types-regular";
 import RateCards from "./RateCards";
 import {
@@ -35,9 +34,10 @@ import {
   FormHeader,
   formItemVariants,
 } from "../StyleHelper";
+import { useFormContext } from "react-hook-form";
+import { RegularCalculatorSchema } from "../../schema/loan-regular-schema";
 
 export default function LoanFormRegular({
-  form,
   selectedCard,
   onCardSelect,
   hasDeduction,
@@ -47,6 +47,7 @@ export default function LoanFormRegular({
   setMaturityDate,
   isDoneCalculate,
 }: LoanFormRegularProps) {
+  const { control } = useFormContext<RegularCalculatorSchema>();
   const rates: RateProps[] = [
     { id: "1", title: "Regular Rate" },
     { id: "2", title: "Special Rate" },
@@ -54,9 +55,6 @@ export default function LoanFormRegular({
   ];
 
   const [focusedField, setFocusedField] = useState<string | null>(null);
-
-  const hasFieldError = (fieldName: keyof FormValues) =>
-    !!form.formState.errors[fieldName];
 
   const createInputHandlers = (
     fieldName: string,
@@ -79,20 +77,20 @@ export default function LoanFormRegular({
       >
         <motion.div variants={formItemVariants}>
           <FormField
-            control={form.control}
+            control={control}
             name="monthlyAmortization"
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <FormFieldWrapper
                 fieldName="monthlyAmortization"
                 focusedField={focusedField}
-                hasError={hasFieldError("monthlyAmortization")}
+                hasError={Boolean(error)}
               >
                 <div className={FORM_STYLES.padding}>
                   <FormHeader
                     icon={PhilippinePeso}
                     label="Monthly Amortization (MA)"
                     tooltip="The fixed amount paid by the client each month"
-                    hasError={hasFieldError("monthlyAmortization")}
+                    hasError={Boolean(error)}
                   />
                   <FormControl>
                     <Input
@@ -120,20 +118,20 @@ export default function LoanFormRegular({
 
         <motion.div variants={formItemVariants}>
           <FormField
-            control={form.control}
+            control={control}
             name="term"
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <FormFieldWrapper
                 fieldName="term"
                 focusedField={focusedField}
-                hasError={hasFieldError("term")}
+                hasError={Boolean(error)}
               >
                 <div className={FORM_STYLES.padding}>
                   <FormHeader
                     icon={Clock}
                     label="Term (Months)"
                     tooltip="The duration of the loan in months"
-                    hasError={hasFieldError("term")}
+                    hasError={Boolean(error)}
                   />
                   <Select
                     onValueChange={(value) => field.onChange(Number(value))}
@@ -230,14 +228,14 @@ export default function LoanFormRegular({
           </div>
 
           <FormField
-            control={form.control}
+            control={control}
             name="remainingMonths"
-            render={({ field }) => {
+            render={({ field, fieldState: { error } }) => {
               return (
                 <FormFieldWrapper
                   fieldName="remainingMonths"
                   focusedField={focusedField}
-                  hasError={hasFieldError("remainingMonths")}
+                  hasError={Boolean(error)}
                   isDisabled={true}
                 >
                   <div className={FORM_STYLES.padding}>
@@ -291,15 +289,15 @@ export default function LoanFormRegular({
       >
         <motion.div variants={formItemVariants}>
           <FormField
-            control={form.control}
+            control={control}
             name="outstandingBalance"
-            render={({ field }) => {
+            render={({ field, fieldState: { error } }) => {
               const isDisabled = !hasDeduction || clientType === "Renewal";
               return (
                 <FormFieldWrapper
                   fieldName="outstandingBalance"
                   focusedField={focusedField}
-                  hasError={hasFieldError("outstandingBalance")}
+                  hasError={Boolean(error)}
                   isDisabled={isDisabled}
                 >
                   <div className={FORM_STYLES.padding}>
@@ -311,7 +309,7 @@ export default function LoanFormRegular({
                           ? "Automatically computed based on remaining months × monthly amortization"
                           : "The remaining balance on the loan"
                       }
-                      hasError={hasFieldError("outstandingBalance")}
+                      hasError={Boolean(error)}
                       isDisabled={isDisabled}
                     />
                     <FormControl>
@@ -342,15 +340,15 @@ export default function LoanFormRegular({
 
         <motion.div variants={formItemVariants}>
           <FormField
-            control={form.control}
+            control={control}
             name="otherDeduction"
-            render={({ field }) => {
+            render={({ field, fieldState: { error } }) => {
               const isDisabled = !hasDeduction;
               return (
                 <FormFieldWrapper
                   fieldName="otherDeduction"
                   focusedField={focusedField}
-                  hasError={hasFieldError("otherDeduction")}
+                  hasError={Boolean(error)}
                   isDisabled={isDisabled}
                 >
                   <div className={FORM_STYLES.padding}>
@@ -358,7 +356,7 @@ export default function LoanFormRegular({
                       icon={PhilippinePeso}
                       label="Other Deduction/s"
                       tooltip="Additional deductions to be applied to the loan"
-                      hasError={hasFieldError("otherDeduction")}
+                      hasError={Boolean(error)}
                       isDisabled={isDisabled}
                       extraContent={
                         <span className="ml-2 text-xs font-normal text-muted-foreground italic">

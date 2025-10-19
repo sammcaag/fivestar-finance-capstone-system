@@ -1,12 +1,12 @@
 "use client";
 import { useEffect } from "react";
 import type { UseFormReturn } from "react-hook-form";
-import type { FormValues } from "@/features/loans/computations/types/types-regular";
+import type { RegularCalculatorSchema } from "@/features/loans/computations/schema/loan-regular-schema";
 
 interface UseRenewalCalculationsProps {
   clientType: string;
   loanMaturityDate: Date;
-  form: UseFormReturn<FormValues>;
+  form: UseFormReturn<RegularCalculatorSchema>;
   amortizationWatch?: number;
 }
 

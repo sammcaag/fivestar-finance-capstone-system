@@ -1,23 +1,11 @@
-import { UseFormReturn } from "react-hook-form";
-
-//types for Form Values in useForm
-export type FormValues = {
-  term: number;
-  monthlyAmortization: number;
-  outstandingBalance: number;
-  otherDeduction: number;
-  remainingMonths?: number | undefined;
-};
-
 //types for Rate Cards values used in LoanForm.tsx
 export type RateProps = {
   id: string;
   title: string;
 };
 
-//types for Loan Values that is from the FormValues Props that makes the form to be a component used in LoanForm.tsx
+//types for Loan Values that is from the RegularCalculatorValues Props that makes the form to be a component used in LoanForm.tsx
 export interface LoanFormRegularProps {
-  form: UseFormReturn<FormValues>;
   selectedCard: string;
   onCardSelect: (cardId: string) => void;
   hasDeduction: boolean;

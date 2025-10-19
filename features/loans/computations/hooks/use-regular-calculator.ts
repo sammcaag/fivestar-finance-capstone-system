@@ -1,4 +1,4 @@
-import { FormValues } from "../types/types-regular";
+import { RegularCalculatorSchema } from "../schema/loan-regular-schema";
 import { formatCurrency, removeCommas } from "../utils/format-currency";
 import { GpFactorRegularRates } from "../utils/gpfactor-rates";
 
@@ -43,7 +43,7 @@ export const useRegularLoanCalculator = () => {
   };
 
   // Main calculation function that returns the results
-  const calculateRegularLoan = (form: FormValues, selectedCard: string) => {
+  const calculateRegularLoan = (form: RegularCalculatorSchema, selectedCard: string) => {
     const { term, monthlyAmortization, outstandingBalance, otherDeduction } =
       form;
 

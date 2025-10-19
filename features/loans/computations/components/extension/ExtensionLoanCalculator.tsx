@@ -9,7 +9,7 @@ import { PrinterIcon, Calculator, ArrowRight, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { extensionCalculatorChecker } from "../../schema/loan-calculation-zod-schema";
+import { extensionCalculatorSchema } from "../../schema/loan-extension-schema";
 import { useExtensionCalculator } from "../../hooks/use-extension-calculator";
 import type {
   FormValues,
@@ -25,7 +25,7 @@ export default function ExtensionLoanCalculator() {
   const { calculateExtensionLoan } = useExtensionCalculator();
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(extensionCalculatorChecker),
+    resolver: zodResolver(extensionCalculatorSchema),
     defaultValues: {
       monthlyAmortization: 0,
       term: 0,
