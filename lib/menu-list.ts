@@ -9,13 +9,25 @@ import {
   History,
   StretchHorizontal,
   FileUser,
+  Settings,
+  FileChartColumn,
+  FilePen,
+  FilePenLine,
+  CalendarClock,
 } from "lucide-react";
+
+type Submenu = {
+  href: string;
+  label: string;
+  active?: boolean;
+};
 
 type Menu = {
   href: string;
   label: string;
   active?: boolean;
   icon: LucideIcon;
+  submenus?: Submenu[];
 };
 
 type Group = {
@@ -56,32 +68,70 @@ export function getMenuList(): Group[] {
       ],
     },
     {
-      groupLabel: "Loan Computations",
+      groupLabel: "Loans",
       menus: [
+        // loan applications
         {
-          href: "/loan-computations/new-client",
-          label: "New Client Computation",
+          href: "/loans/applications",
+          label: "Loan Applications",
+          icon: FilePenLine,
+        },
+        // loan appointments
+        {
+          href: "/loans/appointments",
+          label: "Loan Appointments",
+          icon: CalendarClock,
+        },
+        //  loan computations
+        {
+          href: "/loans/computations",
+          label: "Loan Computations",
           icon: Calculator,
+          submenus: [
+            {
+              href: "/loan-computations/new-client",
+              label: "New Client",
+            },
+            {
+              href: "/loan-computations/additional",
+              label: "Additional",
+            },
+            {
+              href: "/loan-computations/reloan",
+              label: "Reloan",
+            },
+            {
+              href: "/loan-computations/renewal",
+              label: "Renewal",
+            },
+            {
+              href: "/loan-computations/extension",
+              label: "Extension",
+            },
+          ],
         },
+      ],
+    },
+    {
+      groupLabel: "Monitoring & Control",
+      menus: [
+        // Reports & Analytics
         {
-          href: "/loan-computations/additional",
-          label: "Additional Computation",
-          icon: FilePlus2,
+          href: "/reports",
+          label: "Reports & Analytics",
+          icon: FileChartColumn,
         },
+        // Activity & Audit Logs
         {
-          href: "/loan-computations/reloan",
-          label: "Reloan Computation",
+          href: "/activity",
+          label: "Activity & Audit Logs",
           icon: History,
         },
+        // Settings
         {
-          href: "/loan-computations/renewal",
-          label: "Renewal Computation",
-          icon: ClockPlus,
-        },
-        {
-          href: "/loan-computations/extension",
-          label: "Extension Computation",
-          icon: StretchHorizontal,
+          href: "/settings",
+          label: "Settings",
+          icon: Settings,
         },
       ],
     },

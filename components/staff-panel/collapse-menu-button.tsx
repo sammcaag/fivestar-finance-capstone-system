@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronDown, Dot, type LucideIcon } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  Dot,
+  Plus,
+  Sparkle,
+  SquarePlus,
+  type LucideIcon,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -81,7 +89,7 @@ export function CollapseMenuButton({
           <div className="w-full items-center flex justify-between">
             <div className="flex items-center">
               <span
-                className="mr-4"
+                className="mr-6"
                 onMouseEnter={handleIconMouseEnter}
                 onMouseLeave={handleIconMouseLeave}
               >
@@ -127,8 +135,8 @@ export function CollapseMenuButton({
             asChild
           >
             <Link href={href}>
-              <span className="mr-4 ml-2">
-                <Dot size={18} />
+              <span className="mr-3 ml-5">
+                <Sparkle className="!size-3" />
               </span>
               <p
                 className={cn(
@@ -153,25 +161,29 @@ export function CollapseMenuButton({
             <DropdownMenuTrigger asChild>
               <Button
                 variant={isSubmenuActive ? "default" : "ghost"}
-                className="w-full justify-start h-10 mb-1"
+                className="w-full justify-start h-12 mb-1"
               >
                 <div className="w-full items-center flex justify-between">
-                  <div className="flex items-center">
+                  <div className="flex w-full items-center">
                     <span
-                      className={cn(isOpen === false ? "" : "mr-4")}
+                      className={cn(
+                        isOpen === false ? "w-full flex justify-center" : "mr-4"
+                      )}
                       onMouseEnter={handleIconMouseEnter}
                       onMouseLeave={handleIconMouseLeave}
                     >
                       <Icon size={18} />
                     </span>
-                    <p
-                      className={cn(
-                        "max-w-[200px] truncate transition-all duration-200",
-                        isOpen === false ? "opacity-0" : "opacity-100"
-                      )}
-                    >
-                      {label}
-                    </p>
+                    {isOpen && (
+                      <p
+                        className={cn(
+                          "max-w-[200px] truncate transition-all duration-200",
+                          isOpen === false ? "opacity-0" : "opacity-100"
+                        )}
+                      >
+                        {label}
+                      </p>
+                    )}
                   </div>
                 </div>
               </Button>

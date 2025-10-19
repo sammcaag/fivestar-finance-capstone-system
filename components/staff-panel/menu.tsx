@@ -1,19 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Ellipsis, LogOut } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { getMenuList } from "@/lib/menu-list";
 import { Button } from "@/components/ui/button";
-import { Ellipsis, LogOut } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
+import { CollapseMenuButton } from "./collapse-menu-button";
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -22,220 +24,122 @@ interface MenuProps {
 export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
   const menuList = getMenuList();
-  const router = useRouter();
-  const [accordionValue, setAccordionValue] = useState<string>("");
-
-  // Load saved value on first render
-  useEffect(() => {
-    const saved = localStorage.getItem("accordionValue");
-    if (saved) setAccordionValue(saved);
-  }, []);
-
-  // Save value when it changes
-  useEffect(() => {
-    localStorage.setItem("accordionValue", accordionValue);
-  }, [accordionValue]);
 
   return (
-    <div>
-      <nav className="h-full w-full">
-        <ul className="flex flex-col min-h-[calc(100vh-48px-36px-16px-30px)] lg:min-h-[calc(100vh-32px-60px-32px)] items-start space-y-1 px-3 lg:px-5">
-          {menuList.map(({ groupLabel, menus }, groupIndex) => (
-            <li className="w-full" key={groupIndex}>
-              {groupLabel === "Loan Computations" ? (
-                <>
-                  {isOpen ? (
-                    <Accordion
-                      type="single"
-                      collapsible
-                      value={accordionValue}
-                      onValueChange={setAccordionValue}
-                      className="w-full"
-                    >
-                      <AccordionItem
-                        value="loan-computations"
-                        className="border-none"
-                      >
-                        <AccordionTrigger
-                          className={cn(
-                            "text-sm font-medium text-muted-foreground px-4 py-2 max-w-[248px] truncate transition-opacity duration-200 hover:no-underline",
-                            groupIndex !== 0 && "mt-2"
-                          )}
-                        >
-                          {groupLabel}
-                        </AccordionTrigger>
-                        <AccordionContent className="pb-0">
-                          {menus.map(
-                            (
-                              { href, label, icon: Icon, active },
-                              menuIndex
-                            ) => (
-                              <div className="w-full" key={menuIndex}>
-                                <Button
-                                  variant={
-                                    (active === undefined &&
-                                      pathname === href) ||
-                                    active
-                                      ? "default"
-                                      : "ghost"
-                                  }
-                                  className="w-full justify-start h-10 mb-1"
-                                  asChild
-                                >
-                                  <Link href={href}>
-                                    <span className="mr-2">
-                                      <Icon
-                                        size={18}
-                                        className="w-[18px] h-[18px] shrink-0"
-                                      />
-                                    </span>
-                                    <p className="max-w-[200px] truncate">
-                                      {label}
-                                    </p>
-                                  </Link>
-                                </Button>
-                              </div>
-                            )
-                          )}
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  ) : !isOpen && isOpen !== undefined ? (
-                    <>
-                      <div
-                        className={cn(
-                          "w-full flex justify-center items-center",
-                          groupIndex !== 0 && "mt-2"
-                        )}
-                      >
+    <ScrollArea className="[&>div>div[style]]:!block ">
+      <nav className="h-full w-full mt-4">
+        <ul className="flex flex-col min-h-[calc(100vh-48px-36px-16px-32px)] lg:min-h-[calc(100vh-32px-40px-32px)] items-start space-y-1 px-2">
+          {menuList.map(({ groupLabel, menus }, index) => (
+            <li
+              className={cn("w-full space-y-3", groupLabel ? "pt-5" : "")}
+              key={index}
+            >
+              {(isOpen && groupLabel) || isOpen === undefined ? (
+                <p className="text-sm font-medium text-muted-foreground px-4 pb-2 max-w-[248px] truncate">
+                  {groupLabel}
+                </p>
+              ) : !isOpen && isOpen !== undefined && groupLabel ? (
+                <TooltipProvider>
+                  <Tooltip delayDuration={100}>
+                    <TooltipTrigger className="w-full">
+                      <div className="w-full flex justify-center items-center">
                         <Ellipsis className="h-5 w-5" />
                       </div>
-                      {accordionValue &&
-                        menus.map(
-                          ({ href, label, icon: Icon, active }, menuIndex) => (
-                            <div className="w-full" key={menuIndex}>
-                              <Button
-                                variant={
-                                  (active === undefined && pathname === href) ||
-                                  active
-                                    ? "default"
-                                    : "ghost"
-                                }
-                                className="w-full justify-start h-10 mb-1"
-                                asChild
-                              >
-                                <Link href={href}>
-                                  <span>
-                                    <Icon
-                                      size={18}
-                                      className="w-[18px] h-[18px] shrink-0"
-                                    />
-                                  </span>
-                                  <p
-                                    className={cn(
-                                      "max-w-[200px] truncate transition-all duration-200 -translate-x-96 opacity-0"
-                                    )}
-                                  >
-                                    {label}
-                                  </p>
-                                </Link>
-                              </Button>
-                            </div>
-                          )
-                        )}
-                    </>
-                  ) : null}
-                </>
+                    </TooltipTrigger>
+                    <TooltipContent side="right">
+                      <p>{groupLabel}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               ) : (
-                <>
-                  {isOpen ? (
-                    <p
-                      className={cn(
-                        "text-sm font-medium text-muted-foreground px-4 pb-2 max-w-[248px] truncate transition-opacity duration-200",
-                        groupIndex !== 0 && "mt-2"
-                      )}
-                    >
-                      {groupLabel}
-                    </p>
-                  ) : !isOpen && isOpen !== undefined && groupLabel ? (
-                    <div
-                      className={cn(
-                        "w-full flex justify-center items-center",
-                        groupIndex !== 0 && "mt-2"
-                      )}
-                    >
-                      <Ellipsis className="h-5 w-5" />
-                    </div>
-                  ) : (
-                    <p className="pb-2"></p>
-                  )}
-                  {menus.map(
-                    ({ href, label, icon: Icon, active }, menuIndex) => {
-                      return (
-                        <div className="w-full" key={menuIndex}>
+                <p className="pb-2"></p>
+              )}
+              {menus.map(
+                ({ href, label, icon: Icon, active, submenus }, index) =>
+                  !submenus || submenus.length === 0 ? (
+                    <TooltipProvider disableHoverableContent key={index}>
+                      <Tooltip delayDuration={100}>
+                        <TooltipTrigger asChild>
                           <Button
                             variant={
-                              (active === undefined && pathname === href) ||
+                              (active === undefined &&
+                                pathname.startsWith(href)) ||
                               active
                                 ? "default"
                                 : "ghost"
                             }
-                            className="w-full justify-start h-10 mb-1"
+                            className="w-full justify-start items-center h-10"
                             asChild
                           >
-                            <Link href={href}>
-                              <span
-                                className={cn(isOpen === false ? "" : "mr-2")}
-                              >
-                                <Icon
-                                  size={18}
-                                  className="w-[18px] h-[18px] shrink-0"
-                                />
-                              </span>
-                              <p
+                            <Link href={href} className="flex items-center">
+                              <div
                                 className={cn(
-                                  "max-w-[200px] truncate transition-all duration-200",
                                   isOpen === false
-                                    ? "-translate-x-96 opacity-0"
-                                    : "translate-x-0 opacity-100"
+                                    ? "w-full flex justify-center"
+                                    : "mr-4"
                                 )}
                               >
-                                {label}
-                              </p>
+                                <Icon size={18} />
+                              </div>
+                              {isOpen && (
+                                <p className="max-w-[200px]">{label}</p>
+                              )}
                             </Link>
                           </Button>
-                        </div>
-                      );
-                    }
-                  )}
-                </>
+                        </TooltipTrigger>
+                        {isOpen === false && (
+                          <TooltipContent side="right">{label}</TooltipContent>
+                        )}
+                      </Tooltip>
+                    </TooltipProvider>
+                  ) : (
+                    <div className="w-full" key={index}>
+                      <CollapseMenuButton
+                        icon={Icon}
+                        label={label}
+                        active={
+                          active === undefined
+                            ? pathname.startsWith(href)
+                            : active
+                        }
+                        submenus={submenus}
+                        isOpen={isOpen}
+                      />
+                    </div>
+                  )
               )}
             </li>
           ))}
-
-          <li className="w-full grow flex items-end">
-            <Button
-              onClick={() => {
-                router.push("/login");
-              }}
-              variant="outline"
-              className="w-full justify-center h-10 cursor-pointer"
-            >
-              <span className={cn(!isOpen ? "" : "mr-4")}>
-                <LogOut size={18} className="text-destructive" />
-              </span>
-              <p
-                className={cn(
-                  "whitespace-nowrap transition-all duration-200",
-                  !isOpen ? "hidden" : "visible"
+          <li className="w-full mt-auto items-end">
+            <TooltipProvider disableHoverableContent>
+              <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={() => {}}
+                    variant="outline"
+                    className="w-full justify-center h-10 mt-5"
+                  >
+                    <span className={cn(isOpen === false ? "" : "mr-4")}>
+                      <LogOut size={18} />
+                    </span>
+                    <p
+                      className={cn(
+                        "whitespace-nowrap",
+                        isOpen === false ? "opacity-0 hidden" : "opacity-100"
+                      )}
+                    >
+                      Sign out
+                    </p>
+                  </Button>
+                </TooltipTrigger>
+                {isOpen === false && (
+                  <TooltipContent side="right">Sign out</TooltipContent>
                 )}
-              >
-                Sign out
-              </p>
-            </Button>
+              </Tooltip>
+            </TooltipProvider>
           </li>
         </ul>
       </nav>
-    </div>
+    </ScrollArea>
   );
 }

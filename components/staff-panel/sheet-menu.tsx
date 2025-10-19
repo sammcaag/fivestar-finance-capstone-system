@@ -26,7 +26,7 @@ export function SheetMenu() {
         <SheetHeader>
           <SheetTitle className="sr-only">Five Star Finance Inc.</SheetTitle>
           <Button
-            className="flex justify-center items-center mb-6 pt-1"
+            className="flex justify-center items-center pt-1"
             variant="link"
             asChild
           >
