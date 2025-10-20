@@ -9,7 +9,7 @@ import { useEffect } from "react";
 
 export default function ClientInfoPage() {
   useEffect(() => {
-    document.title = "Client Information - Stella | Five Star Finance Inc.";
+    document.title = "Client Information | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

@@ -20,7 +20,7 @@ const tabs = [
 
 export default function Loans() {
   useEffect(() => {
-    document.title = "Loans Overview - Stella | Five Star Finance Inc.";
+    document.title = "Loans Overview | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

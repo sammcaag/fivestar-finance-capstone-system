@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 export default function Reloan() {
   useEffect(() => {
-    document.title = "Reloan Computation - Stella | Five Star Finance Inc.";
+    document.title = "Reloan Computation | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

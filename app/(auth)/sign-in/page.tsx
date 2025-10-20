@@ -23,7 +23,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 
 export default function LoginPage() {
   useEffect(() => {
-    document.title = "Login - Stella | Five Star Finance Inc.";
+    document.title = "Login | Stella - Five Star Finance Inc.";
   }, []);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoading, setIsLoading] = useState(false);

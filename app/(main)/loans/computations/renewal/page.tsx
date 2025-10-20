@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 export default function Renewal() {
   useEffect(() => {
-    document.title = "Renewal Computation - Stella | Five Star Finance Inc.";
+    document.title = "Renewal Computation | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

@@ -20,7 +20,7 @@ const tabs = [
 
 export default function ClientsPage() {
   useEffect(() => {
-    document.title = "Clients - Stella | Five Star Finance Inc.";
+    document.title = "Clients | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

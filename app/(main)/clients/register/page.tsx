@@ -25,7 +25,7 @@ import { useEffect } from "react";
 
 export default function RegisterClient() {
   useEffect(() => {
-    document.title = "Register Client - Stella | Five Star Finance Inc.";
+    document.title = "Register Client | Stella - Five Star Finance Inc.";
   }, []);
 
   const {

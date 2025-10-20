@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 export default function Additional() {
   useEffect(() => {
-    document.title = "Additional Computation - Stella | Five Star Finance Inc.";
+    document.title = "Additional Computation | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

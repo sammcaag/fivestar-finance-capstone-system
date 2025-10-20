@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 export default function StaffManagementPage() {
   useEffect(() => {
-    document.title = "Staff Management - Stella | Five Star Finance Inc.";
+    document.title = "Staff Management | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

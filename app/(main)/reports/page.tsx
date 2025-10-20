@@ -15,7 +15,7 @@ import { useEffect } from "react";
 
 export default function Reports() {
   useEffect(() => {
-    document.title = "Reports & Analytics - Stella | Five Star Finance Inc.";
+    document.title = "Reports & Analytics | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

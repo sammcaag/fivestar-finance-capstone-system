@@ -26,7 +26,7 @@ const CardHeaderComp = ({
   description: string;
 }) => {
   useEffect(() => {
-    document.title = "Settings - Stella | Five Star Finance Inc.";
+    document.title = "Settings | Stella - Five Star Finance Inc.";
   }, []);
   return (
     <CardHeader>

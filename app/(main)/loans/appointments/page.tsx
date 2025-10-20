@@ -17,7 +17,7 @@ const appointmentTabs = [
 
 export default function LoanAppointments() {
   useEffect(() => {
-    document.title = "Loan Appointments - Stella | Five Star Finance Inc.";
+    document.title = "Loan Appointments | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

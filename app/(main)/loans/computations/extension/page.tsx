@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 export default function Extension() {
   useEffect(() => {
-    document.title = "Extension Computation - Stella | Five Star Finance Inc.";
+    document.title = "Extension Computation | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

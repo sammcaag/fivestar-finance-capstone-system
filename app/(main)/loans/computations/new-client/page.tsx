@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 export default function NewClient() {
   useEffect(() => {
-    document.title = "New Client Computation - Stella | Five Star Finance Inc.";
+    document.title = "New Client Computation | Stella - Five Star Finance Inc.";
   }, []);
 
   return (
