@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
@@ -25,6 +25,9 @@ const CardHeaderComp = ({
   title: string;
   description: string;
 }) => {
+  useEffect(() => {
+    document.title = "Settings - Stella | Five Star Finance Inc.";
+  }, []);
   return (
     <CardHeader>
       <CardTitle>{title}</CardTitle>

@@ -24,8 +24,13 @@ import StatisticsCard from "@/components/StatisticsCard";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { MapPin } from "lucide-react";
 import MainDashboardTable from "@/features/clients/components/tables/MainDashboardTable";
+import { useEffect } from "react";
 
 export default function DashboardPage() {
+  useEffect(() => {
+    document.title = "Dashboard - Stella | Five Star Finance Inc.";
+  }, []);
+
   return (
     <ContentLayout title="Dashboard">
       <BreadcrumbPages

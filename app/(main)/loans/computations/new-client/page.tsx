@@ -1,8 +1,14 @@
+"use client";
 import RegularLoanCalculator from "@/features/loans/computations/components/RegularLoanCalculator";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
+import { useEffect } from "react";
 
 export default function NewClient() {
+  useEffect(() => {
+    document.title = "New Client Computation - Stella | Five Star Finance Inc.";
+  }, []);
+
   return (
     <ContentLayout title="New Client Computation">
       <BreadcrumbPages

@@ -11,8 +11,13 @@ import FinancialPortfolioTab from "@/features/reports/components/FinancialPortfo
 import StatisticsCard from "@/components/StatisticsCard";
 import { mockReportCardData } from "@/features/reports/components/data/mock-report-card-data";
 import ReportFiltersSection from "@/features/reports/components/ReportFiltersSection";
+import { useEffect } from "react";
 
 export default function Reports() {
+  useEffect(() => {
+    document.title = "Reports & Analytics - Stella | Five Star Finance Inc.";
+  }, []);
+
   return (
     <ContentLayout title="Reports & Analytics">
       <BreadcrumbPages

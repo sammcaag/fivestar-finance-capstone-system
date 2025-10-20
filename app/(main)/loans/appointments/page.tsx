@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
@@ -15,6 +16,10 @@ const appointmentTabs = [
 ];
 
 export default function LoanAppointments() {
+  useEffect(() => {
+    document.title = "Loan Appointments - Stella | Five Star Finance Inc.";
+  }, []);
+
   return (
     <ContentLayout title="Loan Appointments">
       <BreadcrumbPages

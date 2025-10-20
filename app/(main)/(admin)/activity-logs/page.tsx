@@ -4,8 +4,13 @@ import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { MainActivityLogsTable } from "@/features/activity-logs/components/tables/MainActivityLogsTable";
+import { useEffect } from "react";
 
 export default function ActivityLogsPage() {
+  useEffect(() => {
+    document.title = "Activity and Audit Logs - Stella | Five Star Finance Inc.";
+  }, []);
+
   return (
     <ContentLayout title="Activity and Audit Logs">
       <BreadcrumbPages

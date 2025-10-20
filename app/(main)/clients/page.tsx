@@ -8,6 +8,7 @@ import { clientsOverviewStatistics } from "@/features/clients/data/client-mock-s
 import TabListCustomComp from "@/components/TabListCustomComp";
 import StatisticsCard from "@/components/StatisticsCard";
 import MainHeader from "@/components/MainHeader";
+import { useEffect } from "react";
 
 const tabs = [
   { value: "overview", label: "All Clients" },
@@ -18,6 +19,10 @@ const tabs = [
 ];
 
 export default function ClientsPage() {
+  useEffect(() => {
+    document.title = "Clients - Stella | Five Star Finance Inc.";
+  }, []);
+
   return (
     <ContentLayout title="All Clients">
       <BreadcrumbPages

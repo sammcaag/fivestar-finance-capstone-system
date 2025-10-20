@@ -4,8 +4,13 @@ import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { MainStaffTable } from "@/features/staff/component/tables/MainStaffTable";
+import { useEffect } from "react";
 
 export default function StaffManagementPage() {
+  useEffect(() => {
+    document.title = "Staff Management - Stella | Five Star Finance Inc.";
+  }, []);
+
   return (
     <ContentLayout title="Staff Management">
       <BreadcrumbPages

@@ -7,9 +7,10 @@ import { loansOverviewStatistics } from "@/features/loans/lib/loans-mock-data";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { MainLoansTable } from "@/features/loans/components/tables/MainLoansTable";
+import { useEffect } from "react";
 
 const tabs = [
-  { value: "overview", label: "All Loans" },
+  { value: "overview", label: "Overview" },
   { value: "pending", label: "Pending Loans" },
   { value: "approved", label: "Approved Loans" },
   { value: "active", label: "Active Loans" },
@@ -18,16 +19,20 @@ const tabs = [
 ];
 
 export default function Loans() {
+  useEffect(() => {
+    document.title = "Loans Overview - Stella | Five Star Finance Inc.";
+  }, []);
+
   return (
-    <ContentLayout title="All Loans">
+    <ContentLayout title="Loans Overview">
       <BreadcrumbPages
         links={[
           { href: "/dashboard", label: "Home" },
-          { href: "/loans", label: "Loans" },
+          { href: "/loans", label: "Loans Overview" },
         ]}
       />
       <MainHeader
-        title="All Loans"
+        title="Loans Overview"
         description="Oversee and manage all active, pending, and completed loan records within your branch."
       />
       <StatisticsCard statistics={loansOverviewStatistics} />
@@ -35,7 +40,7 @@ export default function Loans() {
         <TabListCustomComp tabs={tabs} />
         <TabsContent value="overview" className="space-y-4">
           <MainLoansTable
-            title="All Loans"
+            title="Loans Overview"
             description="View and manage all loan records across every status and branch."
           />
         </TabsContent>

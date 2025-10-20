@@ -21,8 +21,13 @@ import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { cn } from "@/lib/utils";
 import { steps } from "@/features/clients/lib/client-registration-form";
+import { useEffect } from "react";
 
 export default function RegisterClient() {
+  useEffect(() => {
+    document.title = "Register Client - Stella | Five Star Finance Inc.";
+  }, []);
+
   const {
     form,
     currentStep,
