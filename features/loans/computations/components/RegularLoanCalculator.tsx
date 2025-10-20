@@ -5,8 +5,8 @@ import { Form } from "@/components/ui/form";
 import { PrinterIcon, Calculator, ArrowRight, RefreshCw } from "lucide-react";
 import LoanFormRegular from "./regular/LoanFormRegular";
 import ResultsDisplay from "./regular/ResultsDisplayRegular";
-import ClientTitleCard from "./ClientTitleCard";
 import { useRegularCalculatorForm } from "../hooks/use-regular-calculator-form";
+import MainHeader from "@/components/MainHeader";
 
 interface RegularLoanCalculatorProps {
   clientType: "Renewal" | "New Client" | "Reloan" | "Additional";
@@ -61,13 +61,12 @@ export default function RegularLoanCalculator({
 
   return (
     <motion.section
-      className="w-full"
+      className="w-full space-y-8"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
     >
-      <ClientTitleCard
-        variants={itemVariants}
+      <MainHeader
         title={`AFP ${clientType} Computation`}
         description="Calculate potential loan amount for clients with precision and ease"
       />

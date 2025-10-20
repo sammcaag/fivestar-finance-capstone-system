@@ -7,9 +7,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import ReferencesDisplay from "./extension/References";
 import ResultsDisplay from "./extension/ResultsDisplayExtension";
-import ClientTitleCard from "./ClientTitleCard";
 import { useExtensionCalculatorForm } from "../hooks/use-extension-calculator-form";
 import LoanFormExtension from "./extension/LoanFormExtension";
+import MainHeader from "@/components/MainHeader";
 
 export default function ExtensionLoanCalculator() {
   const {
@@ -57,15 +57,14 @@ export default function ExtensionLoanCalculator() {
 
   return (
     <motion.section
-      className="w-full"
+      className="w-full space-y-8"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
     >
-      <ClientTitleCard
-        variants={itemVariants}
-        title={`AFP Extension Computation`}
-        description="Calculate potential loan amount for clients with precision and ease"
+      <MainHeader
+        title="AFP Extension Computation"
+        description="Calculate potential extension loan amount for clients with precision and ease"
       />
 
       <motion.div
