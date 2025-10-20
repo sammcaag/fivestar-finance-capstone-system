@@ -1,0 +1,78 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import RealTime from "./RealTime";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { CalendarDays, MapPin, LucideIcon } from "lucide-react";
+import { formatDateToReadable } from "@/utils/format-date-to-readable";
+
+interface MainHeaderProps {
+  title: string;
+  description: string;
+  quickActions?: {
+    label: string;
+    href: string;
+    icon: LucideIcon;
+  }[];
+  showDateAndTime?: boolean;
+}
+
+export default function MainHeader({
+  title,
+  description,
+  quickActions,
+  showDateAndTime = true,
+}: MainHeaderProps) {
+  return (
+    <motion.div
+      className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 p-8 text-white shadow-lg framer-motion-fix"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
+      <div className="absolute -z-10 -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
+      <div className="absolute -z-10 -bottom-10 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
+
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold tracking-wide text-white md:text-4xl">
+            {title}
+          </h1>
+          <div className="flex items-center space-x-2">
+            <MapPin className="h-5 w-5 text-blue-200" />
+            <p className="text-xl font-medium text-blue-100">{description}</p>
+          </div>
+        </div>
+
+        {showDateAndTime && (
+          <div className="mt-4 flex flex-col items-end space-y-2 md:mt-0">
+            <div className="flex items-center space-x-2 text-lg text-background">
+              <CalendarDays className="h-4 w-4" />
+              <span>{formatDateToReadable(new Date())}</span>
+            </div>
+            <div className="flex items-center space-x-2 text-lg text-background">
+              <RealTime />
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-6 space-x-2">
+        {quickActions?.map((action) => (
+          <Button
+            variant="secondary"
+            className="bg-white/20 text-white hover:bg-white/30"
+            asChild
+            key={action.label}
+          >
+            <Link href={action.href}>
+              <action.icon className="h-4 w-4" />
+              {action.label}
+            </Link>
+          </Button>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
