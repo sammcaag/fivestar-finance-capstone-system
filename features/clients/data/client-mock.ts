@@ -230,7 +230,7 @@ export const clientHistoryRecords: ClientHistoryRecord[] = [
   },
 ];
 
-export const data: Client[] = [
+export const clientTableData: Client[] = [
   {
     id: "728ed52f",
     name: "John Smith",

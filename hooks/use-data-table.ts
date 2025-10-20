@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import {
+  ColumnDef,
   type ColumnFiltersState,
   type SortingState,
   type VisibilityState,
 } from "@tanstack/react-table";
-import { Client } from "../types/types-clients";
-import { data } from "../data/client-mock";
-import { clientsColumnDefinition } from "../components/tables/ClientTableDefinition";
 import { useReactTable } from "@tanstack/react-table";
 import {
   getCoreRowModel,
@@ -14,14 +12,18 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
+import { Client } from "@/features/clients/types/types-clients";
 
-export const useClientTable = ({
-  filterStatus,
-  dashboard = false,
+export function useDataTable<TData>({
+  data, // temporary, will delete later if api routes are implemented
+  columns,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  fetcherFn,
 }: {
-  filterStatus?: Client["status"];
-  dashboard?: boolean;
-}) => {
+  data: TData[];
+  columns: ColumnDef<TData>[];
+  fetcherFn?: () => Promise<TData[]>;
+}) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -37,14 +39,9 @@ export const useClientTable = ({
     return () => clearTimeout(timer);
   }, []);
 
-  // Filter data based on status if filterStatus is provided
-  const filteredData = filterStatus
-    ? data.filter((client) => client.status === filterStatus)
-    : data;
-
   const table = useReactTable({
-    data: filteredData,
-    columns: clientsColumnDefinition(dashboard),
+    data: data,
+    columns: columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -68,6 +65,6 @@ export const useClientTable = ({
     columnVisibility,
     columnFilters,
     sorting,
-    filteredData,
+    data,
   };
-};
+}

@@ -12,7 +12,6 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { dashboardStatistics } from "@/features/clients/data/client-mock-stats";
-import { ClientsTable } from "@/features/clients/components/ClientsTable";
 import ClientStatusReport from "@/features/clients/components/ClientStatusReport";
 import MainHeader from "@/components/MainHeader";
 import {
@@ -24,6 +23,7 @@ import {
 import StatisticsCard from "@/components/StatisticsCard";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { MapPin } from "lucide-react";
+import MainDashboardTable from "@/features/clients/components/tables/MainDashboardTable";
 
 export default function DashboardPage() {
   return (
@@ -58,10 +58,9 @@ export default function DashboardPage() {
               value="overview"
               className="mt-4 flex flex-col md:flex-row gap-8"
             >
-              <ClientsTable
+              <MainDashboardTable
                 title="Client Status"
                 description="Manage your client portfolio and loan statuses"
-                dashboard
               />
               <div className="md:max-w-[550px] flex-1">
                 <ClientStatusReport />
@@ -69,10 +68,9 @@ export default function DashboardPage() {
             </TabsContent>
 
             <TabsContent value="clients" className="mt-4">
-              <ClientsTable
+              <MainDashboardTable
                 title="Client List"
                 description="Manage your client portfolio and loan statuses"
-                dashboard
               />
             </TabsContent>
 
