@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { SearchInput } from "@/features/audit/components/SearchInput";
+import { SearchInput } from "@/features/activity-logs/components/SearchInput";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { mockStaff } from "@/features/staff/data/mock-data";
 import { Staff } from "@/features/staff/types/staff-types";

@@ -4,11 +4,11 @@ import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import MainHeader from "@/components/MainHeader";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
-import { AuditTable } from "@/features/audit/components/AuditTable";
-import { Pagination } from "@/features/audit/components/Pagination";
-import { SearchInput } from "@/features/audit/components/SearchInput";
-import { mockAuditLogs } from "@/features/audit/data/mock-data";
-import { AuditLog } from "@/features/audit/types/audit-types";
+import { AuditTable } from "@/features/activity-logs/components/AuditTable";
+import { Pagination } from "@/features/activity-logs/components/Pagination";
+import { SearchInput } from "@/features/activity-logs/components/SearchInput";
+import { mockAuditLogs } from "@/features/activity-logs/data/mock-data";
+import { AuditLog } from "@/features/activity-logs/types/audit-types";
 import { useState, useEffect } from "react";
 
 export default function AuditLogsPage() {

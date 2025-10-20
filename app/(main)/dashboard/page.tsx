@@ -53,7 +53,9 @@ export default function DashboardPage() {
 
         <motion.div variants={dashboardMotionItem} className="mt-10">
           <Tabs defaultValue="overview" className="w-full">
+            {/* Tab List */}
             <TabListCustomComp tabs={dashboardTabs} />
+            {/* Tab Content */}
             <TabsContent
               value="overview"
               className="mt-4 grid gap-6 md:grid-cols-2 lg:grid-cols-7"
