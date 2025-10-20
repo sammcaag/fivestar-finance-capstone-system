@@ -75,7 +75,7 @@ function ClientsOverviewCards() {
 
 export default function ClientStatusReport() {
   return (
-    <Card className="col-span-3">
+    <Card className="flex-1 h-full">
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <CardTitle className="h4">Client Status Report Overview</CardTitle>
