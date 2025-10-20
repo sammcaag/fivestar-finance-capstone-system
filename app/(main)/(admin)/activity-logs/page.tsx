@@ -2,6 +2,7 @@
 
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import MainHeader from "@/components/MainHeader";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { AuditTable } from "@/features/audit/components/AuditTable";
 import { Pagination } from "@/features/audit/components/Pagination";
@@ -101,20 +102,13 @@ export default function AuditLogsPage() {
         ]}
       />
       {/* Header */}
-      <div className="flex items-center justify-between space-y-2 pt-6">
-        <div>
-          <h1 className="h2">Audit Logs</h1>
-          <p className="text-muted-foreground">
-            Track all system activities and user actions
-          </p>
-        </div>
-        <button
-          onClick={handleExport}
-          className="rounded-lg border border-input bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
-        >
-          Export CSV
-        </button>
-      </div>
+      <MainHeader
+        title="Activity and Audit Logs"
+        description="Review a complete record of admin activities for accountability and transparency. Track who made changes, when, and to which records."
+      />
+      <div>Stats go here</div>
+      <div>Tabs Go here</div>
+      <div>Tables go here</div>
 
       {/* Filters */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between my-5">

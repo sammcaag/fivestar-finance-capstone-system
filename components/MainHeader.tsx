@@ -36,7 +36,7 @@ export default function MainHeader({
       <div className="absolute -z-10 -bottom-10 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-        <div className="space-y-2">
+        <div className="space-y-2 flex-1">
           <h1 className="text-3xl font-bold tracking-wide text-white">
             {title}
           </h1>
@@ -47,10 +47,12 @@ export default function MainHeader({
         </div>
 
         {showDateAndTime && (
-          <div className="mt-4 flex flex-col items-end space-y-2 md:mt-0">
+          <div className="flex flex-col gap-2 items-end max-sm:mt-4">
             <div className="flex items-center space-x-2 text-lg text-background">
               <CalendarDays className="h-4 w-4" />
-              <span>{formatDateToReadable(new Date())}</span>
+              <span className="min-w-max">
+                {formatDateToReadable(new Date())}
+              </span>
             </div>
             <div className="flex items-center space-x-2 text-lg text-background">
               <RealTime />

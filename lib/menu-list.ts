@@ -120,7 +120,7 @@ export function getMenuList(): Group[] {
         },
         // Activity & Audit Logs
         {
-          href: "/audit",
+          href: "/activity-logs",
           label: "Activity & Audit Logs",
           icon: History,
         },

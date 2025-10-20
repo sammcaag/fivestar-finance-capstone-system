@@ -11,6 +11,7 @@ import { Modal } from "@/components/ui/modal";
 import { StaffForm } from "@/features/staff/component/StaffForm";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
+import MainHeader from "@/components/MainHeader";
 
 export default function UsersPage() {
   const [staffs, setStaffs] = useState<Staff[]>([]);
@@ -108,28 +109,21 @@ export default function UsersPage() {
   };
 
   return (
-    <ContentLayout title="Find Client">
+    <ContentLayout title="Staff Management">
       <BreadcrumbPages
         links={[
           { href: "/", label: "Home" },
-          { href: "/audit", label: "Audit" },
+          { href: "/staff", label: "Staff Management" },
         ]}
       />
       {/* Header */}
-      <div className="flex items-center justify-between mt-6">
-        <div>
-          <h1 className="h2">Staff Management</h1>
-          <p className="text-muted-foreground">
-            Manage staff accounts, roles, and permissions
-          </p>
-        </div>
-        <button
-          onClick={handleCreateNew}
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-        >
-          Add New User
-        </button>
-      </div>
+      <MainHeader
+        title="Staff Management"
+        description="Manage branch staff accounts, roles, and permissions. Add new team members, update information, or deactivate users when needed."
+      />
+      <div>Stats go here</div>
+      <div>Tabs Go here</div>
+      <div>Tables go here</div>
 
       {/* Alert */}
       {alert && (
