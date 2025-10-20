@@ -52,7 +52,7 @@ export default function DashboardPage() {
         <motion.div variants={dashboardMotionItem} className="mt-10">
           <Tabs defaultValue="overview" className="w-full">
             {/* Tab List */}
-            <TabListCustomComp tabs={dashboardTabs} isHalf />
+            <TabListCustomComp tabs={dashboardTabs} />
             {/* Tab Content */}
             <TabsContent
               value="overview"

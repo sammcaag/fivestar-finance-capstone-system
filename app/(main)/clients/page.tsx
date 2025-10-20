@@ -11,10 +11,10 @@ import MainHeader from "@/components/MainHeader";
 
 const tabs = [
   { value: "overview", label: "All Clients" },
-  { value: "active", label: "Active Loans" },
-  { value: "inactive", label: "Inactive Loans" },
-  { value: "processed", label: "Processed Loans" },
-  { value: "released", label: "Released Loans" },
+  { value: "active", label: "Active Clients" },
+  { value: "inactive", label: "Inactive Clients" },
+  { value: "new", label: "Newly Registered" },
+  { value: "issues", label: "With Issues" },
 ];
 
 export default function ClientsPage() {
@@ -44,31 +44,35 @@ export default function ClientsPage() {
         <TabsContent value="overview" className="space-y-4">
           <MainClientsTable
             title="All Clients"
-            description="Manage your client portfolio and loan statuses"
+            description="View and manage the complete list of clients across all branches."
           />
         </TabsContent>
+
         <TabsContent value="active" className="space-y-4">
           <MainClientsTable
-            title="Active Loans"
-            description="View and manage all active loans in your portfolio"
+            title="Active Clients"
+            description="Monitor clients with ongoing or recently approved loan accounts."
           />
         </TabsContent>
+
         <TabsContent value="inactive" className="space-y-4">
           <MainClientsTable
-            title="Inactive Loans"
-            description="Review and process loan applications awaiting approval"
+            title="Inactive Clients"
+            description="Review clients with no active loans or recent transactions."
           />
         </TabsContent>
-        <TabsContent value="processed" className="space-y-4">
+
+        <TabsContent value="new" className="space-y-4">
           <MainClientsTable
-            title="Processed Loans"
-            description="View and manage all processed loans in your portfolio"
+            title="Newly Registered"
+            description="Track and manage clients who were recently added to the system."
           />
         </TabsContent>
-        <TabsContent value="released" className="space-y-4">
+
+        <TabsContent value="issues" className="space-y-4">
           <MainClientsTable
-            title="Released Loans"
-            description="View and manage all released loans in your portfolio"
+            title="Clients With Issues"
+            description="Identify and address clients with incomplete records or flagged accounts."
           />
         </TabsContent>
       </Tabs>

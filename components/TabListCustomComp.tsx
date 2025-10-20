@@ -5,13 +5,13 @@ import clsx from "clsx";
 
 export default function TabListCustomComp({
   tabs,
-  isHalf,
 }: {
   tabs: { value: string; label: string }[];
-  isHalf?: boolean;
 }) {
   return (
-    <TabsList className={clsx("tabs-container", isHalf ? "w-1/2" : "w-full")}>
+    <TabsList
+      className={clsx("tabs-container", tabs.length < 4 ? "w-1/2" : "w-full")}
+    >
       <AnimatedBackground
         className="bg-primary-hover"
         transition={{
