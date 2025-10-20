@@ -12,7 +12,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
-import ClientStatistics from "@/features/clients/components/ClientStatistics";
 import { dashboardStatistics } from "@/features/clients/data/client-mock-stats";
 import { ClientsFilter } from "@/features/clients/components/ClientsFilter";
 import { ClientsTable } from "@/features/clients/components/ClientsTable";
@@ -22,9 +21,11 @@ import MainHeader from "@/components/MainHeader";
 import {
   dashboardQuickActions,
   dashboardMotionContainer,
-  dashboardMotionItem,
   dashboardTabs,
+  dashboardMotionItem,
 } from "@/lib/dashboard-vars";
+import StatisticsCard from "@/components/StatisticsCard";
+import TabListCustomComp from "@/components/TabListCustomComp";
 
 export default function DashboardPage() {
   return (
@@ -47,51 +48,28 @@ export default function DashboardPage() {
         initial="hidden"
         animate="show"
       >
-        <motion.div variants={dashboardMotionItem}>
-          <ClientStatistics statistics={dashboardStatistics} />
-        </motion.div>
+        <StatisticsCard statistics={dashboardStatistics} />
 
         <motion.div variants={dashboardMotionItem} className="mt-10">
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="tabs-container w-1/2">
-              <AnimatedBackground
-                className="bg-primary-hover"
-                transition={{
-                  type: "spring",
-                  bounce: 0.2,
-                  duration: 0.6,
-                }}
-                enableHover
-              >
-                {dashboardTabs.map((tab, index) => (
-                  <TabsTrigger
-                    key={tab.value}
-                    value={tab.value}
-                    data-id={index}
-                    className="tabs-trigger-style"
-                  >
-                    {tab.label}
-                  </TabsTrigger>
-                ))}
-              </AnimatedBackground>
-            </TabsList>
-
-            <TabsContent value="overview" className="mt-4 space-y-6">
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-4 overflow-hidden border-none shadow-md">
-                  <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/40 dark:to-cyan-950/40">
-                    <CardTitle className="h4">Clients Status</CardTitle>
-                    <CardDescription>
-                      Manage your client portfolio and loan statuses
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <ClientsFilter dashboard />
-                    <ClientsTable dashboard />
-                  </CardContent>
-                </Card>
-                <ClientStatusReport />
-              </div>
+            <TabListCustomComp tabs={dashboardTabs} />
+            <TabsContent
+              value="overview"
+              className="mt-4 grid gap-6 md:grid-cols-2 lg:grid-cols-7"
+            >
+              <Card className="col-span-4 overflow-hidden border-none shadow-md">
+                <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/40 dark:to-cyan-950/40">
+                  <CardTitle className="h4">Clients Status</CardTitle>
+                  <CardDescription>
+                    Manage your client portfolio and loan statuses
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <ClientsFilter dashboard />
+                  <ClientsTable dashboard />
+                </CardContent>
+              </Card>
+              <ClientStatusReport />
             </TabsContent>
 
             <TabsContent value="clients" className="mt-4">

@@ -115,13 +115,6 @@ export const civilStatusOptions = [
   { label: "Separated", value: "separated" },
 ];
 
-export type StatisticProps = {
-  title: string;
-  statistic: number | string;
-  summary: string;
-  Icon: LucideIcon;
-};
-
 export type Client = {
   id: string;
   name: string;

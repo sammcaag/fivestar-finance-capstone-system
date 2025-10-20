@@ -14,7 +14,7 @@ import { ClientsFilter } from "@/features/clients/components/ClientsFilter";
 import { ClientsTable } from "@/features/clients/components/ClientsTable";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { AnimatedBackground } from "@/components/motion-primitives/animated-background";
-import ClientStatistics from "@/features/clients/components/ClientStatistics";
+import ClientStatistics from "@/components/StatisticsCard";
 import { clientsOverviewStatistics } from "@/features/clients/data/client-mock-stats";
 
 const tabs = [
