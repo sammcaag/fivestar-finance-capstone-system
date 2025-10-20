@@ -9,14 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { dashboardStatistics } from "@/features/clients/data/client-mock-stats";
 import { ClientsFilter } from "@/features/clients/components/ClientsFilter";
 import { ClientsTable } from "@/features/clients/components/ClientsTable";
 import ClientStatusReport from "@/features/clients/components/ClientStatusReport";
-import { AnimatedBackground } from "@/components/motion-primitives/animated-background";
 import MainHeader from "@/components/MainHeader";
 import {
   dashboardQuickActions,

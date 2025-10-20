@@ -65,6 +65,7 @@ export default function UsersPage() {
     setIsModalOpen(true);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleCreateNew = () => {
     setSelectedStaff(undefined);
     setIsModalOpen(true);

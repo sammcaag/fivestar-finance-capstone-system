@@ -71,6 +71,7 @@ export default function AuditLogsPage() {
     setCurrentPage(1);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleExport = async () => {
     try {
       // TODO: Call export API

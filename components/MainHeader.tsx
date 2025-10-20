@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import RealTime from "./RealTime";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { CalendarDays, MapPin, LucideIcon } from "lucide-react";
+import { CalendarDays, LucideIcon } from "lucide-react";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 
 interface MainHeaderProps {
