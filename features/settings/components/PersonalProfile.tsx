@@ -1,6 +1,5 @@
 import { CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, Clock, MapPinned } from "lucide-react";

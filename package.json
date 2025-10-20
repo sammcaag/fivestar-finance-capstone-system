@@ -50,6 +50,7 @@
     "react-intersection-observer": "^9.16.0",
     "react-phone-number-input": "^3.4.12",
     "react-spinners": "^0.17.0",
+    "recharts": "^2.15.4",
     "sonner": "^2.0.3",
     "spinners": "^1.2.2",
     "tailwind-merge": "^3.3.0",

@@ -24,8 +24,8 @@ export default function StatisticsCard({ statistics }: StatsCardProps) {
         },
       }}
       className={cn(
-        "grid gap-4 md:grid-cols-3",
-        statistics.length === 3 ? "md:grid-cols-3" : ""
+        "grid gap-4",
+        statistics.length === 3 ? "md:grid-cols-3" : "md:grid-cols-4"
       )}
     >
       {statistics.map((data, index) => {
