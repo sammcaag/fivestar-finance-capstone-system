@@ -59,6 +59,7 @@ export default function StatisticsCard({ statistics }: StatsCardProps) {
                 ease: "easeOut",
               },
             }}
+            key={index}
             className="framer-motion-fix"
           >
             <Card className="overflow-hidden border-none rounded-lg shadow-md transition-all duration-300 hover:shadow-lg">

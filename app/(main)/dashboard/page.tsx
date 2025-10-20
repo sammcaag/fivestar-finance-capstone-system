@@ -26,10 +26,11 @@ import {
 } from "@/lib/dashboard-vars";
 import StatisticsCard from "@/components/StatisticsCard";
 import TabListCustomComp from "@/components/TabListCustomComp";
+import { MapPin } from "lucide-react";
 
 export default function DashboardPage() {
   return (
-    <ContentLayout title="Dashboard" className="space-y-8">
+    <ContentLayout title="Dashboard">
       <BreadcrumbPages
         links={[
           { href: "/", label: "Home" },
@@ -41,6 +42,7 @@ export default function DashboardPage() {
         title="Welcome to STELLA!"
         description="Branch of Cagayan de Oro"
         quickActions={dashboardQuickActions}
+        icon={MapPin}
       />
 
       <motion.div

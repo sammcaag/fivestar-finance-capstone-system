@@ -17,7 +17,7 @@ export function ContentLayout({
     <div>
       <Navbar title={title} />
       <main
-        className={cn("container pt-8 pb-8 px-4 sm:px-8", className)}
+        className={cn("container space-y-8 pt-8 pb-8 px-4 sm:px-8", className)}
         {...props}
       >
         {children}

@@ -8,6 +8,7 @@ import { formatDateToReadable } from "@/utils/format-date-to-readable";
 
 interface MainHeaderProps {
   title: string;
+  icon?: LucideIcon;
   description: string;
   quickActions?: {
     label: string;
@@ -19,13 +20,14 @@ interface MainHeaderProps {
 
 export default function MainHeader({
   title,
+  icon: Icon,
   description,
   quickActions,
   showDateAndTime = true,
 }: MainHeaderProps) {
   return (
     <motion.div
-      className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 p-8 text-white shadow-lg framer-motion-fix"
+      className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 p-6 text-white shadow-lg framer-motion-fix"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
@@ -35,12 +37,12 @@ export default function MainHeader({
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-wide text-white md:text-4xl">
+          <h1 className="text-3xl font-bold tracking-wide text-white">
             {title}
           </h1>
           <div className="flex items-center space-x-2">
-            <MapPin className="h-5 w-5 text-blue-200" />
-            <p className="text-xl font-medium text-blue-100">{description}</p>
+            {Icon && <Icon className="h-5 w-5 text-blue-200" />}
+            <p className="font-medium text-blue-100">{description}</p>
           </div>
         </div>
 
@@ -57,21 +59,23 @@ export default function MainHeader({
         )}
       </div>
 
-      <div className="mt-6 space-x-2">
-        {quickActions?.map((action) => (
-          <Button
-            variant="secondary"
-            className="bg-white/20 text-white hover:bg-white/30"
-            asChild
-            key={action.label}
-          >
-            <Link href={action.href}>
-              <action.icon className="h-4 w-4" />
-              {action.label}
-            </Link>
-          </Button>
-        ))}
-      </div>
+      {quickActions && (
+        <div className="mt-6 space-x-2">
+          {quickActions.map((action) => (
+            <Button
+              variant="secondary"
+              className="bg-white/20 text-white hover:bg-white/30"
+              asChild
+              key={action.label}
+            >
+              <Link href={action.href}>
+                <action.icon className="h-4 w-4" />
+                {action.label}
+              </Link>
+            </Button>
+          ))}
+        </div>
+      )}
     </motion.div>
   );
 }
