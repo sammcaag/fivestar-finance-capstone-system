@@ -16,12 +16,16 @@ const appUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
-  title: "Stella | Five Star Finance Inc.",
+  title: {
+    template: "%s  | Five Star Finance Inc.",
+    default: "Stella | Five Star Finance Inc.",
+  },
   description:
     "A Comprehensive Digital Solution for Streamlining Lending Processes for AFP Retirees and Beneficiaries at Five Star Finance Inc.",
   alternates: {
     canonical: "/",
   },
+  
   openGraph: {
     url: "/",
     title: "Stella | Five Star Finance Inc.",

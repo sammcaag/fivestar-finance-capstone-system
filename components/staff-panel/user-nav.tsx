@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutGrid, LogOut, ChevronDown, Users } from "lucide-react";
+import {
+  LayoutGrid,
+  LogOut,
+  ChevronDown,
+  Users,
+  FilePenLine,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -33,6 +39,23 @@ export function UserNav() {
     .split(" ")
     .map((word) => word[0].toUpperCase())
     .join("");
+  const dropdownItems = [
+    {
+      label: "Dashboard",
+      href: "/dashboard",
+      icon: LayoutGrid,
+    },
+    {
+      label: "Clients Overview",
+      href: "/clients",
+      icon: Users,
+    },
+    {
+      label: "Loans Overview",
+      href: "/loans",
+      icon: FilePenLine,
+    },
+  ];
 
   const router = useRouter();
   return (
@@ -68,18 +91,18 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem className="hover:cursor-pointer" asChild>
-            <Link href="/dashboard" className="flex items-center">
-              <LayoutGrid className="w-4 h-4 mr-3 text-muted-foreground" />
-              Dashboard
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="hover:cursor-pointer" asChild>
-            <Link href="/clients" className="flex items-center">
-              <Users className="w-4 h-4 mr-3 text-muted-foreground" />
-              All Clients
-            </Link>
-          </DropdownMenuItem>
+          {dropdownItems.map((item) => (
+            <DropdownMenuItem
+              key={item.label}
+              className="hover:cursor-pointer"
+              asChild
+            >
+              <Link href={item.href} className="flex items-center">
+                <item.icon className="w-4 h-4 mr-3 text-muted-foreground" />
+                {item.label}
+              </Link>
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         {/*Add the dark mode theme here below*/}
