@@ -14,7 +14,7 @@ export interface User {
   lastLogin?: string;
 }
 
-export interface AuditLog {
+export interface ActivityLog {
   id: string;
   timestamp: string;
   userId: string;

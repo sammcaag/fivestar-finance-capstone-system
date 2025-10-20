@@ -5,7 +5,7 @@ import TableHeaderComp from "@/components/tables/TableHeaderComp";
 import TableBodyComp from "@/components/tables/TableBodyComp";
 import { useDataTable } from "@/hooks/use-data-table";
 import { clientTableData } from "@/features/clients/data/client-mock";
-import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientTableDefinition";
+import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsTableDefinition";
 import {
   Card,
   CardContent,

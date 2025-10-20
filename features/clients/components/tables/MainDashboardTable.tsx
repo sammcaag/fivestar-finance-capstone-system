@@ -13,7 +13,7 @@ import { Table } from "@/components/ui/table";
 import { useDataTable } from "@/hooks/use-data-table";
 import { Client } from "../../types/types-clients";
 import { clientTableData } from "../../data/client-mock";
-import { clientsColumnDefinition } from "./ClientTableDefinition";
+import { clientsColumnDefinition } from "./ClientsTableDefinition";
 
 export default function MainDashboardTable({
   title,
@@ -34,9 +34,7 @@ export default function MainDashboardTable({
       {/* Table Card Header */}
       <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/40 dark:to-cyan-950/40">
         <CardTitle className="h4">{title}</CardTitle>
-        <CardDescription>
-          {description}
-        </CardDescription>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
 
       {/* Table Card Content */}

@@ -1,7 +1,7 @@
 // Mock data for development and testing
-import type { AuditLog } from "../types/audit-types";
+import type { ActivityLog } from "../types/audit-types";
 
-export const mockAuditLogs: AuditLog[] = [
+export const mockAuditLogs: ActivityLog[] = [
   {
     id: "1",
     timestamp: "2025-02-10T14:30:00Z",
