@@ -16,11 +16,11 @@ import {
   ArrowRight,
   LucideIcon,
 } from "lucide-react";
-import { steps } from "@/features/clients/components/lib/client-registration-form";
 import ClientGeneralInformation from "@/features/clients/components/steps/ClientGeneralInformation";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { cn } from "@/lib/utils";
+import { steps } from "@/features/clients/lib/client-registration-form";
 
 export default function RegisterClient() {
   const {
