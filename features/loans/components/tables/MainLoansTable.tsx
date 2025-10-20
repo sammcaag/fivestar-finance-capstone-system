@@ -1,12 +1,11 @@
 "use client";
 import { Table } from "@/components/ui/table";
-import { Client } from "../types/types-clients";
 import TablePagination from "@/components/tables/TablePagination";
 import TableHeaderComp from "@/components/tables/TableHeaderComp";
 import TableBodyComp from "@/components/tables/TableBodyComp";
 import { useDataTable } from "@/hooks/use-data-table";
-import { clientTableData } from "../data/client-mock";
-import { clientsColumnDefinition } from "./tables/ClientTableDefinition";
+import { clientTableData } from "@/features/clients/data/client-mock";
+import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientTableDefinition";
 import {
   Card,
   CardContent,
@@ -15,10 +14,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TableFilter } from "../../../components/tables/TableFilter";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
+import { Client } from "@/features/clients/types/types-clients";
+import { TableFilter } from "@/components/tables/TableFilter";
 
-export function MainClientsTable({
+export function MainLoansTable({
   title,
   description,
 }: {

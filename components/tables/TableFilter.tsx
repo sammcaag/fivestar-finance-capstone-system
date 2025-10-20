@@ -21,7 +21,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export function ClientsFilter({ dashboard = false }: { dashboard?: boolean }) {
+export function TableFilter({ dashboard = false }: { dashboard?: boolean }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [loanType, setLoanType] = useState("");
   const [status, setStatus] = useState("");
