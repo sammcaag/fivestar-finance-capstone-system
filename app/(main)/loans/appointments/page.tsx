@@ -15,8 +15,9 @@ export default function LoanAppointments() {
 
       <MainHeader
         title="Loan Appointments"
-        description="Manage loan appointments"
+        description="Coordinate and review upcoming loan appointments to help your branch prepare client documents in advance."
       />
+      <div>Stats go here</div>
       <div>Tabs Go here</div>
       <div>Tables go here</div>
     </ContentLayout>

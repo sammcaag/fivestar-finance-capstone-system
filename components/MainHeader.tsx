@@ -42,7 +42,7 @@ export default function MainHeader({
           </h1>
           <div className="flex items-center space-x-2">
             {Icon && <Icon className="h-5 w-5 text-blue-200" />}
-            <p className="font-medium text-blue-100">{description}</p>
+            <p className=" text-blue-100">{description}</p>
           </div>
         </div>
 
