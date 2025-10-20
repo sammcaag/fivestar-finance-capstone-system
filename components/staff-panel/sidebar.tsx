@@ -67,7 +67,7 @@ export function Sidebar() {
           <Logo getOpenState={() => isExpanded} withLabel={isExpanded} />
         </Button>
         <aside
-          className="relative w-full max-h-fit overflow-visible"
+          className="relative w-full max-h-fit overflow-auto pb-10"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
