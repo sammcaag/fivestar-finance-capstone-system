@@ -34,7 +34,7 @@ export function MainAppointmentsTable({
     return <TableRowLoadingState dashboard={false} />;
   }
   return (
-    <Card className="overflow-hidden flex-1">
+    <Card className="overflow-hidden flex-1 border">
       {/* Table Card Header */}
       <CardHeader>
         <CardTitle className="h4">{title}</CardTitle>

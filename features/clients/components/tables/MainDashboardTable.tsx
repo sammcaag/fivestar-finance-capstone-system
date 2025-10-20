@@ -22,7 +22,7 @@ export default function MainDashboardTable({
   title: string;
   description: string;
 }) {
-  const { table, isLoading, data } = useDataTable<Client>({
+  const { table, isLoading } = useDataTable<Client>({
     data: clientTableData,
     columns: clientsColumnDefinition(true),
   });
@@ -30,7 +30,7 @@ export default function MainDashboardTable({
     return <TableRowLoadingState dashboard={true} />;
   }
   return (
-    <Card className="overflow-hidden flex-1">
+    <Card className="overflow-hidden border flex-1">
       {/* Table Card Header */}
       <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/40 dark:to-cyan-950/40">
         <CardTitle className="h4">{title}</CardTitle>
@@ -38,7 +38,7 @@ export default function MainDashboardTable({
       </CardHeader>
 
       {/* Table Card Content */}
-      <CardContent className="p-0  border rounded-b-xl">
+      <CardContent className="p-0 border-t">
         <Table>
           <TableHeaderComp table={table} />
           <TableBodyComp table={table} />
