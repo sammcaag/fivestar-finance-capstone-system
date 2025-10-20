@@ -1,13 +1,11 @@
 "use client";
 import { Table } from "@/components/ui/table";
 import { Client } from "../types/types-clients";
-import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
 import { useClientTable } from "../hooks/use-client-table";
 import TablePagination from "@/components/tables/TablePagination";
 import TableHeaderComp from "@/components/tables/TableHeaderComp";
 import TableBodyComp from "@/components/tables/TableBodyComp";
 import TableLayout from "@/components/tables/TableLayout";
-import { Card } from "@/components/ui/card";
 
 export function ClientsTable({
   filterStatus,

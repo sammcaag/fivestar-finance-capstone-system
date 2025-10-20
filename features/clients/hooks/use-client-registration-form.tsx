@@ -15,7 +15,7 @@ import {
   formDates,
   optionalFormDates,
   steps,
-} from "../components/lib/client-registration-form";
+} from "../lib/client-registration-form";
 import { Button } from "@/components/ui/button";
 
 export function useClientRegistrationForm() {

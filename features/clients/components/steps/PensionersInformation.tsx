@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { getYear } from "date-fns";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { preventInvalidInput } from "@/utils/handling-input-numbers";
-import { pensionTypes, ranks } from "../lib/client-registration-form";
+import { pensionTypes, ranks } from "../../lib/client-registration-form";
 import {
   Medal,
   Calendar,

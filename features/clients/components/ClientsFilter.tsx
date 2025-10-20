@@ -88,9 +88,9 @@ export function ClientsFilter({ dashboard = false }: { dashboard?: boolean }) {
         duration: 0.2,
         ease: "easeOut",
       }}
-      className="space-y-4 framer-motion-fix"
+      className="framer-motion-fix"
     >
-      <div className="flex flex-col space-y-2 md:flex-row md:items-end md:space-x-3 md:space-y-0 mb-6">
+      <div className="flex flex-col space-y-2 md:flex-row md:items-end md:space-x-3 md:space-y-0">
         <div className="flex-1">
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
