@@ -53,8 +53,8 @@ export const clientData = {
   lastUnitAssigned: "7th Infantry Division",
   branchOfService: "Army",
   accountNumber: "ACC987654321",
-  monthlyPension: "$3,500.00",
-  monthlyDeduction: "$350.00",
+  monthlyPension: 3500,
+  monthlyDeduction: 350,
   fi1: "FI10987654",
   atmAccNumber: "ATM123456789",
   bankName: "First National Bank",
@@ -62,7 +62,7 @@ export const clientData = {
 
   // Payment Information
   lastPaymentDate: "Aug 1, 2023",
-  lastPaymentAmount: "$3,500.00",
+  lastPaymentAmount: 3500,
   paymentStatus: "In Good Standing",
 
   // Building Information
@@ -128,17 +128,17 @@ export const pensionDetails = [
   {
     id: 1,
     title: "Monthly Pension",
-    details: "12,870.00",
+    details: 12870,
   },
   {
     id: 2,
     title: "Monthly Deduction",
-    details: "1,500.00",
+    details: 1500,
   },
   {
     id: 3,
     title: "FI1",
-    details: "1,230.00",
+    details: 1230,
   },
   {
     id: 4,

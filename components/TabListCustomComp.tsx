@@ -5,12 +5,17 @@ import clsx from "clsx";
 
 export default function TabListCustomComp({
   tabs,
+  notFullWidth = false,
 }: {
   tabs: { value: string; label: string }[];
+  notFullWidth?: boolean;
 }) {
   return (
     <TabsList
-      className={clsx("tabs-container", tabs.length < 4 ? "w-1/2" : "w-full")}
+      className={clsx(
+        "tabs-container",
+        tabs.length < 4 ? "w-1/2" : notFullWidth ? "" : "w-full"
+      )}
     >
       <AnimatedBackground
         className="bg-primary-hover"

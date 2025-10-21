@@ -63,7 +63,7 @@ export default function StatisticsCard({ statistics }: StatsCardProps) {
             className="framer-motion-fix"
           >
             <Card className="overflow-hidden border-none rounded-lg shadow-md transition-all duration-300 hover:shadow-lg">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/40 dark:to-cyan-950/40 rounded-lg"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-primary/15 dark:from-blue-950/40 dark:to-cyan-950/40 rounded-lg"></div>
               <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">{title}</CardTitle>
                 <div className="rounded-full bg-primary/10 p-2 text-primary">

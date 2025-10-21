@@ -27,17 +27,14 @@ export default function MainHeader({
 }: MainHeaderProps) {
   return (
     <motion.div
-      className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 p-6 text-white shadow-lg framer-motion-fix"
+      className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary via-primary/90 to-primary/70 text-primary-foreground p-6 shadow-lg framer-motion-fix"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <div className="absolute -z-10 -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
-      <div className="absolute -z-10 -bottom-10 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
-
       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
         <div className="space-y-2 flex-1">
-          <h1 className="text-3xl font-bold tracking-wide text-white">
+          <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
             {title}
           </h1>
           <div className="flex items-center space-x-2">
@@ -65,8 +62,8 @@ export default function MainHeader({
         <div className="mt-6 space-x-2">
           {quickActions.map((action) => (
             <Button
-              variant="secondary"
-              className="bg-white/20 text-white hover:bg-white/30"
+              variant="outline"
+              className="bg-transparent"
               asChild
               key={action.label}
             >

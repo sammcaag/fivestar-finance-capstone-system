@@ -21,11 +21,9 @@ export default function ClientInfoPage() {
           { href: "/clients/info", label: "Client Information" },
         ]}
       />
-      <div className="mx-auto py-6">
-        <ClientProfileHeader />
-        <ClientInformation />
-        <ClientHistoryTable records={loanHistory} />
-      </div>
+      <ClientProfileHeader />
+      <ClientInformation />
+      <ClientHistoryTable records={loanHistory} />
     </ContentLayout>
   );
 }

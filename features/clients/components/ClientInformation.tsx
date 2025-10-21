@@ -7,8 +7,8 @@ import FamilyInformationTab from "./profile/FamilyInformationTab";
 import PensionInformationTab from "./profile/PensionInformationTab";
 import AttachmentsTab from "./profile/AttachmentsTab";
 import { Button } from "@/components/ui/button";
-import { File, FileSearch } from "lucide-react";
-import { AnimatedBackground } from "@/components/motion-primitives/animated-background";
+import { FileSearch } from "lucide-react";
+import TabListCustomComp from "@/components/TabListCustomComp";
 
 const tabs = [
   { value: "general", label: "General Information" },
@@ -23,28 +23,7 @@ export default function ClientInformation() {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
       <div className="flex justify-between items-center">
-        <TabsList className="tabs-container">
-          <AnimatedBackground
-            className="bg-primary-hover"
-            transition={{
-              type: "spring",
-              bounce: 0.2,
-              duration: 0.6,
-            }}
-            enableHover
-          >
-            {tabs.map((tab, index) => (
-              <TabsTrigger
-                key={tab.value}
-                value={tab.value}
-                data-id={index}
-                className={`tabs-trigger-style`}
-              >
-                {tab.label}
-              </TabsTrigger>
-            ))}
-          </AnimatedBackground>
-        </TabsList>
+        <TabListCustomComp tabs={tabs} notFullWidth />
 
         <Button effect={"ringHover"}>
           <FileSearch /> Advance Documents
