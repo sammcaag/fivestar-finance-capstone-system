@@ -1,5 +1,11 @@
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { clientData } from "../../data/client-mock";
@@ -13,106 +19,105 @@ export default function ClientProfileHeader() {
     { label: "Age", value: clientData.age },
     { label: "Gender", value: clientData.gender },
     { label: "Civil Status", value: clientData.civilStatus },
-    { label: "Program", value: clientData.program },
+    { label: "Rank", value: clientData.rank },
     { label: "Last Unit Assigned", value: clientData.lastUnitAssigned },
-    { label: "Location", value: clientData.location },
+    { label: "Current Address", value: clientData.currentAddress },
   ].filter((item) => item.value);
 
-  const fullName = [
-    clientData.firstName,
-    clientData.midName,
-    clientData.lastName,
-    clientData.suffix,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const clientBadge = [
+    { label: "ID", value: clientData.id },
+    { label: "Branch of Service", value: clientData.branchOfService },
+    { label: "Account Number", value: clientData.accountNumber },
+  ].filter((item) => item.value);
 
   return (
-    <Card className="overflow-hidden border border-border/50 bg-background shadow-md">
-      <div className="relative bg-gradient-to-r from-primary via-primary/90 to-primary/70 text-primary-foreground">
-        <div className="absolute right-6 top-6">
-          <Badge
+    <Card className="overflow-hidden border border-border/50 shadow-md">
+      <CardHeader className="relative bg-gradient-to-r from-primary via-primary/90 to-primary/70 text-primary-foreground p-8 pb-12">
+        <Badge
+          className={cn(
+            "absolute right-6 top-6 flex items-center gap-2 rounded-full border border-white/20 px-4 py-1 text-sm font-semibold uppercase tracking-[0.2em] text-white",
+            clientData.status === "ACTIVE"
+              ? "bg-green-100 border-green-500 text-green-700"
+              : "bg-red-100 border-red-500 text-red-700"
+          )}
+        >
+          <span
             className={cn(
-              "flex items-center gap-2 rounded-full border border-white/20 bg-white/15 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-sm backdrop-blur",
-              clientData.status === "ACTIVE"
-                ? "text-emerald-100"
-                : "text-red-200"
+              "h-2 w-2 rounded-full",
+              clientData.status === "ACTIVE" ? "bg-green-500" : "bg-red-500"
             )}
-          >
-            <span
-              className={cn(
-                "h-2 w-2 rounded-full",
-                clientData.status === "ACTIVE" ? "bg-emerald-300" : "bg-red-300"
-              )}
-            />
-            {clientData.status}
-          </Badge>
-        </div>
-        <div className="flex flex-col gap-6 p-6 pb-12 md:flex-row md:items-end md:gap-10 md:p-8">
+          />
+          {clientData.status}
+        </Badge>
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:gap-10">
           <Avatar className="h-28 w-28 border-4 border-white/70 shadow-xl ring-4 ring-white/30 md:h-32 md:w-32">
             <AvatarImage
               src={clientData.profilePicture || "/placeholder.svg"}
               alt="Profile picture"
             />
             <AvatarFallback className="text-3xl bg-blue-100 text-primary">
-              {avatarFallBack(clientData.firstName + " " + clientData.lastName)}
+              {avatarFallBack(clientData.fullName)}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 space-y-4">
             <div className="space-y-2">
-              <p className="text-xs font-medium uppercase tracking-[0.3em] text-white/70">
+              <CardTitle className="text-xs font-medium uppercase tracking-[0.3em] text-white/70">
                 Client Profile
-              </p>
-              <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
-                {fullName}
-              </h1>
+              </CardTitle>
+              <CardDescription className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
+                {clientData.fullName}
+              </CardDescription>
             </div>
             <div className="flex flex-wrap items-center gap-2 text-xs font-medium uppercase tracking-wide text-white/80">
-              <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">
-                ID • {clientData.clientId}
-              </span>
-              <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">
-                {clientData.program}
-              </span>
-              <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">
-                {clientData.location}
-              </span>
+              {clientBadge.map((item) => (
+                <span
+                  key={item.label}
+                  className="rounded-full border border-white/20 bg-white/10 px-3 py-1"
+                >
+                  {item.label} • {item.value}
+                </span>
+              ))}
             </div>
           </div>
         </div>
-      </div>
-      <CardContent className="grid gap-6 p-6 md:grid-cols-[minmax(0,2.2fr)_minmax(0,1fr)] md:p-8">
+      </CardHeader>
+      <CardContent className="grid gap-6 md:grid-cols-[minmax(0,2.2fr)_minmax(0,1fr)] p-6">
         <div className="space-y-6">
+          {/* Identity Highlights */}
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {identityHighlights.map((item) => (
               <div
                 key={item.label}
-                className="rounded-xl border border-border/60 bg-muted/40 p-4 shadow-sm"
+                className="rounded-xl border border-border/60 p-4 shadow-sm"
               >
                 <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                   {item.label}
                 </p>
-                <p className="mt-2 text-lg font-semibold text-foreground">
+                <p className="mt-2 text-lg font-semibold text-foreground line-clamp-1">
                   {item.value}
                 </p>
               </div>
             ))}
           </div>
+          {/* Remarks */}
           <div className="space-y-3">
             <h3 className="text-base font-semibold text-foreground">Remarks</h3>
-            <div className="rounded-xl border border-dashed border-border/60 bg-muted/40 p-4 text-sm leading-relaxed text-muted-foreground">
-              {clientData.remarks}
+            <div className="rounded-lg shadow-sm border border-border/60 p-4 text-sm leading-relaxed">
+              <p>{clientData.remarks}</p>
             </div>
           </div>
         </div>
-        <div className="flex h-full flex-col justify-between space-y-5 rounded-2xl border border-border/60 bg-background/80 p-6 shadow-sm">
-          <div className="space-y-1">
-            <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
+        {/* Pension Overview */}
+        <Card className="border border-border/60">
+          <CardHeader>
+            <CardTitle className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
               Pension Overview
-            </p>
-            <p className="text-lg font-semibold text-foreground">Financial Snapshot</p>
-          </div>
-          <div className="space-y-4">
+            </CardTitle>
+            <CardDescription className="text-lg font-semibold text-foreground">
+              Financial Snapshot
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
             {pensionDetails.map((detail) => (
               <div
                 key={detail.id}
@@ -128,8 +133,8 @@ export default function ClientProfileHeader() {
                 </p>
               </div>
             ))}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </CardContent>
     </Card>
   );

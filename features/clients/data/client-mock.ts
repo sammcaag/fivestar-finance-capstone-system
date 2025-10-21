@@ -5,20 +5,14 @@ import {
 } from "../types/types-clients";
 
 export const clientData = {
+  id: "SPKND-EJIUS",
   profilePicture: "https://github.com/shadcn.png",
-  firstName: "John",
-  midName: "",
-  lastName: "Doe",
-  suffix: "",
+  fullName: "John Doe",
   gender: "Male",
   age: 65,
   status: "ACTIVE",
   remarks:
     "Client has been with us for over 10 years. Very responsive to communications.",
-  clientId: "SPKND-EJIUS",
-  program: "Military Pension Program",
-  location: "Honolulu",
-  property: "Mayor Wright Homes",
 
   // General Information
   homeAddress: "550 N King St, Honolulu, Hawaii 96817",
