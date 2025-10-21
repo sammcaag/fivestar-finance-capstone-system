@@ -4,41 +4,78 @@ import {
   LoanRecord,
 } from "../types/types-clients";
 
+type AddressInfo = {
+  type: "current" | "home";
+  houseNumber?: string;
+  buildingNumber?: string;
+  street?: string;
+  barangay: string;
+  cityOrMunicipality: string;
+  province: string;
+  region: string;
+  zipCode: string;
+  country: string;
+  fullAddress: string;
+};
+
+type FamilyInfo = {
+  id: string;
+  fullName: string;
+  relationship: string;
+  dateOfBirth: string;
+  contactNumber?: string;
+  address?: AddressInfo;
+};
+
 export const clientData = {
+  // Client table based structure
   id: "SPKND-EJIUS",
-  profilePicture: "https://github.com/shadcn.png",
   fullName: "John Doe",
+  dateOfBirth: "1958-01-15",
   gender: "Male",
-  age: 65,
-  status: "ACTIVE",
+  civilStatus: "married",
+  religion: "Roman Catholic",
+  placeOfBirth: "Springfield, USA",
+  profileImageUrl: "https://github.com/shadcn.png",
+  occupation: "Software Engineer",
+  primaryContactNumber: "(555) 123-4567",
+  secondaryContactNumber: "(555) 987-6543",
   remarks:
     "Client has been with us for over 10 years. Very responsive to communications.",
+  isVerified: true,
 
-  // General Information
-  homeAddress: "550 N King St, Honolulu, Hawaii 96817",
-  currentAddress: "550 N King St, Honolulu, Hawaii 96817",
-  birthDate: "January 15, 1958",
-  civilStatus: "Married",
-  religion: "Christian",
-  mothersMaidenName: "Mary Johnson",
-  motherPlaceOfBirth: "Springfield, USA",
-  contactNumber1: "(555) 123-4567",
-  contactNumber2: "(555) 987-6543",
-  motherOccupation: "Teacher",
+  status: "ACTIVE", //???
 
-  // Other Information
-  spouseFullName: "Sarah Jane Smith",
-  spouseBirthdate: "March 22, 1960",
-  spouseAddress: "550 N King St, Honolulu, Hawaii 96817",
-  spouseContactNumber: "(555) 234-5678",
-  child1Name: "Michael Smith",
-  child1Birthday: "April 10, 1985",
-  child2Name: "Jennifer Smith",
-  child2Birthday: "July 18, 1988",
+  // Address Info based structure
+  homeAddress: {
+    type: "home",
+    houseNumber: "550",
+    buildingNumber: "N",
+    street: "King St",
+    barangay: "Honolulu",
+    cityOrMunicipality: "Honolulu",
+    province: "Hawaii",
+    region: "Hawaii",
+    zipCode: "96817",
+    country: "USA",
+    fullAddress: "550 N King St, Honolulu, Hawaii 96817",
+  } as AddressInfo,
+  currentAddress: {
+    type: "current",
+    houseNumber: "550",
+    buildingNumber: "N",
+    street: "King St",
+    barangay: "Honolulu",
+    cityOrMunicipality: "Honolulu",
+    province: "Hawaii",
+    region: "Hawaii",
+    zipCode: "96817",
+    country: "USA",
+    fullAddress: "550 N King St, Honolulu, Hawaii 96817",
+  } as AddressInfo,
 
-  // Pension Information
+  // Military Info based structure
   rank: "Captain",
-  pensionType: "Military",
   serialNumber: "M12345678",
   dateEnteredService: "June 10, 1980",
   dateSeparationService: "June 10, 2010",
@@ -46,44 +83,67 @@ export const clientData = {
   lengthOfService: "30 years",
   lastUnitAssigned: "7th Infantry Division",
   branchOfService: "Army",
-  accountNumber: "ACC987654321",
-  monthlyPension: 3500,
-  monthlyDeduction: 350,
-  fi1: "FI10987654",
-  atmAccNumber: "ATM123456789",
+
+  // Pension Information based structure
+  atmAccountNumber: "ATM123456789",
   bankName: "First National Bank",
   bankBranch: "Downtown Branch",
+  pensionType: "Military",
+  monthlyPension: 3500,
+  monthlyDeduction: 350,
 
-  // Payment Information
-  lastPaymentDate: "Aug 1, 2023",
-  lastPaymentAmount: 3500,
-  paymentStatus: "In Good Standing",
-
-  // Building Information
-  building: "HonoluluH32-West",
-  unit: "321",
+  fi1: "FI10987654", // No idea where this should be
 
   // Family Members
   familyMembers: [
     {
-      name: "Sarah Smith",
-      relation: "Spouse",
-      lastLogin: "July 15, 2023",
-      status: "Active",
+      id: "1",
+      fullName: "Sarah Smith",
+      relationship: "dependent",
+      dateOfBirth: "March 22, 1960",
     },
     {
-      name: "Michael Smith",
-      relation: "Son",
-      lastLogin: "June 22, 2023",
-      status: "Active",
+      id: "2",
+      fullName: "Michael Smith",
+      relationship: "dependent",
+      dateOfBirth: "April 10, 1985",
     },
     {
-      name: "Jennifer Smith",
-      relation: "Daughter",
-      lastLogin: "August 3, 2023",
-      status: "Active",
+      id: "3",
+      fullName: "Jennifer Smith",
+      relationship: "dependent",
+      dateOfBirth: "July 18, 1988",
     },
-  ],
+    {
+      id: "4",
+      fullName: "Sarah Jane Smith",
+      relationship: "spouse",
+      dateOfBirth: "January 15, 1958",
+      contactNumber: "(555) 234-5678",
+      address: {
+        type: "home",
+        houseNumber: "550",
+        buildingNumber: "N",
+        street: "King St",
+        barangay: "Honolulu",
+        cityOrMunicipality: "Honolulu",
+        province: "Hawaii",
+        region: "Hawaii",
+        zipCode: "96817",
+        country: "USA",
+        fullAddress: "550 N King St, Honolulu, Hawaii 96817",
+      },
+    },
+    {
+      id: "5",
+      fullName: "Mary Johnson",
+      relationship: "mother",
+      dateOfBirth: "April 10, 1950",
+      contactNumber: "(555) 345-6789",
+    },
+  ] as FamilyInfo[],
+
+  // Attachments based structure
   attachments: [
     {
       name: "Birth Certificate.pdf",
