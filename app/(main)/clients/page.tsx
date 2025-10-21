@@ -11,7 +11,7 @@ import MainHeader from "@/components/MainHeader";
 import { useEffect } from "react";
 
 const tabs = [
-  { value: "overview", label: "All Clients" },
+  { value: "overview", label: "Overview" },
   { value: "active", label: "Active Clients" },
   { value: "inactive", label: "Inactive Clients" },
   { value: "new", label: "Newly Registered" },
@@ -20,11 +20,11 @@ const tabs = [
 
 export default function ClientsPage() {
   useEffect(() => {
-    document.title = "Clients | Stella - Five Star Finance Inc.";
+    document.title = "Clients Overview | Stella - Five Star Finance Inc.";
   }, []);
 
   return (
-    <ContentLayout title="All Clients">
+    <ContentLayout title="Clients Overview">
       <BreadcrumbPages
         links={[
           {
@@ -39,7 +39,7 @@ export default function ClientsPage() {
       />
 
       <MainHeader
-        title="Clients"
+        title="Clients Overview"
         description="Manage your client portfolio and loan statuses"
       />
       <StatisticsCard statistics={clientsOverviewStatistics} />
@@ -48,7 +48,7 @@ export default function ClientsPage() {
         <TabListCustomComp tabs={tabs} />
         <TabsContent value="overview" className="space-y-4">
           <MainClientsTable
-            title="All Clients"
+            title="Clients Overview"
             description="View and manage the complete list of clients across all branches."
           />
         </TabsContent>

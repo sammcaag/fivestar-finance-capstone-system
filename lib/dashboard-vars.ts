@@ -1,11 +1,5 @@
 import { Calculator, FileChartColumn, UserPlus } from "lucide-react";
 
-const dashboardTabs = [
-  { value: "overview", label: "Overview" },
-  { value: "clients", label: "Clients" },
-  { value: "reports", label: "Report" },
-];
-
 const dashboardQuickActions = [
   {
     label: "Add New Client",
@@ -48,7 +42,6 @@ const dashboardMotionItem = {
 };
 
 export {
-  dashboardTabs,
   dashboardQuickActions,
   dashboardMotionContainer,
   dashboardMotionItem,

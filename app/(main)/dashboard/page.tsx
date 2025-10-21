@@ -17,7 +17,6 @@ import MainHeader from "@/components/MainHeader";
 import {
   dashboardQuickActions,
   dashboardMotionContainer,
-  dashboardTabs,
   dashboardMotionItem,
 } from "@/lib/dashboard-vars";
 import StatisticsCard from "@/components/StatisticsCard";
@@ -25,6 +24,14 @@ import TabListCustomComp from "@/components/TabListCustomComp";
 import { MapPin } from "lucide-react";
 import MainDashboardTable from "@/features/clients/components/tables/MainDashboardTable";
 import { useEffect } from "react";
+
+const dashboardTabs = [
+  { value: "overview", label: "Overview" },
+  { value: "loans", label: "Loans" },
+  { value: "appointments", label: "Appointments" },
+  { value: "clients", label: "Clients" },
+  { value: "reports", label: "Report" },
+];
 
 export default function DashboardPage() {
   useEffect(() => {
@@ -64,18 +71,36 @@ export default function DashboardPage() {
               className="mt-4 flex flex-col md:flex-row gap-8"
             >
               <MainDashboardTable
-                title="Client Status"
-                description="Manage your client portfolio and loan statuses"
+                title="Recent Client & Loan Activities"
+                description="A quick overview of your most recent client transactions, loan updates, and payment statuses."
+                href="/clients"
               />
               <div className="md:max-w-[550px] flex-1">
                 <ClientStatusReport />
               </div>
             </TabsContent>
 
+            <TabsContent value="loans" className="mt-4">
+              <MainDashboardTable
+                title="Recent Loans"
+                description="View the most recently processed or approved loans across all branches. Access full details in the Loans tab."
+                href="/loans"
+              />
+            </TabsContent>
+
+            <TabsContent value="appointments" className="mt-4">
+              <MainDashboardTable
+                title="Recent Appointments"
+                description="See the latest scheduled and completed client appointments. Visit the Appointments tab for the full schedule."
+                href="loans/appointments"
+              />
+            </TabsContent>
+
             <TabsContent value="clients" className="mt-4">
               <MainDashboardTable
-                title="Client List"
-                description="Manage your client portfolio and loan statuses"
+                title="Recently Registered Clients"
+                description="Monitor newly added clients and their latest loan activities. View the complete client list in the Clients tab."
+                href="/clients"
               />
             </TabsContent>
 

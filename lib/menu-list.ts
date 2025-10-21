@@ -49,7 +49,7 @@ export function getMenuList(): Group[] {
       menus: [
         {
           href: "/clients", //split the page
-          label: "All Clients",
+          label: "Clients Overview",
           icon: Users,
         },
         {
@@ -70,7 +70,7 @@ export function getMenuList(): Group[] {
         // All Loans showcase
         {
           href: "/loans", // get from /clients
-          label: "All Loans",
+          label: "Loans Overview",
           icon: FilePenLine,
         },
         // loan appointments

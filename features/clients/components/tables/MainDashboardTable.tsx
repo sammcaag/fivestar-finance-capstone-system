@@ -14,13 +14,18 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { Client } from "../../types/types-clients";
 import { clientTableData } from "../../data/client-mock";
 import { clientsColumnDefinition } from "./ClientsTableDefinition";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 
 export default function MainDashboardTable({
   title,
   description,
+  href,
 }: {
   title: string;
   description: string;
+  href?: string;
 }) {
   const { table, isLoading } = useDataTable<Client>({
     data: clientTableData,
@@ -32,9 +37,21 @@ export default function MainDashboardTable({
   return (
     <Card className="overflow-hidden border flex-1">
       {/* Table Card Header */}
-      <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/40 dark:to-cyan-950/40">
-        <CardTitle className="h4">{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+      <CardHeader className="flex-row items-center justify-between bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/40 dark:to-cyan-950/40">
+        <div className="space-y-2">
+          <CardTitle className="h4">{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </div>
+        {href && (
+          <Button
+            variant="outline"
+            icon={ChevronRight}
+            iconPlacement="right"
+            effect="expandIcon"
+          >
+            <Link href={href}>View All</Link>
+          </Button>
+        )}
       </CardHeader>
 
       {/* Table Card Content */}
