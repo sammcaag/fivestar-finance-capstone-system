@@ -4,23 +4,35 @@ import PersonalInformationTab from "./profile/PersonalInformationTab";
 import FamilyInformationTab from "./profile/FamilyInformationTab";
 import PensionInformationTab from "./profile/PensionInformationTab";
 import AttachmentsTab from "./profile/AttachmentsTab";
+import LoanHistoryTab from "./profile/LoanHistoryTab";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const tabs = [
   { value: "personal", label: "Personal Information" },
   { value: "family", label: "Family Information" },
   { value: "pension", label: "Pension Information" },
-  { value: "military", label: "Military Information" },
   { value: "attachments", label: "Attachments" },
+  { value: "loan-history", label: "Loan History" },
 ];
 
 export default function ClientInformation() {
+  const router = useRouter();
   // get link details and detect if tab is present then assign it as defaultvalue
   const searchParams = useSearchParams();
   const defaultValue = searchParams.get("tab");
+
+  const handleChange = (value: string) => {
+    router.push(`?tab=${value}`, { scroll: false });
+  };
+
   return (
-    <Tabs className="w-full" defaultValue={defaultValue || "personal"}>
+    <Tabs
+      className="w-full"
+      defaultValue={defaultValue || "personal"}
+      onValueChange={handleChange}
+    >
       <TabListCustomComp tabs={tabs} />
 
       {/* General Information Tab */}
@@ -34,6 +46,9 @@ export default function ClientInformation() {
 
       {/* Attachments Tab */}
       <AttachmentsTab />
+
+      {/* Loan History Tab */}
+      <LoanHistoryTab />
     </Tabs>
   );
 }

@@ -6,15 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
-import {
-  Briefcase,
-  Calendar,
-  Home,
-  MapPin,
-  Phone,
-  User,
-  Users,
-} from "lucide-react";
+import { Calendar, MapPin, Phone, User, Users } from "lucide-react";
 import React from "react";
 import { clientData } from "../../data/client-mock";
 import ClientInfoRowItem from "../ClientInfoRowItem";

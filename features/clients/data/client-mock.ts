@@ -76,23 +76,25 @@ export const clientData = {
     fullAddress: "550 N King St, Honolulu, Hawaii 96817",
   } as AddressInfo,
 
-  // Military Info based structure
+  // Pension Info based structure
   rank: "Captain",
+  pensionType: "Military",
   serialNumber: "M12345678",
-  dateEnteredService: "June 10, 1980",
-  dateSeparationService: "June 10, 2010",
-  dateRetiredService: "June 15, 2010",
+  idNumber: "12345678",
+  dateEnteredService: "1980-06-10",
+  dateSeparationService: "2010-06-10",
+  dateRetiredService: "2010-06-15",
   lengthOfService: "30 years",
   lastUnitAssigned: "7th Infantry Division",
   branchOfService: "Army",
 
-  // Pension Information based structure
-  atmAccountNumber: "ATM123456789",
-  bankName: "First National Bank",
-  bankBranch: "Downtown Branch",
-  pensionType: "Military",
+  // Account Information based structure
+  accountNumber: "123456789",
   monthlyPension: 12870,
   monthlyDeduction: 1500,
+  atmAccountNumber: "ATM123456789",
+  bankName: "First National Bank",
+  branchOfBank: "Downtown Branch",
 
   fi1: 1230, // No idea where this should be
 

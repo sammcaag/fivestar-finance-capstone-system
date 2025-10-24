@@ -29,7 +29,7 @@ export default function FamilyInformationTab() {
 
   return (
     <TabsContent value="family" className="mt-3">
-      <Card className="border-0 ">
+      <Card className="border ">
         <CardHeader className="flex gap-4 flex-row items-center">
           <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
             <Users className="h-5 w-5" />

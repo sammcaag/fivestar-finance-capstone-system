@@ -6,14 +6,15 @@ import ClientHistoryTable from "@/features/clients/components/profile/ClientHist
 import ClientProfileHeader from "@/features/clients/components/profile/ClientProfileHeader";
 import { loanHistory } from "@/features/clients/data/client-mock";
 import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function ClientInfoPage() {
   useEffect(() => {
     document.title = "Client Information | Stella - Five Star Finance Inc.";
   }, []);
 
-  
-
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab");
   return (
     <ContentLayout title="Client Information">
       <BreadcrumbPages
@@ -25,7 +26,9 @@ export default function ClientInfoPage() {
       />
       <ClientProfileHeader />
       <ClientInformation />
-      <ClientHistoryTable records={loanHistory} />
+      {currentTab !== "loan-history" && (
+        <ClientHistoryTable records={loanHistory} />
+      )}
     </ContentLayout>
   );
 }
