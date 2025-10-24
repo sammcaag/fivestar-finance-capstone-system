@@ -7,14 +7,13 @@ import ClientProfileHeader from "@/features/clients/components/profile/ClientPro
 import { loanHistory } from "@/features/clients/data/client-mock";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 export default function ClientInfoPage() {
   useEffect(() => {
     document.title = "Client Information | Stella - Five Star Finance Inc.";
   }, []);
 
-  const searchParams = useSearchParams();
-  const currentTab = searchParams.get("tab");
   return (
     <ContentLayout title="Client Information">
       <BreadcrumbPages
@@ -25,10 +24,23 @@ export default function ClientInfoPage() {
         ]}
       />
       <ClientProfileHeader />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ClientInformationWithParams />
+      </Suspense>
+    </ContentLayout>
+  );
+}
+
+// Move the useSearchParams logic here:
+function ClientInformationWithParams() {
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab");
+  return (
+    <>
       <ClientInformation />
       {currentTab !== "loan-history" && (
         <ClientHistoryTable records={loanHistory} />
       )}
-    </ContentLayout>
+    </>
   );
 }
