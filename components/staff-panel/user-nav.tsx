@@ -26,7 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ModeToggle } from "../mode-toggle";
+import { ModeToggle } from "../ModeToggle";
 import { useRouter } from "next/navigation";
 
 export function UserNav() {
