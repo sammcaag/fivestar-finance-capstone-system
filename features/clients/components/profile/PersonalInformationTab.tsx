@@ -27,8 +27,9 @@ export default function PersonalInformationTab() {
           </span>
           <div>
             <CardTitle className="text-xl">Personal Information</CardTitle>
-            <CardDescription className="">
-              Review core identity, residency, and contact details at a glance.
+            <CardDescription>
+              View and verify the client's basic identity details such as full
+              name, date of birth, and gender.
             </CardDescription>
           </div>
         </CardHeader>
@@ -78,9 +79,9 @@ export default function PersonalInformationTab() {
               </div>
               <div>
                 <CardTitle className="text-xl">Contact Information</CardTitle>
-                <CardDescription className="">
-                  Review core identity, residency, and contact details at a
-                  glance.
+                <CardDescription>
+                  Review and confirm the client's phone numbers, email address,
+                  and current residential details.
                 </CardDescription>
               </div>
             </div>

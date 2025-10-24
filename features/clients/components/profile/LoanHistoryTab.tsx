@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { User } from "lucide-react";
+import { MainLoansHistoryTable } from "@/features/loans/components/tables/MainLoansHistoryTable";
 
 export default function LoanHistoryTab() {
   return (
@@ -20,13 +21,14 @@ export default function LoanHistoryTab() {
           </span>
           <div>
             <CardTitle className="text-xl">Loan History</CardTitle>
-            <CardDescription className="">
-              Review core identity, residency, and contact details at a glance.
+            <CardDescription>
+              Review the client's past and current loan applications, payment
+              records, and status updates.
             </CardDescription>
           </div>
         </CardHeader>
-        <Separator className="mb-6" />
-        <CardContent> </CardContent>
+        <Separator />
+        <MainLoansHistoryTable />
       </Card>
     </TabsContent>
   );

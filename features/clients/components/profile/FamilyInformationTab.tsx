@@ -36,8 +36,9 @@ export default function FamilyInformationTab() {
           </span>
           <div>
             <CardTitle className="text-xl">Family Information</CardTitle>
-            <CardDescription className="">
-              Review core identity, residency, and contact details at a glance.
+            <CardDescription>
+              Check declared family members and relationships used for pension
+              verification and contact tracing.
             </CardDescription>
           </div>
         </CardHeader>

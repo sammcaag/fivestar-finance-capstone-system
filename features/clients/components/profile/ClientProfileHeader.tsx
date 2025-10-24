@@ -127,13 +127,13 @@ export default function ClientProfileHeader() {
           {/* Remarks */}
           <div className="space-y-3">
             <h3 className="text-base font-semibold text-foreground">Remarks</h3>
-            <div className="rounded-lg shadow-sm border border-border/60 p-4 text-sm leading-relaxed">
+            <div className="rounded-lg shadow-sm border border-border/60 p-4 text-sm leading-relaxed hover-card">
               <p>{clientData.remarks}</p>
             </div>
           </div>
         </div>
         {/* Pension Overview */}
-        <Card className="border border-border/60">
+        <Card className="border border-border/60 hover-card">
           <CardHeader>
             <CardTitle className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
               Pension Overview
@@ -142,11 +142,11 @@ export default function ClientProfileHeader() {
               Financial Snapshot
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 ">
             {pensionDetails.map((detail) => (
               <div
                 key={detail.id}
-                className="flex items-center justify-between gap-6"
+                className="flex items-center justify-between gap-6 "
               >
                 <p className="text-sm font-medium text-muted-foreground">
                   {detail.title}

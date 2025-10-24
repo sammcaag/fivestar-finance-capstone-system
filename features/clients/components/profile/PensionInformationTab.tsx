@@ -32,8 +32,9 @@ export default function PensionInformationTab() {
           </span>
           <div>
             <CardTitle className="text-xl">Pension Information</CardTitle>
-            <CardDescription className="">
-              Review core identity, residency, and contact details at a glance.
+            <CardDescription>
+              Review pension-related details such as AFP service branch, pension
+              type, monthly pension, and payee status.
             </CardDescription>
           </div>
         </CardHeader>
