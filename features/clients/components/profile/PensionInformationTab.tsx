@@ -2,7 +2,7 @@ import React from "react";
 import { TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Building2, Calendar, CreditCard, User } from "lucide-react";
-import InfoItem from "../InfoItem";
+import ClientInfoRowItem from "../ClientInfoRowItem";
 import { clientData } from "../../data/client-mock";
 import { formatCurrency } from "@/lib/utils";
 
@@ -17,67 +17,67 @@ export default function PensionInformationTab() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-            <InfoItem
+            <ClientInfoRowItem
               icon={<User className="h-4 w-4 text-primary" />}
               label="Rank"
               value={clientData.rank}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<CreditCard className="h-4 w-4 text-primary" />}
               label="Pension Type"
               value={clientData.pensionType}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<CreditCard className="h-4 w-4 text-primary" />}
               label="Serial Number"
               value={clientData.serialNumber}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<Calendar className="h-4 w-4 text-primary" />}
               label="Date Entered Service"
               value={clientData.dateEnteredService}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<Calendar className="h-4 w-4 text-primary" />}
               label="Date Separation Service"
               value={clientData.dateSeparationService}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<Calendar className="h-4 w-4 text-primary" />}
               label="Date Retired Service"
               value={clientData.dateRetiredService}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<Calendar className="h-4 w-4 text-primary" />}
               label="Length of Service"
               value={clientData.lengthOfService}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<Building2 className="h-4 w-4 text-primary" />}
               label="Last Unit Assigned"
               value={clientData.lastUnitAssigned}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<Building2 className="h-4 w-4 text-primary" />}
               label="Branch of Service"
               value={clientData.branchOfService}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<CreditCard className="h-4 w-4 text-primary" />}
               label="Monthly Pension"
               value={formatCurrency(clientData.monthlyPension)}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<CreditCard className="h-4 w-4 text-primary" />}
               label="Monthly Deduction"
               value={formatCurrency(clientData.monthlyDeduction)}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<CreditCard className="h-4 w-4 text-primary" />}
               label="FI1"
               value={formatCurrency(clientData.fi1)}
             />
-            <InfoItem
+            <ClientInfoRowItem
               icon={<CreditCard className="h-4 w-4 text-primary" />}
               label="ATM Account Number"
               value={clientData.atmAccountNumber}
@@ -89,12 +89,12 @@ export default function PensionInformationTab() {
               Bank Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-              <InfoItem
+              <ClientInfoRowItem
                 icon={<Building2 className="h-4 w-4 text-primary" />}
                 label="Bank Name"
                 value={clientData.bankName}
               />
-              <InfoItem
+              <ClientInfoRowItem
                 icon={<Building2 className="h-4 w-4 text-primary" />}
                 label="Branch of Bank"
                 value={clientData.bankBranch}

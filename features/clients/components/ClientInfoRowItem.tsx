@@ -1,19 +1,19 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-type InfoItemProps = {
+type ClientInfoRowItemProps = {
   icon: React.ReactNode;
   label: string;
   value: React.ReactNode;
   className?: string;
 };
 
-export default function InfoItem({
+export default function ClientInfoRowItem({
   icon,
   label,
   value,
   className,
-}: InfoItemProps) {
+}: ClientInfoRowItemProps) {
   return (
     <div
       className={cn(

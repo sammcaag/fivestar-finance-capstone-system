@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import React from "react";
 import { clientData } from "../../data/client-mock";
-import InfoItem from "../InfoItem";
+import ClientInfoRowItem from "../ClientInfoRowItem";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { getAge } from "@/utils/get-age";
 import { Separator } from "@/components/ui/separator";
@@ -44,33 +44,33 @@ export default function PersonalInformationTab() {
         <CardContent className="space-y-6 px-0">
           <section className="grid grid-cols-1 md:grid-cols-2 gap-4 px-6">
             {/* Date of Birth */}
-            <InfoItem
+            <ClientInfoRowItem
               icon={<Calendar />}
               label="Birth Date"
               value={dateOfBirth}
             />
             {/* Age */}
-            <InfoItem icon={<Calendar />} label="Age" value={age} />
+            <ClientInfoRowItem icon={<Calendar />} label="Age" value={age} />
             {/* Civil Status */}
-            <InfoItem
+            <ClientInfoRowItem
               icon={<Users />}
               label="Civil Status"
               value={clientData.civilStatus}
             />
             {/* Religion */}
-            <InfoItem
+            <ClientInfoRowItem
               icon={<User />}
               label="Religion"
               value={clientData.religion}
             />
             {/* Place of Birth */}
-            <InfoItem
+            <ClientInfoRowItem
               icon={<MapPin />}
               label="Place of Birth"
               value={clientData.placeOfBirth}
             />
             {/* Current Address */}
-            <InfoItem
+            <ClientInfoRowItem
               icon={<MapPin />}
               label="Current Address"
               value={clientData.address.fullAddress}
@@ -95,7 +95,7 @@ export default function PersonalInformationTab() {
             <Separator className="my-6" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-6">
               {clientData.contactInfo.map((contact) => (
-                <InfoItem
+                <ClientInfoRowItem
                   key={contact.id}
                   icon={<Phone />}
                   label={contact.type}
