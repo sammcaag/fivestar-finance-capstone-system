@@ -1,19 +1,37 @@
+import React from "react";
+import { cn } from "@/lib/utils";
+
+type InfoItemProps = {
+  icon: React.ReactNode;
+  label: string;
+  value: React.ReactNode;
+  className?: string;
+};
+
 export default function InfoItem({
   icon,
   label,
   value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
+  className,
+}: InfoItemProps) {
   return (
-    <div className="space-y-1">
-      <div className="text-sm font-medium text-muted-foreground flex items-center gap-1">
+    <div
+      className={cn(
+        "flex items-start gap-4 rounded-xl border border-border/70 bg-card p-4 shadow-sm transition-all hover:translate-y-[-2px] hover:shadow-lg hover:shadow-primary/10 hover:border-primary/20",
+        className
+      )}
+    >
+      <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-primary/10 text-primary [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-primary">
         {icon}
-        {label}
+      </span>
+      <div className="space-y-1 text-left">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          {label}
+        </p>
+        <div className="text-base font-semibold leading-snug text-foreground capitalize">
+          {value}
+        </div>
       </div>
-      <div className="font-medium text-foreground">{value}</div>
     </div>
   );
 }

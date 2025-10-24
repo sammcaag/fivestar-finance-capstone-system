@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Building2, Calendar, CreditCard, User } from "lucide-react";
 import InfoItem from "../InfoItem";
 import { clientData } from "../../data/client-mock";
+import { formatCurrency } from "@/lib/utils";
 
 export default function PensionInformationTab() {
   return (
@@ -63,28 +64,23 @@ export default function PensionInformationTab() {
             />
             <InfoItem
               icon={<CreditCard className="h-4 w-4 text-primary" />}
-              label="Account Number"
-              value={clientData.accountNumber}
-            />
-            <InfoItem
-              icon={<CreditCard className="h-4 w-4 text-primary" />}
               label="Monthly Pension"
-              value={clientData.monthlyPension}
+              value={formatCurrency(clientData.monthlyPension)}
             />
             <InfoItem
               icon={<CreditCard className="h-4 w-4 text-primary" />}
               label="Monthly Deduction"
-              value={clientData.monthlyDeduction}
+              value={formatCurrency(clientData.monthlyDeduction)}
             />
             <InfoItem
               icon={<CreditCard className="h-4 w-4 text-primary" />}
               label="FI1"
-              value={clientData.fi1}
+              value={formatCurrency(clientData.fi1)}
             />
             <InfoItem
               icon={<CreditCard className="h-4 w-4 text-primary" />}
               label="ATM Account Number"
-              value={clientData.atmAccNumber}
+              value={clientData.atmAccountNumber}
             />
           </div>
 

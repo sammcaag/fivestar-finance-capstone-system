@@ -33,35 +33,37 @@ export const clientData = {
   fullName: "John Doe",
   dateOfBirth: "1958-01-15",
   gender: "Male",
+  placeOfBirth: "Springfield, USA",
   civilStatus: "married",
   religion: "Roman Catholic",
-  placeOfBirth: "Springfield, USA",
   profileImageUrl: "https://github.com/shadcn.png",
   occupation: "Software Engineer",
-  primaryContactNumber: "(555) 123-4567",
-  secondaryContactNumber: "(555) 987-6543",
   remarks:
     "Client has been with us for over 10 years. Very responsive to communications.",
-  isVerified: true,
+  contactInfo: [
+    {
+      id: "1",
+      type: "primary",
+      number: "(555) 123-4567",
+    },
+    {
+      id: "2",
+      type: "secondary",
+      number: "(555) 987-6543",
+    },
+  ],
+  branch: {
+    id: "1",
+    name: "Branch 1",
+    code: "BR1",
+    address: "123 Main St, Springfield, USA",
+  },
 
   status: "ACTIVE", //???
 
   // Address Info based structure
-  homeAddress: {
+  address: {
     type: "home",
-    houseNumber: "550",
-    buildingNumber: "N",
-    street: "King St",
-    barangay: "Honolulu",
-    cityOrMunicipality: "Honolulu",
-    province: "Hawaii",
-    region: "Hawaii",
-    zipCode: "96817",
-    country: "USA",
-    fullAddress: "550 N King St, Honolulu, Hawaii 96817",
-  } as AddressInfo,
-  currentAddress: {
-    type: "current",
     houseNumber: "550",
     buildingNumber: "N",
     street: "King St",
@@ -89,10 +91,10 @@ export const clientData = {
   bankName: "First National Bank",
   bankBranch: "Downtown Branch",
   pensionType: "Military",
-  monthlyPension: 3500,
-  monthlyDeduction: 350,
+  monthlyPension: 12870,
+  monthlyDeduction: 1500,
 
-  fi1: "FI10987654", // No idea where this should be
+  fi1: 1230, // No idea where this should be
 
   // Family Members
   familyMembers: [
@@ -177,29 +179,6 @@ export const clientData = {
     },
   ],
 };
-
-export const pensionDetails = [
-  {
-    id: 1,
-    title: "Monthly Pension",
-    details: 12870,
-  },
-  {
-    id: 2,
-    title: "Monthly Deduction",
-    details: 1500,
-  },
-  {
-    id: 3,
-    title: "FI1",
-    details: 1230,
-  },
-  {
-    id: 4,
-    title: "Original Account",
-    details: "Zamboanga City",
-  },
-];
 
 export const clientHistoryRecords: ClientHistoryRecord[] = [
   {

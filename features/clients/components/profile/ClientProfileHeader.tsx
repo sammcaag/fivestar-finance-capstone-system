@@ -10,25 +10,50 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { clientData } from "../../data/client-mock";
 import { cn } from "@/lib/utils";
-import { pensionDetails } from "../../data/client-mock";
 import { avatarFallBack } from "@/utils/avatar-fallback";
 import { formatCurrency } from "@/lib/utils";
+import { getAge } from "@/utils/get-age";
 
 export default function ClientProfileHeader() {
+  const age = getAge(clientData.dateOfBirth);
+
   const identityHighlights = [
-    { label: "Age", value: clientData.age },
+    { label: "Age", value: age },
     { label: "Gender", value: clientData.gender },
     { label: "Civil Status", value: clientData.civilStatus },
     { label: "Rank", value: clientData.rank },
     { label: "Last Unit Assigned", value: clientData.lastUnitAssigned },
-    { label: "Current Address", value: clientData.currentAddress },
+    { label: "Current Address", value: clientData.address.fullAddress },
   ].filter((item) => item.value);
 
   const clientBadge = [
     { label: "ID", value: clientData.id },
     { label: "Branch of Service", value: clientData.branchOfService },
-    { label: "Account Number", value: clientData.accountNumber },
+    { label: "ATM Account Number", value: clientData.atmAccountNumber },
   ].filter((item) => item.value);
+
+  const pensionDetails = [
+    {
+      id: 1,
+      title: "Monthly Pension",
+      details: formatCurrency(clientData.monthlyPension),
+    },
+    {
+      id: 2,
+      title: "Monthly Deduction",
+      details: formatCurrency(clientData.monthlyDeduction),
+    },
+    {
+      id: 3,
+      title: "FI1",
+      details: formatCurrency(clientData.fi1),
+    },
+    {
+      id: 4,
+      title: "Original Account",
+      details: clientData.branch.name,
+    },
+  ].filter((item) => item.details);
 
   return (
     <Card className="overflow-hidden border border-border/50 shadow-md">
@@ -52,7 +77,7 @@ export default function ClientProfileHeader() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:gap-10">
           <Avatar className="h-28 w-28 border-4 border-white/70 shadow-xl ring-4 ring-white/30 md:h-32 md:w-32">
             <AvatarImage
-              src={clientData.profilePicture || "/placeholder.svg"}
+              src={clientData.profileImageUrl || "/placeholder.svg"}
               alt="Profile picture"
             />
             <AvatarFallback className="text-3xl bg-blue-100 text-primary">
@@ -93,7 +118,7 @@ export default function ClientProfileHeader() {
                 <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                   {item.label}
                 </p>
-                <p className="mt-2 text-lg font-semibold text-foreground line-clamp-1">
+                <p className="mt-2 text-lg font-semibold text-foreground line-clamp-1 capitalize">
                   {item.value}
                 </p>
               </div>
