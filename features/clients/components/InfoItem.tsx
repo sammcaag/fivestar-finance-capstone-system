@@ -17,7 +17,7 @@ export default function InfoItem({
   return (
     <div
       className={cn(
-        "flex items-start gap-4 rounded-xl border border-border/70 bg-card p-4 shadow-sm transition-all hover:translate-y-[-2px] hover:shadow-lg hover:shadow-primary/10 hover:border-primary/20",
+        "flex items-start gap-4 rounded-xl border border-border/70 bg-card p-4 shadow-sm hover-card",
         className
       )}
     >

@@ -239,6 +239,10 @@
     @apply rounded-none border !border-x-transparent !border-t-transparent h-full px-6 data-[state=active]:bg-primary-hover dark:data-[state=active]:bg-primary-hover data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-b-primary dark:data-[state=active]:border-b-primary-bold;
   }
 
+  .hover-card {
+    @apply hover:translate-y-[-2px] hover:shadow-lg hover:shadow-primary/10 hover:border-primary/20 transition-all;
+  }
+
   /* Animation utilities */
   .animate-none {
     animation: none !important;

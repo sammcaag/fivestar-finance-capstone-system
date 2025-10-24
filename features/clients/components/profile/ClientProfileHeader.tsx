@@ -113,7 +113,7 @@ export default function ClientProfileHeader() {
             {identityHighlights.map((item) => (
               <div
                 key={item.label}
-                className="rounded-xl border border-border/60 p-4 shadow-sm"
+                className="rounded-xl border border-border/60 p-4 shadow-sm hover-card"
               >
                 <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                   {item.label}

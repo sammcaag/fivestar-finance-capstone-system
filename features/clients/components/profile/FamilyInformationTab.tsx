@@ -1,97 +1,170 @@
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 import { Calendar, MapPin, Phone, User, Users } from "lucide-react";
 import React from "react";
 import InfoItem from "../InfoItem";
 import { clientData } from "../../data/client-mock";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
+import { Separator } from "@/components/ui/separator";
+import { getAge } from "@/utils/get-age";
+import { generateOrdinal } from "@/utils/generate-ordinals";
 
 export default function FamilyInformationTab() {
   const familyMembers = clientData.familyMembers ?? [];
-  const spouse = familyMembers.find((member) => member.relationship === "spouse");
-  const otherFamilyMembers = familyMembers.filter(
-    (member) => member.relationship !== "spouse"
+  const spouse = familyMembers.find(
+    (member) => member.relationship === "spouse"
   );
-
-  const formatDate = (date?: string) =>
-    date ? formatDateToReadable(date) : "—";
-
-  const formatRelationship = (relationship: string) =>
-    relationship
-      .split(" ")
-      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-      .join(" ");
+  const mother = familyMembers.find(
+    (member) => member.relationship === "mother"
+  );
+  const dependents = familyMembers.filter(
+    (member) => member.relationship === "dependent"
+  );
 
   return (
     <TabsContent value="family" className="mt-3">
       <Card className="border-0 ">
-        <CardContent className="p-6">
-          <h2 className="text-xl font-bold  mb-6 flex items-center gap-2">
-            <Users className="h-5 w-5 text-primary" />
-            Family Information
-          </h2>
-
-          <div className="space-y-8">
-            {spouse && (
-              <div>
-                <h3 className="text-lg font-semibold mb-4 pb-2 border-b border-gray-200 ">
-                  Spouse Information
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                  <InfoItem
-                    icon={<User className="h-4 w-4 text-primary" />}
-                    label="Spouse's Full Name"
-                    value={spouse.fullName}
-                  />
-                  <InfoItem
-                    icon={<Calendar className="h-4 w-4 text-primary" />}
-                    label="Birthdate"
-                    value={formatDate(spouse.dateOfBirth)}
-                  />
-                  {spouse.address?.fullAddress && (
-                    <InfoItem
-                      icon={<MapPin className="h-4 w-4 text-primary" />}
-                      label="Address"
-                      value={spouse.address.fullAddress}
-                    />
-                  )}
-                  {spouse.contactNumber && (
-                    <InfoItem
-                      icon={<Phone className="h-4 w-4 text-primary" />}
-                      label="Contact Number"
-                      value={spouse.contactNumber}
-                    />
-                  )}
-                </div>
+        <CardHeader className="flex gap-4 flex-row items-center">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <Users className="h-5 w-5" />
+          </span>
+          <div>
+            <CardTitle className="text-xl">Family Information</CardTitle>
+            <CardDescription className="">
+              Review core identity, residency, and contact details at a glance.
+            </CardDescription>
+          </div>
+        </CardHeader>
+        <Separator className="mb-6" />
+        <CardContent className="space-y-8">
+          {spouse && (
+            <section className="space-y-3">
+              <div className="flex gap-2 flex-row items-center">
+                <User className="h-5 w-5 text-primary" />
+                <h3 className="text-lg font-semibold">Spouse Information</h3>
               </div>
-            )}
 
-            {otherFamilyMembers.length > 0 && (
-              <div>
-                <h3 className="text-lg font-semibold mb-4 pb-2 border-b border-gray-200 ">
-                  Family Members
-                </h3>
-                <div className="space-y-6">
-                  {otherFamilyMembers.map((member) => (
-                    <div
-                      key={member.id}
-                      className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
-                    >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Full Name */}
+                <InfoItem
+                  icon={<User className="h-4 w-4 text-primary" />}
+                  label="Spouse's Full Name"
+                  value={spouse.fullName}
+                />
+                {/* Age */}
+                <InfoItem
+                  icon={<Calendar className="h-4 w-4 text-primary" />}
+                  label="Age"
+                  value={getAge(spouse.dateOfBirth)}
+                />
+                {/* Birthdate */}
+                <InfoItem
+                  icon={<Calendar className="h-4 w-4 text-primary" />}
+                  label="Birthdate"
+                  value={formatDateToReadable(spouse.dateOfBirth)}
+                />
+                {/* Address */}
+                {spouse.address?.fullAddress && (
+                  <InfoItem
+                    icon={<MapPin className="h-4 w-4 text-primary" />}
+                    label="Address"
+                    value={spouse.address.fullAddress}
+                  />
+                )}
+                {/* Contact Number */}
+                {spouse.contactNumber && (
+                  <InfoItem
+                    icon={<Phone className="h-4 w-4 text-primary" />}
+                    label="Contact Number"
+                    value={spouse.contactNumber}
+                  />
+                )}
+              </div>
+            </section>
+          )}
+
+          {mother && (
+            <section className="space-y-3">
+              <div className="flex gap-2 flex-row items-center">
+                <User className="h-5 w-5 text-primary" />
+                <h3 className="text-lg font-semibold">Mother Information</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Full Name */}
+                <InfoItem
+                  icon={<User className="h-4 w-4 text-primary" />}
+                  label="Mother's Full Name"
+                  value={mother.fullName}
+                />
+                {/* Age */}
+                <InfoItem
+                  icon={<Calendar className="h-4 w-4 text-primary" />}
+                  label="Age"
+                  value={getAge(mother.dateOfBirth)}
+                />
+                {/* Birthdate */}
+                <InfoItem
+                  icon={<Calendar className="h-4 w-4 text-primary" />}
+                  label="Birthdate"
+                  value={formatDateToReadable(mother.dateOfBirth)}
+                />
+                {/* Address */}
+                {mother.address?.fullAddress && (
+                  <InfoItem
+                    icon={<MapPin className="h-4 w-4 text-primary" />}
+                    label="Address"
+                    value={mother.address.fullAddress}
+                  />
+                )}
+                {mother.contactNumber && (
+                  <InfoItem
+                    icon={<Phone className="h-4 w-4 text-primary" />}
+                    label="Contact Number"
+                    value={mother.contactNumber}
+                  />
+                )}
+              </div>
+            </section>
+          )}
+
+          {dependents.length > 0 && (
+            <section className="space-y-3">
+              <div className="flex gap-2 flex-row items-center">
+                <Users className="h-5 w-5 text-primary" />
+                <h3 className="text-lg font-semibold">Family Dependents</h3>
+              </div>
+              <div className="space-y-4">
+                {dependents.map((member, index) => (
+                  <div className="space-y-3" key={index}>
+                    <h4 className="text-base font-medium">
+                      {generateOrdinal(index + 1)} dependent
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Full Name */}
                       <InfoItem
                         icon={<User className="h-4 w-4 text-primary" />}
                         label="Full Name"
                         value={member.fullName}
                       />
+                      {/* Age */}
                       <InfoItem
-                        icon={<Users className="h-4 w-4 text-primary" />}
-                        label="Relationship"
-                        value={formatRelationship(member.relationship)}
+                        icon={<Calendar className="h-4 w-4 text-primary" />}
+                        label="Age"
+                        value={getAge(member.dateOfBirth)}
                       />
+                      {/* Birthdate */}
                       <InfoItem
                         icon={<Calendar className="h-4 w-4 text-primary" />}
                         label="Birthdate"
-                        value={formatDate(member.dateOfBirth)}
+                        value={formatDateToReadable(member.dateOfBirth)}
                       />
+                      {/* Contact Number */}
                       {member.contactNumber && (
                         <InfoItem
                           icon={<Phone className="h-4 w-4 text-primary" />}
@@ -99,6 +172,8 @@ export default function FamilyInformationTab() {
                           value={member.contactNumber}
                         />
                       )}
+
+                      {/* Address */}
                       {member.address?.fullAddress && (
                         <InfoItem
                           icon={<MapPin className="h-4 w-4 text-primary" />}
@@ -107,11 +182,11 @@ export default function FamilyInformationTab() {
                         />
                       )}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
+            </section>
+          )}
         </CardContent>
       </Card>
     </TabsContent>
