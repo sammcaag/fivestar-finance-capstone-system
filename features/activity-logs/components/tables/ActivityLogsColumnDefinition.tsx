@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ActivityLog } from "../../types/audit-types";
-import { formatDateTime } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { formatDateTime } from "@/utils/format-date-time";
 
 export const activityLogsColumnDefinition = (): ColumnDef<ActivityLog>[] => {
   const getActivityActionBadge = (action: string) => {

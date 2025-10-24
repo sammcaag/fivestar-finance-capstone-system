@@ -11,8 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { clientData } from "../../data/client-mock";
 import { cn } from "@/lib/utils";
 import { avatarFallBack } from "@/utils/avatar-fallback";
-import { formatCurrency } from "@/lib/utils";
 import { getAge } from "@/utils/get-age";
+import { formatCurrency } from "@/features/loans/computations/utils/format-currency";
 
 export default function ClientProfileHeader() {
   const age = getAge(clientData.dateOfBirth);

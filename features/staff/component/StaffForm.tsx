@@ -10,7 +10,7 @@ import type {
   FormErrors,
 } from "../types/staff-types";
 import { FormField } from "@/components/ui/form-field";
-import { validateEmail } from "@/lib/utils";
+import { validateEmail } from "@/utils/validate-email";
 
 interface StaffFormProps {
   staff?: Staff;

@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { debounce } from "@/lib/utils";
-
+import { searchDebounce } from "@/utils/search-debounce";
 interface SearchInputProps {
   placeholder?: string;
   onSearch: (query: string) => void;
@@ -17,7 +16,7 @@ export function SearchInput({
   const [value, setValue] = useState("");
 
   useEffect(() => {
-    const debouncedSearch = debounce((query: string) => {
+    const debouncedSearch = searchDebounce((query: string) => {
       onSearch(query);
     }, debounceMs);
 
