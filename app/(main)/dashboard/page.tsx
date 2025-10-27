@@ -25,7 +25,6 @@ import { MapPin } from "lucide-react";
 import MainDashboardTable from "@/features/clients/components/tables/MainDashboardTable";
 import { useEffect } from "react";
 import {
-  clientData,
   clientTableData,
 } from "@/features/clients/data/client-mock";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsTableDefinition";

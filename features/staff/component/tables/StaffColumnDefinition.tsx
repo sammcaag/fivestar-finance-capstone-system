@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Staff } from "../../types/staff-types";
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime } from "@/utils/format-date-time";
 import { Badge } from "@/components/ui/badge";
 
 export const staffColumnDefinition = (): ColumnDef<Staff>[] => {
