@@ -1,5 +1,12 @@
-import { Clock, CreditCard, PhilippinePeso, UserCheck, UserPlus, Users } from "lucide-react";
-import { StatisticProps } from "../types/global-types";
+import {
+  Clock,
+  CreditCard,
+  PhilippinePeso,
+  UserCheck,
+  UserPlus,
+  Users,
+} from "lucide-react";
+import { StatisticProps } from "../../../types/global-types";
 
 // for dashboard stats
 export const dashboardStatistics: StatisticProps[] = [

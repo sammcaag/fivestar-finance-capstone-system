@@ -1,4 +1,4 @@
-import { StatisticProps } from "@/features/clients/types/global-types";
+import { StatisticProps } from "@/types/global-types";
 import { CheckCircle, Clock, DollarSign, Users } from "lucide-react";
 
 export const mockReportCardData: StatisticProps[] = [

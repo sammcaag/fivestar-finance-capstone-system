@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import type { StepIndicatorProps } from "../types/types-clients";
+import type { StepIndicatorProps } from "../types/client-types";
 
 export function StepIndicator({ steps, currentStep }: StepIndicatorProps) {
   return (

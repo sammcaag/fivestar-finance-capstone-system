@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
-import { Client } from "@/features/clients/types/types-clients";
+import { Client } from "@/features/clients/types/client-types";
 import { TableFilter } from "@/components/tables/TableFilter";
 
 export function MainLoansTable({

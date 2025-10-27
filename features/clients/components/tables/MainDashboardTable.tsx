@@ -11,7 +11,7 @@ import TableHeaderComp from "@/components/tables/TableHeaderComp";
 import TableBodyComp from "@/components/tables/TableBodyComp";
 import { Table } from "@/components/ui/table";
 import { useDataTable } from "@/hooks/use-data-table";
-import { Client } from "../../types/types-clients";
+import { Client } from "../../types/client-types";
 import { clientTableData } from "../../data/client-mock";
 import { clientsColumnDefinition } from "./ClientsTableDefinition";
 import { Button } from "@/components/ui/button";

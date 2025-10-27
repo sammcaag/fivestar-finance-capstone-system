@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Client } from "../../types/types-clients";
+import { Client } from "../../types/client-types";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
@@ -22,7 +22,9 @@ import {
   Flag,
 } from "lucide-react";
 
-export const clientsColumnDefinition = (dashboard = false): ColumnDef<Client>[] => {
+export const clientsColumnDefinition = (
+  dashboard = false
+): ColumnDef<Client>[] => {
   const baseColumns: ColumnDef<Client>[] = [
     {
       accessorKey: "name",

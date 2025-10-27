@@ -6,7 +6,7 @@ import TableBodyComp from "@/components/tables/TableBodyComp";
 import { useDataTable } from "@/hooks/use-data-table";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
-import { mockAuditLogs } from "@/features/activity-logs/data/mock-data";
+import { mockAuditLogs } from "@/features/activity-logs/data/mock-activity-data";
 import { ActivityLog } from "@/features/activity-logs/types/audit-types";
 
 import { activityLogsColumnDefinition } from "./ActivityLogsColumnDefinition";

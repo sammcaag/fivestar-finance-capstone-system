@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { PensionersInformationProps } from "../../types/types-clients";
+import type { PensionersInformationProps } from "../../types/client-types";
 import { Input } from "@/components/ui/input";
 import { getYear } from "date-fns";
 import CustomDatePicker from "@/components/CustomDatePicker";

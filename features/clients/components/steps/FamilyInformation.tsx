@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import type { ClientFamilyInformationProps } from "../../types/types-clients";
+import type { ClientFamilyInformationProps } from "../../types/client-types";
 import {
   FormControl,
   FormField,

@@ -1,8 +1,4 @@
-import {
-  Client,
-  ClientHistoryRecord,
-  LoanRecord,
-} from "../types/types-clients";
+import { Client, ClientHistoryRecord, LoanRecord } from "../types/client-types";
 
 type AddressInfo = {
   type: "current" | "home";

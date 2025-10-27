@@ -6,7 +6,7 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { clientTableData } from "@/features/clients/data/client-mock";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsTableDefinition";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
-import { Client } from "@/features/clients/types/types-clients";
+import { Client } from "@/features/clients/types/client-types";
 
 export function MainLoansHistoryTable() {
   const { table, isLoading, data } = useDataTable<Client>({

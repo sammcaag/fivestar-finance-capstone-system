@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { FileCheck, ArrowRight } from "lucide-react";
 
 import { clientFormSchema } from "../schema/client-zod-schema";
-import type { ClientFormValues } from "../types/types-clients";
+import type { ClientFormValues } from "../types/client-types";
 import { loadDraft, saveDraft } from "../utils/draft-computation-storage";
 import {
   defaultValues,

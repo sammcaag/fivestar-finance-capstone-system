@@ -1,4 +1,4 @@
-import { ClientFormValues } from "../types/types-clients";
+import { ClientFormValues } from "../types/client-types";
 
 const DRAFT_STORAGE_KEY = "form-draft";
 

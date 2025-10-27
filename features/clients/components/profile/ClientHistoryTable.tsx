@@ -40,7 +40,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LoanRecord } from "../../types/types-clients";
+import { LoanRecord } from "../../types/client-types";
 
 interface ClientHistoryTableProps {
   records: LoanRecord[];

@@ -7,7 +7,7 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { staffColumnDefinition } from "@/features/staff/component/tables/StaffColumnDefinition";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
-import { mockStaff } from "../../data/mock-data";
+import { mockStaff } from "../../data/mock-staff-data";
 import { Staff } from "../../types/staff-types";
 
 export function MainStaffTable() {

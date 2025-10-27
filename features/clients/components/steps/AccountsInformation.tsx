@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import type { AccountsInformationProps } from "@/features/clients/types/types-clients";
+import type { AccountsInformationProps } from "@/features/clients/types/client-types";
 import {
   CreditCard,
   Landmark,

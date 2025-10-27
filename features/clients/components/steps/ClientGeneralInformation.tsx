@@ -4,7 +4,7 @@ import {
   civilStatusOptions,
   type ClientGeneralInformationProps,
   suffixOptions,
-} from "@/features/clients/types/types-clients";
+} from "@/features/clients/types/client-types";
 import {
   FormControl,
   FormField,

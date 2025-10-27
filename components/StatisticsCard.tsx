@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { CountUp } from "@/components/motion-primitives/count-up";
-import { StatisticProps } from "@/features/clients/types/global-types";
+import { StatisticProps } from "@/types/global-types";
 
 type StatsCardProps = {
   statistics: StatisticProps[];

@@ -4,8 +4,6 @@ import TablePagination from "@/components/tables/TablePagination";
 import TableHeaderComp from "@/components/tables/TableHeaderComp";
 import TableBodyComp from "@/components/tables/TableBodyComp";
 import { useDataTable } from "@/hooks/use-data-table";
-import { clientTableData } from "@/features/clients/data/client-mock";
-import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsTableDefinition";
 import {
   Card,
   CardContent,
@@ -15,8 +13,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
-import { Client } from "@/features/clients/types/types-clients";
 import { TableFilter } from "@/components/tables/TableFilter";
+import { Appointment } from "../types/appointment-types";
+import { appointmentsData } from "../data/appointments-mock-data";
+import { appointmentsColumnDefinition } from "./LoanAppointmentsColumnDefinition";
 
 export function MainAppointmentsTable({
   title,
@@ -25,9 +25,9 @@ export function MainAppointmentsTable({
   title: string;
   description: string;
 }) {
-  const { table, isLoading, data } = useDataTable<Client>({
-    data: clientTableData,
-    columns: clientsColumnDefinition(false),
+  const { table, isLoading, data } = useDataTable<Appointment>({
+    data: appointmentsData,
+    columns: appointmentsColumnDefinition,
   });
 
   if (isLoading) {

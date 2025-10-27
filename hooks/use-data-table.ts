@@ -12,7 +12,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import { Client } from "@/features/clients/types/types-clients";
+import { Client } from "@/features/clients/types/client-types";
 
 export function useDataTable<TData>({
   data, // temporary, will delete later if api routes are implemented
