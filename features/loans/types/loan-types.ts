@@ -1,10 +1,16 @@
 export interface Loan {
   id: string;
-  clientName: string;
+  name: string;
   amount: number;
   purpose: string;
-  status: string;
+  status:
+    | "Approved by HQ"
+    | "Pending"
+    | "Disbursed"
+    | "Rejected"
+    | "Forwarded to HQ";
   applicationDate: string;
   term: number;
   interestRate: number;
+  startDate: string;
 }

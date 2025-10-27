@@ -3,7 +3,7 @@ import type { Appointment } from "../types/appointment-types";
 export const appointmentsData: Appointment[] = [
   {
     id: "APT001",
-    clientName: "Maria Santos",
+    name: "Maria Santos",
     type: "Loan Review",
     appointmentDate: "2024-03-25",
     appointmentTime: "09:00 AM",
@@ -13,7 +13,7 @@ export const appointmentsData: Appointment[] = [
   },
   {
     id: "APT002",
-    clientName: "Juan Dela Cruz",
+    name: "Juan Dela Cruz",
     type: "Document Submission",
     appointmentDate: "2024-03-22",
     appointmentTime: "10:30 AM",
@@ -23,7 +23,7 @@ export const appointmentsData: Appointment[] = [
   },
   {
     id: "APT003",
-    clientName: "Rosa Garcia",
+    name: "Rosa Garcia",
     type: "Consultation",
     appointmentDate: "2024-03-20",
     appointmentTime: "02:00 PM",
@@ -33,7 +33,7 @@ export const appointmentsData: Appointment[] = [
   },
   {
     id: "APT004",
-    clientName: "Carlos Reyes",
+    name: "Carlos Reyes",
     type: "Document Submission",
     appointmentDate: "2024-03-18",
     appointmentTime: "11:00 AM",
@@ -43,7 +43,7 @@ export const appointmentsData: Appointment[] = [
   },
   {
     id: "APT005",
-    clientName: "Ana Fernandez",
+    name: "Ana Fernandez",
     type: "Follow-up",
     appointmentDate: "2024-03-15",
     appointmentTime: "03:30 PM",
@@ -53,7 +53,7 @@ export const appointmentsData: Appointment[] = [
   },
   {
     id: "APT006",
-    clientName: "Miguel Torres",
+    name: "Miguel Torres",
     type: "Consultation",
     appointmentDate: "2024-03-28",
     appointmentTime: "08:30 AM",
@@ -63,7 +63,7 @@ export const appointmentsData: Appointment[] = [
   },
   {
     id: "APT007",
-    clientName: "Lucia Mendoza",
+    name: "Lucia Mendoza",
     type: "Consultation",
     appointmentDate: "2024-03-21",
     appointmentTime: "01:00 PM",
@@ -73,7 +73,7 @@ export const appointmentsData: Appointment[] = [
   },
   {
     id: "APT008",
-    clientName: "Roberto Aquino",
+    name: "Roberto Aquino",
     type: "Consultation",
     appointmentDate: "2024-03-19",
     appointmentTime: "04:00 PM",
@@ -83,7 +83,7 @@ export const appointmentsData: Appointment[] = [
   },
   {
     id: "APT009",
-    clientName: "Sophia Ramos",
+    name: "Sophia Ramos",
     type: "Consultation",
     appointmentDate: "2024-03-26",
     appointmentTime: "09:30 AM",
@@ -93,7 +93,7 @@ export const appointmentsData: Appointment[] = [
   },
   {
     id: "APT010",
-    clientName: "Diego Morales",
+    name: "Diego Morales",
     type: "Loan Review",
     appointmentDate: "2024-03-23",
     appointmentTime: "02:30 PM",

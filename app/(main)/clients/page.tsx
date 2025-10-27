@@ -2,7 +2,7 @@
 
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { MainClientsTable } from "@/features/clients/components/MainClientsTable";
+import { MainClientsTable } from "@/features/clients/components/tables/MainClientsTable";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { clientsOverviewStatistics } from "@/features/clients/data/client-mock-stats";
 import TabListCustomComp from "@/components/TabListCustomComp";

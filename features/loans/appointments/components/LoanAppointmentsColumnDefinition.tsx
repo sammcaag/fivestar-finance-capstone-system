@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MoreHorizontal, Eye, Edit, Trash2, Calendar } from "lucide-react";
 import { Appointment } from "../types/appointment-types";
 
@@ -48,25 +48,20 @@ const typeConfig = {
 
 export const appointmentsColumnDefinition: ColumnDef<Appointment>[] = [
   {
-    accessorKey: "clientName",
+    accessorKey: "name",
     header: "Client",
     cell: ({ row }) => {
       const appointment = row.original;
       return (
         <div className="flex items-center gap-3">
-          <Avatar className="h-9 w-9">
-            <AvatarFallback
-              className={`${getAvatarColor(
-                appointment.clientName
-              )} text-white font-semibold`}
-            >
-              {getInitials(appointment.clientName)}
+          <Avatar className="size-12 border border-primary/10 flex-shrink-0">
+            <AvatarImage src={`/avatar.png`} alt={row.getValue("name")} />
+            <AvatarFallback className="bg-primary/5 text-primary">
+              {(row.getValue("name") as string).substring(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span className="font-medium text-sm">
-              {appointment.clientName}
-            </span>
+            <span className="font-medium text-sm">{appointment.name}</span>
             <span className="text-xs text-muted-foreground">
               {appointment.id}
             </span>

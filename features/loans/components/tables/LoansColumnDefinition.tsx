@@ -7,20 +7,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
-
-export interface Loan {
-  id: string;
-  clientName: string;
-  clientId: string;
-  amount: number;
-  status: "Approved" | "Pending" | "Disbursed" | "Completed";
-  interestRate: number;
-  startDate: string;
-  dueDate: string;
-  term: number;
-}
+import { Loan } from "../../types/loan-types";
 
 const getInitials = (name: string) => {
   return name
@@ -44,7 +33,11 @@ const getAvatarColor = (name: string) => {
 };
 
 const statusConfig = {
-  Approved: { bg: "bg-blue-100", text: "text-blue-800", label: "Approved" },
+  "Approved by HQ": {
+    bg: "bg-blue-100",
+    text: "text-blue-800",
+    label: "Approved by HQ",
+  },
   Pending: { bg: "bg-yellow-100", text: "text-yellow-800", label: "Pending" },
   Disbursed: {
     bg: "bg-purple-100",
@@ -52,30 +45,31 @@ const statusConfig = {
     label: "Disbursed",
   },
   Completed: { bg: "bg-green-100", text: "text-green-800", label: "Completed" },
+  Rejected: { bg: "bg-destructive", text: "text-white", label: "Rejected" },
+  "Forwarded to HQ": {
+    bg: "bg-blue-100",
+    text: "text-blue-800",
+    label: "Forwarded to HQ",
+  },
 };
 
-export const loansColumns: ColumnDef<Loan>[] = [
+export const loansColumnDefinition: ColumnDef<Loan>[] = [
   {
-    accessorKey: "clientName",
+    accessorKey: "name",
     header: "Client",
     cell: ({ row }) => {
       const loan = row.original;
       return (
         <div className="flex items-center gap-3">
-          <Avatar className="h-9 w-9">
-            <AvatarFallback
-              className={`${getAvatarColor(
-                loan.clientName
-              )} text-white font-semibold`}
-            >
-              {getInitials(loan.clientName)}
+          <Avatar className="size-12 border border-primary/10 flex-shrink-0">
+            <AvatarImage src={`/avatar.png`} alt={row.getValue("name")} />
+            <AvatarFallback className="bg-primary/5 text-primary">
+              {(row.getValue("name") as string).substring(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span className="font-medium text-sm">{loan.clientName}</span>
-            <span className="text-xs text-muted-foreground">
-              {loan.clientId}
-            </span>
+            <span className="font-medium text-sm">{loan.name}</span>
+            <span className="text-xs text-muted-foreground">{loan.id}</span>
           </div>
         </div>
       );

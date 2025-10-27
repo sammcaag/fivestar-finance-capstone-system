@@ -24,6 +24,15 @@ import TabListCustomComp from "@/components/TabListCustomComp";
 import { MapPin } from "lucide-react";
 import MainDashboardTable from "@/features/clients/components/tables/MainDashboardTable";
 import { useEffect } from "react";
+import {
+  clientData,
+  clientTableData,
+} from "@/features/clients/data/client-mock";
+import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsTableDefinition";
+import { loansData } from "@/features/loans/data/loans-mock-data";
+import { loansColumnDefinition } from "@/features/loans/components/tables/LoansColumnDefinition";
+import { appointmentsData } from "@/features/loans/appointments/data/appointments-mock-data";
+import { appointmentsColumnDefinition } from "@/features/loans/appointments/components/LoanAppointmentsColumnDefinition";
 
 const dashboardTabs = [
   { value: "overview", label: "Overview" },
@@ -74,6 +83,8 @@ export default function DashboardPage() {
                 title="Recent Client & Loan Activities"
                 description="A quick overview of your most recent client transactions, loan updates, and payment statuses."
                 href="/clients"
+                data={clientTableData}
+                columns={clientsColumnDefinition(true)}
               />
               <div className="md:max-w-[550px] flex-1">
                 <ClientStatusReport />
@@ -85,6 +96,8 @@ export default function DashboardPage() {
                 title="Recent Loans"
                 description="View the most recently processed or approved loans across all branches. Access full details in the Loans tab."
                 href="/loans"
+                data={loansData}
+                columns={loansColumnDefinition}
               />
             </TabsContent>
 
@@ -93,6 +106,8 @@ export default function DashboardPage() {
                 title="Recent Appointments"
                 description="See the latest scheduled and completed client appointments. Visit the Appointments tab for the full schedule."
                 href="loans/appointments"
+                data={appointmentsData}
+                columns={appointmentsColumnDefinition}
               />
             </TabsContent>
 
@@ -101,6 +116,8 @@ export default function DashboardPage() {
                 title="Recently Registered Clients"
                 description="Monitor newly added clients and their latest loan activities. View the complete client list in the Clients tab."
                 href="/clients"
+                data={clientTableData}
+                columns={clientsColumnDefinition(true)}
               />
             </TabsContent>
 

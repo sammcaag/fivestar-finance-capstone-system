@@ -17,6 +17,9 @@ import {
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
 import { Client } from "@/features/clients/types/client-types";
 import { TableFilter } from "@/components/tables/TableFilter";
+import { Loan } from "../../types/loan-types";
+import { loansData } from "../../data/loans-mock-data";
+import { loansColumnDefinition } from "./LoansColumnDefinition";
 
 export function MainLoansTable({
   title,
@@ -25,9 +28,9 @@ export function MainLoansTable({
   title: string;
   description: string;
 }) {
-  const { table, isLoading, data } = useDataTable<Client>({
-    data: clientTableData,
-    columns: clientsColumnDefinition(false),
+  const { table, isLoading, data } = useDataTable<Loan>({
+    data: loansData,
+    columns: loansColumnDefinition,
   });
 
   if (isLoading) {

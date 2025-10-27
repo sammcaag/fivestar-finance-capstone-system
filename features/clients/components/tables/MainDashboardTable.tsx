@@ -17,19 +17,24 @@ import { clientsColumnDefinition } from "./ClientsTableDefinition";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { ColumnDef } from "@tanstack/react-table";
 
-export default function MainDashboardTable({
+export default function MainDashboardTable<TData>({
   title,
   description,
   href,
+  data,
+  columns,
 }: {
   title: string;
   description: string;
   href?: string;
+  data: TData[];
+  columns: ColumnDef<TData>[];
 }) {
-  const { table, isLoading } = useDataTable<Client>({
-    data: clientTableData,
-    columns: clientsColumnDefinition(true),
+  const { table, isLoading } = useDataTable<TData>({
+    data,
+    columns,
   });
   if (isLoading) {
     return <TableRowLoadingState dashboard={true} />;
