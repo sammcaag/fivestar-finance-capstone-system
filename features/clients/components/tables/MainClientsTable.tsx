@@ -25,7 +25,14 @@ export function MainClientsTable({
   title: string;
   description: string;
 }) {
-  const { table, isLoading, data } = useDataTable<ClientTableProps>({
+  const {
+    table,
+    isLoading,
+    data,
+    selectedStatuses,
+    handleStatusChange,
+    uniqueStatusValues,
+  } = useDataTable<ClientTableProps>({
     data: clientTableData,
     columns: clientsColumnDefinition(false),
   });
@@ -39,9 +46,14 @@ export function MainClientsTable({
       <CardHeader>
         <CardTitle className="h4">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
-        <TableFilter />
+        <TableFilter
+          table={table}
+          selectedStatuses={selectedStatuses}
+          handleStatusChange={handleStatusChange}
+          uniqueStatusValues={uniqueStatusValues}
+        />
       </CardHeader>
-      <CardContent className="px-0  border-t">
+      <CardContent className="px-0  border-t min-h-[500px]">
         <Table className="table-fixed">
           <TableHeaderComp table={table} />
           <TableBodyComp table={table} />

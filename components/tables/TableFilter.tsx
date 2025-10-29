@@ -20,8 +20,24 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Table } from "@tanstack/react-table";
+import { cn } from "@/lib/utils";
 
-export function TableFilter({ dashboard = false }: { dashboard?: boolean }) {
+interface TableFilterProps<TData> {
+  dashboard?: boolean;
+  table: Table<TData>;
+  selectedStatuses?: string[];
+  handleStatusChange?: (checked: boolean, value: string) => void;
+  uniqueStatusValues?: string[];
+}
+
+export function TableFilter<TData>({
+  dashboard = false,
+  table,
+  selectedStatuses,
+  handleStatusChange,
+  uniqueStatusValues,
+}: TableFilterProps<TData>) {
   const [searchTerm, setSearchTerm] = useState("");
   const [loanType, setLoanType] = useState("");
   const [status, setStatus] = useState("");
@@ -96,9 +112,19 @@ export function TableFilter({ dashboard = false }: { dashboard?: boolean }) {
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search clients..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20"
+              // ref={inputRef}
+              className={cn(
+                "pl-8 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20",
+                Boolean(table.getColumn("name")?.getFilterValue()) && "pe-9"
+              )}
+              value={
+                (table.getColumn("name")?.getFilterValue() ?? "") as string
+              }
+              onChange={(e) =>
+                table.getColumn("name")?.setFilterValue(e.target.value)
+              }
+              type="text"
+              aria-label="Search Clients "
             />
           </div>
         </div>

@@ -25,10 +25,32 @@ import { clientBadgeStatusMap } from "../../utils/client-badge-status-map";
 import { getProductTypeClass } from "@/utils/get-product-type-class";
 import { cn } from "@/lib/utils";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
+import { FilterFn } from "@tanstack/react-table";
 
 export const clientsColumnDefinition = (
   dashboard = false
 ): ColumnDef<ClientTableProps>[] => {
+  // Custom filter function for multi-column searching
+  const multiColumnFilterFn: FilterFn<ClientTableProps> = (
+    row,
+    columnId,
+    filterValue
+  ) => {
+    const searchableRowContent =
+      `${row.original.name} ${row.original.email}`.toLowerCase();
+    const searchTerm = (filterValue ?? "").toLowerCase();
+    return searchableRowContent.includes(searchTerm);
+  };
+
+  const statusFilterFn: FilterFn<ClientTableProps> = (
+    row,
+    columnId,
+    filterValue: string[]
+  ) => {
+    if (!filterValue?.length) return true;
+    const status = row.getValue(columnId) as string;
+    return filterValue.includes(status);
+  };
   const baseColumns: ColumnDef<ClientTableProps>[] = [
     {
       accessorKey: "id",
@@ -62,6 +84,7 @@ export const clientsColumnDefinition = (
           </div>
         );
       },
+      filterFn: multiColumnFilterFn,
       size: 250,
     },
     {
@@ -99,6 +122,7 @@ export const clientsColumnDefinition = (
     {
       accessorKey: "status",
       header: "Status",
+      filterFn: statusFilterFn,
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
 
