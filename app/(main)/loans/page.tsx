@@ -8,7 +8,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { MainLoansTable } from "@/features/loans/components/tables/MainLoansTable";
 import { useEffect } from "react";
-import { Calculator, FilePlus2, Plus } from "lucide-react";
+import { Calculator, FilePlus2 } from "lucide-react";
 
 const tabs = [
   { value: "overview", label: "Overview" },

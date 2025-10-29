@@ -2,7 +2,6 @@
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import ClientInformation from "@/features/clients/components/ClientInformation";
-import ClientHistoryTable from "@/features/clients/components/profile/ClientHistoryTable";
 import ClientProfileHeader from "@/features/clients/components/profile/ClientProfileHeader";
 import { useEffect } from "react";
 import { Suspense } from "react";

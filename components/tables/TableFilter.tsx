@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Search, Filter, X, CircleX } from "lucide-react";
@@ -36,9 +36,6 @@ export function TableFilter<TData>({
   dashboard = false,
   table,
   inputRef,
-  selectedStatuses,
-  handleStatusChange,
-  uniqueStatusValues,
 }: TableFilterProps<TData>) {
   const [searchTerm, setSearchTerm] = useState("");
   const [loanType, setLoanType] = useState("");
@@ -79,14 +76,7 @@ export function TableFilter<TData>({
     }
     setActiveFilters(newFilters);
   };
-
-  const handleReset = () => {
-    setSearchTerm("");
-    setLoanType("");
-    setStatus("");
-    setActiveFilters([]);
-  };
-
+  
   const removeFilter = (filter: string) => {
     setActiveFilters(activeFilters.filter((f) => f !== filter));
     if (filter.startsWith("Loan:")) {

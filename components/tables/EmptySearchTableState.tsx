@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { SearchIcon, SearchX, X, XIcon } from "lucide-react";
+import { SearchIcon, SearchX } from "lucide-react";
 
 interface SearchEmptyStateProps {
   searchQuery?: string;
@@ -25,10 +25,10 @@ export default function EmptySearchTableState({
           No results found
         </h3>
         <p className="text-muted-foreground mb-2 leading-relaxed">
-          We couldn't find anything matching
+          We couldn&apos;t find anything matching
         </p>
         <p className="text-foreground font-medium mb-6 break-words">
-          "{searchQuery}"
+          &quot;{searchQuery}&quot;
         </p>
 
         {/* Suggestions */}
