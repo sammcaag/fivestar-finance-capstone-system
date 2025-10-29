@@ -25,7 +25,14 @@ export function MainLoansTable({
   title: string;
   description: string;
 }) {
-  const { table, isLoading, data } = useDataTable<LoanTableProps>({
+  const {
+    table,
+    isLoading,
+    data,
+    selectedStatuses,
+    handleStatusChange,
+    uniqueStatusValues,
+  } = useDataTable<LoanTableProps>({
     data: loansData,
     columns: loansColumnDefinition,
   });
@@ -39,10 +46,15 @@ export function MainLoansTable({
       <CardHeader>
         <CardTitle className="h4">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
-        <TableFilter />
+        <TableFilter
+          table={table}
+          selectedStatuses={selectedStatuses}
+          handleStatusChange={handleStatusChange}
+          uniqueStatusValues={uniqueStatusValues}
+        />
       </CardHeader>
-      <CardContent className="px-0  border-t">
-        <Table className="table-fixed">
+      <CardContent className="px-0 min-h-[500px] border-t">
+        <Table className="table-fixed ">
           <TableHeaderComp table={table} />
           <TableBodyComp table={table} />
         </Table>

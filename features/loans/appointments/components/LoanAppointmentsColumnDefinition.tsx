@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MoreHorizontal, Eye, Edit, Trash2, Calendar } from "lucide-react";
 import { Appointment } from "../types/appointment-types";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
+import { FilterFn } from "@tanstack/react-table";
 
 const statusConfig = {
   Scheduled: { bg: "bg-blue-100", text: "text-blue-800", label: "Scheduled" },
@@ -26,6 +27,27 @@ const typeConfig = {
   "Follow-up": "bg-teal-100 text-teal-800",
 };
 
+// Custom filter function for multi-column searching
+const nameSearchFilterFn: FilterFn<Appointment> = (
+  row,
+  columnId,
+  filterValue
+) => {
+  const searchableRowContent = `${row.original.name}`.toLowerCase();
+  const searchTerm = (filterValue ?? "").toLowerCase();
+  return searchableRowContent.includes(searchTerm);
+};
+
+const statusFilterFn: FilterFn<Appointment> = (
+  row,
+  columnId,
+  filterValue: string[]
+) => {
+  if (!filterValue?.length) return true;
+  const status = row.getValue(columnId) as string;
+  return filterValue.includes(status);
+};
+
 export const appointmentsColumnDefinition = (
   dashboard = false
 ): ColumnDef<Appointment>[] => {
@@ -33,6 +55,7 @@ export const appointmentsColumnDefinition = (
     {
       accessorKey: "name",
       header: "Client",
+      filterFn: nameSearchFilterFn,
       cell: ({ row }) => {
         const appointment = row.original;
         return (

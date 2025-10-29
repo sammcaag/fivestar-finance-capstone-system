@@ -31,7 +31,7 @@ export const clientsColumnDefinition = (
   dashboard = false
 ): ColumnDef<ClientTableProps>[] => {
   // Custom filter function for multi-column searching
-  const multiColumnFilterFn: FilterFn<ClientTableProps> = (
+  const nameSearchFilterFn: FilterFn<ClientTableProps> = (
     row,
     columnId,
     filterValue
@@ -84,7 +84,7 @@ export const clientsColumnDefinition = (
           </div>
         );
       },
-      filterFn: multiColumnFilterFn,
+      filterFn: nameSearchFilterFn,
       size: 250,
     },
     {

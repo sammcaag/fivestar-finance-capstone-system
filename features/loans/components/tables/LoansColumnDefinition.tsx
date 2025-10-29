@@ -10,7 +10,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
 import { LoanTableProps } from "../../types/loan-types";
-import { formatCurrency } from "../../computations/utils/format-currency";
+import { FilterFn } from "@tanstack/react-table";
+import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 
 const statusConfig = {
   "Approved by HQ": {
@@ -33,10 +34,32 @@ const statusConfig = {
   },
 };
 
+// Custom filter function for multi-column searching
+const nameSearchFilterFn: FilterFn<LoanTableProps> = (
+  row,
+  columnId,
+  filterValue
+) => {
+  const searchableRowContent = `${row.original.name}`.toLowerCase();
+  const searchTerm = (filterValue ?? "").toLowerCase();
+  return searchableRowContent.includes(searchTerm);
+};
+
+const statusFilterFn: FilterFn<LoanTableProps> = (
+  row,
+  columnId,
+  filterValue: string[]
+) => {
+  if (!filterValue?.length) return true;
+  const status = row.getValue(columnId) as string;
+  return filterValue.includes(status);
+};
+
 export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
   {
     accessorKey: "name",
     header: "Client",
+    filterFn: nameSearchFilterFn,
     cell: ({ row }) => {
       const loan = row.original;
       return (
@@ -61,13 +84,14 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
     cell: ({ row }) => {
       const amount = row.original.amount;
       return (
-        <span className="font-semibold text-sm">{formatCurrency(amount)}</span>
+        <span className="font-semibold text-sm">{formatToPhCurrency(amount)}</span>
       );
     },
   },
   {
     accessorKey: "status",
     header: "Status",
+    filterFn: statusFilterFn,
     cell: ({ row }) => {
       const status = row.original.status;
       const config = statusConfig[status];
