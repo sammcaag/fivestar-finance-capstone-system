@@ -6,6 +6,7 @@ import ClientHistoryTable from "@/features/clients/components/profile/ClientHist
 import ClientProfileHeader from "@/features/clients/components/profile/ClientProfileHeader";
 import { loanHistory } from "@/features/clients/data/client-mock";
 import { useEffect } from "react";
+import { Suspense } from "react";
 
 export default function ClientInfoPage() {
   useEffect(() => {
@@ -22,8 +23,16 @@ export default function ClientInfoPage() {
         ]}
       />
       <ClientProfileHeader />
-      <ClientInformation />
+      <ClientInfoInSuspense />
       <ClientHistoryTable records={loanHistory} />
     </ContentLayout>
+  );
+}
+
+function ClientInfoInSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ClientInformation />
+    </Suspense>
   );
 }
