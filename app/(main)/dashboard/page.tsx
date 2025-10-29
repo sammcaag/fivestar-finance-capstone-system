@@ -69,7 +69,6 @@ export default function DashboardPage() {
                 data={clientTableData}
                 columns={clientsColumnDefinition(true)}
               />
-              
             </TabsContent>
 
             <TabsContent value="appointments" className="mt-4">
@@ -78,7 +77,7 @@ export default function DashboardPage() {
                 description="See the latest scheduled and completed client appointments. Visit the Appointments tab for the full schedule."
                 href="loans/appointments"
                 data={appointmentsData}
-                columns={appointmentsColumnDefinition}
+                columns={appointmentsColumnDefinition(true)}
               />
             </TabsContent>
           </Tabs>

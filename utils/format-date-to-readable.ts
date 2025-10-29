@@ -1,9 +1,9 @@
-export const formatDateToReadable = (date: Date | string) => {
+export const formatDateToReadable = (date: Date | string, mini?: boolean) => {
   const formattedDate = new Date(date);
   return formattedDate.toLocaleDateString("en-PH", {
-    weekday: "long",
+    weekday: mini ? "short" : "long",
     year: "numeric",
-    month: "long",
+    month: mini ? "short" : "long",
     day: "numeric",
   });
 };

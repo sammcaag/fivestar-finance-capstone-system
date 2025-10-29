@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
-import { Loan } from "../../types/loan-types";
+import { LoanTableProps } from "../../types/loan-types";
 import { formatCurrency } from "../../computations/utils/format-currency";
 
 const statusConfig = {
@@ -33,7 +33,7 @@ const statusConfig = {
   },
 };
 
-export const loansColumnDefinition: ColumnDef<Loan>[] = [
+export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
   {
     accessorKey: "name",
     header: "Client",

@@ -1,7 +1,7 @@
-import { LoanHIstory } from "../types/loan-types";
-import type { Loan } from "../types/loan-types";
+import { LoanHistory } from "../types/loan-types";
+import type { LoanTableProps } from "../types/loan-types";
 
-export const loansData: Loan[] = [
+export const loansData: LoanTableProps[] = [
   {
     id: "LN001",
     name: "Maria Santos",
@@ -125,7 +125,7 @@ export const loansData: Loan[] = [
   },
 ];
 
-export const loanHistory: LoanHIstory[] = [
+export const loanHistory: LoanHistory[] = [
   {
     id: "loan1",
     dedCode: "FI-1",

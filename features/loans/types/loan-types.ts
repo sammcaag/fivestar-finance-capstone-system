@@ -1,4 +1,4 @@
-export interface Loan {
+export interface LoanTableProps {
   id: string;
   name: string;
   amount: number;
@@ -23,7 +23,7 @@ interface LoanDocument {
   url: string;
 }
 
-export interface LoanHIstory {
+export interface LoanHistory {
   id: string;
   dedCode: string;
   productType: "New Client" | "Extension" | "Additional" | "Renewal" | "Reloan";

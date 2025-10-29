@@ -115,12 +115,13 @@ export const civilStatusOptions = [
   { label: "Separated", value: "separated" },
 ];
 
-export type Client = {
+export type ClientTableProps = {
   id: string;
   name: string;
   email: string;
+  branch: string;
   loanAmount: number;
-  loanType: string;
+  productType: "New Client" | "Extension" | "Additional" | "Renewal" | "Reloan";
   status:
     | "active"
     | "pending"
@@ -130,6 +131,6 @@ export type Client = {
     | "inactive"
     | "processed"
     | "released";
-  lastPayment: string;
-  nextPayment: string;
+  created_at: string;
+  
 };

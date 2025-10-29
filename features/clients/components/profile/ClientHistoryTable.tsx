@@ -40,19 +40,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LoanHIstory } from "@/features/loans/types/loan-types";
+import { LoanHistory } from "@/features/loans/types/loan-types";
 import { Separator } from "@/components/ui/separator";
 
 interface ClientHistoryTableProps {
-  records: LoanHIstory[];
-  onViewLoanDetails?: (loan: LoanHIstory) => void;
+  records: LoanHistory[];
+  onViewLoanDetails?: (loan: LoanHistory) => void;
 }
 
 export default function ClientHistoryTable({
   records,
   onViewLoanDetails,
 }: ClientHistoryTableProps) {
-  const [selectedLoan, setSelectedLoan] = useState<LoanHIstory | null>(null);
+  const [selectedLoan, setSelectedLoan] = useState<LoanHistory | null>(null);
 
   // Function to check if a date is in the past
   const isDateInPast = (dateString: string) => {
@@ -62,7 +62,7 @@ export default function ClientHistoryTable({
   };
 
   // Function to organize loans into a hierarchical structure
-  const organizeLoansByParent = (loans: LoanHIstory[]) => {
+  const organizeLoansByParent = (loans: LoanHistory[]) => {
     // First, find all parent loans (those without a parentId)
     const parentLoans = loans.filter((loan) => !loan.parentId);
 
@@ -83,7 +83,7 @@ export default function ClientHistoryTable({
 
   // Function to determine if a loan group is fully paid
   const isLoanGroupFullyPaid = (
-    loan: LoanHIstory & { children: LoanHIstory[]; isAllChildrenPaid: boolean }
+    loan: LoanHistory & { children: LoanHistory[]; isAllChildrenPaid: boolean }
   ) => {
     return isDateInPast(loan.maturityDate) && loan.isAllChildrenPaid;
   };

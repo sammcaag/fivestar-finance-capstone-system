@@ -1,6 +1,6 @@
 "use client";
 import { Table } from "@/components/ui/table";
-import { Client } from "../../types/client-types";
+import { ClientTableProps } from "../../types/client-types";
 import TablePagination from "@/components/tables/TablePagination";
 import TableHeaderComp from "@/components/tables/TableHeaderComp";
 import TableBodyComp from "@/components/tables/TableBodyComp";
@@ -25,7 +25,7 @@ export function MainClientsTable({
   title: string;
   description: string;
 }) {
-  const { table, isLoading, data } = useDataTable<Client>({
+  const { table, isLoading, data } = useDataTable<ClientTableProps>({
     data: clientTableData,
     columns: clientsColumnDefinition(false),
   });

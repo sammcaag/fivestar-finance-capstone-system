@@ -4,8 +4,6 @@ import TablePagination from "@/components/tables/TablePagination";
 import TableHeaderComp from "@/components/tables/TableHeaderComp";
 import TableBodyComp from "@/components/tables/TableBodyComp";
 import { useDataTable } from "@/hooks/use-data-table";
-import { clientTableData } from "@/features/clients/data/client-mock";
-import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsTableDefinition";
 import {
   Card,
   CardContent,
@@ -15,9 +13,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
-import { Client } from "@/features/clients/types/client-types";
 import { TableFilter } from "@/components/tables/TableFilter";
-import { Loan } from "../../types/loan-types";
+import { LoanTableProps } from "../../types/loan-types";
 import { loansData } from "../../data/loans-mock-data";
 import { loansColumnDefinition } from "./LoansColumnDefinition";
 
@@ -28,7 +25,7 @@ export function MainLoansTable({
   title: string;
   description: string;
 }) {
-  const { table, isLoading, data } = useDataTable<Loan>({
+  const { table, isLoading, data } = useDataTable<LoanTableProps>({
     data: loansData,
     columns: loansColumnDefinition,
   });

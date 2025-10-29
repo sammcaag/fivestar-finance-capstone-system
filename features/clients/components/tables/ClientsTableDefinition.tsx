@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Client } from "../../types/client-types";
+import { ClientTableProps } from "../../types/client-types";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,14 +21,27 @@ import {
   Flag,
 } from "lucide-react";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
+import { clientBadgeStatusMap } from "../../utils/client-badge-status-map";
+import { getProductTypeClass } from "@/utils/get-product-type-class";
+import { cn } from "@/lib/utils";
+import { formatDateToReadable } from "@/utils/format-date-to-readable";
 
 export const clientsColumnDefinition = (
   dashboard = false
-): ColumnDef<Client>[] => {
-  const baseColumns: ColumnDef<Client>[] = [
+): ColumnDef<ClientTableProps>[] => {
+  const baseColumns: ColumnDef<ClientTableProps>[] = [
+    {
+      accessorKey: "id",
+      header: "Client ID",
+      cell: ({ row }) => {
+        const id = row.getValue("id") as string;
+        return <div className="text-muted-foreground">{id}</div>;
+      },
+      size: 80,
+    },
     {
       accessorKey: "name",
-      header: "Client",
+      header: "Client Name",
       cell: ({ row }) => {
         return (
           <div className="flex items-center gap-2">
@@ -39,7 +52,7 @@ export const clientsColumnDefinition = (
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col min-w-0">
-              <span className="font-medium truncate">
+              <span className="font-medium truncate text-base">
                 {row.getValue("name")}
               </span>
               <span className="text-xs text-muted-foreground truncate">
@@ -49,6 +62,7 @@ export const clientsColumnDefinition = (
           </div>
         );
       },
+      size: 250,
     },
     {
       accessorKey: "loanAmount",
@@ -58,80 +72,37 @@ export const clientsColumnDefinition = (
 
         return <div className="font-medium">{formatToPhCurrency(amount)}</div>;
       },
+      size: 100,
     },
     {
-      accessorKey: "loanType",
-      header: "Loan Type",
+      accessorKey: "branch",
+      header: "Branch",
       cell: ({ row }) => {
-        const loanType = row.getValue("loanType") as string;
-        const loanTypeColorMap: Record<string, string> = {
-          Mortgage:
-            "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-          Personal:
-            "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-          Business:
-            "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
-          Auto: "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300",
-        };
+        const branch = row.getValue("branch") as string;
+        return <span className="">{branch}</span>;
+      },
+    },
+    {
+      accessorKey: "productType",
+      header: "Product Type",
+      cell: ({ row }) => {
+        const productType = row.getValue("productType") as string;
 
         return (
-          <div
-            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-              loanTypeColorMap[loanType] || ""
-            }`}
-          >
-            {loanType}
-          </div>
+          <Badge className={cn(getProductTypeClass(productType))}>
+            {productType}
+          </Badge>
         );
       },
     },
+
     {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
 
-        const statusMap: Record<
-          string,
-          {
-            label: string;
-            variant: "default" | "destructive" | "outline" | "secondary";
-            className?: string;
-          }
-        > = {
-          active: {
-            label: "Active",
-            variant: "default",
-            className:
-              "bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/40",
-          },
-          pending: {
-            label: "Pending",
-            variant: "secondary",
-            className:
-              "bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300 dark:hover:bg-yellow-900/40",
-          },
-          inactive: {
-            label: "Inactive",
-            variant: "destructive",
-            className:
-              "bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/40",
-          },
-          processed: {
-            label: "Processed",
-            variant: "outline",
-            className:
-              "bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/40",
-          },
-          released: {
-            label: "Released",
-            variant: "outline",
-            className:
-              "bg-purple-100 text-purple-800 hover:bg-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:hover:bg-purple-900/40",
-          },
-        };
-
-        const { label, variant, className } = statusMap[status] || {
+        const { label, variant, className } = clientBadgeStatusMap[status] || {
           label: status,
           variant: "default",
           className: "",
@@ -145,37 +116,14 @@ export const clientsColumnDefinition = (
       },
     },
     {
-      accessorKey: "nextPayment",
-      header: "Next Payment",
+      accessorKey: "created_at",
+      header: "Created At",
       cell: ({ row }) => {
-        const nextPayment = row.getValue("nextPayment") as string;
-        if (!nextPayment)
-          return <span className="text-muted-foreground">N/A</span>;
-
-        const date = new Date(nextPayment);
-        const today = new Date();
-        const isUpcoming =
-          date.getTime() - today.getTime() < 7 * 24 * 60 * 60 * 1000; // 7 days
-
-        const formatted = new Intl.DateTimeFormat("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        }).format(date);
-
+        const createdAt = row.getValue("created_at") as string;
         return (
-          <div
-            className={`font-medium ${
-              isUpcoming ? "text-amber-600 dark:text-amber-400" : ""
-            }`}
-          >
-            {formatted}
-            {isUpcoming && (
-              <span className="ml-2 inline-flex items-center rounded-full bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
-                Soon
-              </span>
-            )}
-          </div>
+          <span className="text-muted-foreground">
+            {formatDateToReadable(createdAt, true)}
+          </span>
         );
       },
     },
@@ -188,7 +136,7 @@ export const clientsColumnDefinition = (
   return [
     ...baseColumns,
     {
-      id: "actions",
+      accessorKey: "actions",
       header: "Actions",
       enableHiding: false,
       cell: ({ row }) => {
@@ -258,6 +206,7 @@ export const clientsColumnDefinition = (
           </TooltipProvider>
         );
       },
+      size: 100,
     },
   ];
 };

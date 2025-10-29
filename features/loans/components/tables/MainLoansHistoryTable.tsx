@@ -5,7 +5,7 @@ import TableBodyComp from "@/components/tables/TableBodyComp";
 import { useDataTable } from "@/hooks/use-data-table";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
 import { loanHistory } from "../../data/loans-mock-data";
-import { LoanHIstory } from "../../types/loan-types";
+import { LoanHistory } from "../../types/loan-types";
 import { loansHistoryColumnDefinition } from "../tables/LoansHistoryColumnDefinition";
 import {
   Card,
@@ -18,7 +18,7 @@ import { ClipboardList, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function MainLoansHistoryTable() {
-  const { table, isLoading } = useDataTable<LoanHIstory>({
+  const { table, isLoading } = useDataTable<LoanHistory>({
     data: loanHistory,
     columns: loansHistoryColumnDefinition,
   });
