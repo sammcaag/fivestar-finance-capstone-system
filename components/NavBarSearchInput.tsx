@@ -23,7 +23,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-export default function SearchInput({ fullWidth }: { fullWidth: boolean }) {
+export default function NavBarSearchInput({
+  fullWidth,
+}: {
+  fullWidth: boolean;
+}) {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -47,9 +51,9 @@ export default function SearchInput({ fullWidth }: { fullWidth: boolean }) {
         className={cn(
           "border-input bg-background text-foreground placeholder:text-muted-foreground/70",
           "focus-visible:border-ring focus-visible:ring-ring/50",
-          "inline-flex h-9 w-fit rounded-md border px-4 py-2 text-sm shadow-xs",
+          "inline-flex h-9 w-fit rounded-md px-4 py-2 text-sm shadow-xs",
           "transition-[color,box-shadow] outline-none focus-visible:ring-[3px] min-w-xs",
-          "bg-transparent border-input text-foreground placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-ring/50 inline-flex h-full rounded-md border px-4 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px]",
+          "bg-transparent text-foreground placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-ring/50 inline-flex h-full rounded-md border px-4 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px]",
           fullWidth ? "w-full" : "w-fit",
           open && "hidden"
         )}
@@ -61,7 +65,9 @@ export default function SearchInput({ fullWidth }: { fullWidth: boolean }) {
             size={16}
             aria-hidden="true"
           />
-          <span className="text-muted-foreground/70 font-normal">Search</span>
+          <span className="text-muted-foreground/70 font-normal">
+            Search Clients...
+          </span>
         </span>
         <kbd className="text-muted-foreground/70 ms-12 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
           Ctrl+K

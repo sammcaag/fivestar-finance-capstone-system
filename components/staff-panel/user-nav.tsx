@@ -64,7 +64,10 @@ export function UserNav() {
         <Tooltip delayDuration={100}>
           <TooltipTrigger asChild>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative">
+              <Button
+                variant="outline"
+                className="relative bg-transparent h-12 hover:border-primary"
+              >
                 <Avatar className="size-8 mr-1">
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">

@@ -1,4 +1,4 @@
-import { Calculator, FileChartColumn, UserPlus } from "lucide-react";
+import { Calculator, FileChartColumn, Search, UserPlus } from "lucide-react";
 
 const dashboardQuickActions = [
   {
@@ -15,6 +15,11 @@ const dashboardQuickActions = [
     label: "View Reports",
     href: "/reports",
     icon: FileChartColumn,
+  },
+  {
+    label: "Search Client",
+    href: "/#",
+    icon: Search,
   },
 ];
 
