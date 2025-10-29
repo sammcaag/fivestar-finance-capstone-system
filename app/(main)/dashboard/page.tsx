@@ -69,9 +69,7 @@ export default function DashboardPage() {
                 data={clientTableData}
                 columns={clientsColumnDefinition(true)}
               />
-              {/* <div className="md:max-w-[550px] flex-1">
-                <ClientStatusReport />
-              </div> */}
+              
             </TabsContent>
 
             <TabsContent value="appointments" className="mt-4">

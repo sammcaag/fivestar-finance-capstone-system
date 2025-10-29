@@ -4,7 +4,6 @@ import PersonalInformationTab from "./profile/PersonalInformationTab";
 import FamilyInformationTab from "./profile/FamilyInformationTab";
 import PensionInformationTab from "./profile/PensionInformationTab";
 import AttachmentsTab from "./profile/AttachmentsTab";
-import LoanHistoryTab from "./profile/LoanHistoryTab";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -14,7 +13,6 @@ const tabs = [
   { value: "family", label: "Family Information" },
   { value: "pension", label: "Pension Information" },
   { value: "attachments", label: "Attachments" },
-  { value: "loan-history", label: "Loan History" },
 ];
 
 export default function ClientInformation() {
@@ -46,9 +44,6 @@ export default function ClientInformation() {
 
       {/* Attachments Tab */}
       <AttachmentsTab />
-
-      {/* Loan History Tab */}
-      <LoanHistoryTab />
     </Tabs>
   );
 }

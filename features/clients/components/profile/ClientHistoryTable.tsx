@@ -25,6 +25,8 @@ import {
   Download,
   Printer,
   Eye,
+  List,
+  ClipboardList,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -41,6 +43,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LoanRecord } from "../../types/client-types";
+import { Separator } from "@/components/ui/separator";
 
 interface ClientHistoryTableProps {
   records: LoanRecord[];
@@ -88,18 +91,19 @@ export default function ClientHistoryTable({
   };
 
   return (
-    <Card className="mt-3">
-      <CardHeader className="flex justify-between">
-        <div className="flex items-center">
-          <Building2 className="mr-2 text-primary h-5 w-5" />
-          <CardTitle className="text-xl font-bold">
-            Client Loan History
-          </CardTitle>
+    <Card className="border">
+      <CardHeader className="flex gap-4 flex-row items-center">
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <ClipboardList className="h-5 w-5" />
+        </span>
+        <div>
+          <CardTitle className="text-xl">Loan History</CardTitle>
+          <CardDescription>
+            View and verify the client&apos;s loan history.
+          </CardDescription>
         </div>
-        <CardDescription className="text-muted-foreground ml-8">
-          Loan history of the client
-        </CardDescription>
       </CardHeader>
+      <Separator className="mb-4" />
       <CardContent>
         <div className="overflow-x-auto border rounded-lg">
           <Table className="w-full text-sm">
