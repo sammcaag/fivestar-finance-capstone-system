@@ -4,9 +4,9 @@ import BreadcrumbPages from "@/components/BreadcrumbPages";
 import ClientInformation from "@/features/clients/components/ClientInformation";
 import ClientHistoryTable from "@/features/clients/components/profile/ClientHistoryTable";
 import ClientProfileHeader from "@/features/clients/components/profile/ClientProfileHeader";
-import { loanHistory } from "@/features/clients/data/client-mock";
 import { useEffect } from "react";
 import { Suspense } from "react";
+import { MainLoansHistoryTable } from "@/features/loans/components/tables/MainLoansHistoryTable";
 
 export default function ClientInfoPage() {
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function ClientInfoPage() {
       />
       <ClientProfileHeader />
       <ClientInfoInSuspense />
-      <ClientHistoryTable records={loanHistory} />
+      <MainLoansHistoryTable />
     </ContentLayout>
   );
 }

@@ -11,27 +11,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
 import { Loan } from "../../types/loan-types";
 
-const getInitials = (name: string) => {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase();
-};
-
-const getAvatarColor = (name: string) => {
-  const colors = [
-    "bg-blue-500",
-    "bg-purple-500",
-    "bg-pink-500",
-    "bg-green-500",
-    "bg-orange-500",
-    "bg-red-500",
-  ];
-  const index = name.charCodeAt(0) % colors.length;
-  return colors[index];
-};
-
 const statusConfig = {
   "Approved by HQ": {
     bg: "bg-blue-100",

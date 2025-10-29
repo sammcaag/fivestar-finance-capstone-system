@@ -19,13 +19,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Building2,
   MoreVertical,
   FileText,
   Download,
   Printer,
   Eye,
-  List,
   ClipboardList,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -42,7 +40,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LoanRecord } from "../../types/client-types";
+import { LoanRecord } from "@/features/loans/types/loan-types";
 import { Separator } from "@/components/ui/separator";
 
 interface ClientHistoryTableProps {

@@ -33,21 +33,21 @@ export default function TableBodyComp<TData>({
               layout
             >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="p-4">
+                <motion.td key={cell.id} className="p-4">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
+                </motion.td>
               ))}
             </motion.tr>
           ))
         ) : (
-          <TableRow>
-            <TableCell
+          <motion.tr>
+            <motion.td
               colSpan={table.getAllColumns().length}
-              className="h-24 text-center"
+              className="h-[500px] text-center framer-motion-fix"
             >
               No results.
-            </TableCell>
-          </TableRow>
+            </motion.td>
+          </motion.tr>
         )}
       </AnimatePresence>
     </TableBody>
