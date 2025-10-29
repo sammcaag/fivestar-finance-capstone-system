@@ -14,11 +14,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ClipboardList } from "lucide-react";
+import { ClipboardList, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function MainLoansHistoryTable() {
   const { table, isLoading } = useDataTable<LoanHIstory>({
-    data: [],
+    data: loanHistory,
     columns: loansColumnDefinition,
   });
 
@@ -27,21 +28,32 @@ export function MainLoansHistoryTable() {
   }
   return (
     <Card className="border">
-      <CardHeader className="flex gap-4 flex-row items-center">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
-          <ClipboardList className="h-5 w-5" />
-        </span>
-        <div>
-          <CardTitle className="text-xl">Loan History</CardTitle>
-          <CardDescription>
-            View and verify the client&apos;s loan history.
-          </CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div className="flex gap-4 items-center">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <ClipboardList className="h-5 w-5" />
+          </span>
+          <div>
+            <CardTitle className="text-xl">Loan History</CardTitle>
+            <CardDescription>
+              View and verify the client&apos;s loan history.
+            </CardDescription>
+          </div>
         </div>
+        <Button icon={Plus} iconPlacement="left">
+          Add Client Loan
+        </Button>
       </CardHeader>
       <CardContent className="px-0 pb-0">
         <Table className="border-t">
           <TableHeaderComp table={table} />
-          <TableBodyComp table={table} />
+          <TableBodyComp
+            table={table}
+            emptyActionLabel="Add Client Loan"
+            emptyOnAction={() => {}}
+            emptyTitle="No Client Loan Added Yet."
+            emptyDescription="Start by creating your first loan entry. The client's loan history will appear here once you add something."
+          />
         </Table>
       </CardContent>
     </Card>

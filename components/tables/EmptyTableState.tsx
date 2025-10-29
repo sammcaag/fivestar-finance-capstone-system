@@ -1,23 +1,15 @@
 import React from "react";
 import { InboxIcon, Plus } from "lucide-react";
 import { Button } from "../ui/button";
-
-interface EmptyStateProps {
-  title?: string;
-  description?: string;
-  actionLabel?: string;
-  onAction?: () => void;
-  secondaryActionLabel?: string;
-  onSecondaryAction?: () => void;
-}
+import { EmptyStateProps } from "@/types/global-types";
 
 export default function EmptyTableState({
-  title = "No client loan added yet",
-  description = "Start by creating your first loan entry. The client's loan history will appear here once you add something.",
-  actionLabel,
-  onAction,
-  secondaryActionLabel,
-  onSecondaryAction,
+  emptyTitle = "No data added yet",
+  emptyDescription = "Start by creating your first entry. The data will appear here once you add something.",
+  emptyActionLabel,
+  emptyOnAction,
+  emptySecondaryActionLabel,
+  emptyOnSecondaryAction,
 }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4">
@@ -28,30 +20,27 @@ export default function EmptyTableState({
 
       {/* Content */}
       <div className="text-center max-w-md">
-        <h3 className="text-2xl font-semibold text-foreground mb-2">{title}</h3>
+        <h3 className="text-2xl font-semibold text-foreground mb-2">
+          {emptyTitle}
+        </h3>
         <p className="text-muted-foreground mb-6 leading-relaxed">
-          {description}
+          {emptyDescription}
         </p>
 
         {/* Actions */}
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-          {actionLabel && (
-            <Button
-              onClick={onAction}
-              icon={Plus}
-              iconPlacement="left"
-          
-            >
-              {actionLabel}
+          {emptyActionLabel && (
+            <Button onClick={emptyOnAction} icon={Plus} iconPlacement="left">
+              {emptyActionLabel}
             </Button>
           )}
-          {secondaryActionLabel && (
+          {emptySecondaryActionLabel && (
             <Button
-              onClick={onSecondaryAction}
+              onClick={emptyOnSecondaryAction}
               variant="outline"
               className="border-border hover:bg-muted bg-transparent"
             >
-              {secondaryActionLabel}
+              {emptySecondaryActionLabel}
             </Button>
           )}
         </div>

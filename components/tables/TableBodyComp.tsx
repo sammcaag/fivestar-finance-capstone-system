@@ -5,12 +5,26 @@ import { flexRender, Table } from "@tanstack/react-table";
 import { getStatusRowClass } from "@/utils/get-status-row-class";
 import clsx from "clsx";
 import EmptyTableState from "./EmptyTableState";
+import { EmptyStateProps } from "@/types/global-types";
+import EmptySearchTableState from "./EmptySearchTableState";
+
+interface TableBodyCompProps<TData> extends EmptyStateProps {
+  table: Table<TData>;
+  searchQuery?: string;
+  onClearSearch?: () => void;
+}
 
 export default function TableBodyComp<TData>({
   table,
-}: {
-  table: Table<TData>;
-}) {
+  emptyTitle,
+  emptyDescription,
+  emptyActionLabel,
+  emptyOnAction,
+  emptySecondaryActionLabel,
+  emptyOnSecondaryAction,
+  searchQuery,
+  onClearSearch,
+}: TableBodyCompProps<TData>) {
   return (
     <TableBody>
       <AnimatePresence>
@@ -40,13 +54,32 @@ export default function TableBodyComp<TData>({
               ))}
             </motion.tr>
           ))
+        ) : searchQuery ? (
+          <motion.tr>
+            <motion.td
+              colSpan={table.getAllColumns().length}
+              className="h-[500px] text-center framer-motion-fix"
+            >
+              <EmptySearchTableState
+                searchQuery={searchQuery}
+                onClearSearch={onClearSearch}
+              />
+            </motion.td>
+          </motion.tr>
         ) : (
           <motion.tr>
             <motion.td
               colSpan={table.getAllColumns().length}
               className="h-[500px] text-center framer-motion-fix"
             >
-              <EmptyTableState actionLabel="Add Loan" onAction={() => {}} />
+              <EmptyTableState
+                emptyTitle={emptyTitle}
+                emptyDescription={emptyDescription}
+                emptyActionLabel={emptyActionLabel}
+                emptyOnAction={emptyOnAction}
+                emptySecondaryActionLabel={emptySecondaryActionLabel}
+                emptyOnSecondaryAction={emptyOnSecondaryAction}
+              />
             </motion.td>
           </motion.tr>
         )}

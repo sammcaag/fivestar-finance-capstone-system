@@ -6,3 +6,12 @@ export type StatisticProps = {
   summary: string;
   icon: LucideIcon;
 };
+
+export interface EmptyStateProps {
+  emptyTitle?: string;
+  emptyDescription?: string;
+  emptyActionLabel?: string;
+  emptyOnAction?: () => void;
+  emptySecondaryActionLabel?: string;
+  emptyOnSecondaryAction?: () => void;
+}
