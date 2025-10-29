@@ -8,7 +8,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-white hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -101,7 +101,10 @@ const Button = React.forwardRef<
       // When asChild is true, we want to pass all valid HTML attributes to the Slot
       // Create a new object without the asChild prop to avoid passing it to the DOM
       // We need to include asChild in the type assertion since it's not part of ButtonHTMLAttributes
-      const { asChild: _asChild, ...slotProps } = props as React.ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean };
+      const { asChild: _asChild, ...slotProps } =
+        props as React.ButtonHTMLAttributes<HTMLButtonElement> & {
+          asChild?: boolean;
+        };
       // Use the _asChild variable to satisfy ESLint's no-unused-vars rule
       if (_asChild !== undefined) {
         // This is just to use the variable, but it's not necessary for functionality

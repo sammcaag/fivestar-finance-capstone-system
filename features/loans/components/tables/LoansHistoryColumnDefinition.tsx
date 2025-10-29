@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { LoanRecord } from "../../types/loan-types";
+import { LoanHIstory } from "../../types/loan-types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +12,7 @@ import { Eye } from "lucide-react";
 import { Edit } from "lucide-react";
 import { Trash2 } from "lucide-react";
 
-export const loansColumnDefinition: ColumnDef<LoanRecord>[] = [
+export const loansColumnDefinition: ColumnDef<LoanHIstory>[] = [
   {
     accessorKey: "dedCode",
     header: "DED CODE",

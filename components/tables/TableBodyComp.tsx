@@ -1,9 +1,10 @@
 import React from "react";
-import { TableBody, TableCell, TableRow } from "../ui/table";
+import { TableBody } from "../ui/table";
 import { AnimatePresence, motion } from "framer-motion";
 import { flexRender, Table } from "@tanstack/react-table";
 import { getStatusRowClass } from "@/utils/get-status-row-class";
 import clsx from "clsx";
+import EmptyTableState from "./EmptyTableState";
 
 export default function TableBodyComp<TData>({
   table,
@@ -45,7 +46,7 @@ export default function TableBodyComp<TData>({
               colSpan={table.getAllColumns().length}
               className="h-[500px] text-center framer-motion-fix"
             >
-              No results.
+              <EmptyTableState actionLabel="Add Loan" onAction={() => {}} />
             </motion.td>
           </motion.tr>
         )}

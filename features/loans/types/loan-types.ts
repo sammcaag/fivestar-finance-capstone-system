@@ -23,7 +23,7 @@ interface LoanDocument {
   url: string;
 }
 
-export interface LoanRecord {
+export interface LoanHIstory {
   id: string;
   dedCode: string;
   productType: "New Client" | "Extension" | "Additional" | "Renewal" | "Reloan";
@@ -40,4 +40,3 @@ export interface LoanRecord {
   extensionType?: "Ext." | "Add." | null;
   documents?: LoanDocument[];
 }
-

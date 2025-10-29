@@ -1,4 +1,4 @@
-import { LoanRecord } from "../types/loan-types";
+import { LoanHIstory } from "../types/loan-types";
 import type { Loan } from "../types/loan-types";
 
 export const loansData: Loan[] = [
@@ -125,7 +125,7 @@ export const loansData: Loan[] = [
   },
 ];
 
-export const loanHistory: LoanRecord[] = [
+export const loanHistory: LoanHIstory[] = [
   {
     id: "loan1",
     dedCode: "FI-1",
