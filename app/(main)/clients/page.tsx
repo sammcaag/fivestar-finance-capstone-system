@@ -12,8 +12,6 @@ import { useEffect } from "react";
 
 const tabs = [
   { value: "overview", label: "Overview" },
-  { value: "active", label: "Active Clients" },
-  { value: "inactive", label: "Inactive Clients" },
   { value: "new", label: "Newly Registered" },
   { value: "issues", label: "With Issues" },
 ];
@@ -50,20 +48,6 @@ export default function ClientsPage() {
           <MainClientsTable
             title="Clients Overview"
             description="View and manage the complete list of clients across all branches."
-          />
-        </TabsContent>
-
-        <TabsContent value="active" className="space-y-4">
-          <MainClientsTable
-            title="Active Clients"
-            description="Monitor clients with ongoing or recently approved loan accounts."
-          />
-        </TabsContent>
-
-        <TabsContent value="inactive" className="space-y-4">
-          <MainClientsTable
-            title="Inactive Clients"
-            description="Review clients with no active loans or recent transactions."
           />
         </TabsContent>
 
