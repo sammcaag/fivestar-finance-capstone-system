@@ -8,14 +8,27 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { MainLoansTable } from "@/features/loans/components/tables/MainLoansTable";
 import { useEffect } from "react";
+import { Calculator, FilePlus2, Plus } from "lucide-react";
 
 const tabs = [
   { value: "overview", label: "Overview" },
-  { value: "pending", label: "Pending Loans" },
   { value: "approved", label: "Approved Loans" },
   { value: "active", label: "Active Loans" },
   { value: "closed", label: "Closed Loans" },
   { value: "rejected", label: "Rejected Loans" },
+];
+
+const quickActions = [
+  {
+    label: "Add New Loan for a Client",
+    href: "/loans/new",
+    icon: FilePlus2,
+  },
+  {
+    label: "New Client Computation",
+    href: "/loans/computations/new-client",
+    icon: Calculator,
+  },
 ];
 
 export default function Loans() {
@@ -34,6 +47,7 @@ export default function Loans() {
       <MainHeader
         title="Loans Overview"
         description="Oversee and manage all active, pending, and completed loan records within your branch."
+        quickActions={quickActions}
       />
       <StatisticsCard statistics={loansOverviewStatistics} />
       <Tabs defaultValue="overview" className="space-y-4">
@@ -42,13 +56,6 @@ export default function Loans() {
           <MainLoansTable
             title="Loans Overview"
             description="View and manage all loan records across every status and branch."
-          />
-        </TabsContent>
-
-        <TabsContent value="pending" className="space-y-4">
-          <MainLoansTable
-            title="Pending Loans"
-            description="Monitor loan applications that are awaiting review or approval."
           />
         </TabsContent>
 

@@ -6,12 +6,21 @@ import MainHeader from "@/components/MainHeader";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { Tabs, TabsContent } from "@radix-ui/react-tabs";
 import { MainAppointmentsTable } from "@/features/loans/appointments/components/MainAppointmentsTable";
+import { ClipboardPlus } from "lucide-react";
 
 const appointmentTabs = [
   { value: "overview", label: "Overview" },
   { value: "completed", label: "Completed" },
   { value: "cancelled", label: "Cancelled" },
   { value: "missed", label: "No Show" },
+];
+
+const quickActions = [
+  {
+    label: "Add New Appointment",
+    href: "/appointments/new",
+    icon: ClipboardPlus,
+  },
 ];
 
 export default function LoanAppointments() {
@@ -32,6 +41,7 @@ export default function LoanAppointments() {
       <MainHeader
         title="Mobile Loan Appointments"
         description="Coordinate and review upcoming loan appointments to help your branch prepare client documents in advance."
+        quickActions={quickActions}
       />
       <Tabs defaultValue="overview" className="space-y-4">
         <TabListCustomComp tabs={appointmentTabs} />

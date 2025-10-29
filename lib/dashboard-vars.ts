@@ -2,7 +2,7 @@ import { Calculator, FileChartColumn, UserPlus } from "lucide-react";
 
 const dashboardQuickActions = [
   {
-    label: "Add New Client",
+    label: "Register New Client",
     href: "/clients/register",
     icon: UserPlus,
   },
@@ -41,8 +41,4 @@ const dashboardMotionItem = {
   },
 };
 
-export {
-  dashboardQuickActions,
-  dashboardMotionContainer,
-  dashboardMotionItem,
-};
+export { dashboardQuickActions, dashboardMotionContainer, dashboardMotionItem };

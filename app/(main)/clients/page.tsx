@@ -9,11 +9,26 @@ import TabListCustomComp from "@/components/TabListCustomComp";
 import StatisticsCard from "@/components/StatisticsCard";
 import MainHeader from "@/components/MainHeader";
 import { useEffect } from "react";
+import { Search, UserPlus } from "lucide-react";
 
 const tabs = [
   { value: "overview", label: "Overview" },
   { value: "new", label: "Newly Registered" },
   { value: "issues", label: "With Issues" },
+];
+
+const quickActions = [
+  {
+    label: "Register New Client",
+    href: "/clients/register",
+    icon: UserPlus,
+  },
+  // find a user
+  {
+    label: "Search Client",
+    href: "/#",
+    icon: Search,
+  },
 ];
 
 export default function ClientsPage() {
@@ -39,6 +54,7 @@ export default function ClientsPage() {
       <MainHeader
         title="Clients Overview"
         description="Manage your client portfolio and loan statuses"
+        quickActions={quickActions}
       />
       <StatisticsCard statistics={clientsOverviewStatistics} />
 
