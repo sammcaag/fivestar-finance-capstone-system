@@ -8,8 +8,7 @@ import { Tabs, TabsContent } from "@radix-ui/react-tabs";
 import { MainAppointmentsTable } from "@/features/loans/appointments/components/MainAppointmentsTable";
 
 const appointmentTabs = [
-  { value: "upcoming", label: "Upcoming" },
-  { value: "today", label: "Today's Appointments" },
+  { value: "overview", label: "Overview" },
   { value: "completed", label: "Completed" },
   { value: "cancelled", label: "Cancelled" },
   { value: "missed", label: "No Show" },
@@ -17,35 +16,29 @@ const appointmentTabs = [
 
 export default function LoanAppointments() {
   useEffect(() => {
-    document.title = "Loan Appointments | Stella - Five Star Finance Inc.";
+    document.title =
+      "Mobile Loan Appointments | Stella - Five Star Finance Inc.";
   }, []);
 
   return (
-    <ContentLayout title="Loan Appointments">
+    <ContentLayout title="Mobile Loan Appointments">
       <BreadcrumbPages
         links={[
           { href: "/", label: "Home" },
-          { href: "/appointments", label: "Loan Appointments" },
+          { href: "/appointments", label: "Mobile Loan Appointments" },
         ]}
       />
 
       <MainHeader
-        title="Loan Appointments"
+        title="Mobile Loan Appointments"
         description="Coordinate and review upcoming loan appointments to help your branch prepare client documents in advance."
       />
-      <Tabs defaultValue="upcoming" className="space-y-4">
+      <Tabs defaultValue="overview" className="space-y-4">
         <TabListCustomComp tabs={appointmentTabs} />
-        <TabsContent value="upcoming" className="space-y-4">
+        <TabsContent value="overview" className="space-y-4">
           <MainAppointmentsTable
-            title="Upcoming Appointments"
-            description="View all scheduled loan appointments that are set for future dates. Ensure all required client documents are prepared ahead of time."
-          />
-        </TabsContent>
-
-        <TabsContent value="today" className="space-y-4">
-          <MainAppointmentsTable
-            title="Today's Appointments"
-            description="Track all loan appointments scheduled for today and assist clients during their visit."
+            title="Appointments Overview"
+            description="Review all upcoming loan appointments and ensure client documents are complete before each meeting."
           />
         </TabsContent>
 

@@ -76,7 +76,7 @@ export function getMenuList(): Group[] {
         // loan appointments
         {
           href: "/loans/appointments",
-          label: "Loan Appointments",
+          label: "Mobile Appointments",
           icon: CalendarClock,
         },
         //  loan computations
