@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { SearchIcon, XIcon } from "lucide-react";
+import { SearchIcon, SearchX, X, XIcon } from "lucide-react";
 
 interface SearchEmptyStateProps {
   searchQuery?: string;
@@ -42,22 +42,9 @@ export default function EmptySearchTableState({
         </div>
 
         {/* Actions */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <Button
-            onClick={onClearSearch}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-          >
-            <XIcon className="h-4 w-4 mr-2" />
-            Clear Search
-          </Button>
-          <Button
-            onClick={onClearSearch}
-            variant="outline"
-            className="border-border hover:bg-muted bg-transparent"
-          >
-            Browse All
-          </Button>
-        </div>
+        <Button onClick={onClearSearch} icon={SearchX} iconPlacement="left">
+          Clear Search and Try Again
+        </Button>
       </div>
     </div>
   );

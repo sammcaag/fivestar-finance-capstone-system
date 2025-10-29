@@ -17,6 +17,7 @@ import { TableFilter } from "@/components/tables/TableFilter";
 import { LoanTableProps } from "../../types/loan-types";
 import { loansData } from "../../data/loans-mock-data";
 import { loansColumnDefinition } from "./LoansColumnDefinition";
+import { useRef } from "react";
 
 export function MainLoansTable({
   title,
@@ -37,6 +38,8 @@ export function MainLoansTable({
     columns: loansColumnDefinition,
   });
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   if (isLoading) {
     return <TableRowLoadingState dashboard={false} />;
   }
@@ -48,6 +51,7 @@ export function MainLoansTable({
         <CardDescription>{description}</CardDescription>
         <TableFilter
           table={table}
+          inputRef={inputRef}
           selectedStatuses={selectedStatuses}
           handleStatusChange={handleStatusChange}
           uniqueStatusValues={uniqueStatusValues}
@@ -56,7 +60,7 @@ export function MainLoansTable({
       <CardContent className="px-0 min-h-[500px] border-t">
         <Table className="table-fixed ">
           <TableHeaderComp table={table} />
-          <TableBodyComp table={table} />
+          <TableBodyComp table={table} inputRef={inputRef} />
         </Table>
       </CardContent>
       <CardFooter className="pt-4">

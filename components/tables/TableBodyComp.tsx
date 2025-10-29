@@ -12,6 +12,7 @@ interface TableBodyCompProps<TData> extends EmptyStateProps {
   table: Table<TData>;
   searchQuery?: string;
   onClearSearch?: () => void;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
 export default function TableBodyComp<TData>({
@@ -22,9 +23,9 @@ export default function TableBodyComp<TData>({
   emptyOnAction,
   emptySecondaryActionLabel,
   emptyOnSecondaryAction,
-  searchQuery,
-  onClearSearch,
+  inputRef,
 }: TableBodyCompProps<TData>) {
+  const nameSearchValue = table.getColumn("name")?.getFilterValue();
   return (
     <TableBody>
       <AnimatePresence>
@@ -58,15 +59,20 @@ export default function TableBodyComp<TData>({
               ))}
             </motion.tr>
           ))
-        ) : searchQuery ? (
+        ) : nameSearchValue ? (
           <motion.tr>
             <motion.td
               colSpan={table.getAllColumns().length}
               className="h-[500px] text-center framer-motion-fix"
             >
               <EmptySearchTableState
-                searchQuery={searchQuery}
-                onClearSearch={onClearSearch}
+                searchQuery={nameSearchValue as string}
+                onClearSearch={() => {
+                  table.getColumn("name")?.setFilterValue("");
+                  if (inputRef?.current) {
+                    inputRef.current.focus();
+                  }
+                }}
               />
             </motion.td>
           </motion.tr>

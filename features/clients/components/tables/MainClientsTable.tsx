@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import { TableFilter } from "../../../../components/tables/TableFilter";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
+import { useRef } from "react";
 
 export function MainClientsTable({
   title,
@@ -37,6 +38,8 @@ export function MainClientsTable({
     columns: clientsColumnDefinition(false),
   });
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   if (isLoading) {
     return <TableRowLoadingState dashboard={false} />;
   }
@@ -48,6 +51,7 @@ export function MainClientsTable({
         <CardDescription>{description}</CardDescription>
         <TableFilter
           table={table}
+          inputRef={inputRef}
           selectedStatuses={selectedStatuses}
           handleStatusChange={handleStatusChange}
           uniqueStatusValues={uniqueStatusValues}
@@ -56,7 +60,7 @@ export function MainClientsTable({
       <CardContent className="px-0  border-t min-h-[500px]">
         <Table className="table-fixed">
           <TableHeaderComp table={table} />
-          <TableBodyComp table={table} />
+          <TableBodyComp table={table} inputRef={inputRef} />
         </Table>
       </CardContent>
       <CardFooter className="pt-4">

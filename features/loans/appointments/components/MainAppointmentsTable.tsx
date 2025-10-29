@@ -17,6 +17,7 @@ import { TableFilter } from "@/components/tables/TableFilter";
 import { Appointment } from "../types/appointment-types";
 import { appointmentsData } from "../data/appointments-mock-data";
 import { appointmentsColumnDefinition } from "./LoanAppointmentsColumnDefinition";
+import { useRef } from "react";
 
 export function MainAppointmentsTable({
   title,
@@ -37,6 +38,8 @@ export function MainAppointmentsTable({
     columns: appointmentsColumnDefinition(),
   });
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   if (isLoading) {
     return <TableRowLoadingState dashboard={false} />;
   }
@@ -48,6 +51,7 @@ export function MainAppointmentsTable({
         <CardDescription>{description}</CardDescription>
         <TableFilter
           table={table}
+          inputRef={inputRef}
           selectedStatuses={selectedStatuses}
           handleStatusChange={handleStatusChange}
           uniqueStatusValues={uniqueStatusValues}
@@ -56,7 +60,7 @@ export function MainAppointmentsTable({
       <CardContent className="px-0  border-t min-h-[500px]">
         <Table className="table-fixed">
           <TableHeaderComp table={table} />
-          <TableBodyComp table={table} />
+          <TableBodyComp table={table} inputRef={inputRef} />
         </Table>
       </CardContent>
       <CardFooter className="pt-4">

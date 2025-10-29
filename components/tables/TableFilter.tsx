@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Search, Filter, X } from "lucide-react";
+import { Search, Filter, X, CircleX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,6 +26,7 @@ import { cn } from "@/lib/utils";
 interface TableFilterProps<TData> {
   dashboard?: boolean;
   table: Table<TData>;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
   selectedStatuses?: string[];
   handleStatusChange?: (checked: boolean, value: string) => void;
   uniqueStatusValues?: string[];
@@ -34,6 +35,7 @@ interface TableFilterProps<TData> {
 export function TableFilter<TData>({
   dashboard = false,
   table,
+  inputRef,
   selectedStatuses,
   handleStatusChange,
   uniqueStatusValues,
@@ -112,9 +114,9 @@ export function TableFilter<TData>({
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search clients..."
-              // ref={inputRef}
+              ref={inputRef}
               className={cn(
-                "pl-8 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20",
+                "pl-8  focus-within:ring-2 focus-within:ring-primary/20",
                 Boolean(table.getColumn("name")?.getFilterValue()) && "pe-9"
               )}
               value={
@@ -163,7 +165,7 @@ export function TableFilter<TData>({
                 <Button
                   variant="outline"
                   asChild
-                  className="transition-all duration-200 hover:bg-primary hover:text-white"
+                  className=" hover:bg-primary hover:text-white"
                 >
                   <Link href="/clients">View All Clients</Link>
                 </Button>
@@ -175,22 +177,28 @@ export function TableFilter<TData>({
           </TooltipProvider>
         ) : (
           <div className="flex items-center space-x-2">
-            <Button
-              variant="default"
-              onClick={handleFilter}
-              className="transition-all duration-200"
-            >
+            <Button variant="default" onClick={handleFilter} className="">
               <Filter className="mr-2 h-4 w-4" />
               Filter
             </Button>
-            <Button
-              variant="outline"
-              onClick={handleReset}
-              className="transition-all duration-200"
-            >
-              <X className="mr-2 h-4 w-4" />
-              Reset
-            </Button>
+            {Boolean(table.getColumn("name")?.getFilterValue()) && (
+              <Button
+                variant="outline"
+                className="border-destructive"
+                onClick={() => {
+                  table.getColumn("name")?.setFilterValue("");
+                  if (inputRef?.current) {
+                    inputRef.current.focus();
+                  }
+                }}
+              >
+                <CircleX
+                  className="size-3 text-destructive"
+                  strokeWidth={1.5}
+                />
+                Clear
+              </Button>
+            )}
           </div>
         )}
       </div>
