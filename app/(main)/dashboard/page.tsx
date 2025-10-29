@@ -1,18 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { dashboardStatistics } from "@/features/clients/data/client-mock-stats";
-import ClientStatusReport from "@/features/clients/components/ClientStatusReport";
 import MainHeader from "@/components/MainHeader";
 import {
   dashboardQuickActions,
@@ -24,21 +15,14 @@ import TabListCustomComp from "@/components/TabListCustomComp";
 import { MapPin } from "lucide-react";
 import MainDashboardTable from "@/features/clients/components/tables/MainDashboardTable";
 import { useEffect } from "react";
-import {
-  clientTableData,
-} from "@/features/clients/data/client-mock";
+import { clientTableData } from "@/features/clients/data/client-mock";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsTableDefinition";
-import { loansData } from "@/features/loans/data/loans-mock-data";
-import { loansColumnDefinition } from "@/features/loans/components/tables/LoansColumnDefinition";
 import { appointmentsData } from "@/features/loans/appointments/data/appointments-mock-data";
 import { appointmentsColumnDefinition } from "@/features/loans/appointments/components/LoanAppointmentsColumnDefinition";
 
 const dashboardTabs = [
   { value: "overview", label: "Overview" },
-  { value: "loans", label: "Loans" },
-  { value: "appointments", label: "Appointments" },
-  { value: "clients", label: "Clients" },
-  { value: "reports", label: "Report" },
+  { value: "appointments", label: "Mobile Appointments" },
 ];
 
 export default function DashboardPage() {
@@ -85,82 +69,19 @@ export default function DashboardPage() {
                 data={clientTableData}
                 columns={clientsColumnDefinition(true)}
               />
-              <div className="md:max-w-[550px] flex-1">
+              {/* <div className="md:max-w-[550px] flex-1">
                 <ClientStatusReport />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="loans" className="mt-4">
-              <MainDashboardTable
-                title="Recent Loans"
-                description="View the most recently processed or approved loans across all branches. Access full details in the Loans tab."
-                href="/loans"
-                data={loansData}
-                columns={loansColumnDefinition}
-              />
+              </div> */}
             </TabsContent>
 
             <TabsContent value="appointments" className="mt-4">
               <MainDashboardTable
-                title="Recent Appointments"
+                title="Recent Mobile Appointments"
                 description="See the latest scheduled and completed client appointments. Visit the Appointments tab for the full schedule."
                 href="loans/appointments"
                 data={appointmentsData}
                 columns={appointmentsColumnDefinition}
               />
-            </TabsContent>
-
-            <TabsContent value="clients" className="mt-4">
-              <MainDashboardTable
-                title="Recently Registered Clients"
-                description="Monitor newly added clients and their latest loan activities. View the complete client list in the Clients tab."
-                href="/clients"
-                data={clientTableData}
-                columns={clientsColumnDefinition(true)}
-              />
-            </TabsContent>
-
-            <TabsContent value="reports" className="mt-4">
-              <Card className="border-none shadow-md">
-                <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/40 dark:to-cyan-950/40">
-                  <CardTitle className="h4">Detailed Reports</CardTitle>
-                  <CardDescription>
-                    View and generate detailed reports
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="flex flex-col items-center justify-center space-y-4 py-12">
-                    <p className="text-muted-foreground">
-                      Select a report type to generate
-                    </p>
-                    <div className="flex flex-wrap gap-3">
-                      <Button
-                        onClick={() =>
-                          (window.location.href = "/reports/monthly")
-                        }
-                      >
-                        Monthly Summary
-                      </Button>
-                      <Button
-                        variant="outline"
-                        onClick={() =>
-                          (window.location.href = "/reports/client-performance")
-                        }
-                      >
-                        Client Performance
-                      </Button>
-                      <Button
-                        variant="outline"
-                        onClick={() =>
-                          (window.location.href = "/reports/loan-distribution")
-                        }
-                      >
-                        Loan Distribution
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </TabsContent>
           </Tabs>
         </motion.div>
