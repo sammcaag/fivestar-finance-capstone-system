@@ -24,7 +24,7 @@ export function MainActivityLogsTable() {
     <Card className="overflow-hidden border flex-1">
       {/* Table Card Header */}
       <CardContent className="px-0 min-h-[700px]">
-        <Table>
+        <Table className="table-fixed">
           <TableHeaderComp table={table} />
           <TableBodyComp table={table} />
         </Table>

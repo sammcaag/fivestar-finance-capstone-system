@@ -42,7 +42,7 @@ export function MainAppointmentsTable({
         <TableFilter />
       </CardHeader>
       <CardContent className="px-0  border-t">
-        <Table>
+        <Table className="table-fixed">
           <TableHeaderComp table={table} />
           <TableBodyComp table={table} />
         </Table>

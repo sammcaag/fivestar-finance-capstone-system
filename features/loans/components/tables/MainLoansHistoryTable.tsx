@@ -45,7 +45,7 @@ export function MainLoansHistoryTable() {
         </Button>
       </CardHeader>
       <CardContent className="px-0 pb-0">
-        <Table className="border-t">
+        <Table className="table-fixed border-t">
           <TableHeaderComp table={table} />
           <TableBodyComp
             table={table}

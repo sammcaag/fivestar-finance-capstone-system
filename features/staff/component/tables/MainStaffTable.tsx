@@ -21,17 +21,8 @@ export function MainStaffTable() {
   }
   return (
     <Card className="overflow-hidden border flex-1">
-      {/* Table Card Header */}
-      {/* <CardHeader>
-        <CardTitle className="h4">Staff Management</CardTitle>
-        <CardDescription>
-          Manage branch staff accounts, roles, and permissions. Add new team
-          members, update information, or deactivate users when needed.
-        </CardDescription>
-        <TableFilter />
-      </CardHeader> */}
       <CardContent className="px-0 min-h-[700px]">
-        <Table>
+        <Table className="table-fixed">
           <TableHeaderComp table={table} />
           <TableBodyComp table={table} />
         </Table>

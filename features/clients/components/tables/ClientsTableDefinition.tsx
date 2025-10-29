@@ -20,7 +20,7 @@ import {
   Pencil,
   Flag,
 } from "lucide-react";
-import { formatCurrency } from "@/features/loans/computations/utils/format-currency";
+import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 
 export const clientsColumnDefinition = (
   dashboard = false
@@ -56,7 +56,7 @@ export const clientsColumnDefinition = (
       cell: ({ row }) => {
         const amount = Number.parseFloat(row.getValue("loanAmount"));
 
-        return <div className="font-medium">{formatCurrency(amount)}</div>;
+        return <div className="font-medium">{formatToPhCurrency(amount)}</div>;
       },
     },
     {
