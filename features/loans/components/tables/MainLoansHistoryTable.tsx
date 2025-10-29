@@ -6,7 +6,7 @@ import { useDataTable } from "@/hooks/use-data-table";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
 import { loanHistory } from "../../data/loans-mock-data";
 import { LoanHIstory } from "../../types/loan-types";
-import { loansColumnDefinition } from "../tables/LoansHistoryColumnDefinition";
+import { loansHistoryColumnDefinition } from "../tables/LoansHistoryColumnDefinition";
 import {
   Card,
   CardContent,
@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 export function MainLoansHistoryTable() {
   const { table, isLoading } = useDataTable<LoanHIstory>({
     data: loanHistory,
-    columns: loansColumnDefinition,
+    columns: loansHistoryColumnDefinition,
   });
 
   if (isLoading) {

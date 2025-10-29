@@ -12,14 +12,19 @@ import { Eye } from "lucide-react";
 import { Edit } from "lucide-react";
 import { Trash2 } from "lucide-react";
 
-export const loansColumnDefinition: ColumnDef<LoanHIstory>[] = [
+export const loansHistoryColumnDefinition: ColumnDef<LoanHIstory>[] = [
   {
     accessorKey: "dedCode",
-    header: "DED CODE",
+    header: "DED Code",
+    cell: ({ row }) => (
+      <span className="whitespace-nowrap">{row.original.dedCode}</span>
+    ),
+    size: 20,
   },
   {
     accessorKey: "productType",
-    header: "PRODUCT TYPE",
+    header: "Product Type",
+    size: 20
   },
   {
     accessorKey: "amount",
@@ -27,27 +32,27 @@ export const loansColumnDefinition: ColumnDef<LoanHIstory>[] = [
   },
   {
     accessorKey: "term",
-    header: "TERM",
+    header: "Term",
   },
   {
     accessorKey: "releasedDate",
-    header: "RELEASED DATE",
+    header: "Released Date",
   },
   {
     accessorKey: "valueDate",
-    header: "VALUE DATE",
+    header: "Value Date",
   },
   {
     accessorKey: "maturityDate",
-    header: "MATURITY DATE",
+    header: "Maturity Date",
   },
   {
     accessorKey: "status",
-    header: "STATUS",
+    header: "Status",
   },
   {
     accessorKey: "action",
-    header: "ACTION",
+    header: "Action",
     cell: ({ row }) => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

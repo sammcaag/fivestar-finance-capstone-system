@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import {
   ColumnDef,
+  getFacetedUniqueValues,
+  PaginationState,
   type ColumnFiltersState,
   type SortingState,
   type VisibilityState,
@@ -12,7 +14,6 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import { Client } from "@/features/clients/types/client-types";
 
 export function useDataTable<TData>({
   data, // temporary, will delete later if api routes are implemented
@@ -29,6 +30,10 @@ export function useDataTable<TData>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
 
   // Simulate loading
   useEffect(() => {
@@ -40,21 +45,23 @@ export function useDataTable<TData>({
   }, []);
 
   const table = useReactTable({
-    data: data,
-    columns: columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    data,
+    columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    enableSortingRemoval: false,
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
+    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
+    getFilteredRowModel: getFilteredRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
     state: {
       sorting,
+      pagination,
       columnFilters,
       columnVisibility,
-      rowSelection,
     },
   });
 
@@ -66,5 +73,6 @@ export function useDataTable<TData>({
     columnFilters,
     sorting,
     data,
+    pagination,
   };
 }

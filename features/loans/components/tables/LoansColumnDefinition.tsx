@@ -10,6 +10,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
 import { Loan } from "../../types/loan-types";
+import { formatCurrency } from "../../computations/utils/format-currency";
 
 const statusConfig = {
   "Approved by HQ": {
@@ -60,9 +61,7 @@ export const loansColumnDefinition: ColumnDef<Loan>[] = [
     cell: ({ row }) => {
       const amount = row.original.amount;
       return (
-        <span className="font-semibold text-sm">
-          ₱{amount.toLocaleString()}
-        </span>
+        <span className="font-semibold text-sm">{formatCurrency(amount)}</span>
       );
     },
   },

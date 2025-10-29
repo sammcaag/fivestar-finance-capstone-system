@@ -40,15 +40,19 @@ export default function TableBodyComp<TData>({
                 delay: i * 0.03,
                 ease: "easeOut",
               }}
+              layout
               className={clsx(
                 "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted framer-motion-fix",
                 getStatusRowClass(row)
               )}
               data-state={row.getIsSelected() && "selected"}
-              layout
             >
               {row.getVisibleCells().map((cell) => (
-                <motion.td key={cell.id} className="p-4">
+                <motion.td
+                  key={cell.id}
+                  className="p-4"
+                  style={{ width: `${cell.column.getSize()}px` }}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </motion.td>
               ))}

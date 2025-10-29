@@ -2,7 +2,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Client } from "../../types/client-types";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import {
@@ -21,6 +20,7 @@ import {
   Pencil,
   Flag,
 } from "lucide-react";
+import { formatCurrency } from "@/features/loans/computations/utils/format-currency";
 
 export const clientsColumnDefinition = (
   dashboard = false
@@ -31,7 +31,7 @@ export const clientsColumnDefinition = (
       header: "Client",
       cell: ({ row }) => {
         return (
-          <div className="flex items-center gap-2 max-w-[200px]">
+          <div className="flex items-center gap-2">
             <Avatar className="size-12 border border-primary/10 flex-shrink-0">
               <AvatarImage src={`/avatar.png`} alt={row.getValue("name")} />
               <AvatarFallback className="bg-primary/5 text-primary">
@@ -52,30 +52,11 @@ export const clientsColumnDefinition = (
     },
     {
       accessorKey: "loanAmount",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="group whitespace-nowrap"
-          >
-            Loan Amount
-            <ArrowUpDown className="ml-2 h-4 w-4 transition-transform group-hover:scale-125" />
-          </Button>
-        );
-      },
+      header: "Loan Amount",
       cell: ({ row }) => {
         const amount = Number.parseFloat(row.getValue("loanAmount"));
-        const formatted = new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        }).format(amount);
 
-        return (
-          <div className="font-medium text-right whitespace-nowrap">
-            {formatted}
-          </div>
-        );
+        return <div className="font-medium">{formatCurrency(amount)}</div>;
       },
     },
     {
@@ -95,7 +76,7 @@ export const clientsColumnDefinition = (
 
         return (
           <div
-            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium whitespace-nowrap ${
+            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
               loanTypeColorMap[loanType] || ""
             }`}
           >
@@ -157,7 +138,7 @@ export const clientsColumnDefinition = (
         };
 
         return (
-          <Badge variant={variant} className={`${className} whitespace-nowrap`}>
+          <Badge variant={variant} className={`${className}`}>
             {label}
           </Badge>
         );
@@ -169,9 +150,7 @@ export const clientsColumnDefinition = (
       cell: ({ row }) => {
         const nextPayment = row.getValue("nextPayment") as string;
         if (!nextPayment)
-          return (
-            <span className="text-muted-foreground whitespace-nowrap">N/A</span>
-          );
+          return <span className="text-muted-foreground">N/A</span>;
 
         const date = new Date(nextPayment);
         const today = new Date();
@@ -186,7 +165,7 @@ export const clientsColumnDefinition = (
 
         return (
           <div
-            className={`font-medium whitespace-nowrap ${
+            className={`font-medium ${
               isUpcoming ? "text-amber-600 dark:text-amber-400" : ""
             }`}
           >

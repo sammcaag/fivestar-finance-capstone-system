@@ -11,9 +11,6 @@ import TableHeaderComp from "@/components/tables/TableHeaderComp";
 import TableBodyComp from "@/components/tables/TableBodyComp";
 import { Table } from "@/components/ui/table";
 import { useDataTable } from "@/hooks/use-data-table";
-import { Client } from "../../types/client-types";
-import { clientTableData } from "../../data/client-mock";
-import { clientsColumnDefinition } from "./ClientsTableDefinition";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
@@ -61,7 +58,7 @@ export default function MainDashboardTable<TData>({
 
       {/* Table Card Content */}
       <CardContent className="p-0 border-t">
-        <Table>
+        <Table className="table-fixed">
           <TableHeaderComp table={table} />
           <TableBodyComp table={table} />
         </Table>
