@@ -2,19 +2,9 @@
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
-import TabListCustomComp from "@/components/TabListCustomComp";
 import { MainLoansTable } from "@/features/loans/components/tables/MainLoansTable";
 import { useEffect } from "react";
 import { Calculator, FilePlus2 } from "lucide-react";
-
-const tabs = [
-  { value: "overview", label: "Overview" },
-  { value: "approved", label: "Approved Loans" },
-  { value: "active", label: "Active Loans" },
-  { value: "closed", label: "Closed Loans" },
-  { value: "rejected", label: "Rejected Loans" },
-];
 
 const quickActions = [
   {
@@ -47,43 +37,11 @@ export default function Loans() {
         description="Oversee and manage all active, pending, and completed loan records within your branch."
         quickActions={quickActions}
       />
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabListCustomComp tabs={tabs} />
-        <TabsContent value="overview" className="space-y-4">
-          <MainLoansTable
-            title="Loans Overview"
-            description="View and manage all loan records across every status and branch."
-          />
-        </TabsContent>
 
-        <TabsContent value="approved" className="space-y-4">
-          <MainLoansTable
-            title="Approved Loans"
-            description="Track loans that have been approved and are ready for release."
-          />
-        </TabsContent>
-
-        <TabsContent value="active" className="space-y-4">
-          <MainLoansTable
-            title="Active Loans"
-            description="Manage loans that are currently disbursed and being repaid."
-          />
-        </TabsContent>
-
-        <TabsContent value="closed" className="space-y-4">
-          <MainLoansTable
-            title="Closed Loans"
-            description="Review fully paid or completed loan accounts."
-          />
-        </TabsContent>
-
-        <TabsContent value="rejected" className="space-y-4">
-          <MainLoansTable
-            title="Rejected Loans"
-            description="View loan applications that were declined or cancelled."
-          />
-        </TabsContent>
-      </Tabs>
+      <MainLoansTable
+        title="Loans Overview"
+        description="View and manage all loan records across every status and branch."
+      />
     </ContentLayout>
   );
 }

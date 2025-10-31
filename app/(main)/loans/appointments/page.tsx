@@ -3,17 +3,8 @@ import React, { useEffect } from "react";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
-import TabListCustomComp from "@/components/TabListCustomComp";
-import { Tabs, TabsContent } from "@radix-ui/react-tabs";
 import { MainAppointmentsTable } from "@/features/loans/appointments/components/MainAppointmentsTable";
 import { ClipboardPlus } from "lucide-react";
-
-const appointmentTabs = [
-  { value: "overview", label: "Overview" },
-  { value: "completed", label: "Completed" },
-  { value: "cancelled", label: "Cancelled" },
-  { value: "missed", label: "No Show" },
-];
 
 const quickActions = [
   {
@@ -43,36 +34,11 @@ export default function LoanAppointments() {
         description="Coordinate and review upcoming loan appointments to help your branch prepare client documents in advance."
         quickActions={quickActions}
       />
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabListCustomComp tabs={appointmentTabs} />
-        <TabsContent value="overview" className="space-y-4">
-          <MainAppointmentsTable
-            title="Appointments Overview"
-            description="Review all upcoming loan appointments and ensure client documents are complete before each meeting."
-          />
-        </TabsContent>
 
-        <TabsContent value="completed" className="space-y-4">
-          <MainAppointmentsTable
-            title="Completed Appointments"
-            description="Review loan appointments that have been successfully completed and verified by branch staff."
-          />
-        </TabsContent>
-
-        <TabsContent value="cancelled" className="space-y-4">
-          <MainAppointmentsTable
-            title="Cancelled Appointments"
-            description="View appointments that were cancelled by clients or branch agents for follow-up or rescheduling."
-          />
-        </TabsContent>
-
-        <TabsContent value="missed" className="space-y-4">
-          <MainAppointmentsTable
-            title="Missed Appointments"
-            description="Identify clients who did not attend their scheduled appointments and coordinate for rebooking or follow-up."
-          />
-        </TabsContent>
-      </Tabs>
+      <MainAppointmentsTable
+        title="Appointments Overview"
+        description="Review all upcoming loan appointments and ensure client documents are complete before each meeting."
+      />
     </ContentLayout>
   );
 }
