@@ -2,8 +2,6 @@
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
-import StatisticsCard from "@/components/StatisticsCard";
-import { loansOverviewStatistics } from "@/features/loans/lib/loans-mock-data";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { MainLoansTable } from "@/features/loans/components/tables/MainLoansTable";
@@ -49,7 +47,6 @@ export default function Loans() {
         description="Oversee and manage all active, pending, and completed loan records within your branch."
         quickActions={quickActions}
       />
-      <StatisticsCard statistics={loansOverviewStatistics} />
       <Tabs defaultValue="overview" className="space-y-4">
         <TabListCustomComp tabs={tabs} />
         <TabsContent value="overview" className="space-y-4">

@@ -4,9 +4,7 @@ import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { MainClientsTable } from "@/features/clients/components/tables/MainClientsTable";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
-import { clientsOverviewStatistics } from "@/features/clients/data/client-mock-stats";
 import TabListCustomComp from "@/components/TabListCustomComp";
-import StatisticsCard from "@/components/StatisticsCard";
 import MainHeader from "@/components/MainHeader";
 import { useEffect } from "react";
 import { Search, UserPlus } from "lucide-react";
@@ -56,7 +54,6 @@ export default function ClientsPage() {
         description="Manage your client portfolio and loan statuses"
         quickActions={quickActions}
       />
-      <StatisticsCard statistics={clientsOverviewStatistics} />
 
       <Tabs defaultValue="overview" className="space-y-4">
         <TabListCustomComp tabs={tabs} />
