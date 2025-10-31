@@ -31,7 +31,7 @@ const quickActions = [
   },
 ];
 
-export const loansOverviewStatistics = [
+const loansOverviewStatistics = [
   {
     title: "Total Loans",
     statistic: 1420,
