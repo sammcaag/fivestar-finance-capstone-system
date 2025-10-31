@@ -9,9 +9,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MoreHorizontal, Eye, Edit, Trash2, Calendar } from "lucide-react";
-import { Appointment } from "../types/appointment-types";
+import { AppointmentTableProps } from "../types/appointment-types";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { FilterFn } from "@tanstack/react-table";
+import { getProductTypeClass } from "@/utils/get-product-type-class";
+import { cn } from "@/lib/utils";
 
 const statusConfig = {
   Scheduled: { bg: "bg-blue-100", text: "text-blue-800", label: "Scheduled" },
@@ -28,7 +30,7 @@ const typeConfig = {
 };
 
 // Custom filter function for multi-column searching
-const nameSearchFilterFn: FilterFn<Appointment> = (
+const nameSearchFilterFn: FilterFn<AppointmentTableProps> = (
   row,
   columnId,
   filterValue
@@ -38,7 +40,7 @@ const nameSearchFilterFn: FilterFn<Appointment> = (
   return searchableRowContent.includes(searchTerm);
 };
 
-const statusFilterFn: FilterFn<Appointment> = (
+const statusFilterFn: FilterFn<AppointmentTableProps> = (
   row,
   columnId,
   filterValue: string[]
@@ -50,12 +52,13 @@ const statusFilterFn: FilterFn<Appointment> = (
 
 export const appointmentsColumnDefinition = (
   dashboard = false
-): ColumnDef<Appointment>[] => {
-  const baseColumns: ColumnDef<Appointment>[] = [
+): ColumnDef<AppointmentTableProps>[] => {
+  const baseColumns: ColumnDef<AppointmentTableProps>[] = [
     {
       accessorKey: "name",
       header: "Client",
       filterFn: nameSearchFilterFn,
+      minSize: 220,
       cell: ({ row }) => {
         const appointment = row.original;
         return (
@@ -77,6 +80,16 @@ export const appointmentsColumnDefinition = (
       },
     },
     {
+      accessorKey: "productType",
+      header: "Product Type",
+      size: 100,
+      cell: ({ row }) => (
+        <Badge className={cn(getProductTypeClass(row.original.productType))}>
+          {row.original.productType}
+        </Badge>
+      ),
+    },
+    {
       accessorKey: "type",
       header: "Type",
       cell: ({ row }) => {
@@ -87,6 +100,7 @@ export const appointmentsColumnDefinition = (
     {
       accessorKey: "appointmentDate",
       header: "Date & Time",
+      size: 200,
       cell: ({ row }) => {
         const date = new Date(row.original.appointmentDate);
         return (
@@ -96,7 +110,7 @@ export const appointmentsColumnDefinition = (
               <span className="text-sm font-medium">
                 {formatDateToReadable(date)}
               </span>
-              <span className="text-muted-foreground">
+              <span className="text-xs text-muted-foreground">
                 {row.original.appointmentTime}
               </span>
             </div>
@@ -105,11 +119,22 @@ export const appointmentsColumnDefinition = (
       },
     },
     {
+      accessorKey: "purpose",
+      header: "Purpose",
+      cell: ({ row }) => (
+        <div className="truncate">
+          <span className="text-sm text-muted-foreground">
+            {row.original.purpose}
+          </span>
+        </div>
+      ),
+    },
+    {
       accessorKey: "notes",
       header: "Notes",
       cell: ({ row }) => (
-        <div className="truncate">
-          <span className="text-sm text-muted-foreground max-w-xs">
+        <div className="truncate max-w-xs">
+          <span className="text-sm text-muted-foreground">
             {row.original.notes}
           </span>
         </div>
@@ -118,6 +143,7 @@ export const appointmentsColumnDefinition = (
     {
       accessorKey: "status",
       header: "Status",
+      size: 100,
       cell: ({ row }) => {
         const status = row.original.status;
         const config = statusConfig[status];
@@ -130,12 +156,14 @@ export const appointmentsColumnDefinition = (
       },
     },
   ];
+
   if (!dashboard) {
     return [
       ...baseColumns,
       {
         accessorKey: "actions",
         header: "Actions",
+        size: 80,
         cell: ({ row }) => (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -162,5 +190,6 @@ export const appointmentsColumnDefinition = (
       },
     ];
   }
+
   return baseColumns;
 };

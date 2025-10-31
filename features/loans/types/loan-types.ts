@@ -1,4 +1,4 @@
-type LoanType =
+export type LoanType =
   | "New Client"
   | "Extension"
   | "Additional"

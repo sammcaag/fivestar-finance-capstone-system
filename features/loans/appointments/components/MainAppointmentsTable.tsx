@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
 import { TableFilter } from "@/components/tables/TableFilter";
-import { Appointment } from "../types/appointment-types";
+import { AppointmentTableProps } from "../types/appointment-types";
 import { appointmentsData } from "../data/appointments-mock-data";
 import { appointmentsColumnDefinition } from "./LoanAppointmentsColumnDefinition";
 import { useRef } from "react";
@@ -33,7 +33,7 @@ export function MainAppointmentsTable({
     selectedStatuses,
     handleStatusChange,
     uniqueStatusValues,
-  } = useDataTable<Appointment>({
+  } = useDataTable<AppointmentTableProps>({
     data: appointmentsData,
     columns: appointmentsColumnDefinition(),
   });
