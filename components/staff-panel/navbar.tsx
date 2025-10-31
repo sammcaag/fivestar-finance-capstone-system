@@ -13,7 +13,7 @@ import {
 
 export function Navbar({ title }: { title: string }) {
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 shadow-sm backdrop-blur-sm supports-backdrop-filter:bg-background/60 dark:shadow-secondary">
+    <header className="sticky top-0 z-10 w-full bg-background/95 shadow-sm backdrop-blur-sm supports-backdrop-filter:bg-background/60 dark:shadow-secondary">
       <div className="px-4 sm:px-8 flex h-16 items-center">
         <div className="flex items-center space-x-4 lg:space-x-0">
           {/* Show SheetMenu on medium and smaller screens, hide on large screens */}
@@ -24,9 +24,7 @@ export function Navbar({ title }: { title: string }) {
         </div>
         <div className="flex flex-1 items-center justify-end gap-3">
           {/* Cover this button with popover */}
-          <div className="mr-8">
-            <NavBarSearchInput fullWidth={false} />
-          </div>
+          <NavBarSearchInput fullWidth={false} />
           <AddClientButton />
           <NewClientComputationButton />
           <UserNav />
