@@ -8,10 +8,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
+import { MoreHorizontal, Eye, Edit, Trash2, MapPin } from "lucide-react";
 import { LoanTableProps } from "../../types/loan-types";
 import { FilterFn } from "@tanstack/react-table";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
+import { formatDateToReadable } from "@/utils/format-date-to-readable";
+import { getProductTypeClass } from "@/utils/get-product-type-class";
+import { cn } from "@/lib/utils";
 
 const statusConfig = {
   "Approved by HQ": {
@@ -40,7 +43,8 @@ const nameSearchFilterFn: FilterFn<LoanTableProps> = (
   columnId,
   filterValue
 ) => {
-  const searchableRowContent = `${row.original.name}`.toLowerCase();
+  const searchableRowContent =
+    `${row.original.name} ${row.original.id}`.toLowerCase();
   const searchTerm = (filterValue ?? "").toLowerCase();
   return searchableRowContent.includes(searchTerm);
 };
@@ -56,18 +60,20 @@ const statusFilterFn: FilterFn<LoanTableProps> = (
 };
 
 export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
+  // CLIENT
   {
     accessorKey: "name",
     header: "Client",
     filterFn: nameSearchFilterFn,
+    size: 250,
     cell: ({ row }) => {
       const loan = row.original;
       return (
         <div className="flex items-center gap-3">
-          <Avatar className="size-12 border border-primary/10 flex-shrink-0">
-            <AvatarImage src={`/avatar.png`} alt={row.getValue("name")} />
-            <AvatarFallback className="bg-primary/5 text-primary">
-              {(row.getValue("name") as string).substring(0, 2).toUpperCase()}
+          <Avatar className="size-10 border border-primary/10 flex-shrink-0">
+            <AvatarImage src="/avatar.png" alt={loan.name} />
+            <AvatarFallback className="bg-primary/5 text-primary text-xs font-semibold">
+              {loan.name.substring(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
@@ -78,16 +84,30 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
       );
     },
   },
+
+  // LOAN TYPE
+  {
+    accessorKey: "productType",
+    header: "Loan Type",
+    cell: ({ row }) => (
+      <Badge className={cn(getProductTypeClass(row.original.productType))}>
+        {row.original.productType}
+      </Badge>
+    ),
+  },
+
+  // AMOUNT
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: ({ row }) => {
-      const amount = row.original.amount;
-      return (
-        <span className="font-semibold text-sm">{formatToPhCurrency(amount)}</span>
-      );
-    },
+    cell: ({ row }) => (
+      <span className="font-semibold text-sm">
+        {formatToPhCurrency(row.original.amount)}
+      </span>
+    ),
   },
+
+  // STATUS
   {
     accessorKey: "status",
     header: "Status",
@@ -95,34 +115,66 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       const config = statusConfig[status];
-      if (!config) return <Badge>{status}</Badge>;
       return (
-        <Badge className={`${config.bg} ${config.text}`}>{config.label}</Badge>
+        <Badge
+          className={`text-xs font-medium px-2 py-1 ${
+            config ? `${config.bg} ${config.text}` : ""
+          }`}
+        >
+          {config?.label || status}
+        </Badge>
       );
     },
   },
+
+  // BRANCH
   {
-    accessorKey: "interestRate",
-    header: "Interest Rate",
+    accessorKey: "branch",
+    header: "Branch",
     cell: ({ row }) => (
-      <span className="text-sm">{row.original.interestRate}%</span>
+      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+        <MapPin className="h-3.5 w-3.5" />
+        <span>{row.original.branch}</span>
+      </div>
     ),
   },
+
+  // TERM
   {
     accessorKey: "term",
-    header: "Term (months)",
+    header: "Term",
     cell: ({ row }) => (
-      <span className="text-sm font-medium">{row.original.term}</span>
+      <span className="text-sm font-medium">{row.original.term} months</span>
     ),
   },
+
+  // START DATE
   {
     accessorKey: "startDate",
     header: "Start Date",
     cell: ({ row }) => {
       const date = new Date(row.original.startDate);
-      return <span className="text-sm">{date.toLocaleDateString()}</span>;
+      return (
+        <span className="text-sm">{formatDateToReadable(date, true)}</span>
+      );
     },
   },
+
+  // APPLICATION DATE
+  {
+    accessorKey: "applicationDate",
+    header: "Applied On",
+    cell: ({ row }) => {
+      const date = new Date(row.original.applicationDate);
+      return (
+        <span className="text-sm text-muted-foreground">
+          {formatDateToReadable(date, true)}
+        </span>
+      );
+    },
+  },
+
+  // ACTIONS
   {
     id: "actions",
     header: "Actions",

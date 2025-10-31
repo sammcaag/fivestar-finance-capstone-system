@@ -46,7 +46,7 @@ function AddClientButton() {
               size="icon"
               icon={UserPlus}
               iconPlacement="left"
-              className="rounded-full hover:text-primary border-primary hover:bg-transparent border"
+              className="rounded-full hover:text-primary border-primary hover:bg-transparent border cursor-pointer"
             />
           </Link>
         </TooltipTrigger>
@@ -69,7 +69,7 @@ function NewClientComputationButton() {
               variant="outline"
               icon={Calculator}
               iconPlacement="left"
-              className="rounded-full hover:text-primary hover:border-primary hover:bg-transparent border"
+              className="rounded-full hover:text-primary hover:border-primary hover:bg-transparent border cursor-pointer"
             />
           </Link>
         </TooltipTrigger>
