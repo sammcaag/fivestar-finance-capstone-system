@@ -4,10 +4,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { FileText, MoreHorizontal, Printer } from "lucide-react";
 import { Eye } from "lucide-react";
 import { Edit } from "lucide-react";
 import { Trash2 } from "lucide-react";
@@ -25,7 +26,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
     cell: ({ row }) => (
       <span className="whitespace-nowrap">{row.original.dedCode}</span>
     ),
-    size: 100,
+    size: 150,
   },
   {
     accessorKey: "productType",
@@ -102,14 +103,24 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          {/* View Documents */}
+          <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+            <Printer className="h-4 w-4" />
+            Print Documents
+          </DropdownMenuItem>
+          {/* Separator */}
+          <DropdownMenuSeparator />
+          {/* View Details */}
           <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
             <Eye className="h-4 w-4" />
             View Details
           </DropdownMenuItem>
+          {/* Edit */}
           <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
             <Edit className="h-4 w-4" />
             Edit
           </DropdownMenuItem>
+          {/* Delete */}
           <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-destructive">
             <Trash2 className="h-4 w-4" />
             Delete

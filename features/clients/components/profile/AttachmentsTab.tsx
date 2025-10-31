@@ -8,11 +8,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
-import { File, FileText, ImageIcon, Paperclip } from "lucide-react";
+import { File, FileText, ImageIcon, Paperclip, Printer } from "lucide-react";
 import React from "react";
 import { clientData } from "../../data/client-mock";
 import { Download, Eye } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import AttachmentsCard from "@/features/loans/components/AttachmentsCard";
 
 export default function AttachmentsTab() {
   return (
@@ -44,40 +45,7 @@ export default function AttachmentsTab() {
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {clientData.attachments && clientData.attachments.length > 0 ? (
             clientData.attachments.map((attachment, index) => (
-              <Card
-                key={index}
-                className="border shadow-sm hover:shadow-md transition-shadow"
-              >
-                <CardContent className="p-4">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-full h-32 bg-gray-100 rounded-md flex items-center justify-center mb-3">
-                      {attachment.type === "pdf" && (
-                        <FileText className="h-12 w-12 text-destructive" />
-                      )}
-                      {attachment.type === "image" && (
-                        <ImageIcon className="h-12 w-12 text-blue-500" />
-                      )}
-                      {attachment.type === "doc" && (
-                        <File className="h-12 w-12 text-blue-700" />
-                      )}
-                    </div>
-                    <h3 className="font-medium  mb-1">{attachment.name}``</h3>
-                    <p className="text-sm text-gray-500 mb-2">
-                      Uploaded on {attachment.date}
-                    </p>
-                    <div className="flex gap-2 mt-2">
-                      <Button variant="outline" size="sm">
-                        <Eye className="h-3.5 w-3.5 mr-1" />
-                        View
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        <Download className="h-3.5 w-3.5 mr-1" />
-                        Download
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <AttachmentsCard attachment={attachment} key={index} />
             ))
           ) : (
             <div className="col-span-full bg-gray-50 p-8 text-center rounded-md border border-dashed">
