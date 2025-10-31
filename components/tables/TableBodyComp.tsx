@@ -7,6 +7,7 @@ import clsx from "clsx";
 import EmptyTableState from "./EmptyTableState";
 import { EmptyStateProps } from "@/types/global-types";
 import EmptySearchTableState from "./EmptySearchTableState";
+import { fiRowColors } from "@/features/loans/utils/fi-row-colors";
 
 interface TableBodyCompProps<TData> extends EmptyStateProps {
   table: Table<TData>;
@@ -25,7 +26,13 @@ export default function TableBodyComp<TData>({
   emptyOnSecondaryAction,
   inputRef,
 }: TableBodyCompProps<TData>) {
-  const nameSearchValue = table.getColumn("name")?.getFilterValue();
+  const nameColumn = table.getAllColumns().find((col) => col.id === "name");
+  const nameSearchValue = nameColumn?.getFilterValue?.() ?? "";
+  const dedCodeColumn = table
+    .getAllColumns()
+    .find((col) => col.id === "dedCode");
+  const dedCodeSearchValue = Boolean(dedCodeColumn);
+
   return (
     <TableBody>
       <AnimatePresence>
@@ -43,8 +50,10 @@ export default function TableBodyComp<TData>({
               }}
               layout
               className={clsx(
-                "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted framer-motion-fix",
-                getStatusRowClass(row)
+                "border-b transition-colors  data-[state=selected]:bg-muted framer-motion-fix",
+                !dedCodeSearchValue && "hover:bg-muted/50",
+                getStatusRowClass(row),
+                fiRowColors(row)
               )}
               data-state={row.getIsSelected() && "selected"}
             >

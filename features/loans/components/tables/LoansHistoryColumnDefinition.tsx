@@ -11,6 +11,12 @@ import { MoreHorizontal } from "lucide-react";
 import { Eye } from "lucide-react";
 import { Edit } from "lucide-react";
 import { Trash2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { getProductTypeClass } from "@/utils/get-product-type-class";
+import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
+import { formatDateToReadable } from "@/utils/format-date-to-readable";
+import { getStatusRowClass } from "@/utils/get-status-row-class";
 
 export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
   {
@@ -19,40 +25,75 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
     cell: ({ row }) => (
       <span className="whitespace-nowrap">{row.original.dedCode}</span>
     ),
-    size: 20,
+    size: 100,
   },
   {
     accessorKey: "productType",
     header: "Product Type",
-    size: 20,
+    cell: ({ row }) => (
+      <Badge className={cn(getProductTypeClass(row.original.productType))}>
+        {row.original.productType}
+      </Badge>
+    ),
   },
   {
     accessorKey: "amount",
     header: "MA",
+    cell: ({ row }) => (
+      <span className="whitespace-nowrap font-semibold text-sm">
+        {formatToPhCurrency(row.original.amount)}
+      </span>
+    ),
   },
   {
     accessorKey: "term",
     header: "Term",
+    cell: ({ row }) => (
+      <span className="whitespace-nowrap">{row.original.term} Months</span>
+    ),
   },
   {
     accessorKey: "releasedDate",
     header: "Released Date",
+    cell: ({ row }) => (
+      <span className="whitespace-nowrap">
+        {formatDateToReadable(row.original.releasedDate, true)}
+      </span>
+    ),
   },
   {
     accessorKey: "valueDate",
     header: "Value Date",
+    cell: ({ row }) => (
+      <span className="whitespace-nowrap">
+        {formatDateToReadable(row.original.valueDate, true)}
+      </span>
+    ),
   },
   {
     accessorKey: "maturityDate",
     header: "Maturity Date",
+    cell: ({ row }) => (
+      <span className="whitespace-nowrap">
+        {formatDateToReadable(row.original.maturityDate, true)}
+      </span>
+    ),
   },
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => {
+      const status = row.original.status;
+      if (status === "PROCESS") {
+        return <Badge className="bg-amber-400">{status}</Badge>;
+      }
+      return <Badge>{status}</Badge>;
+    },
   },
   {
     accessorKey: "action",
     header: "Action",
+    size: 80,
     cell: ({ row }) => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
