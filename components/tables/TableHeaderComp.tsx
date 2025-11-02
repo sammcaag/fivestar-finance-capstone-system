@@ -19,6 +19,10 @@ export default function TableHeaderComp<TData>({
   const [filterOpenStates, setFilterOpenStates] = useState<
     Map<string, boolean>
   >(new Map());
+  // New: Track hover state per column
+  const [hoverStates, setHoverStates] = useState<Map<string, boolean>>(
+    new Map()
+  );
 
   return (
     <TableHeader>
@@ -36,9 +40,15 @@ export default function TableHeaderComp<TData>({
               | undefined;
             const isFiltered = !!filterValue?.length;
             const isFilterOpen = filterOpenStates.get(header.id) ?? false;
+            const isHovered = hoverStates.get(header.id) ?? false;
 
             const toggleFilterOpen = (open: boolean) => {
               setFilterOpenStates((prev) => new Map(prev).set(header.id, open));
+            };
+
+            // New: Toggle hover state
+            const toggleHover = (hovered: boolean) => {
+              setHoverStates((prev) => new Map(prev).set(header.id, hovered));
             };
 
             return (
@@ -50,9 +60,16 @@ export default function TableHeaderComp<TData>({
                   "border-b group transition-colors duration-300 ease-out",
                   "hover:bg-primary/20"
                 )}
+                onMouseEnter={() => toggleHover(true)}
+                onMouseLeave={() => toggleHover(false)}
               >
                 <div className="flex items-center justify-between w-full flex-nowrap">
-                  <span className="font-medium flex-1 truncate">
+                  <span
+                    className={cn(
+                      "font-medium flex-1",
+                      isHovered && "truncate" // New: Truncate only when hovered
+                    )}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
