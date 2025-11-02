@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TableHeader, TableRow, TableHead } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { flexRender, Table } from "@tanstack/react-table";
@@ -30,6 +30,7 @@ export default function TableHeaderComp<TData>({
             const filterValue = header.column.getFilterValue() as
               | string[]
               | undefined;
+            const [isFilterOpen, setIsFilterOpen] = useState(false);
 
             return (
               <TableHead
@@ -37,7 +38,7 @@ export default function TableHeaderComp<TData>({
                 style={{ width: `${header.getSize()}px` }}
                 className={cn(
                   "h-14 text-left align-middle font-semibold px-4",
-                  "border-b"
+                  "border-b group transition-colors duration-200 hover:bg-muted/50"
                 )}
               >
                 <div className="flex items-center gap-2">
@@ -49,9 +50,12 @@ export default function TableHeaderComp<TData>({
                           header.getContext()
                         )}
                   </span>
-                  <div className="flex items-center gap-1 ml-auto">
+                  <div className="flex items-center gap-1 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     {canFilter && uniqueValues.length > 0 && (
-                      <DropdownMenu>
+                      <DropdownMenu
+                        open={isFilterOpen}
+                        onOpenChange={setIsFilterOpen}
+                      >
                         <DropdownMenuTrigger asChild>
                           <Button
                             variant="ghost"
@@ -85,6 +89,7 @@ export default function TableHeaderComp<TData>({
                                     : undefined
                                 );
                               }}
+                              onSelect={(e) => e.preventDefault()} // Prevent closing on click
                             >
                               {value}
                             </DropdownMenuCheckboxItem>
@@ -112,7 +117,7 @@ export default function TableHeaderComp<TData>({
                           />
                         ) : (
                           <ArrowUpDown
-                            className="size-4 text-muted-foreground/60 group-hover:opacity-100 transition-opacity duration-200"
+                            className="size-4 text-muted-foreground/60"
                             aria-hidden="true"
                           />
                         )}

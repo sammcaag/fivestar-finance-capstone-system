@@ -49,8 +49,7 @@ export default function TableBodyComp<TData>({
                 ease: "easeOut",
               }}
               className={clsx(
-                "border-b transition-colors data-[state=selected]:bg-muted",
-                !dedCodeSearchValue && "hover:bg-muted/50",
+                "border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50",
                 getStatusRowClass(row),
                 fiRowColors(row)
               )}
