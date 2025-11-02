@@ -31,7 +31,7 @@ export default function TabListCustomComp({
             key={tab.value}
             value={tab.value}
             data-id={index}
-            className="tabs-trigger-style"
+            className="tabs-trigger-style z-5"
           >
             {tab.label}
           </TabsTrigger>

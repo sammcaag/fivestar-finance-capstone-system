@@ -53,7 +53,7 @@ export default function NavBarSearchInput({
           "focus-visible:border-ring focus-visible:ring-ring/50",
           "inline-flex h-9 w-fit rounded-md px-4 py-2 text-sm shadow-xs",
           "transition-[color,box-shadow] outline-none focus-visible:ring-[3px] min-w-xs",
-          "bg-transparent text-foreground placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-ring/50 inline-flex h-full rounded-md border px-4 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px]",
+          "text-foreground placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-ring/50 inline-flex h-full rounded-md border px-4 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px]",
           fullWidth ? "w-full" : "w-fit",
           open && "hidden"
         )}

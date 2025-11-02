@@ -24,9 +24,7 @@ export function Navbar({ title }: { title: string }) {
         </div>
         <div className="flex flex-1 items-center justify-end gap-3">
           {/* Cover this button with popover */}
-          <div className="mr-8">
-            <NavBarSearchInput fullWidth={false} />
-          </div>
+          <NavBarSearchInput fullWidth={false} />
           <AddClientButton />
           <NewClientComputationButton />
           <UserNav />
@@ -46,7 +44,7 @@ function AddClientButton() {
               size="icon"
               icon={UserPlus}
               iconPlacement="left"
-              className="rounded-full hover:text-primary border-primary hover:bg-transparent border"
+              className="rounded-full hover:text-primary border-primary hover:bg-transparent border cursor-pointer"
             />
           </Link>
         </TooltipTrigger>
@@ -69,7 +67,7 @@ function NewClientComputationButton() {
               variant="outline"
               icon={Calculator}
               iconPlacement="left"
-              className="rounded-full hover:text-primary hover:border-primary hover:bg-transparent border"
+              className="rounded-full hover:text-primary hover:border-primary hover:bg-transparent border cursor-pointer"
             />
           </Link>
         </TooltipTrigger>

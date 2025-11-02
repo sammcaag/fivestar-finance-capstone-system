@@ -1,18 +1,26 @@
+export type LoanType =
+  | "New Client"
+  | "Extension"
+  | "Additional"
+  | "Renewal"
+  | "Reloan";
+
+type LoanStatus =
+  | "Approved by HQ"
+  | "Pending"
+  | "Disbursed"
+  | "Rejected"
+  | "Forwarded to HQ";
 export interface LoanTableProps {
   id: string;
   name: string;
+  productType: LoanType;
   amount: number;
-  purpose: string;
-  status:
-    | "Approved by HQ"
-    | "Pending"
-    | "Disbursed"
-    | "Rejected"
-    | "Forwarded to HQ";
-  applicationDate: string;
-  term: number;
-  interestRate: number;
+  status: LoanStatus;
+  branch: string;
   startDate: string;
+  term: number;
+  applicationDate: string;
 }
 
 interface LoanDocument {
@@ -26,7 +34,7 @@ interface LoanDocument {
 export interface LoanHistory {
   id: string;
   dedCode: string;
-  productType: "New Client" | "Extension" | "Additional" | "Renewal" | "Reloan";
+  productType: LoanType;
   amount: number;
   term: string;
   releasedDate: string;

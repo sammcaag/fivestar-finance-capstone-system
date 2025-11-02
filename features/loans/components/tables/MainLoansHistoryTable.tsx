@@ -21,6 +21,10 @@ export function MainLoansHistoryTable() {
   const { table, isLoading } = useDataTable<LoanHistory>({
     data: loanHistory,
     columns: loansHistoryColumnDefinition,
+    initialSort: [
+      { id: "dedCode", desc: false },
+      { id: "status", desc: false },
+    ],
   });
 
   if (isLoading) {

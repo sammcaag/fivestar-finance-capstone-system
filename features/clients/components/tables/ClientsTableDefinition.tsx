@@ -19,6 +19,7 @@ import {
   FileText,
   Pencil,
   Flag,
+  MapPin,
 } from "lucide-react";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { clientBadgeStatusMap } from "../../utils/client-badge-status-map";
@@ -37,7 +38,7 @@ export const clientsColumnDefinition = (
     filterValue
   ) => {
     const searchableRowContent =
-      `${row.original.name} ${row.original.email}`.toLowerCase();
+      `${row.original.name} ${row.original.id} ${row.original.email}`.toLowerCase();
     const searchTerm = (filterValue ?? "").toLowerCase();
     return searchableRowContent.includes(searchTerm);
   };
@@ -53,33 +54,21 @@ export const clientsColumnDefinition = (
   };
   const baseColumns: ColumnDef<ClientTableProps>[] = [
     {
-      accessorKey: "id",
-      header: "Client ID",
-      cell: ({ row }) => {
-        const id = row.getValue("id") as string;
-        return <div className="text-muted-foreground">{id}</div>;
-      },
-      size: 80,
-    },
-    {
       accessorKey: "name",
       header: "Client Name",
       cell: ({ row }) => {
+        const client = row.original;
         return (
-          <div className="flex items-center gap-2">
-            <Avatar className="size-12 border border-primary/10 flex-shrink-0">
-              <AvatarImage src={`/avatar.png`} alt={row.getValue("name")} />
-              <AvatarFallback className="bg-primary/5 text-primary">
-                {(row.getValue("name") as string).substring(0, 2).toUpperCase()}
+          <div className="flex items-center gap-3">
+            <Avatar className="size-10 border border-primary/10 flex-shrink-0">
+              <AvatarImage src="/avatar.png" alt={client.name} />
+              <AvatarFallback className="bg-primary/5 text-primary text-xs font-semibold">
+                {client.name.substring(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <div className="flex flex-col min-w-0">
-              <span className="font-medium truncate text-base">
-                {row.getValue("name")}
-              </span>
-              <span className="text-xs text-muted-foreground truncate">
-                {row.original.email}
-              </span>
+            <div className="flex flex-col">
+              <span className="font-medium text-sm">{client.name}</span>
+              <span className="text-xs text-muted-foreground">{client.id}</span>
             </div>
           </div>
         );
@@ -93,7 +82,11 @@ export const clientsColumnDefinition = (
       cell: ({ row }) => {
         const amount = Number.parseFloat(row.getValue("loanAmount"));
 
-        return <div className="font-medium">{formatToPhCurrency(amount)}</div>;
+        return (
+          <div className="font-semibold text-sm">
+            {formatToPhCurrency(amount)}
+          </div>
+        );
       },
       size: 100,
     },
@@ -102,7 +95,12 @@ export const clientsColumnDefinition = (
       header: "Branch",
       cell: ({ row }) => {
         const branch = row.getValue("branch") as string;
-        return <span className="">{branch}</span>;
+        return (
+          <div className="flex items-center gap-1 text-sm text-muted-foreground">
+            <MapPin className="h-3.5 w-3.5" />
+            <span>{row.original.branch}</span>
+          </div>
+        );
       },
     },
     {

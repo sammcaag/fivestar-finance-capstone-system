@@ -20,12 +20,14 @@ export function useDataTable<TData>({
   columns,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fetcherFn,
+  initialSort,
 }: {
   data: TData[];
   columns: ColumnDef<TData>[];
   fetcherFn?: () => Promise<TData[]>;
+  initialSort?: SortingState;
 }) {
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>(initialSort ?? []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
@@ -62,6 +64,9 @@ export function useDataTable<TData>({
       pagination,
       columnFilters,
       columnVisibility,
+    },
+    initialState: {
+      sorting,
     },
   });
 
