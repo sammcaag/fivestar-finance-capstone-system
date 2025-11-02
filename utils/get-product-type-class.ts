@@ -1,33 +1,17 @@
-export function getProductTypeClass(productType: string) {
+export function getProductTypeClass(productType: string | undefined): string {
   if (!productType) {
     return "";
   }
-  productType = productType.toLowerCase();
 
-  // Primary Color
-  if (productType === "new client") {
-    return "bg-primary";
-  }
+  const type = productType.toLowerCase();
 
-  // Green Group
-  if (productType === "additional") {
-    return "bg-green-500";
-  }
+  const productTypeClassMap: Record<string, string> = {
+    "new client": "bg-primary",
+    additional: "bg-green-500",
+    extension: "bg-purple-500",
+    renewal: "bg-orange-500",
+    reloan: "bg-blue-500",
+  };
 
-  // Purple Group
-  if (productType === "extension") {
-    return "bg-purple-500";
-  }
-
-  // Orange Group
-  if (productType === "renewal") {
-    return "bg-orange-500";
-  }
-
-  // Blue Group
-  if (productType === "reloan") {
-    return "bg-blue-500";
-  }
-
-  return "";
+  return productTypeClassMap[type] || "";
 }

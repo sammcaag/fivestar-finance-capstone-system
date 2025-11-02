@@ -2,21 +2,9 @@
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
-import StatisticsCard from "@/components/StatisticsCard";
-import { loansOverviewStatistics } from "@/features/loans/lib/loans-mock-data";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
-import TabListCustomComp from "@/components/TabListCustomComp";
 import { MainLoansTable } from "@/features/loans/components/tables/MainLoansTable";
 import { useEffect } from "react";
 import { Calculator, FilePlus2 } from "lucide-react";
-
-const tabs = [
-  { value: "overview", label: "Overview" },
-  { value: "approved", label: "Approved Loans" },
-  { value: "active", label: "Active Loans" },
-  { value: "closed", label: "Closed Loans" },
-  { value: "rejected", label: "Rejected Loans" },
-];
 
 const quickActions = [
   {
@@ -28,27 +16,6 @@ const quickActions = [
     label: "New Client Computation",
     href: "/loans/computations/new-client",
     icon: Calculator,
-  },
-];
-
-const loansOverviewStatistics = [
-  {
-    title: "Total Loans",
-    statistic: 1420,
-    summary: "+8% from last month",
-    icon: CreditCard,
-  },
-  {
-    title: "Active Loans",
-    statistic: 842,
-    summary: "Currently being repaid",
-    icon: BadgeCheck,
-  },
-  {
-    title: "Total Portfolio Value",
-    statistic: "₱ 4.2M",
-    summary: "Outstanding loan amount",
-    icon: PhilippinePeso,
   },
 ];
 

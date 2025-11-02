@@ -37,7 +37,7 @@ export interface LoanHistory {
   productType: LoanType;
   amount: number;
   term: string;
-  releasedDate: string;
+  madeDate: string;
   valueDate: string;
   maturityDate: string;
   status: "PROCESS" | "RELEASED";

@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { FileText, MoreHorizontal, Printer } from "lucide-react";
+import { MoreHorizontal, Printer } from "lucide-react";
 import { Eye } from "lucide-react";
 import { Edit } from "lucide-react";
 import { Trash2 } from "lucide-react";
@@ -17,7 +17,6 @@ import { cn } from "@/lib/utils";
 import { getProductTypeClass } from "@/utils/get-product-type-class";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
-import { getStatusRowClass } from "@/utils/get-status-row-class";
 
 export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
   {
@@ -58,7 +57,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
     header: "Released Date",
     cell: ({ row }) => (
       <span className="whitespace-nowrap">
-        {formatDateToReadable(row.original.releasedDate, true)}
+        {formatDateToReadable(row.original.madeDate, true)}
       </span>
     ),
   },
