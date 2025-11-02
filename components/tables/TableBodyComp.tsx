@@ -1,22 +1,25 @@
 import React from "react";
 import { TableBody } from "../ui/table";
 import { AnimatePresence, motion } from "framer-motion";
-import { flexRender, Table } from "@tanstack/react-table";
+import { flexRender, Table, Row } from "@tanstack/react-table";
 import { getStatusRowClass } from "@/utils/get-status-row-class";
 import clsx from "clsx";
 import EmptyTableState from "./EmptyTableState";
 import { EmptyStateProps } from "@/types/global-types";
 import EmptySearchTableState from "./EmptySearchTableState";
 import { fiRowColors } from "@/features/loans/utils/fi-row-colors";
+import { LoanHistory } from "@/features/loans/types/loan-types";
 
-interface TableBodyCompProps<TData> extends EmptyStateProps {
+// Fixed: Use LoanHistory as the constraint for TData
+interface TableBodyCompProps<TData extends LoanHistory>
+  extends EmptyStateProps {
   table: Table<TData>;
   searchQuery?: string;
   onClearSearch?: () => void;
   inputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
-export default function TableBodyComp<TData>({
+export default function TableBodyComp<TData extends LoanHistory>({
   table,
   emptyTitle,
   emptyDescription,
@@ -28,16 +31,12 @@ export default function TableBodyComp<TData>({
 }: TableBodyCompProps<TData>) {
   const nameColumn = table.getAllColumns().find((col) => col.id === "name");
   const nameSearchValue = nameColumn?.getFilterValue?.() ?? "";
-  const dedCodeColumn = table
-    .getAllColumns()
-    .find((col) => col.id === "dedCode");
-  const dedCodeSearchValue = Boolean(dedCodeColumn);
 
   return (
     <TableBody>
       <AnimatePresence>
         {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row, i) => (
+          table.getRowModel().rows.map((row: Row<TData>, i) => (
             <motion.tr
               key={row.id}
               initial={{ opacity: 0, y: 5 }}
@@ -50,8 +49,8 @@ export default function TableBodyComp<TData>({
               }}
               className={clsx(
                 "border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50",
-                getStatusRowClass(row),
-                fiRowColors(row)
+                getStatusRowClass(row), // Type-safe with TData extends LoanHistory
+                fiRowColors(row) // Type-safe if fiRowColors accepts Row<LoanHistory>
               )}
               data-state={row.getIsSelected() && "selected"}
             >

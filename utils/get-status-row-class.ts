@@ -1,10 +1,11 @@
-interface RowData {
-  original: {
-    status?: string;
-  };
+// Updated to accept Row<any> from @tanstack/react-table (fixes TS error)
+import { Row } from "@tanstack/react-table";
+
+interface OriginalData {
+  status?: string;
 }
 
-export function getStatusRowClass(row: RowData): string {
+export function getStatusRowClass(row: Row<OriginalData>): string {
   if (!row.original.status) {
     return "";
   }
@@ -33,13 +34,12 @@ export function getStatusRowClass(row: RowData): string {
     return statusClassMap[status];
   }
 
-  // Handle partial matches (e.g., "approved", "forwarded")
-  if (status.includes("approved") || status.includes("forwarded")) {
-    return "bg-blue-50/50 dark:bg-blue-950/10";
-  }
-
-  // Handle "scheduled" as a special case
-  if (status === "scheduled") {
+  // Handle partial matches (Blue Group)
+  if (
+    status.includes("approved") ||
+    status.includes("forwarded") ||
+    status === "scheduled"
+  ) {
     return "bg-blue-50/50 dark:bg-blue-950/10";
   }
 

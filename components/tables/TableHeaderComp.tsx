@@ -16,6 +16,10 @@ export default function TableHeaderComp<TData>({
 }: {
   table: Table<TData>;
 }) {
+  const [filterOpenStates, setFilterOpenStates] = useState<
+    Map<string, boolean>
+  >(new Map());
+
   return (
     <TableHeader>
       {table.getHeaderGroups().map((headerGroup) => (
@@ -30,7 +34,12 @@ export default function TableHeaderComp<TData>({
             const filterValue = header.column.getFilterValue() as
               | string[]
               | undefined;
-            const [isFilterOpen, setIsFilterOpen] = useState(false);
+            const isFiltered = !!filterValue?.length;
+            const isFilterOpen = filterOpenStates.get(header.id) ?? false;
+
+            const toggleFilterOpen = (open: boolean) => {
+              setFilterOpenStates((prev) => new Map(prev).set(header.id, open));
+            };
 
             return (
               <TableHead
@@ -38,11 +47,12 @@ export default function TableHeaderComp<TData>({
                 style={{ width: `${header.getSize()}px` }}
                 className={cn(
                   "h-14 text-left align-middle font-semibold px-4",
-                  "border-b group transition-colors duration-200 hover:bg-muted/50"
+                  "border-b group transition-colors duration-300 ease-out",
+                  "hover:bg-primary/20"
                 )}
               >
-                <div className="flex items-center gap-2">
-                  <span className="font-medium">
+                <div className="flex items-center justify-between w-full flex-nowrap">
+                  <span className="font-medium flex-1 truncate">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -50,17 +60,23 @@ export default function TableHeaderComp<TData>({
                           header.getContext()
                         )}
                   </span>
-                  <div className="flex items-center gap-1 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <div
+                    className={cn(
+                      "flex items-center gap-1 shrink-0",
+                      "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
+                      isFiltered && "opacity-100"
+                    )}
+                  >
                     {canFilter && uniqueValues.length > 0 && (
                       <DropdownMenu
                         open={isFilterOpen}
-                        onOpenChange={setIsFilterOpen}
+                        onOpenChange={toggleFilterOpen}
                       >
                         <DropdownMenuTrigger asChild>
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="p-1"
+                            className="p-1 shrink-0"
                             aria-label={`Filter by ${header.column.columnDef.header}`}
                           >
                             <Filter className="size-4 text-muted-foreground" />
@@ -89,7 +105,7 @@ export default function TableHeaderComp<TData>({
                                     : undefined
                                 );
                               }}
-                              onSelect={(e) => e.preventDefault()} // Prevent closing on click
+                              onSelect={(e) => e.preventDefault()}
                             >
                               {value}
                             </DropdownMenuCheckboxItem>
@@ -101,7 +117,7 @@ export default function TableHeaderComp<TData>({
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="p-1"
+                        className="p-1 shrink-0"
                         onClick={header.column.getToggleSortingHandler()}
                         aria-label={`Sort by ${header.column.columnDef.header}`}
                       >
