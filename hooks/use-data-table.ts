@@ -16,21 +16,17 @@ import {
 } from "@tanstack/react-table";
 
 export function useDataTable<TData>({
-  data, // temporary, will delete later if api routes are implemented
+  data,
   columns,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  fetcherFn,
   initialSort,
 }: {
   data: TData[];
   columns: ColumnDef<TData>[];
-  fetcherFn?: () => Promise<TData[]>;
   initialSort?: SortingState;
 }) {
   const [sorting, setSorting] = useState<SortingState>(initialSort ?? []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -73,26 +69,23 @@ export function useDataTable<TData>({
   // Get unique status values
   const uniqueStatusValues = useMemo(() => {
     const statusColumn = table.getColumn("status");
-
     if (!statusColumn) return [];
-
     const values = Array.from(statusColumn.getFacetedUniqueValues().keys());
-
     return values.sort();
-  }, [table.getColumn("status")?.getFacetedUniqueValues()]);
+  }, [table]);
 
   // Get counts for each status
   const statusCounts = useMemo(() => {
     const statusColumn = table.getColumn("status");
     if (!statusColumn) return new Map();
     return statusColumn.getFacetedUniqueValues();
-  }, [table.getColumn("status")?.getFacetedUniqueValues()]);
+  }, [table]);
 
   // Get selected status values
   const selectedStatuses = useMemo(() => {
     const filterValue = table.getColumn("status")?.getFilterValue() as string[];
     return filterValue ?? [];
-  }, [table.getColumn("status")?.getFilterValue()]);
+  }, [table]);
 
   // Handle status change
   const handleStatusChange = (checked: boolean, value: string) => {
@@ -116,7 +109,6 @@ export function useDataTable<TData>({
   return {
     table,
     isLoading,
-    rowSelection,
     columnVisibility,
     columnFilters,
     sorting,

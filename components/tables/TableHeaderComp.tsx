@@ -1,9 +1,15 @@
 import React from "react";
 import { TableHeader, TableRow, TableHead } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { flexRender } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react";
-import { Table } from "@tanstack/react-table";
+import { flexRender, Table } from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, ChevronUp, Filter } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 export default function TableHeaderComp<TData>({
   table,
@@ -17,66 +23,103 @@ export default function TableHeaderComp<TData>({
           {headerGroup.headers.map((header) => {
             const canSort = header.column.getCanSort();
             const sortDirection = header.column.getIsSorted();
+            const canFilter = header.column.getCanFilter();
+            const uniqueValues = Array.from(
+              header.column.getFacetedUniqueValues().keys()
+            ).sort();
+            const filterValue = header.column.getFilterValue() as
+              | string[]
+              | undefined;
 
             return (
               <TableHead
                 key={header.id}
                 style={{ width: `${header.getSize()}px` }}
-                className={cn("h-14 text-left align-middle font-semibold")}
-              >
-                {header.isPlaceholder ? null : canSort ? (
-                  <div
-                    className={cn(
-                      "flex h-full cursor-pointer items-center gap-2 select-none",
-                      "hover:text-foreground transition-colors duration-200",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 rounded-sm",
-                      "group relative"
-                    )}
-                    onClick={header.column.getToggleSortingHandler()}
-                    onKeyDown={(e) => {
-                      if (canSort && (e.key === "Enter" || e.key === " ")) {
-                        e.preventDefault();
-                        header.column.getToggleSortingHandler()?.(e);
-                      }
-                    }}
-                    tabIndex={canSort ? 0 : undefined}
-                    role="button"
-                    aria-label={`Sort by ${header.column.columnDef.header}`}
-                  >
-                    <span className="font-medium">
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                    </span>
-
-                    <div className="flex items-center justify-center size-5 ml-auto">
-                      {sortDirection === "asc" ? (
-                        <ChevronUp
-                          className="size-5 text-primary transition-transform duration-200"
-                          aria-hidden="true"
-                        />
-                      ) : sortDirection === "desc" ? (
-                        <ChevronDown
-                          className="size-5 text-primary transition-transform duration-200"
-                          aria-hidden="true"
-                        />
-                      ) : (
-                        <ArrowUpDown
-                          className="size-4 text-muted-foreground/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                          aria-hidden="true"
-                        />
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <span className="font-medium text-muted-foreground">
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </span>
+                className={cn(
+                  "h-14 text-left align-middle font-semibold px-4",
+                  "border-b"
                 )}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </span>
+                  <div className="flex items-center gap-1 ml-auto">
+                    {canFilter && uniqueValues.length > 0 && (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="p-1"
+                            aria-label={`Filter by ${header.column.columnDef.header}`}
+                          >
+                            <Filter className="size-4 text-muted-foreground" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          {uniqueValues.map((value) => (
+                            <DropdownMenuCheckboxItem
+                              key={value}
+                              checked={filterValue?.includes(value) ?? false}
+                              onCheckedChange={(checked) => {
+                                const currentFilters = filterValue
+                                  ? [...filterValue]
+                                  : [];
+                                if (checked) {
+                                  currentFilters.push(value);
+                                } else {
+                                  const index = currentFilters.indexOf(value);
+                                  if (index > -1) {
+                                    currentFilters.splice(index, 1);
+                                  }
+                                }
+                                header.column.setFilterValue(
+                                  currentFilters.length
+                                    ? currentFilters
+                                    : undefined
+                                );
+                              }}
+                            >
+                              {value}
+                            </DropdownMenuCheckboxItem>
+                          ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
+                    {canSort && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="p-1"
+                        onClick={header.column.getToggleSortingHandler()}
+                        aria-label={`Sort by ${header.column.columnDef.header}`}
+                      >
+                        {sortDirection === "asc" ? (
+                          <ChevronUp
+                            className="size-4 text-primary"
+                            aria-hidden="true"
+                          />
+                        ) : sortDirection === "desc" ? (
+                          <ChevronDown
+                            className="size-4 text-primary"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <ArrowUpDown
+                            className="size-4 text-muted-foreground/60 group-hover:opacity-100 transition-opacity duration-200"
+                            aria-hidden="true"
+                          />
+                        )}
+                      </Button>
+                    )}
+                  </div>
+                </div>
               </TableHead>
             );
           })}

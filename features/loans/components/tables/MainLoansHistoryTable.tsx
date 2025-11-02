@@ -30,6 +30,7 @@ export function MainLoansHistoryTable() {
   if (isLoading) {
     return <TableRowLoadingState dashboard={false} />;
   }
+
   return (
     <Card className="border">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -49,7 +50,7 @@ export function MainLoansHistoryTable() {
         </Button>
       </CardHeader>
       <CardContent className="px-0 pb-0">
-        <Table className="table-fixed border-t">
+        <Table className="w-full border-t">
           <TableHeaderComp table={table} />
           <TableBodyComp
             table={table}

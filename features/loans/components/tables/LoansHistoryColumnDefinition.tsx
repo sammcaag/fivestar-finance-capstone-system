@@ -94,7 +94,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
     accessorKey: "action",
     header: "Action",
     size: 80,
-    cell: ({ row }) => (
+    cell: () => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">

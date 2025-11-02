@@ -44,13 +44,12 @@ export default function TableBodyComp<TData>({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
               transition={{
-                duration: 0.15,
-                delay: i * 0.03,
+                duration: 0.2,
+                delay: i * 0.05,
                 ease: "easeOut",
               }}
-              layout
               className={clsx(
-                "border-b transition-colors  data-[state=selected]:bg-muted framer-motion-fix",
+                "border-b transition-colors data-[state=selected]:bg-muted",
                 !dedCodeSearchValue && "hover:bg-muted/50",
                 getStatusRowClass(row),
                 fiRowColors(row)
@@ -60,7 +59,7 @@ export default function TableBodyComp<TData>({
               {row.getVisibleCells().map((cell) => (
                 <motion.td
                   key={cell.id}
-                  className="p-4"
+                  className="p-4 align-middle"
                   style={{ width: `${cell.column.getSize()}px` }}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -72,7 +71,7 @@ export default function TableBodyComp<TData>({
           <motion.tr>
             <motion.td
               colSpan={table.getAllColumns().length}
-              className="h-[500px] text-center framer-motion-fix"
+              className="h-96 text-center"
             >
               <EmptySearchTableState
                 searchQuery={nameSearchValue as string}
@@ -89,7 +88,7 @@ export default function TableBodyComp<TData>({
           <motion.tr>
             <motion.td
               colSpan={table.getAllColumns().length}
-              className="h-[500px] text-center framer-motion-fix"
+              className="h-96 text-center"
             >
               <EmptyTableState
                 emptyTitle={emptyTitle}
