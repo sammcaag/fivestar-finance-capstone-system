@@ -18,6 +18,7 @@ export const activityLogsColumnDefinition = (): ColumnDef<ActivityLog>[] => {
     };
     return actionMap[action] || "default";
   };
+
   return [
     {
       accessorKey: "timestamp",
@@ -29,6 +30,9 @@ export const activityLogsColumnDefinition = (): ColumnDef<ActivityLog>[] => {
           </p>
         </div>
       ),
+      enableSorting: true,
+      enableColumnFilter: false,
+      size: 200,
     },
     {
       accessorKey: "userName",
@@ -43,6 +47,9 @@ export const activityLogsColumnDefinition = (): ColumnDef<ActivityLog>[] => {
           )}
         </div>
       ),
+      enableSorting: true,
+      enableColumnFilter: false,
+      size: 200,
     },
     {
       accessorKey: "action",
@@ -52,10 +59,17 @@ export const activityLogsColumnDefinition = (): ColumnDef<ActivityLog>[] => {
           {row.getValue("action")}
         </Badge>
       ),
+      enableSorting: true,
+      enableColumnFilter: true,
+      filterFn: "arrIncludesSome",
+      size: 150,
     },
     {
       accessorKey: "resource",
       header: "Resource",
+      enableSorting: true,
+      enableColumnFilter: false,
+      size: 150,
     },
     {
       accessorKey: "details",
@@ -65,6 +79,9 @@ export const activityLogsColumnDefinition = (): ColumnDef<ActivityLog>[] => {
           {row.getValue("details") || "-"}
         </span>
       ),
+      enableSorting: false,
+      enableColumnFilter: false,
+      size: 300,
     },
   ];
 };

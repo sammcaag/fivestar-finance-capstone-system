@@ -41,7 +41,7 @@ export default function TableHeaderComp<TData>({
             const isFiltered = !!filterValue?.length;
             const isFilterOpen = filterOpenStates.get(header.id) ?? false;
             const isHovered = hoverStates.get(header.id) ?? false;
-            const hasIcons = canSort || canFilter; // Show icon container if either is enabled
+            const hasIcons = canSort || canFilter;
 
             const toggleFilterOpen = (open: boolean) => {
               setFilterOpenStates((prev) => new Map(prev).set(header.id, open));
@@ -67,7 +67,7 @@ export default function TableHeaderComp<TData>({
                   <span
                     className={cn(
                       "font-medium flex-1",
-                      isHovered && hasIcons && "truncate" // Truncate only when hovered and icons are present
+                      isHovered && hasIcons && "truncate"
                     )}
                   >
                     {header.isPlaceholder
