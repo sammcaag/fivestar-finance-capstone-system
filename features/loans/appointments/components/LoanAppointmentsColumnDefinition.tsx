@@ -14,13 +14,7 @@ import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { FilterFn } from "@tanstack/react-table";
 import { getProductTypeClass } from "@/utils/get-product-type-class";
 import { cn } from "@/lib/utils";
-
-const statusConfig = {
-  Scheduled: { bg: "bg-blue-100", text: "text-blue-800", label: "Scheduled" },
-  Completed: { bg: "bg-green-100", text: "text-green-800", label: "Completed" },
-  Cancelled: { bg: "bg-red-100", text: "text-red-800", label: "Cancelled" },
-  "No-show": { bg: "bg-gray-100", text: "text-gray-800", label: "No-show" },
-};
+import { appointmentStatusClassNames } from "../utils/appointments-status-classnames";
 
 const typeConfig = {
   Consultation: "bg-indigo-100 text-indigo-800",
@@ -146,7 +140,7 @@ export const appointmentsColumnDefinition = (
       size: 100,
       cell: ({ row }) => {
         const status = row.original.status;
-        const config = statusConfig[status];
+        const config = appointmentStatusClassNames(status);
         if (!config) return <Badge>{status}</Badge>;
         return (
           <Badge className={`${config.bg} ${config.text}`}>

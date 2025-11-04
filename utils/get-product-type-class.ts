@@ -6,28 +6,26 @@ export function getProductTypeClass(productType: string) {
 
   // Primary Color
   if (productType === "new client") {
-    return "bg-primary";
+    return "bg-primary text-white";
   }
 
   // Green Group
   if (productType === "additional") {
-    return "bg-green-500";
+    return "bg-green-500 text-white";
   }
 
   // Purple Group
   if (productType === "extension") {
-    return "bg-purple-500";
+    return "bg-purple-500 text-white";
   }
 
   // Orange Group
   if (productType === "renewal") {
-    return "bg-orange-500";
+    return "bg-orange-500 text-white";
   }
 
   // Blue Group
   if (productType === "reloan") {
-    return "bg-blue-500";
+    return "bg-blue-500 text-white";
   }
-
-  return "";
 }

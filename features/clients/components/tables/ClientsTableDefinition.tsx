@@ -52,6 +52,16 @@ export const clientsColumnDefinition = (
     const status = row.getValue(columnId) as string;
     return filterValue.includes(status);
   };
+
+  const productTypeFilterFn: FilterFn<ClientTableProps> = (
+    row,
+    columnId,
+    filterValue: string[]
+  ) => {
+    if (!filterValue?.length) return true;
+    const productType = row.getValue(columnId) as string;
+    return filterValue.includes(productType);
+  };
   const baseColumns: ColumnDef<ClientTableProps>[] = [
     {
       accessorKey: "name",
@@ -106,6 +116,7 @@ export const clientsColumnDefinition = (
     {
       accessorKey: "productType",
       header: "Product Type",
+      filterFn: productTypeFilterFn,
       cell: ({ row }) => {
         const productType = row.getValue("productType") as string;
 
@@ -124,15 +135,18 @@ export const clientsColumnDefinition = (
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
 
-        const { label, variant, className } = clientBadgeStatusMap[status] || {
-          label: status,
-          variant: "default",
-          className: "",
-        };
-
         return (
-          <Badge variant={variant} className={`${className}`}>
-            {label}
+          <Badge
+            variant={
+              clientBadgeStatusMap(status)?.variant as
+                | "default"
+                | "destructive"
+                | "outline"
+                | "secondary"
+            }
+            className={cn(clientBadgeStatusMap(status)?.className)}
+          >
+            {clientBadgeStatusMap(status)?.label}
           </Badge>
         );
       },

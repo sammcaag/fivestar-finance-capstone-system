@@ -1,18 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Search, Filter, X, CircleX } from "lucide-react";
+import { Search, X, CircleX, FilterIcon, Delete, FilterX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
@@ -22,6 +15,11 @@ import {
 } from "@/components/ui/tooltip";
 import { Table } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
+import FilterPopover from "./FilterPopover";
+import { getProductTypeClass } from "@/utils/get-product-type-class";
+import { clientBadgeStatusMap } from "@/features/clients/utils/client-badge-status-map";
+import { loanStatusClassNames } from "@/features/loans/utils/loan-status-classnames";
+import { appointmentStatusClassNames } from "@/features/loans/appointments/utils/appointments-status-classnames";
 
 interface TableFilterProps<TData> {
   dashboard?: boolean;
@@ -37,57 +35,12 @@ export function TableFilter<TData>({
   table,
   inputRef,
 }: TableFilterProps<TData>) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [loanType, setLoanType] = useState("");
-  const [status, setStatus] = useState("");
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
-
-  const loanTypes = [
-    { value: "all", label: "All Types" },
-    { value: "personal", label: "Personal" },
-    { value: "mortgage", label: "Mortgage" },
-    { value: "business", label: "Business" },
-    { value: "auto", label: "Auto" },
-  ];
-
-  const statuses = [
-    { value: "all", label: "All Statuses" },
-    { value: "active", label: "Active" },
-    { value: "pending", label: "Pending" },
-    { value: "overdue", label: "Overdue" },
-    { value: "completed", label: "Completed" },
-    { value: "rejected", label: "Rejected" },
-  ];
-
-  const handleFilter = () => {
-    const newFilters = [];
-    if (loanType && loanType !== "all") {
-      newFilters.push(
-        `Loan: ${loanTypes.find((lt) => lt.value === loanType)?.label}`
-      );
-    }
-    if (status && status !== "all") {
-      newFilters.push(
-        `Status: ${statuses.find((s) => s.value === status)?.label}`
-      );
-    }
-    if (searchTerm) {
-      newFilters.push(`Search: ${searchTerm}`);
-    }
-    setActiveFilters(newFilters);
-  };
-  
-  const removeFilter = (filter: string) => {
-    setActiveFilters(activeFilters.filter((f) => f !== filter));
-    if (filter.startsWith("Loan:")) {
-      setLoanType("");
-    } else if (filter.startsWith("Status:")) {
-      setStatus("");
-    } else if (filter.startsWith("Search:")) {
-      setSearchTerm("");
-    }
-  };
-
+  const [activeFilters, setActiveFilters] = useState<{
+    [key: string]: string[];
+  }>({});
+  const hasActiveFilter = Object.values(activeFilters).some(
+    (filters) => filters.length > 0
+  );
   return (
     <motion.div
       initial={{ opacity: 0, y: 5 }}
@@ -121,31 +74,34 @@ export function TableFilter<TData>({
           </div>
         </div>
         {!dashboard && (
-          <div className="grid grid-cols-2 gap-2">
-            <Select value={loanType} onValueChange={setLoanType}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Loan Type" />
-              </SelectTrigger>
-              <SelectContent>
-                {loanTypes.map(({ value, label }) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={status} onValueChange={setStatus}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                {statuses.map(({ value, label }) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="space-x-2">
+            <FilterPopover
+              columnId="status"
+              table={table}
+              title="Status"
+              icon={FilterIcon}
+              setActiveFilters={setActiveFilters}
+            />
+            <FilterPopover
+              columnId="productType"
+              table={table}
+              title="Product Type"
+              icon={FilterIcon}
+              setActiveFilters={setActiveFilters}
+            />
+            {hasActiveFilter && (
+              <Button
+                className="hover:bg-destructive hover:text-white"
+                variant="outline"
+                icon={FilterX}
+                iconPlacement="left"
+                size="icon"
+                onClick={() => {
+                  table.resetColumnFilters();
+                  setActiveFilters({});
+                }}
+              />
+            )}
           </div>
         )}
         {dashboard ? (
@@ -167,10 +123,6 @@ export function TableFilter<TData>({
           </TooltipProvider>
         ) : (
           <div className="flex items-center space-x-2">
-            <Button variant="default" onClick={handleFilter} className="">
-              <Filter className="mr-2 h-4 w-4" />
-              Filter
-            </Button>
             {Boolean(table.getColumn("name")?.getFilterValue()) && (
               <Button
                 variant="outline"
@@ -192,8 +144,7 @@ export function TableFilter<TData>({
           </div>
         )}
       </div>
-
-      {activeFilters.length > 0 && (
+      {hasActiveFilter && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{
@@ -212,21 +163,45 @@ export function TableFilter<TData>({
               opacity: { duration: 0.1 },
             },
           }}
-          className="flex flex-wrap gap-2 framer-motion-fix"
+          className="space-y-2 mt-4 framer-motion-fix"
         >
-          {activeFilters.map((filter) => (
-            <Badge
-              key={filter}
-              variant="secondary"
-              className="flex items-center gap-1"
-            >
-              {filter}
-              <X
-                className="ml-1 h-3 w-3 cursor-pointer"
-                onClick={() => removeFilter(filter)}
-              />
-            </Badge>
-          ))}
+          {Object.entries(activeFilters)
+            .filter(([_, filters]) => filters.length > 0)
+            .map(([title, filters]) => (
+              <div key={title}>
+                {/* Group Label */}
+                <h4 className="text-sm font-medium capitalize mb-2">
+                  {title.replace(/([A-Z])/g, " $1").trim()}
+                </h4>
+
+                {/* Badges for this group */}
+                <div className="flex flex-wrap gap-2">
+                  {filters.map((filter) => (
+                    <Badge
+                      key={`${title}-${filter}`}
+                      variant={
+                        (clientBadgeStatusMap(filter)?.variant as
+                          | "outline"
+                          | "default"
+                          | "destructive"
+                          | "secondary") || "outline"
+                      }
+                      className={cn(
+                        "capitalize",
+                        getProductTypeClass(filter),
+                        clientBadgeStatusMap(filter)?.className,
+                        loanStatusClassNames(filter)?.bg,
+                        loanStatusClassNames(filter)?.text,
+                        appointmentStatusClassNames(filter)?.bg,
+                        appointmentStatusClassNames(filter)?.text
+                      )}
+                    >
+                      {filter}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            ))}
         </motion.div>
       )}
     </motion.div>
