@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Search, X, CircleX, FilterIcon, Delete, FilterX } from "lucide-react";
@@ -20,6 +20,7 @@ import { getProductTypeClass } from "@/utils/get-product-type-class";
 import { clientBadgeStatusMap } from "@/features/clients/utils/client-badge-status-map";
 import { loanStatusClassNames } from "@/features/loans/utils/loan-status-classnames";
 import { appointmentStatusClassNames } from "@/features/loans/appointments/utils/appointments-status-classnames";
+import { useDebounce } from "@/hooks/use-debounce";
 
 interface TableFilterProps<TData> {
   dashboard?: boolean;
@@ -41,6 +42,20 @@ export function TableFilter<TData>({
   const hasActiveFilter = Object.values(activeFilters).some(
     (filters) => filters.length > 0
   );
+
+  const nameColumn = table.getColumn("name");
+  const [searchTerm, setSearchTerm] = useState(
+    (nameColumn?.getFilterValue() as string) ?? ""
+  );
+
+  // Debounce search input (adjust 500ms as needed)
+  const debouncedSearch = useDebounce(searchTerm, 500);
+
+  // Apply debounced value to the table filter
+  useEffect(() => {
+    nameColumn?.setFilterValue(debouncedSearch);
+  }, [debouncedSearch]);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 5 }}
@@ -62,12 +77,8 @@ export function TableFilter<TData>({
                 "pl-8  focus-within:ring-2 focus-within:ring-primary/20",
                 Boolean(table.getColumn("name")?.getFilterValue()) && "pe-9"
               )}
-              value={
-                (table.getColumn("name")?.getFilterValue() ?? "") as string
-              }
-              onChange={(e) =>
-                table.getColumn("name")?.setFilterValue(e.target.value)
-              }
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               type="text"
               aria-label="Search Clients "
             />
