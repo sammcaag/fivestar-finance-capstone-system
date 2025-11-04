@@ -19,12 +19,14 @@ export default function StaffManagementPage() {
           { href: "/staff", label: "Staff Management" },
         ]}
       />
-      {/* Header */}
       <MainHeader
         title="Staff Management"
         description="Manage branch staff accounts, roles, and permissions. Add new team members, update information, or deactivate users when needed."
       />
-      <MainStaffTable />
+      <MainStaffTable
+        title="Staff Management"
+        description="Manage branch staff accounts, roles, and permissions."
+      />
     </ContentLayout>
   );
 }
