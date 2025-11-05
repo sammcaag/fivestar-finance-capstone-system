@@ -26,14 +26,7 @@ export function MainStaffTable({
   title?: string;
   description?: string;
 }) {
-  const {
-    table,
-    isLoading,
-    data,
-    selectedStatuses,
-    handleStatusChange,
-    uniqueStatusValues,
-  } = useDataTable<Staff>({
+  const { table, isLoading, data } = useDataTable<Staff>({
     data: mockStaff,
     columns: staffColumnDefinition(),
     initialSort: [{ id: "firstName", desc: false }],
@@ -48,15 +41,17 @@ export function MainStaffTable({
   return (
     <Card className="overflow-hidden border flex-1">
       <CardHeader>
-        <CardTitle className="h4">{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-        <TableFilter
-          table={table}
-          inputRef={inputRef}
-          selectedStatuses={selectedStatuses}
-          handleStatusChange={handleStatusChange}
-          uniqueStatusValues={uniqueStatusValues}
-        />
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="h4">{title}</CardTitle>
+            <CardDescription>{description}</CardDescription>
+          </div>
+          <TableFilter
+            table={table}
+            inputRef={inputRef}
+            filterColumns={["name", "status", "role"]}
+          />
+        </div>
       </CardHeader>
       <CardContent className="px-0 min-h-[500px] border-t">
         <Table className="table-fixed">

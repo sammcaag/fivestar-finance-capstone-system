@@ -8,18 +8,16 @@ import EmptyTableState from "./EmptyTableState";
 import { EmptyStateProps } from "@/types/global-types";
 import EmptySearchTableState from "./EmptySearchTableState";
 import { fiRowColors } from "@/features/loans/utils/fi-row-colors";
-import { LoanHistory } from "@/features/loans/types/loan-types";
 
 // Fixed: Use LoanHistory as the constraint for TData
-interface TableBodyCompProps<TData extends LoanHistory>
-  extends EmptyStateProps {
+interface TableBodyCompProps<TData> extends EmptyStateProps {
   table: Table<TData>;
   searchQuery?: string;
   onClearSearch?: () => void;
   inputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
-export default function TableBodyComp<TData extends LoanHistory>({
+export default function TableBodyComp<TData>({
   table,
   emptyTitle,
   emptyDescription,
