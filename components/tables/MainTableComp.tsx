@@ -4,7 +4,6 @@ import TablePagination from "@/components/tables/TablePagination";
 import TableHeaderComp from "@/components/tables/TableHeaderComp";
 import TableBodyComp from "@/components/tables/TableBodyComp";
 import { useDataTable } from "@/hooks/use-data-table";
-import { staffColumnDefinition } from "@/features/staff/component/tables/StaffColumnDefinition";
 import {
   Card,
   CardContent,
@@ -15,21 +14,39 @@ import {
 } from "@/components/ui/card";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
 import { TableFilter } from "@/components/tables/TableFilter";
-import { StaffTableProps } from "../../types/staff-types";
-import { mockStaffData } from "../../data/mock-staff-data"; // Updated import
 import { useRef } from "react";
+import { ColumnDef, SortingState } from "@tanstack/react-table";
+import { TableData } from "@/types/global-types";
 
-export function MainStaffTable({
-  title = "Staff Management",
-  description = "Manage branch staff accounts, roles, and permissions.",
-}: {
-  title?: string;
-  description?: string;
-}) {
-  const { table, isLoading, data } = useDataTable<StaffTableProps>({
-    data: mockStaffData, // Updated to mockStaffData
-    columns: staffColumnDefinition,
-    initialSort: [{ id: "name", desc: false }],
+interface MainTableProps<TData extends TableData> {
+  title: string;
+  description: string;
+  data: TData[];
+  columns: ColumnDef<TData>[];
+  filterColumns: string[];
+  initialSort?: SortingState;
+  emptyActionLabel?: string;
+  emptyOnAction?: () => void;
+  emptyTitle?: string;
+  emptyDescription?: string;
+}
+
+export function MainTableComp<TData extends TableData>({
+  title,
+  description,
+  data,
+  columns,
+  filterColumns,
+  initialSort,
+  emptyActionLabel,
+  emptyOnAction,
+  emptyTitle,
+  emptyDescription,
+}: MainTableProps<TData>) {
+  const { table, isLoading } = useDataTable<TData>({
+    data,
+    columns,
+    initialSort,
   });
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,14 +59,14 @@ export function MainStaffTable({
     <Card className="overflow-hidden border flex-1">
       <CardHeader>
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-          <div>
+          <div className="space-y-2">
             <CardTitle className="h4">{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
           </div>
           <TableFilter
             table={table}
             inputRef={inputRef}
-            filterColumns={["name", "role", "status", "branch"]} // Added branch
+            filterColumns={filterColumns}
           />
         </div>
       </CardHeader>
@@ -59,11 +76,11 @@ export function MainStaffTable({
           <TableBodyComp
             table={table}
             inputRef={inputRef}
-            filterColumns={["name", "role", "status", "branch"]} // Added branch
-            emptyActionLabel="No Staff Available"
-            emptyOnAction={() => {}}
-            emptyTitle="No Staff Found"
-            emptyDescription="There are no staff members recorded yet. Add staff to see them here."
+            filterColumns={filterColumns}
+            emptyActionLabel={emptyActionLabel}
+            emptyOnAction={emptyOnAction}
+            emptyTitle={emptyTitle}
+            emptyDescription={emptyDescription}
           />
         </Table>
       </CardContent>

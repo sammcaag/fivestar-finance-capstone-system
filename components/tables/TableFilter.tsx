@@ -105,7 +105,9 @@ export function TableFilter<TData>({
           <div className="relative w-sm md:w-lg">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder={`Search ${filterColumns.join(", ")}...`}
+              placeholder={`Search ${filterColumns
+                .map((col) => col.replace(/([A-Z])/g, " $1").toLowerCase())
+                .join(", ")}...`}
               ref={inputRef}
               className={cn(
                 "pl-8 focus-within:ring-2 focus-within:ring-primary/20",

@@ -10,8 +10,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { TableData } from "@/types/global-types";
 
-export default function TableHeaderComp<TData>({
+export default function TableHeaderComp<TData extends TableData>({
   table,
 }: {
   table: Table<TData>;
