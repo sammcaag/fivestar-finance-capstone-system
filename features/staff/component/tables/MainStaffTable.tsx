@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/card";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
 import { TableFilter } from "@/components/tables/TableFilter";
-import { Staff } from "../../types/staff-types";
-import { mockStaff } from "../../data/mock-staff-data";
+import { StaffTableProps } from "../../types/staff-types";
+import { mockStaffData } from "../../data/mock-staff-data"; // Updated import
 import { useRef } from "react";
 
 export function MainStaffTable({
@@ -26,10 +26,10 @@ export function MainStaffTable({
   title?: string;
   description?: string;
 }) {
-  const { table, isLoading, data } = useDataTable<Staff>({
-    data: mockStaff,
+  const { table, isLoading, data } = useDataTable<StaffTableProps>({
+    data: mockStaffData, // Updated to mockStaffData
     columns: staffColumnDefinition(),
-    initialSort: [{ id: "firstName", desc: false }],
+    initialSort: [{ id: "role", desc: false }],
   });
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -49,7 +49,7 @@ export function MainStaffTable({
           <TableFilter
             table={table}
             inputRef={inputRef}
-            filterColumns={["name", "status", "role"]}
+            filterColumns={["name", "role", "status", "branch"]} // Added branch
           />
         </div>
       </CardHeader>
@@ -59,6 +59,7 @@ export function MainStaffTable({
           <TableBodyComp
             table={table}
             inputRef={inputRef}
+            filterColumns={["name", "role", "status", "branch"]} // Added branch
             emptyActionLabel="No Staff Available"
             emptyOnAction={() => {}}
             emptyTitle="No Staff Found"

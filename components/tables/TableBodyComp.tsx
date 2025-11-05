@@ -23,6 +23,13 @@ interface TableBodyCompProps<TData extends TableData> extends EmptyStateProps {
   filterColumns?: string[];
 }
 
+// Type guard for status
+const hasStatus = <TData extends TableData>(
+  data: TData
+): data is TData & { status: string } => {
+  return typeof data.status === "string";
+};
+
 export default function TableBodyComp<TData extends TableData>({
   table,
   emptyTitle,
@@ -34,14 +41,19 @@ export default function TableBodyComp<TData extends TableData>({
   inputRef,
   filterColumns = [],
 }: TableBodyCompProps<TData>) {
-  const searchColumn = table
-    .getAllColumns()
-    .find((col) => filterColumns.includes(col.id) || col.id === "name");
-  const searchValue = searchColumn?.getFilterValue?.() ?? "";
+  // Check if any filter is applied across filterColumns
+  const isFiltered = filterColumns.some(
+    (col) => !!table.getColumn(col)?.getFilterValue()
+  );
+  const searchValue = isFiltered
+    ? filterColumns
+        .map((col) => table.getColumn(col)?.getFilterValue() as string)
+        .find((val) => val) || ""
+    : "";
 
-  // Type guard to check for required dedCode (narrows to non-optional string)
+  // Type guard for dedCode
   const hasDedCode = (data: TData): data is TData & { dedCode: string } => {
-    return typeof data.dedCode === "string"; // Checks presence and type (assumes it's string if present)
+    return typeof data.dedCode === "string";
   };
 
   return (
@@ -61,10 +73,11 @@ export default function TableBodyComp<TData extends TableData>({
               }}
               className={clsx(
                 "border-b transition-colors",
-                // Apply fiRowColors if dedCode present, fallback to getStatusRowClass
                 hasDedCode(row.original)
-                  ? getFiRowColors(row as unknown as Row<{ dedCode: string }>) // Cast to match fiRowColors' expected type
-                  : getStatusRowClass(row as Row<TableData>)
+                  ? getFiRowColors(row as Row<{ dedCode: string }>) // Safer cast
+                  : hasStatus(row.original)
+                  ? getStatusRowClass(row as Row<{ status: string }>) // Use type guard
+                  : "bg-gray-100" // Fallback if neither dedCode nor status
               )}
               data-state={row.getIsSelected() && "selected"}
             >
@@ -79,20 +92,23 @@ export default function TableBodyComp<TData extends TableData>({
               ))}
             </motion.tr>
           ))
-        ) : searchValue ? (
+        ) : isFiltered ? (
           <motion.tr>
             <motion.td
               colSpan={table.getAllColumns().length}
               className="h-96 text-center"
             >
               <EmptySearchTableState
-                searchQuery={searchValue as string}
+                searchQuery={searchValue}
                 onClearSearch={() => {
-                  if (searchColumn) {
-                    searchColumn.setFilterValue("");
-                    if (inputRef?.current) {
-                      inputRef.current.focus();
+                  filterColumns.forEach((col) => {
+                    const column = table.getColumn(col);
+                    if (column) {
+                      column.setFilterValue("");
                     }
+                  });
+                  if (inputRef?.current) {
+                    inputRef.current.focus();
                   }
                 }}
               />

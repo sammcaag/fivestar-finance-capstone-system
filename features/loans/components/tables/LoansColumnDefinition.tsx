@@ -88,7 +88,7 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
   // LOAN TYPE
   {
     accessorKey: "productType",
-    header: "Loan Type",
+    header: "Product Type",
     cell: ({ row }) => (
       <Badge className={cn(getProductTypeClass(row.original.productType))}>
         {row.original.productType}

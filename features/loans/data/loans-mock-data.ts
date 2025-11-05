@@ -1,7 +1,7 @@
 import { LoanHistory } from "../types/loan-types";
 import type { LoanTableProps } from "../types/loan-types";
 
-export const loansData: LoanTableProps[] = [
+export const mockLoansData: LoanTableProps[] = [
   {
     id: "LN001",
     name: "Maria Santos",
