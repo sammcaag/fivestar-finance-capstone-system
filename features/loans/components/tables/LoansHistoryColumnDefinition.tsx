@@ -58,8 +58,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
     enableSorting: true, // Enable sorting
   },
   {
-    accessorKey: "releasedDate",
-    header: "Released Date",
+    accessorKey: "madeDate",
+    header: "Made Date",
     cell: ({ row }) => (
       <span className="whitespace-nowrap">
         {formatDateToReadable(row.original.madeDate, true)}

@@ -3,21 +3,27 @@ import { TableBody } from "../ui/table";
 import { AnimatePresence, motion } from "framer-motion";
 import { flexRender, Table, Row } from "@tanstack/react-table";
 import { getStatusRowClass } from "@/utils/get-status-row-class";
+import { getFiRowColors } from "@/features/loans/utils/get-fi-row-colors";
 import clsx from "clsx";
 import EmptyTableState from "./EmptyTableState";
 import { EmptyStateProps } from "@/types/global-types";
 import EmptySearchTableState from "./EmptySearchTableState";
-import { fiRowColors } from "@/features/loans/utils/fi-row-colors";
 
-// Fixed: Use LoanHistory as the constraint for TData
-interface TableBodyCompProps<TData> extends EmptyStateProps {
+interface TableData {
+  status?: string | undefined;
+  action?: string | undefined;
+  dedCode?: string | undefined;
+}
+
+interface TableBodyCompProps<TData extends TableData> extends EmptyStateProps {
   table: Table<TData>;
   searchQuery?: string;
   onClearSearch?: () => void;
   inputRef?: React.RefObject<HTMLInputElement | null>;
+  filterColumns?: string[];
 }
 
-export default function TableBodyComp<TData>({
+export default function TableBodyComp<TData extends TableData>({
   table,
   emptyTitle,
   emptyDescription,
@@ -26,9 +32,17 @@ export default function TableBodyComp<TData>({
   emptySecondaryActionLabel,
   emptyOnSecondaryAction,
   inputRef,
+  filterColumns = [],
 }: TableBodyCompProps<TData>) {
-  const nameColumn = table.getAllColumns().find((col) => col.id === "name");
-  const nameSearchValue = nameColumn?.getFilterValue?.() ?? "";
+  const searchColumn = table
+    .getAllColumns()
+    .find((col) => filterColumns.includes(col.id) || col.id === "name");
+  const searchValue = searchColumn?.getFilterValue?.() ?? "";
+
+  // Type guard to check for required dedCode (narrows to non-optional string)
+  const hasDedCode = (data: TData): data is TData & { dedCode: string } => {
+    return typeof data.dedCode === "string"; // Checks presence and type (assumes it's string if present)
+  };
 
   return (
     <TableBody>
@@ -46,9 +60,11 @@ export default function TableBodyComp<TData>({
                 ease: "easeOut",
               }}
               className={clsx(
-                "border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50",
-                getStatusRowClass(row), // Type-safe with TData extends LoanHistory
-                fiRowColors(row) // Type-safe if fiRowColors accepts Row<LoanHistory>
+                "border-b transition-colors",
+                // Apply fiRowColors if dedCode present, fallback to getStatusRowClass
+                hasDedCode(row.original)
+                  ? getFiRowColors(row as unknown as Row<{ dedCode: string }>) // Cast to match fiRowColors' expected type
+                  : getStatusRowClass(row as Row<TableData>)
               )}
               data-state={row.getIsSelected() && "selected"}
             >
@@ -63,18 +79,20 @@ export default function TableBodyComp<TData>({
               ))}
             </motion.tr>
           ))
-        ) : nameSearchValue ? (
+        ) : searchValue ? (
           <motion.tr>
             <motion.td
               colSpan={table.getAllColumns().length}
               className="h-96 text-center"
             >
               <EmptySearchTableState
-                searchQuery={nameSearchValue as string}
+                searchQuery={searchValue as string}
                 onClearSearch={() => {
-                  table.getColumn("name")?.setFilterValue("");
-                  if (inputRef?.current) {
-                    inputRef.current.focus();
+                  if (searchColumn) {
+                    searchColumn.setFilterValue("");
+                    if (inputRef?.current) {
+                      inputRef.current.focus();
+                    }
                   }
                 }}
               />
