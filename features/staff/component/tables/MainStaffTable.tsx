@@ -28,8 +28,8 @@ export function MainStaffTable({
 }) {
   const { table, isLoading, data } = useDataTable<StaffTableProps>({
     data: mockStaffData, // Updated to mockStaffData
-    columns: staffColumnDefinition(),
-    initialSort: [{ id: "role", desc: false }],
+    columns: staffColumnDefinition,
+    initialSort: [{ id: "name", desc: false }],
   });
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -41,7 +41,7 @@ export function MainStaffTable({
   return (
     <Card className="overflow-hidden border flex-1">
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div>
             <CardTitle className="h4">{title}</CardTitle>
             <CardDescription>{description}</CardDescription>

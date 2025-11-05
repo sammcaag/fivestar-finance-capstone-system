@@ -3,10 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Search, X, CircleX } from "lucide-react";
+import { Search, CircleX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Table, Row } from "@tanstack/react-table";
 import {
   Tooltip,
@@ -82,7 +81,7 @@ export function TableFilter<TData>({
         duration: 0.2,
         ease: "easeOut",
       }}
-      className="framer-motion-fix"
+      className="framer-motion-fix mt-6 lg:mt-0"
     >
       {dashboard ? (
         <TooltipProvider>
@@ -103,7 +102,7 @@ export function TableFilter<TData>({
         </TooltipProvider>
       ) : (
         <div className="flex items-center space-x-2">
-          <div className="relative w-64">
+          <div className="relative w-sm md:w-lg">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder={`Search ${filterColumns.join(", ")}...`}
@@ -128,43 +127,6 @@ export function TableFilter<TData>({
             )}
           </div>
         </div>
-      )}
-
-      {!dashboard && activeFilters.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{
-            opacity: 1,
-            height: "auto",
-            transition: {
-              height: { duration: 0.2 },
-              opacity: { duration: 0.2, delay: 0.1 },
-            },
-          }}
-          exit={{
-            opacity: 0,
-            height: 0,
-            transition: {
-              height: { duration: 0.2 },
-              opacity: { duration: 0.1 },
-            },
-          }}
-          className="mt-2 flex flex-wrap gap-2 framer-motion-fix"
-        >
-          {activeFilters.map((filter) => (
-            <Badge
-              key={filter}
-              variant="secondary"
-              className="flex items-center gap-1"
-            >
-              {filter}
-              <X
-                className="ml-1 h-3 w-3 cursor-pointer"
-                onClick={() => clearSearch()}
-              />
-            </Badge>
-          ))}
-        </motion.div>
       )}
     </motion.div>
   );

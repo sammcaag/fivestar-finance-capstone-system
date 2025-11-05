@@ -23,8 +23,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
       <span className="whitespace-nowrap">{row.original.dedCode}</span>
     ),
     size: 150,
-    enableColumnFilter: true, // Enable filtering
-    enableSorting: true, // Enable sorting
+    enableColumnFilter: true,
+    enableSorting: true,
   },
   {
     accessorKey: "productType",
@@ -34,8 +34,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
         {row.original.productType}
       </Badge>
     ),
-    enableColumnFilter: false, // Disable filtering
-    enableSorting: true, // Enable sorting
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
     accessorKey: "amount",
@@ -45,8 +45,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
         {formatToPhCurrency(row.original.amount)}
       </span>
     ),
-    enableColumnFilter: false, // Disable filtering
-    enableSorting: true, // Enable sorting
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
     accessorKey: "term",
@@ -54,8 +54,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
     cell: ({ row }) => (
       <span className="whitespace-nowrap">{row.original.term} Months</span>
     ),
-    enableColumnFilter: false, // Disable filtering
-    enableSorting: true, // Enable sorting
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
     accessorKey: "madeDate",
@@ -65,8 +65,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
         {formatDateToReadable(row.original.madeDate, true)}
       </span>
     ),
-    enableColumnFilter: false, // Disable filtering
-    enableSorting: true, // Enable sorting
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
     accessorKey: "valueDate",
@@ -76,8 +76,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
         {formatDateToReadable(row.original.valueDate, true)}
       </span>
     ),
-    enableColumnFilter: false, // Disable filtering
-    enableSorting: true, // Enable sorting
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
     accessorKey: "maturityDate",
@@ -87,8 +87,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
         {formatDateToReadable(row.original.maturityDate, true)}
       </span>
     ),
-    enableColumnFilter: false, // Disable filtering
-    enableSorting: true, // Enable sorting
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
     accessorKey: "status",
@@ -100,8 +100,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
       }
       return <Badge>{status}</Badge>;
     },
-    enableColumnFilter: true, // Enable filtering
-    enableSorting: true, // Enable sorting
+    enableColumnFilter: true,
+    enableSorting: true,
   },
   {
     accessorKey: "action",
@@ -135,7 +135,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
         </DropdownMenuContent>
       </DropdownMenu>
     ),
-    enableColumnFilter: false, // Disable filtering
-    enableSorting: false, // Disable sorting
+    enableColumnFilter: false,
+    enableSorting: false,
   },
 ];
