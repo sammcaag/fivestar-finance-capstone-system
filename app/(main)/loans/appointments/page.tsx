@@ -1,10 +1,14 @@
 "use client";
-import React, { useEffect } from "react";
+
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
-import { MainAppointmentsTable } from "@/features/loans/appointments/components/MainAppointmentsTable";
+import { appointmentsData } from "@/features/loans/appointments/data/appointments-mock-data";
+import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
+import { useEffect } from "react";
 import { ClipboardPlus } from "lucide-react";
+import { MainTableComp } from "@/components/tables/MainTableComp";
+import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
 
 const quickActions = [
   {
@@ -28,16 +32,21 @@ export default function LoanAppointments() {
           { href: "/appointments", label: "Mobile Loan Appointments" },
         ]}
       />
-
       <MainHeader
         title="Mobile Loan Appointments"
         description="Coordinate and review upcoming loan appointments to help your branch prepare client documents in advance."
         quickActions={quickActions}
       />
-
-      <MainAppointmentsTable
+      <MainTableComp<AppointmentTableProps>
         title="Appointments Overview"
         description="Review all upcoming loan appointments and ensure client documents are complete before each meeting."
+        data={appointmentsData}
+        columns={mobileAppointmentsColumnDefinition(false)}
+        filterColumns={["name", "status", "productType", "type"]}
+        emptyTitle="No Appointments Found"
+        emptyDescription="There are no appointments scheduled. Add a new appointment to get started."
+        emptyActionLabel="Add New Appointment"
+        emptyOnAction={() => (window.location.href = "/appointments/new")}
       />
     </ContentLayout>
   );

@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import { clientTableData } from "@/features/clients/data/client-mock";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
 import { appointmentsData } from "@/features/loans/appointments/data/appointments-mock-data";
-import { appointmentsColumnDefinition } from "@/features/loans/appointments/components/LoanAppointmentsColumnDefinition";
+import { appointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
 
 const dashboardTabs = [
   { value: "overview", label: "Overview" },
