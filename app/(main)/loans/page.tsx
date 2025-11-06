@@ -50,7 +50,7 @@ export default function Loans() {
         emptyActionLabel="No Loans Data"
         emptyOnAction={() => {}}
         emptyTitle="No Loans Data Found"
-        emptyDescription="There are no staff members recorded yet. Add staff to see them here."
+        emptyDescription="There are no loan records available. Add a loan to get started."
       />
     </ContentLayout>
   );

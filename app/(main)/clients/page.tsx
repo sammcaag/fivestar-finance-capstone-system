@@ -1,11 +1,14 @@
 "use client";
 
 import { ContentLayout } from "@/components/staff-panel/content-layout";
-import { MainClientsTable } from "@/features/clients/components/tables/MainClientsTable";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
+import { ClientTableProps } from "@/features/clients/types/client-types";
 import { useEffect } from "react";
 import { Search, UserPlus } from "lucide-react";
+import { MainTableComp } from "@/components/tables/MainTableComp";
+import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
+import { clientTableData } from "@/features/clients/data/client-mock";
 
 const quickActions = [
   {
@@ -13,7 +16,6 @@ const quickActions = [
     href: "/clients/register",
     icon: UserPlus,
   },
-  // find a user
   {
     label: "Search Client",
     href: "/#",
@@ -30,26 +32,25 @@ export default function ClientsPage() {
     <ContentLayout title="Clients Overview">
       <BreadcrumbPages
         links={[
-          {
-            href: "/dashboard",
-            label: "Home",
-          },
-          {
-            href: "/clients",
-            label: "Clients",
-          },
+          { href: "/dashboard", label: "Home" },
+          { href: "/clients", label: "Clients" },
         ]}
       />
-
       <MainHeader
         title="Clients Overview"
         description="Manage your client portfolio and loan statuses"
         quickActions={quickActions}
       />
-
-      <MainClientsTable
+      <MainTableComp<ClientTableProps>
         title="Clients Overview"
         description="View and manage the complete list of clients across all branches."
+        data={clientTableData}
+        columns={clientsColumnDefinition(false)}
+        filterColumns={["name", "status", "branch", "productType"]}
+        emptyTitle="No Clients Found"
+        emptyDescription="There are no clients recorded yet. Add a client to get started."
+        emptyActionLabel="Register New Client"
+        emptyOnAction={() => (window.location.href = "/clients/register")}
       />
     </ContentLayout>
   );
