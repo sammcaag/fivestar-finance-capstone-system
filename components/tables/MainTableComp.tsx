@@ -29,6 +29,7 @@ interface MainTableProps<TData extends TableData> {
   emptyOnAction?: () => void;
   emptyTitle?: string;
   emptyDescription?: string;
+  dashboard?: boolean; // Add dashboard prop
 }
 
 export function MainTableComp<TData extends TableData>({
@@ -52,7 +53,7 @@ export function MainTableComp<TData extends TableData>({
   const inputRef = useRef<HTMLInputElement>(null);
 
   if (isLoading) {
-    return <TableRowLoadingState dashboard={false} />;
+    return <TableRowLoadingState columns={columns} />;
   }
 
   return (
