@@ -16,7 +16,7 @@ import {
   User,
 } from "lucide-react";
 import ClientInfoRowItem from "../ClientInfoRowItem";
-import { clientData } from "../../data/client-mock";
+import { clientData } from "../../data/mock-clients-data";
 import { Separator } from "@/components/ui/separator";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { formatCurrency } from "@/features/loans/computations/utils/format-currency";

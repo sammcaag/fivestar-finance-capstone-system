@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { Search, UserPlus } from "lucide-react";
 import { MainTableComp } from "@/components/tables/MainTableComp";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
-import { clientTableData } from "@/features/clients/data/client-mock";
+import { clientTableData } from "@/features/clients/data/mock-clients-data";
 
 const quickActions = [
   {

@@ -3,7 +3,7 @@ import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
 import { loansColumnDefinition } from "@/features/loans/components/tables/LoansColumnDefinition";
-import { mockLoansData } from "@/features/loans/data/loans-mock-data";
+import { mockLoansData } from "@/features/loans/data/mock-loans-data";
 import { LoanTableProps } from "@/features/loans/types/loan-types";
 import { useEffect } from "react";
 import { Calculator, FilePlus2 } from "lucide-react";

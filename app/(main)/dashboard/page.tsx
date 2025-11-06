@@ -4,7 +4,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
-import { dashboardStatistics } from "@/features/clients/data/client-mock-stats";
+import { dashboardStatistics } from "@/features/clients/data/mock-clients-stats";
 import StatisticsCard from "@/components/StatisticsCard";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import {
@@ -14,9 +14,9 @@ import {
   Search,
   UserPlus,
 } from "lucide-react";
-import { clientTableData } from "@/features/clients/data/client-mock";
+import { clientTableData } from "@/features/clients/data/mock-clients-data";
 import { ClientTableProps } from "@/features/clients/types/client-types";
-import { appointmentsData } from "@/features/loans/appointments/data/appointments-mock-data";
+import { appointmentsData } from "@/features/loans/appointments/data/mock-appointments-data";
 import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
 import { useEffect } from "react";
 import { MainTableComp } from "@/components/tables/MainTableComp";

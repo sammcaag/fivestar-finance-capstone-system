@@ -4,7 +4,7 @@ import TableHeaderComp from "@/components/tables/TableHeaderComp";
 import TableBodyComp from "@/components/tables/TableBodyComp";
 import { useDataTable } from "@/hooks/use-data-table";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
-import { mockLoanHistoryData } from "../../data/loans-mock-data";
+import { mockLoanHistoryData } from "../../data/mock-loans-data";
 import { LoanHistory } from "../../types/loan-types";
 import { loansHistoryColumnDefinition } from "../tables/LoansHistoryColumnDefinition";
 import {

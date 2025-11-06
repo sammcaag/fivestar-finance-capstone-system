@@ -10,7 +10,7 @@ import {
 import { TabsContent } from "@/components/ui/tabs";
 import { File, FileText, ImageIcon, Paperclip, Printer } from "lucide-react";
 import React from "react";
-import { clientData } from "../../data/client-mock";
+import { clientData } from "../../data/mock-clients-data";
 import { Download, Eye } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import AttachmentsCard from "@/features/loans/components/AttachmentsCard";

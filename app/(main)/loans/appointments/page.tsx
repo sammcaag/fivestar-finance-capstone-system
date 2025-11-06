@@ -3,7 +3,7 @@
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
-import { appointmentsData } from "@/features/loans/appointments/data/appointments-mock-data";
+import { appointmentsData } from "@/features/loans/appointments/data/mock-appointments-data";
 import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
 import { useEffect } from "react";
 import { ClipboardPlus } from "lucide-react";

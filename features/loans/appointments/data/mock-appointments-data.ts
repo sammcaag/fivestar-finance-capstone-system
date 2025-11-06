@@ -1,6 +1,6 @@
 import type { AppointmentTableProps } from "../types/appointment-types";
 
-export const appointmentsData: AppointmentTableProps[] = [
+export const mockAppointmentsData: AppointmentTableProps[] = [
   {
     id: "APT001",
     name: "Maria Santos",
