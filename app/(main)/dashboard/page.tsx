@@ -16,12 +16,12 @@ import {
 } from "lucide-react";
 import { clientTableData } from "@/features/clients/data/mock-clients-data";
 import { ClientTableProps } from "@/features/clients/types/client-types";
-import { appointmentsData } from "@/features/loans/appointments/data/mock-appointments-data";
 import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
 import { useEffect } from "react";
 import { MainTableComp } from "@/components/tables/MainTableComp";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
 import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
+import { mockAppointmentsData } from "@/features/loans/appointments/data/mock-appointments-data";
 
 // Filter data for the last 30 days
 const thirtyDaysAgo = new Date();
@@ -31,7 +31,7 @@ const recentClients = clientTableData.filter(
   (client) => new Date(client.created_at) >= thirtyDaysAgo
 );
 
-const recentAppointments = appointmentsData.filter(
+const recentAppointments = mockAppointmentsData.filter(
   (appointment) => new Date(appointment.appointmentDate) >= thirtyDaysAgo
 );
 

@@ -135,6 +135,7 @@ export const mobileAppointmentsColumnDefinition = (
       filterFn: "includesString",
       enableColumnFilter: true,
       enableSorting: true,
+      size: 150,
       cell: ({ row }) => {
         const type = row.getValue("type") as keyof typeof typeConfig;
         const config = typeConfig[type] || {
@@ -148,18 +149,24 @@ export const mobileAppointmentsColumnDefinition = (
       header: "Date & Time",
       enableColumnFilter: false,
       enableSorting: true,
-      size: 200,
+      size: 180,
       cell: ({ row }) => {
         const date = new Date(row.getValue("appointmentDate"));
+        const time = row.original.appointmentTime; // Access directly from row.original
         return (
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-muted-foreground" />
-            <div className="flex flex-col">
+            <div className="flex flex-col leading-tight">
               <span className="text-sm font-medium">
-                {formatDateToReadable(date)}
+                {new Date(date).toLocaleDateString("en-PH", {
+                  weekday: "long",
+                })}
+              </span>
+              <span className="text-sm font-medium">
+                {formatDateToReadable(date, false, true)}
               </span>
               <span className="text-xs text-muted-foreground">
-                {row.getValue("appointmentTime")}
+                {time || "N/A"}
               </span>
             </div>
           </div>
@@ -171,6 +178,7 @@ export const mobileAppointmentsColumnDefinition = (
       header: "Purpose",
       enableColumnFilter: false,
       enableSorting: true,
+      size: 150,
       cell: ({ row }) => (
         <div className="truncate max-w-xs">
           <span className="text-sm text-muted-foreground">
@@ -184,6 +192,7 @@ export const mobileAppointmentsColumnDefinition = (
       header: "Notes",
       enableColumnFilter: false,
       enableSorting: false,
+      size: 150,
       cell: ({ row }) => (
         <div className="truncate max-w-xs">
           <span className="text-sm text-muted-foreground">

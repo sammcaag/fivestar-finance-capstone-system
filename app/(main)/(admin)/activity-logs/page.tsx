@@ -5,7 +5,7 @@ import MainHeader from "@/components/MainHeader";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { MainTableComp } from "@/components/tables/MainTableComp";
 import { activityLogsColumnDefinition } from "@/features/activity-logs/components/tables/ActivityLogsColumnDefinition";
-import { activityLogsData } from "@/features/activity-logs/data/mock-activity-logs-data";
+import { mockActivityLogsData } from "@/features/activity-logs/data/mock-activity-logs-data";
 import { ActivityLog } from "@/features/activity-logs/types/audit-types";
 import { useEffect } from "react";
 
@@ -30,7 +30,7 @@ export default function ActivityLogsPage() {
       <MainTableComp<ActivityLog>
         title="Activity and Audit Logs"
         description="Review a complete record of admin activities for accountability and transparency."
-        data={activityLogsData}
+        data={mockActivityLogsData}
         columns={activityLogsColumnDefinition}
         filterColumns={["userName", "action", "resource"]}
         initialSort={[{ id: "timestamp", desc: true }]}

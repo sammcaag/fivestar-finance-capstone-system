@@ -3,12 +3,12 @@
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
-import { appointmentsData } from "@/features/loans/appointments/data/mock-appointments-data";
 import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
 import { useEffect } from "react";
 import { ClipboardPlus } from "lucide-react";
 import { MainTableComp } from "@/components/tables/MainTableComp";
 import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
+import { mockAppointmentsData } from "@/features/loans/appointments/data/mock-appointments-data";
 
 const quickActions = [
   {
@@ -40,7 +40,7 @@ export default function LoanAppointments() {
       <MainTableComp<AppointmentTableProps>
         title="Appointments Overview"
         description="Review all upcoming loan appointments and ensure client documents are complete before each meeting."
-        data={appointmentsData}
+        data={mockAppointmentsData}
         columns={mobileAppointmentsColumnDefinition(false)}
         filterColumns={["name", "status", "productType", "type"]}
         emptyTitle="No Appointments Found"
