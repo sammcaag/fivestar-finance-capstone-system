@@ -1,4 +1,4 @@
-import type { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef, FilterFn } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,10 +7,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { MoreHorizontal, Eye, Edit, Trash2, MapPin } from "lucide-react";
 import { LoanTableProps } from "../../types/loan-types";
-import { FilterFn } from "@tanstack/react-table";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { getProductTypeClass } from "@/utils/get-product-type-class";
@@ -37,7 +36,7 @@ const statusConfig = {
   },
 };
 
-// Custom filter function for multi-column searching
+// Custom filter function for multi-column searching (name and id)
 const nameSearchFilterFn: FilterFn<LoanTableProps> = (
   row,
   columnId,
@@ -49,6 +48,7 @@ const nameSearchFilterFn: FilterFn<LoanTableProps> = (
   return searchableRowContent.includes(searchTerm);
 };
 
+// Custom filter function for status
 const statusFilterFn: FilterFn<LoanTableProps> = (
   row,
   columnId,
@@ -59,12 +59,25 @@ const statusFilterFn: FilterFn<LoanTableProps> = (
   return filterValue.includes(status);
 };
 
+// Custom filter function for productType
+const productTypeFilterFn: FilterFn<LoanTableProps> = (
+  row,
+  columnId,
+  filterValue: string[]
+) => {
+  if (!filterValue?.length) return true;
+  const productType = row.getValue(columnId) as string;
+  return filterValue.includes(productType);
+};
+
 export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
   // CLIENT
   {
     accessorKey: "name",
     header: "Client",
     filterFn: nameSearchFilterFn,
+    enableColumnFilter: false,
+    enableSorting: true,
     size: 250,
     cell: ({ row }) => {
       const loan = row.original;
@@ -84,74 +97,90 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
       );
     },
   },
-
   // LOAN TYPE
   {
     accessorKey: "productType",
     header: "Product Type",
+    filterFn: productTypeFilterFn,
+    enableColumnFilter: true,
+    enableSorting: true,
+    size: 150,
     cell: ({ row }) => (
       <Badge className={cn(getProductTypeClass(row.original.productType))}>
         {row.original.productType}
       </Badge>
     ),
   },
-
   // AMOUNT
   {
     accessorKey: "amount",
     header: "Amount",
+    enableColumnFilter: false,
+    enableSorting: true,
+    size: 120,
     cell: ({ row }) => (
       <span className="font-semibold text-sm">
         {formatToPhCurrency(row.original.amount)}
       </span>
     ),
   },
-
   // STATUS
   {
     accessorKey: "status",
     header: "Status",
     filterFn: statusFilterFn,
+    enableColumnFilter: true,
+    enableSorting: true,
+    size: 150,
     cell: ({ row }) => {
       const status = row.original.status;
       const config = statusConfig[status];
       return (
         <Badge
-          className={`text-xs font-medium px-2 py-1 ${
+          className={cn(
+            "text-xs font-medium px-2 py-1",
             config ? `${config.bg} ${config.text}` : ""
-          }`}
+          )}
         >
           {config?.label || status}
         </Badge>
       );
     },
   },
-
   // BRANCH
   {
     accessorKey: "branch",
     header: "Branch",
+    enableColumnFilter: true,
+    enableSorting: true,
+    size: 150,
     cell: ({ row }) => (
-      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-        <MapPin className="h-3.5 w-3.5" />
-        <span>{row.original.branch}</span>
+      <div className="truncate max-w-[150px] overflow-hidden text-ellipsis whitespace-nowrap">
+        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+          <MapPin className="h-3.5 w-3.5 flex-shrink-0" />
+          <span>{row.original.branch}</span>
+        </div>
       </div>
     ),
   },
-
   // TERM
   {
     accessorKey: "term",
     header: "Term",
+    enableColumnFilter: false,
+    enableSorting: true,
+    size: 100,
     cell: ({ row }) => (
       <span className="text-sm font-medium">{row.original.term} months</span>
     ),
   },
-
   // START DATE
   {
     accessorKey: "startDate",
     header: "Start Date",
+    enableColumnFilter: false,
+    enableSorting: true,
+    size: 120,
     cell: ({ row }) => {
       const date = new Date(row.original.startDate);
       return (
@@ -159,11 +188,13 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
       );
     },
   },
-
   // APPLICATION DATE
   {
     accessorKey: "applicationDate",
     header: "Applied On",
+    enableColumnFilter: false,
+    enableSorting: true,
+    size: 120,
     cell: ({ row }) => {
       const date = new Date(row.original.applicationDate);
       return (
@@ -173,11 +204,12 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
       );
     },
   },
-
-  // ACTIONS
   {
     id: "actions",
     header: "Actions",
+    enableColumnFilter: false,
+    enableSorting: false,
+    size: 100,
     cell: () => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

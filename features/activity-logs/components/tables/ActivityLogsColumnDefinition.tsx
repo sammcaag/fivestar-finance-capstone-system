@@ -39,11 +39,7 @@ const actionConfig = {
 } as const;
 
 // Custom filter function for searching userName
-const userSearchFilterFn: FilterFn<ActivityLog> = (
-  row,
-  columnId,
-  filterValue
-) => {
+const userSearchFilterFn: FilterFn<ActivityLog> = (row, filterValue) => {
   const searchableRowContent =
     `${row.original.userName} ${row.original.userId}`.toLowerCase();
   const searchTerm = (filterValue ?? "").toLowerCase();

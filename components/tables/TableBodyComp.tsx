@@ -77,7 +77,7 @@ export default function TableBodyComp<TData extends TableData>({
                   ? getFiRowColors(row as Row<{ dedCode: string }>) // Safer cast
                   : hasStatus(row.original)
                   ? getStatusRowClass(row as Row<{ status: string }>) // Use type guard
-                  : "bg-gray-100" // Fallback if neither dedCode nor status
+                  : "hover:bg-primary/20" // Fallback if neither dedCode nor status
               )}
               data-state={row.getIsSelected() && "selected"}
             >
