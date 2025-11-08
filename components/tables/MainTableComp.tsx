@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
 import { TableFilter } from "@/components/tables/TableFilter";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { TableData } from "@/types/global-types";
 
@@ -51,6 +51,7 @@ export function MainTableComp<TData extends TableData>({
   });
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const [hoverColumn, setHoverColumn] = useState<string | null>(null);
 
   if (isLoading) {
     return <TableRowLoadingState columns={columns} />;
@@ -73,7 +74,11 @@ export function MainTableComp<TData extends TableData>({
       </CardHeader>
       <CardContent className="px-0 min-h-[500px] border-t">
         <Table className="table-fixed">
-          <TableHeaderComp table={table} />
+          <TableHeaderComp
+            table={table}
+            hoverColumn={hoverColumn}
+            setHoverColumn={setHoverColumn}
+          />
           <TableBodyComp
             table={table}
             inputRef={inputRef}
@@ -82,6 +87,7 @@ export function MainTableComp<TData extends TableData>({
             emptyOnAction={emptyOnAction}
             emptyTitle={emptyTitle}
             emptyDescription={emptyDescription}
+            hoverColumn={hoverColumn}
           />
         </Table>
       </CardContent>

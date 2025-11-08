@@ -14,15 +14,16 @@ import { TableData } from "@/types/global-types";
 
 export default function TableHeaderComp<TData extends TableData>({
   table,
+  hoverColumn,
+  setHoverColumn,
 }: {
   table: Table<TData>;
+  hoverColumn: string | null;
+  setHoverColumn: (column: string | null) => void;
 }) {
   const [filterOpenStates, setFilterOpenStates] = useState<
     Map<string, boolean>
   >(new Map());
-  const [hoverStates, setHoverStates] = useState<Map<string, boolean>>(
-    new Map()
-  );
 
   return (
     <TableHeader>
@@ -31,6 +32,7 @@ export default function TableHeaderComp<TData extends TableData>({
           {headerGroup.headers.map((header) => {
             const canSort = header.column.columnDef.enableSorting ?? false;
             const sortDirection = header.column.getIsSorted();
+            const isSorted = sortDirection !== false;
             const canFilter =
               header.column.columnDef.enableColumnFilter ?? false;
             const uniqueValues = canFilter
@@ -40,16 +42,13 @@ export default function TableHeaderComp<TData extends TableData>({
               | string[]
               | undefined;
             const isFiltered = !!filterValue?.length;
+            const isActive = isFiltered || isSorted;
             const isFilterOpen = filterOpenStates.get(header.id) ?? false;
-            const isHovered = hoverStates.get(header.id) ?? false;
+            const isHovered = header.id === hoverColumn;
             const hasIcons = canSort || canFilter;
 
             const toggleFilterOpen = (open: boolean) => {
               setFilterOpenStates((prev) => new Map(prev).set(header.id, open));
-            };
-
-            const toggleHover = (hovered: boolean) => {
-              setHoverStates((prev) => new Map(prev).set(header.id, hovered));
             };
 
             return (
@@ -61,8 +60,8 @@ export default function TableHeaderComp<TData extends TableData>({
                   "border-b group transition-colors duration-300 ease-out",
                   "hover:bg-primary/20"
                 )}
-                onMouseEnter={() => toggleHover(true)}
-                onMouseLeave={() => toggleHover(false)}
+                onMouseEnter={() => setHoverColumn(header.id)}
+                onMouseLeave={() => setHoverColumn(null)}
               >
                 <div className="flex items-center justify-between w-full flex-nowrap">
                   <span
@@ -83,7 +82,7 @@ export default function TableHeaderComp<TData extends TableData>({
                       className={cn(
                         "flex items-center gap-1 shrink-0",
                         "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-                        isFiltered && "opacity-100"
+                        isActive && "opacity-100"
                       )}
                     >
                       {canFilter && uniqueValues.length > 0 && (

@@ -21,6 +21,7 @@ interface TableBodyCompProps<TData extends TableData> extends EmptyStateProps {
   onClearSearch?: () => void;
   inputRef?: React.RefObject<HTMLInputElement | null>;
   filterColumns?: string[];
+  hoverColumn?: string | null;
 }
 
 // Type guard for status
@@ -40,6 +41,7 @@ export default function TableBodyComp<TData extends TableData>({
   emptyOnSecondaryAction,
   inputRef,
   filterColumns = [],
+  hoverColumn,
 }: TableBodyCompProps<TData>) {
   // Check if any filter is applied across filterColumns
   const isFiltered = filterColumns.some(
@@ -84,7 +86,10 @@ export default function TableBodyComp<TData extends TableData>({
               {row.getVisibleCells().map((cell) => (
                 <motion.td
                   key={cell.id}
-                  className="p-4 align-middle"
+                  className={clsx(
+                    "p-4 align-middle",
+                    cell.column.id === hoverColumn && "bg-primary/10"
+                  )}
                   style={{ width: `${cell.column.getSize()}px` }}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

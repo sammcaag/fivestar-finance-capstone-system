@@ -31,10 +31,10 @@ export default function ClientInfoPage() {
         description="Review all upcoming loan appointments and ensure client documents are complete before each meeting."
         data={mockLoanHistoryData}
         columns={loansHistoryColumnDefinition}
-        filterColumns={["name", "status", "productType", "type"]}
+        filterColumns={["dedCode", "productType", "term", "status"]}
         initialSort={[
           { id: "dedCode", desc: false },
-          { id: "status", desc: false },
+          { id: "maturityDate", desc: false },
         ]}
         emptyTitle="No Appointments Found"
         emptyDescription="There are no appointments scheduled. Add a new appointment to get started."
