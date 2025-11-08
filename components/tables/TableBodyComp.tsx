@@ -43,15 +43,47 @@ export default function TableBodyComp<TData extends TableData>({
   filterColumns = [],
   hoverColumn,
 }: TableBodyCompProps<TData>) {
-  // Check if any filter is applied across filterColumns
-  const isFiltered = filterColumns.some(
-    (col) => !!table.getColumn(col)?.getFilterValue()
-  );
-  const searchValue = isFiltered
-    ? filterColumns
-        .map((col) => table.getColumn(col)?.getFilterValue() as string)
-        .find((val) => val) || ""
-    : "";
+  // Get all active column filters
+  const columnFilters = table.getState().columnFilters;
+  const activeColumnFilters = columnFilters.filter((f) => {
+    const v = f.value;
+    return (
+      v != null &&
+      (typeof v === "string"
+        ? v !== ""
+        : Array.isArray(v)
+        ? v.length > 0
+        : false)
+    );
+  });
+
+  const isFiltered = activeColumnFilters.length > 0;
+
+  let searchValue = "";
+  if (isFiltered) {
+    // Check if it's a global search (same string value across filterColumns)
+    const allGlobalSearch = activeColumnFilters.every(
+      (f) => filterColumns.includes(f.id) && typeof f.value === "string"
+    );
+    const valuesSet = new Set(
+      activeColumnFilters.map((f) => f.value as string)
+    );
+    if (allGlobalSearch && valuesSet.size === 1) {
+      searchValue = activeColumnFilters[0].value as string;
+    } else {
+      // Per-column or mixed filters: summarize with column names and OR within column
+      searchValue = activeColumnFilters
+        .map((f) => {
+          const header =
+            (table.getColumn(f.id)?.columnDef.header as string) || f.id;
+          const val = Array.isArray(f.value)
+            ? f.value.join(" or ")
+            : (f.value as string);
+          return `${header} (${val})`;
+        })
+        .join(" and ");
+    }
+  }
 
   // Type guard for dedCode
   const hasDedCode = (data: TData): data is TData & { dedCode: string } => {
