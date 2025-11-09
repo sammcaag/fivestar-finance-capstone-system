@@ -35,7 +35,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
       </Badge>
     ),
     enableColumnFilter: false,
-    enableSorting: true,
+    enableSorting: false,
   },
   {
     accessorKey: "amount",
@@ -46,7 +46,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
       </span>
     ),
     enableColumnFilter: false,
-    enableSorting: true,
+    enableSorting: false,
   },
   {
     accessorKey: "term",
@@ -55,7 +55,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
       <span className="whitespace-nowrap">{row.original.term} Months</span>
     ),
     enableColumnFilter: false,
-    enableSorting: true,
+    enableSorting: false,
   },
   {
     accessorKey: "madeDate",
@@ -66,7 +66,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
       </span>
     ),
     enableColumnFilter: false,
-    enableSorting: true,
+    enableSorting: false,
   },
   {
     accessorKey: "valueDate",
@@ -77,7 +77,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
       </span>
     ),
     enableColumnFilter: false,
-    enableSorting: true,
+    enableSorting: false,
   },
   {
     accessorKey: "maturityDate",
@@ -88,7 +88,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
       </span>
     ),
     enableColumnFilter: false,
-    enableSorting: true,
+    enableSorting: false,
   },
   {
     accessorKey: "status",
@@ -101,7 +101,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
       return <Badge>{status}</Badge>;
     },
     enableColumnFilter: true,
-    enableSorting: true,
+    enableSorting: false,
   },
   {
     accessorKey: "action",
