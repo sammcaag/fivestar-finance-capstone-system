@@ -18,7 +18,7 @@ export default function EmptySearchTableState({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="flex flex-col items-center justify-center py-16 px-4 bg-muted/20 rounded-lg shadow-sm border border-border max-w-2xl mx-auto"
+      className="flex flex-col items-center justify-center py-16 px-4 bg-muted/20 rounded-lg shadow-sm border border-border max-w-2xl mx-auto my-24"
     >
       {/* Icon Container */}
       <div className="mb-6 rounded-full bg-gradient-to-br from-amber-100 to-orange-50 p-4 ring-1 ring-amber-200 shadow-sm">

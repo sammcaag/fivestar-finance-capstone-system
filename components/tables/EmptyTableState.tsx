@@ -17,7 +17,7 @@ export default function EmptyTableState({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="flex flex-col items-center justify-center py-16 px-4 bg-muted/20 rounded-lg shadow-sm border border-border max-w-2xl mx-auto"
+      className="flex flex-col items-center justify-center py-16 px-4 bg-muted/20 rounded-lg shadow-sm border border-border max-w-2xl mx-auto my-24"
     >
       {/* Icon Container */}
       <div className="mb-6 rounded-full bg-gradient-to-br from-primary/10 to-primary/5 p-4 ring-1 ring-primary/20 shadow-sm">
