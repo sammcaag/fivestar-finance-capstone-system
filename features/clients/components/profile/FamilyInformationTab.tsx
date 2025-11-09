@@ -9,7 +9,7 @@ import { TabsContent } from "@/components/ui/tabs";
 import { Calendar, MapPin, Phone, User, Users } from "lucide-react";
 import React from "react";
 import ClientInfoRowItem from "../ClientInfoRowItem";
-import { clientData } from "../../data/client-mock";
+import { clientData } from "../../data/mock-clients-data";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { Separator } from "@/components/ui/separator";
 import { getAge } from "@/utils/get-age";

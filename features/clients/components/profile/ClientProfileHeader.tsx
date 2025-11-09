@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { clientData } from "../../data/client-mock";
+import { clientData } from "../../data/mock-clients-data";
 import { cn } from "@/lib/utils";
 import { avatarFallBack } from "@/utils/avatar-fallback";
 import { getAge } from "@/utils/get-age";

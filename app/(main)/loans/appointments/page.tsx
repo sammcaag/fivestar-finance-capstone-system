@@ -1,19 +1,14 @@
 "use client";
-import React, { useEffect } from "react";
+
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
-import TabListCustomComp from "@/components/TabListCustomComp";
-import { Tabs, TabsContent } from "@radix-ui/react-tabs";
-import { MainAppointmentsTable } from "@/features/loans/appointments/components/MainAppointmentsTable";
+import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
+import { useEffect } from "react";
 import { ClipboardPlus } from "lucide-react";
-
-const appointmentTabs = [
-  { value: "overview", label: "Overview" },
-  { value: "completed", label: "Completed" },
-  { value: "cancelled", label: "Cancelled" },
-  { value: "missed", label: "No Show" },
-];
+import { MainTableComp } from "@/components/tables/MainTableComp";
+import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
+import { mockAppointmentsData } from "@/features/loans/appointments/data/mock-appointments-data";
 
 const quickActions = [
   {
@@ -37,42 +32,22 @@ export default function LoanAppointments() {
           { href: "/appointments", label: "Mobile Loan Appointments" },
         ]}
       />
-
       <MainHeader
         title="Mobile Loan Appointments"
         description="Coordinate and review upcoming loan appointments to help your branch prepare client documents in advance."
         quickActions={quickActions}
       />
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabListCustomComp tabs={appointmentTabs} />
-        <TabsContent value="overview" className="space-y-4">
-          <MainAppointmentsTable
-            title="Appointments Overview"
-            description="Review all upcoming loan appointments and ensure client documents are complete before each meeting."
-          />
-        </TabsContent>
-
-        <TabsContent value="completed" className="space-y-4">
-          <MainAppointmentsTable
-            title="Completed Appointments"
-            description="Review loan appointments that have been successfully completed and verified by branch staff."
-          />
-        </TabsContent>
-
-        <TabsContent value="cancelled" className="space-y-4">
-          <MainAppointmentsTable
-            title="Cancelled Appointments"
-            description="View appointments that were cancelled by clients or branch agents for follow-up or rescheduling."
-          />
-        </TabsContent>
-
-        <TabsContent value="missed" className="space-y-4">
-          <MainAppointmentsTable
-            title="Missed Appointments"
-            description="Identify clients who did not attend their scheduled appointments and coordinate for rebooking or follow-up."
-          />
-        </TabsContent>
-      </Tabs>
+      <MainTableComp<AppointmentTableProps>
+        title="Appointments Overview"
+        description="Review all upcoming loan appointments and ensure client documents are complete before each meeting."
+        data={mockAppointmentsData}
+        columns={mobileAppointmentsColumnDefinition(false)}
+        filterColumns={["name", "status", "productType", "type"]}
+        emptyTitle="No Appointments Found"
+        emptyDescription="There are no appointments scheduled. Add a new appointment to get started."
+        emptyActionLabel="Add New Appointment"
+        emptyOnAction={() => (window.location.href = "/appointments/new")}
+      />
     </ContentLayout>
   );
 }

@@ -1,82 +1,165 @@
-import React from "react";
+import React, { useState } from "react";
 import { TableHeader, TableRow, TableHead } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { flexRender } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react";
-import { Table } from "@tanstack/react-table";
+import { flexRender, Table } from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, ChevronUp, Filter } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { TableData } from "@/types/global-types";
 
-export default function TableHeaderComp<TData>({
+export default function TableHeaderComp<TData extends TableData>({
   table,
+  hoverColumn,
+  setHoverColumn,
 }: {
   table: Table<TData>;
+  hoverColumn: string | null;
+  setHoverColumn: (column: string | null) => void;
 }) {
+  const [filterOpenStates, setFilterOpenStates] = useState<
+    Map<string, boolean>
+  >(new Map());
+
   return (
     <TableHeader>
       {table.getHeaderGroups().map((headerGroup) => (
         <TableRow key={headerGroup.id}>
           {headerGroup.headers.map((header) => {
-            const canSort = header.column.getCanSort();
+            const canSort = header.column.columnDef.enableSorting ?? false;
             const sortDirection = header.column.getIsSorted();
+            const isSorted = sortDirection !== false;
+            const canFilter =
+              header.column.columnDef.enableColumnFilter ?? false;
+            const uniqueValues = canFilter
+              ? Array.from(header.column.getFacetedUniqueValues().keys()).sort()
+              : [];
+            const filterValue = header.column.getFilterValue() as
+              | string[]
+              | undefined;
+            const isFiltered = !!filterValue?.length;
+            const isActive = isFiltered || isSorted;
+            const isFilterOpen = filterOpenStates.get(header.id) ?? false;
+            const isHovered = header.id === hoverColumn;
+            const hasIcons = canSort || canFilter;
+
+            const toggleFilterOpen = (open: boolean) => {
+              setFilterOpenStates((prev) => new Map(prev).set(header.id, open));
+            };
 
             return (
               <TableHead
                 key={header.id}
                 style={{ width: `${header.getSize()}px` }}
-                className={cn("h-14 text-left align-middle font-semibold")}
+                className={cn(
+                  "h-14 text-left align-middle font-semibold px-4",
+                  "border-b group transition-colors duration-300 ease-out",
+                  "hover:bg-primary/20"
+                )}
+                onMouseEnter={() => setHoverColumn(header.id)}
+                onMouseLeave={() => setHoverColumn(null)}
               >
-                {header.isPlaceholder ? null : canSort ? (
-                  <div
+                <div className="flex items-center justify-between w-full flex-nowrap">
+                  <span
                     className={cn(
-                      "flex h-full cursor-pointer items-center gap-2 select-none",
-                      "hover:text-foreground transition-colors duration-200",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 rounded-sm",
-                      "group relative"
+                      "font-medium flex-1",
+                      isHovered && hasIcons && "truncate"
                     )}
-                    onClick={header.column.getToggleSortingHandler()}
-                    onKeyDown={(e) => {
-                      if (canSort && (e.key === "Enter" || e.key === " ")) {
-                        e.preventDefault();
-                        header.column.getToggleSortingHandler()?.(e);
-                      }
-                    }}
-                    tabIndex={canSort ? 0 : undefined}
-                    role="button"
-                    aria-label={`Sort by ${header.column.columnDef.header}`}
                   >
-                    <span className="font-medium">
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </span>
+                  {hasIcons && (
+                    <div
+                      className={cn(
+                        "flex items-center gap-1 shrink-0",
+                        "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
+                        isActive && "opacity-100"
                       )}
-                    </span>
-
-                    <div className="flex items-center justify-center size-5 ml-auto">
-                      {sortDirection === "asc" ? (
-                        <ChevronUp
-                          className="size-5 text-primary transition-transform duration-200"
-                          aria-hidden="true"
-                        />
-                      ) : sortDirection === "desc" ? (
-                        <ChevronDown
-                          className="size-5 text-primary transition-transform duration-200"
-                          aria-hidden="true"
-                        />
-                      ) : (
-                        <ArrowUpDown
-                          className="size-4 text-muted-foreground/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                          aria-hidden="true"
-                        />
+                    >
+                      {canFilter && uniqueValues.length > 0 && (
+                        <DropdownMenu
+                          open={isFilterOpen}
+                          onOpenChange={toggleFilterOpen}
+                        >
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="p-1 shrink-0"
+                              aria-label={`Filter by ${header.column.columnDef.header}`}
+                            >
+                              <Filter className="size-4 text-muted-foreground" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            {uniqueValues.map((value) => (
+                              <DropdownMenuCheckboxItem
+                                key={value}
+                                checked={filterValue?.includes(value) ?? false}
+                                onCheckedChange={(checked) => {
+                                  const currentFilters = filterValue
+                                    ? [...filterValue]
+                                    : [];
+                                  if (checked) {
+                                    currentFilters.push(value);
+                                  } else {
+                                    const index = currentFilters.indexOf(value);
+                                    if (index > -1) {
+                                      currentFilters.splice(index, 1);
+                                    }
+                                  }
+                                  header.column.setFilterValue(
+                                    currentFilters.length
+                                      ? currentFilters
+                                      : undefined
+                                  );
+                                }}
+                                onSelect={(e) => e.preventDefault()}
+                              >
+                                {value}
+                              </DropdownMenuCheckboxItem>
+                            ))}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      )}
+                      {canSort && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="p-1 shrink-0"
+                          onClick={header.column.getToggleSortingHandler()}
+                          aria-label={`Sort by ${header.column.columnDef.header}`}
+                        >
+                          {sortDirection === "asc" ? (
+                            <ChevronUp
+                              className="size-4 text-primary"
+                              aria-hidden="true"
+                            />
+                          ) : sortDirection === "desc" ? (
+                            <ChevronDown
+                              className="size-4 text-primary"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <ArrowUpDown
+                              className="size-4 text-muted-foreground/60"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </Button>
                       )}
                     </div>
-                  </div>
-                ) : (
-                  <span className="font-medium text-muted-foreground">
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </span>
-                )}
+                  )}
+                </div>
               </TableHead>
             );
           })}

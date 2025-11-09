@@ -1,21 +1,14 @@
 "use client";
 
 import { ContentLayout } from "@/components/staff-panel/content-layout";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { MainClientsTable } from "@/features/clients/components/tables/MainClientsTable";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
-import { clientsOverviewStatistics } from "@/features/clients/data/client-mock-stats";
-import TabListCustomComp from "@/components/TabListCustomComp";
-import StatisticsCard from "@/components/StatisticsCard";
 import MainHeader from "@/components/MainHeader";
+import { ClientTableProps } from "@/features/clients/types/client-types";
 import { useEffect } from "react";
 import { Search, UserPlus } from "lucide-react";
-
-const tabs = [
-  { value: "overview", label: "Overview" },
-  { value: "new", label: "Newly Registered" },
-  { value: "issues", label: "With Issues" },
-];
+import { MainTableComp } from "@/components/tables/MainTableComp";
+import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
+import { clientTableData } from "@/features/clients/data/mock-clients-data";
 
 const quickActions = [
   {
@@ -23,7 +16,6 @@ const quickActions = [
     href: "/clients/register",
     icon: UserPlus,
   },
-  // find a user
   {
     label: "Search Client",
     href: "/#",
@@ -40,47 +32,26 @@ export default function ClientsPage() {
     <ContentLayout title="Clients Overview">
       <BreadcrumbPages
         links={[
-          {
-            href: "/dashboard",
-            label: "Home",
-          },
-          {
-            href: "/clients",
-            label: "Clients",
-          },
+          { href: "/dashboard", label: "Home" },
+          { href: "/clients", label: "Clients" },
         ]}
       />
-
       <MainHeader
         title="Clients Overview"
         description="Manage your client portfolio and loan statuses"
         quickActions={quickActions}
       />
-      <StatisticsCard statistics={clientsOverviewStatistics} />
-
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabListCustomComp tabs={tabs} />
-        <TabsContent value="overview" className="space-y-4">
-          <MainClientsTable
-            title="Clients Overview"
-            description="View and manage the complete list of clients across all branches."
-          />
-        </TabsContent>
-
-        <TabsContent value="new" className="space-y-4">
-          <MainClientsTable
-            title="Newly Registered"
-            description="Track and manage clients who were recently added to the system."
-          />
-        </TabsContent>
-
-        <TabsContent value="issues" className="space-y-4">
-          <MainClientsTable
-            title="Clients With Issues"
-            description="Identify and address clients with incomplete records or flagged accounts."
-          />
-        </TabsContent>
-      </Tabs>
+      <MainTableComp<ClientTableProps>
+        title="Clients Overview"
+        description="View and manage the complete list of clients across all branches."
+        data={clientTableData}
+        columns={clientsColumnDefinition(false)}
+        filterColumns={["name", "status", "branch", "productType"]}
+        emptyTitle="No Clients Found"
+        emptyDescription="There are no clients recorded yet. Add a client to get started."
+        emptyActionLabel="Register New Client"
+        emptyOnAction={() => (window.location.href = "/clients/register")}
+      />
     </ContentLayout>
   );
 }

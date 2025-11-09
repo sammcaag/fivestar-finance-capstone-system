@@ -2,21 +2,12 @@
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
-import StatisticsCard from "@/components/StatisticsCard";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
-import TabListCustomComp from "@/components/TabListCustomComp";
-import { MainLoansTable } from "@/features/loans/components/tables/MainLoansTable";
+import { loansColumnDefinition } from "@/features/loans/components/tables/LoansColumnDefinition";
+import { mockLoansData } from "@/features/loans/data/mock-loans-data";
+import { LoanTableProps } from "@/features/loans/types/loan-types";
 import { useEffect } from "react";
 import { Calculator, FilePlus2 } from "lucide-react";
-import { CreditCard, BadgeCheck, PhilippinePeso } from "lucide-react";
-
-const tabs = [
-  { value: "overview", label: "Overview" },
-  { value: "approved", label: "Approved Loans" },
-  { value: "active", label: "Active Loans" },
-  { value: "closed", label: "Closed Loans" },
-  { value: "rejected", label: "Rejected Loans" },
-];
+import { MainTableComp } from "@/components/tables/MainTableComp";
 
 const quickActions = [
   {
@@ -28,27 +19,6 @@ const quickActions = [
     label: "New Client Computation",
     href: "/loans/computations/new-client",
     icon: Calculator,
-  },
-];
-
-const loansOverviewStatistics = [
-  {
-    title: "Total Loans",
-    statistic: 1420,
-    summary: "+8% from last month",
-    icon: CreditCard,
-  },
-  {
-    title: "Active Loans",
-    statistic: 842,
-    summary: "Currently being repaid",
-    icon: BadgeCheck,
-  },
-  {
-    title: "Total Portfolio Value",
-    statistic: "₱ 4.2M",
-    summary: "Outstanding loan amount",
-    icon: PhilippinePeso,
   },
 ];
 
@@ -70,44 +40,18 @@ export default function Loans() {
         description="Oversee and manage all active, pending, and completed loan records within your branch."
         quickActions={quickActions}
       />
-      <StatisticsCard statistics={loansOverviewStatistics} />
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabListCustomComp tabs={tabs} />
-        <TabsContent value="overview" className="space-y-4">
-          <MainLoansTable
-            title="Loans Overview"
-            description="View and manage all loan records across every status and branch."
-          />
-        </TabsContent>
-
-        <TabsContent value="approved" className="space-y-4">
-          <MainLoansTable
-            title="Approved Loans"
-            description="Track loans that have been approved and are ready for release."
-          />
-        </TabsContent>
-
-        <TabsContent value="active" className="space-y-4">
-          <MainLoansTable
-            title="Active Loans"
-            description="Manage loans that are currently disbursed and being repaid."
-          />
-        </TabsContent>
-
-        <TabsContent value="closed" className="space-y-4">
-          <MainLoansTable
-            title="Closed Loans"
-            description="Review fully paid or completed loan accounts."
-          />
-        </TabsContent>
-
-        <TabsContent value="rejected" className="space-y-4">
-          <MainLoansTable
-            title="Rejected Loans"
-            description="View loan applications that were declined or cancelled."
-          />
-        </TabsContent>
-      </Tabs>
+      <MainTableComp<LoanTableProps>
+        title="Loans Overview"
+        description="View and manage all loan records across every status and branch."
+        data={mockLoansData}
+        columns={loansColumnDefinition}
+        filterColumns={["name", "productType"]}
+        initialSort={[{ id: "name", desc: false }]}
+        emptyActionLabel="No Loans Data"
+        emptyOnAction={() => {}}
+        emptyTitle="No Loans Data Found"
+        emptyDescription="There are no loan records available. Add a loan to get started."
+      />
     </ContentLayout>
   );
 }

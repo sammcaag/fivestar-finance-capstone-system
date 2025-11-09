@@ -15,3 +15,9 @@ export interface EmptyStateProps {
   emptySecondaryActionLabel?: string;
   emptyOnSecondaryAction?: () => void;
 }
+
+export interface TableData {
+  status?: string | undefined;
+  action?: string | undefined;
+  dedCode?: string | undefined;
+}

@@ -8,16 +8,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { FileText, MoreHorizontal, Printer } from "lucide-react";
-import { Eye } from "lucide-react";
-import { Edit } from "lucide-react";
-import { Trash2 } from "lucide-react";
+import { MoreHorizontal, Printer, Eye, Edit, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { getProductTypeClass } from "@/utils/get-product-type-class";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
-import { getStatusRowClass } from "@/utils/get-status-row-class";
 
 export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
   {
@@ -27,6 +23,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
       <span className="whitespace-nowrap">{row.original.dedCode}</span>
     ),
     size: 150,
+    enableColumnFilter: true,
+    enableSorting: true,
   },
   {
     accessorKey: "productType",
@@ -36,6 +34,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
         {row.original.productType}
       </Badge>
     ),
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
     accessorKey: "amount",
@@ -45,6 +45,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
         {formatToPhCurrency(row.original.amount)}
       </span>
     ),
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
     accessorKey: "term",
@@ -52,15 +54,19 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
     cell: ({ row }) => (
       <span className="whitespace-nowrap">{row.original.term} Months</span>
     ),
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
-    accessorKey: "releasedDate",
-    header: "Released Date",
+    accessorKey: "madeDate",
+    header: "Made Date",
     cell: ({ row }) => (
       <span className="whitespace-nowrap">
-        {formatDateToReadable(row.original.releasedDate, true)}
+        {formatDateToReadable(row.original.madeDate, true)}
       </span>
     ),
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
     accessorKey: "valueDate",
@@ -70,6 +76,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
         {formatDateToReadable(row.original.valueDate, true)}
       </span>
     ),
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
     accessorKey: "maturityDate",
@@ -79,6 +87,8 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
         {formatDateToReadable(row.original.maturityDate, true)}
       </span>
     ),
+    enableColumnFilter: false,
+    enableSorting: true,
   },
   {
     accessorKey: "status",
@@ -90,12 +100,14 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
       }
       return <Badge>{status}</Badge>;
     },
+    enableColumnFilter: true,
+    enableSorting: true,
   },
   {
     accessorKey: "action",
     header: "Action",
     size: 80,
-    cell: ({ row }) => (
+    cell: () => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -103,24 +115,19 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          {/* View Documents */}
           <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
             <Printer className="h-4 w-4" />
             Print Documents
           </DropdownMenuItem>
-          {/* Separator */}
           <DropdownMenuSeparator />
-          {/* View Details */}
           <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
             <Eye className="h-4 w-4" />
             View Details
           </DropdownMenuItem>
-          {/* Edit */}
           <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
             <Edit className="h-4 w-4" />
             Edit
           </DropdownMenuItem>
-          {/* Delete */}
           <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-destructive">
             <Trash2 className="h-4 w-4" />
             Delete
@@ -128,5 +135,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
         </DropdownMenuContent>
       </DropdownMenu>
     ),
+    enableColumnFilter: false,
+    enableSorting: false,
   },
 ];

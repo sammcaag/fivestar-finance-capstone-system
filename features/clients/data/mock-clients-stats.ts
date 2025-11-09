@@ -1,37 +1,8 @@
-import {
-  Clock,
-  CreditCard,
-  PhilippinePeso,
-  UserCheck,
-  UserPlus,
-  Users,
-} from "lucide-react";
+import { Clock, UserCheck, Users } from "lucide-react";
 import { StatisticProps } from "../../../types/global-types";
 
 // for dashboard stats
 export const dashboardStatistics: StatisticProps[] = [
-  {
-    title: "Total Active Loan",
-    statistic: 342,
-    summary: "+3.1% from last month",
-    icon: CreditCard,
-  },
-  {
-    title: "Pending Approvals",
-    statistic: 28,
-    summary: " +12 new since yesterday",
-    icon: Clock,
-  },
-  {
-    title: "Disbursements Today",
-    statistic: "₱ 45,270",
-    summary: "+8.2% from yesterday",
-    icon: PhilippinePeso,
-  },
-];
-
-// for main client stats
-export const clientsOverviewStatistics: StatisticProps[] = [
   {
     title: "Total Clients",
     statistic: 1242,
@@ -45,10 +16,10 @@ export const clientsOverviewStatistics: StatisticProps[] = [
     icon: UserCheck,
   },
   {
-    title: "Newly Registered",
-    statistic: 74,
-    summary: "Added this month",
-    icon: UserPlus,
+    title: "Pending Approvals",
+    statistic: 28,
+    summary: " +12 new since yesterday",
+    icon: Clock,
   },
 ];
 

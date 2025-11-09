@@ -1,22 +1,17 @@
+// TableBodyComp.tsx
 import React from "react";
 import { TableBody } from "../ui/table";
 import { AnimatePresence, motion } from "framer-motion";
-import { flexRender, Table } from "@tanstack/react-table";
+import { flexRender, Table, Row } from "@tanstack/react-table";
 import { getStatusRowClass } from "@/utils/get-status-row-class";
+import { getFiRowColors } from "@/features/loans/utils/get-fi-row-colors";
 import clsx from "clsx";
 import EmptyTableState from "./EmptyTableState";
 import { EmptyStateProps } from "@/types/global-types";
 import EmptySearchTableState from "./EmptySearchTableState";
-import { fiRowColors } from "@/features/loans/utils/fi-row-colors";
+import { TableData } from "@/types/global-types";
 
-interface TableBodyCompProps<TData> extends EmptyStateProps {
-  table: Table<TData>;
-  searchQuery?: string;
-  onClearSearch?: () => void;
-  inputRef?: React.RefObject<HTMLInputElement | null>;
-}
-
-export default function TableBodyComp<TData>({
+export default function TableBodyComp<TData extends TableData>({
   table,
   emptyTitle,
   emptyDescription,
@@ -25,42 +20,80 @@ export default function TableBodyComp<TData>({
   emptySecondaryActionLabel,
   emptyOnSecondaryAction,
   inputRef,
-}: TableBodyCompProps<TData>) {
-  const nameColumn = table.getAllColumns().find((col) => col.id === "name");
-  const nameSearchValue = nameColumn?.getFilterValue?.() ?? "";
-  const dedCodeColumn = table
-    .getAllColumns()
-    .find((col) => col.id === "dedCode");
-  const dedCodeSearchValue = Boolean(dedCodeColumn);
+  hoverColumn,
+}: EmptyStateProps & {
+  table: Table<TData>;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
+  filterColumns?: string[];
+  hoverColumn?: string | null;
+}) {
+  const globalFilter = table.getState().globalFilter as string | undefined;
+  const columnFilters = table.getState().columnFilters;
+  const activeColumnFilters = columnFilters.filter((f) => {
+    const v = f.value;
+    return (
+      v != null &&
+      (typeof v === "string"
+        ? v !== ""
+        : Array.isArray(v)
+        ? v.length > 0
+        : false)
+    );
+  });
+
+  const isFiltered = activeColumnFilters.length > 0 || !!globalFilter;
+
+  const parts: string[] = [];
+  if (globalFilter) {
+    parts.push(`Search: ${globalFilter}`);
+  }
+  activeColumnFilters.forEach((f) => {
+    const header = (table.getColumn(f.id)?.columnDef.header as string) || f.id;
+    const val = Array.isArray(f.value) ? f.value.join(" or ") : String(f.value);
+    parts.push(`${header} (${val})`);
+  });
+  const searchValue = parts.join(" and ");
+
+  const hasDedCode = (data: TData): data is TData & { dedCode: string } => {
+    return typeof data.dedCode === "string";
+  };
+
+  const hasStatus = (data: TData): data is TData & { status: string } => {
+    return typeof data.status === "string";
+  };
 
   return (
     <TableBody>
       <AnimatePresence>
         {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row, i) => (
+          table.getRowModel().rows.map((row: Row<TData>, i) => (
             <motion.tr
               key={row.id}
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
               transition={{
-                duration: 0.15,
-                delay: i * 0.03,
+                duration: 0.2,
+                delay: i * 0.05,
                 ease: "easeOut",
               }}
-              layout
               className={clsx(
-                "border-b transition-colors  data-[state=selected]:bg-muted framer-motion-fix",
-                !dedCodeSearchValue && "hover:bg-muted/50",
-                getStatusRowClass(row),
-                fiRowColors(row)
+                "border-b transition-colors",
+                hasDedCode(row.original)
+                  ? getFiRowColors(row as Row<{ dedCode: string }>)
+                  : hasStatus(row.original)
+                  ? getStatusRowClass(row as Row<{ status: string }>)
+                  : "hover:bg-primary/20"
               )}
               data-state={row.getIsSelected() && "selected"}
             >
               {row.getVisibleCells().map((cell) => (
                 <motion.td
                   key={cell.id}
-                  className="p-4"
+                  className={clsx(
+                    "p-4 align-middle",
+                    cell.column.id === hoverColumn && "bg-primary/10"
+                  )}
                   style={{ width: `${cell.column.getSize()}px` }}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -68,16 +101,19 @@ export default function TableBodyComp<TData>({
               ))}
             </motion.tr>
           ))
-        ) : nameSearchValue ? (
+        ) : isFiltered ? (
           <motion.tr>
             <motion.td
               colSpan={table.getAllColumns().length}
-              className="h-[500px] text-center framer-motion-fix"
+              className="h-96 text-center"
             >
               <EmptySearchTableState
-                searchQuery={nameSearchValue as string}
+                searchQuery={searchValue}
                 onClearSearch={() => {
-                  table.getColumn("name")?.setFilterValue("");
+                  table.setGlobalFilter("");
+                  table.getAllColumns().forEach((column) => {
+                    column.setFilterValue(undefined);
+                  });
                   if (inputRef?.current) {
                     inputRef.current.focus();
                   }
@@ -89,7 +125,7 @@ export default function TableBodyComp<TData>({
           <motion.tr>
             <motion.td
               colSpan={table.getAllColumns().length}
-              className="h-[500px] text-center framer-motion-fix"
+              className="h-96 text-center"
             >
               <EmptyTableState
                 emptyTitle={emptyTitle}

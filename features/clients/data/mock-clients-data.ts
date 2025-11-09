@@ -269,7 +269,7 @@ export const clientTableData: ClientTableProps[] = [
     created_at: "2023-10-15",
     branch: "Cagayan de Oro City",
   },
-  { 
+  {
     id: "538e2a7f",
     name: "Patricia Garcia",
     email: "p.garcia@example.com",
