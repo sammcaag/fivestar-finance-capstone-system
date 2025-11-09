@@ -1,3 +1,4 @@
+// TableBodyComp.tsx
 import React from "react";
 import { TableBody } from "../ui/table";
 import { AnimatePresence, motion } from "framer-motion";
@@ -8,28 +9,7 @@ import clsx from "clsx";
 import EmptyTableState from "./EmptyTableState";
 import { EmptyStateProps } from "@/types/global-types";
 import EmptySearchTableState from "./EmptySearchTableState";
-
-interface TableData {
-  status?: string | undefined;
-  action?: string | undefined;
-  dedCode?: string | undefined;
-}
-
-interface TableBodyCompProps<TData extends TableData> extends EmptyStateProps {
-  table: Table<TData>;
-  searchQuery?: string;
-  onClearSearch?: () => void;
-  inputRef?: React.RefObject<HTMLInputElement | null>;
-  filterColumns?: string[];
-  hoverColumn?: string | null;
-}
-
-// Type guard for status
-const hasStatus = <TData extends TableData>(
-  data: TData
-): data is TData & { status: string } => {
-  return typeof data.status === "string";
-};
+import { TableData } from "@/types/global-types";
 
 export default function TableBodyComp<TData extends TableData>({
   table,
@@ -40,10 +20,14 @@ export default function TableBodyComp<TData extends TableData>({
   emptySecondaryActionLabel,
   emptyOnSecondaryAction,
   inputRef,
-  filterColumns = [],
   hoverColumn,
-}: TableBodyCompProps<TData>) {
-  // Get all active column filters
+}: EmptyStateProps & {
+  table: Table<TData>;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
+  filterColumns?: string[];
+  hoverColumn?: string | null;
+}) {
+  const globalFilter = table.getState().globalFilter as string | undefined;
   const columnFilters = table.getState().columnFilters;
   const activeColumnFilters = columnFilters.filter((f) => {
     const v = f.value;
@@ -57,37 +41,25 @@ export default function TableBodyComp<TData extends TableData>({
     );
   });
 
-  const isFiltered = activeColumnFilters.length > 0;
+  const isFiltered = activeColumnFilters.length > 0 || !!globalFilter;
 
-  let searchValue = "";
-  if (isFiltered) {
-    // Check if it's a global search (same string value across filterColumns)
-    const allGlobalSearch = activeColumnFilters.every(
-      (f) => filterColumns.includes(f.id) && typeof f.value === "string"
-    );
-    const valuesSet = new Set(
-      activeColumnFilters.map((f) => f.value as string)
-    );
-    if (allGlobalSearch && valuesSet.size === 1) {
-      searchValue = activeColumnFilters[0].value as string;
-    } else {
-      // Per-column or mixed filters: summarize with column names and OR within column
-      searchValue = activeColumnFilters
-        .map((f) => {
-          const header =
-            (table.getColumn(f.id)?.columnDef.header as string) || f.id;
-          const val = Array.isArray(f.value)
-            ? f.value.join(" or ")
-            : (f.value as string);
-          return `${header} (${val})`;
-        })
-        .join(" and ");
-    }
+  const parts: string[] = [];
+  if (globalFilter) {
+    parts.push(`Search: ${globalFilter}`);
   }
+  activeColumnFilters.forEach((f) => {
+    const header = (table.getColumn(f.id)?.columnDef.header as string) || f.id;
+    const val = Array.isArray(f.value) ? f.value.join(" or ") : String(f.value);
+    parts.push(`${header} (${val})`);
+  });
+  const searchValue = parts.join(" and ");
 
-  // Type guard for dedCode
   const hasDedCode = (data: TData): data is TData & { dedCode: string } => {
     return typeof data.dedCode === "string";
+  };
+
+  const hasStatus = (data: TData): data is TData & { status: string } => {
+    return typeof data.status === "string";
   };
 
   return (
@@ -108,10 +80,10 @@ export default function TableBodyComp<TData extends TableData>({
               className={clsx(
                 "border-b transition-colors",
                 hasDedCode(row.original)
-                  ? getFiRowColors(row as Row<{ dedCode: string }>) // Safer cast
+                  ? getFiRowColors(row as Row<{ dedCode: string }>)
                   : hasStatus(row.original)
-                  ? getStatusRowClass(row as Row<{ status: string }>) // Use type guard
-                  : "hover:bg-primary/20" // Fallback if neither dedCode nor status
+                  ? getStatusRowClass(row as Row<{ status: string }>)
+                  : "hover:bg-primary/20"
               )}
               data-state={row.getIsSelected() && "selected"}
             >
@@ -138,11 +110,9 @@ export default function TableBodyComp<TData extends TableData>({
               <EmptySearchTableState
                 searchQuery={searchValue}
                 onClearSearch={() => {
-                  filterColumns.forEach((col) => {
-                    const column = table.getColumn(col);
-                    if (column) {
-                      column.setFilterValue("");
-                    }
+                  table.setGlobalFilter("");
+                  table.getAllColumns().forEach((column) => {
+                    column.setFilterValue(undefined);
                   });
                   if (inputRef?.current) {
                     inputRef.current.focus();

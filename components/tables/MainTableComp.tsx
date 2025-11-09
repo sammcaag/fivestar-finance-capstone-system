@@ -47,6 +47,7 @@ export function MainTableComp<TData extends TableData>({
   const { table, isLoading } = useDataTable<TData>({
     data,
     columns,
+    filterColumns,
     initialSort,
   });
 

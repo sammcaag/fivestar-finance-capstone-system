@@ -1,3 +1,4 @@
+// TableFilter.tsx
 "use client";
 
 import { useState } from "react";
@@ -6,7 +7,6 @@ import { motion } from "framer-motion";
 import { Search, CircleX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, Row } from "@tanstack/react-table";
 import {
   Tooltip,
   TooltipContent,
@@ -14,58 +14,34 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { Table } from "@tanstack/react-table";
+import { TableData } from "@/types/global-types";
 
-interface TableFilterProps<TData> {
-  table: Table<TData>;
-  inputRef?: React.RefObject<HTMLInputElement | null>;
-  filterColumns?: string[]; // Columns to search (e.g., ["firstName", "lastName", "role"])
-  dashboard?: boolean;
-}
-
-export function TableFilter<TData>({
+export function TableFilter<TData extends TableData>({
   table,
   inputRef,
   filterColumns = [],
   dashboard = false,
-}: TableFilterProps<TData>) {
-  const [searchTerm, setSearchTerm] = useState("");
+}: {
+  table: Table<TData>;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
+  filterColumns?: string[];
+  dashboard?: boolean;
+}) {
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
-  // Custom filter function to search across multiple columns
-  const multiColumnFilter = (
-    row: Row<TData>,
-    columnId: string,
-    filterValue: string
-  ) => {
-    if (!filterValue) return true;
-    const search = filterValue.toLowerCase();
-    return filterColumns.some((col) => {
-      const value = row.getValue(col) as unknown;
-      return value ? String(value).toLowerCase().includes(search) : false;
-    });
-  };
-
-  // Apply filter to all specified columns
   const handleSearch = (value: string) => {
     setSearchTerm(value);
-    filterColumns.forEach((col) => {
-      const column = table.getColumn(col);
-      if (column) {
-        column.setFilterValue(value);
-        column.columnDef.filterFn = multiColumnFilter;
-      }
-    });
+    table.setGlobalFilter(value);
     setActiveFilters(value ? [`Search: ${value}`] : []);
   };
 
-  // Clear search
   const clearSearch = () => {
     setSearchTerm("");
-    filterColumns.forEach((col) => {
-      const column = table.getColumn(col);
-      if (column) {
-        column.setFilterValue("");
-      }
+    table.setGlobalFilter("");
+    table.getAllColumns().forEach((column) => {
+      column.setFilterValue(undefined);
     });
     setActiveFilters([]);
     if (inputRef?.current) {
