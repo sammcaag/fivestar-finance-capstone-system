@@ -57,6 +57,37 @@ const statusFilterFn: FilterFn<ClientTableProps> = (
 export const clientsColumnDefinition = (
   dashboard = false
 ): ColumnDef<ClientTableProps>[] => {
+  // Custom filter function for multi-column searching
+  const nameSearchFilterFn: FilterFn<ClientTableProps> = (
+    row,
+    columnId,
+    filterValue
+  ) => {
+    const searchableRowContent =
+      `${row.original.name} ${row.original.id} ${row.original.email}`.toLowerCase();
+    const searchTerm = (filterValue ?? "").toLowerCase();
+    return searchableRowContent.includes(searchTerm);
+  };
+
+  const statusFilterFn: FilterFn<ClientTableProps> = (
+    row,
+    columnId,
+    filterValue: string[]
+  ) => {
+    if (!filterValue?.length) return true;
+    const status = row.getValue(columnId) as string;
+    return filterValue.includes(status);
+  };
+
+  const productTypeFilterFn: FilterFn<ClientTableProps> = (
+    row,
+    columnId,
+    filterValue: string[]
+  ) => {
+    if (!filterValue?.length) return true;
+    const productType = row.getValue(columnId) as string;
+    return filterValue.includes(productType);
+  };
   const baseColumns: ColumnDef<ClientTableProps>[] = [
     {
       accessorKey: "name",
@@ -114,9 +145,7 @@ export const clientsColumnDefinition = (
     {
       accessorKey: "productType",
       header: "Product Type",
-      filterFn: "includesString",
-      enableColumnFilter: true,
-      enableSorting: true,
+      filterFn: productTypeFilterFn,
       cell: ({ row }) => {
         const productType = row.getValue(
           "productType"

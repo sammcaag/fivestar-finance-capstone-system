@@ -22,6 +22,8 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { clientSearchMock } from "@/features/clients/data/search-client-mock";
+import type { ClientSearchRecord } from "@/features/clients/data/search-client-mock";
 
 export default function NavBarSearchInput({
   fullWidth,
@@ -29,6 +31,10 @@ export default function NavBarSearchInput({
   fullWidth: boolean;
 }) {
   const [open, setOpen] = React.useState(false);
+  const [query, setQuery] = React.useState("");
+  const [debouncedQuery, setDebouncedQuery] = React.useState("");
+
+  const hasQuery = query.trim().length > 0;
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -42,7 +48,52 @@ export default function NavBarSearchInput({
     return () => document.removeEventListener("keydown", down);
   }, []);
 
+  React.useEffect(() => {
+    const handler = window.setTimeout(() => {
+      setDebouncedQuery(query.trim());
+    }, 300);
+
+    return () => window.clearTimeout(handler);
+  }, [query]);
+
+  React.useEffect(() => {
+    if (!open) {
+      setQuery("");
+      setDebouncedQuery("");
+    }
+  }, [open]);
+
   const router = useRouter();
+
+  const filteredClients = React.useMemo(() => {
+    if (!debouncedQuery) return [];
+    const searchTerm = debouncedQuery.toLowerCase();
+
+    return clientSearchMock
+      .filter((client) => {
+        const nameMatch = client.fullName.toLowerCase().includes(searchTerm);
+        const idMatch = client.id.toLowerCase().includes(searchTerm);
+        return nameMatch || idMatch;
+      })
+      .slice(0, 10);
+  }, [debouncedQuery]);
+
+  const handleClientSelect = React.useCallback(
+    (client: ClientSearchRecord) => {
+      const params = new URLSearchParams({
+        fullName: client.fullName,
+        branch: client.branch,
+        status: client.status,
+        productType: client.productType,
+      });
+
+      setOpen(false);
+      setQuery("");
+      setDebouncedQuery("");
+      router.push(`/clients/${client.id}?${params.toString()}`);
+    },
+    [router]
+  );
 
   return (
     <>
@@ -74,9 +125,33 @@ export default function NavBarSearchInput({
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
+        <CommandInput
+          placeholder="Search clients by name or ID..."
+          value={query}
+          onValueChange={setQuery}
+        />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
+          {hasQuery && filteredClients.length > 0 && (
+            <CommandGroup heading="Clients">
+              {filteredClients.map((client) => (
+                <CommandItem
+                  key={client.id}
+                  value={client.fullName}
+                  onSelect={() => handleClientSelect(client)}
+                >
+                  <div className="flex flex-col text-left">
+                    <span className="text-sm font-medium text-foreground">
+                      {client.fullName}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {client.id} • {client.branch}
+                    </span>
+                  </div>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
           <CommandGroup heading="Quick start">
             <CommandItem
               onClick={() => {

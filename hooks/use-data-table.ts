@@ -163,9 +163,5 @@ export function useDataTable<TData extends TableData>({
     sorting,
     data,
     pagination,
-    uniqueStatusValues,
-    statusCounts,
-    selectedStatuses,
-    handleStatusChange,
   };
 }

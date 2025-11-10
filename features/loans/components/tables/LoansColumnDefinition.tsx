@@ -14,27 +14,7 @@ import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { getProductTypeClass } from "@/utils/get-product-type-class";
 import { cn } from "@/lib/utils";
-
-const statusConfig = {
-  "Approved by HQ": {
-    bg: "bg-blue-100",
-    text: "text-blue-800",
-    label: "Approved by HQ",
-  },
-  Pending: { bg: "bg-yellow-100", text: "text-yellow-800", label: "Pending" },
-  Disbursed: {
-    bg: "bg-purple-100",
-    text: "text-purple-800",
-    label: "Disbursed",
-  },
-  Completed: { bg: "bg-green-100", text: "text-green-800", label: "Completed" },
-  Rejected: { bg: "bg-destructive", text: "text-white", label: "Rejected" },
-  "Forwarded to HQ": {
-    bg: "bg-blue-100",
-    text: "text-blue-800",
-    label: "Forwarded to HQ",
-  },
-};
+import { loanStatusClassNames } from "../../utils/loan-status-classnames";
 
 // Custom filter function for multi-column searching (name and id)
 const nameSearchFilterFn: FilterFn<LoanTableProps> = (
@@ -134,7 +114,7 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
     size: 150,
     cell: ({ row }) => {
       const status = row.original.status;
-      const config = statusConfig[status];
+      const config = loanStatusClassNames(status);
       return (
         <Badge
           className={cn(
