@@ -21,11 +21,13 @@ export default function TableBodyComp<TData extends TableData>({
   emptyOnSecondaryAction,
   inputRef,
   hoverColumn,
+  onRowDoubleClick,
 }: EmptyStateProps & {
   table: Table<TData>;
   inputRef?: React.RefObject<HTMLInputElement | null>;
   filterColumns?: string[];
   hoverColumn?: string | null;
+  onRowDoubleClick?: (data: TData) => void;
 }) {
   const globalFilter = table.getState().globalFilter as string | undefined;
   const columnFilters = table.getState().columnFilters;
@@ -86,6 +88,7 @@ export default function TableBodyComp<TData extends TableData>({
                   : "hover:bg-primary/20"
               )}
               data-state={row.getIsSelected() && "selected"}
+              onDoubleClick={() => onRowDoubleClick?.(row.original)}
             >
               {row.getVisibleCells().map((cell) => (
                 <motion.td

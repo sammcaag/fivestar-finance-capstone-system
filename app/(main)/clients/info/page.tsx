@@ -1,19 +1,49 @@
+// src/features/clients/components/ClientInfoPage.tsx
 "use client";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import ClientInformation from "@/features/clients/components/ClientInformation";
 import ClientProfileHeader from "@/features/clients/components/profile/ClientProfileHeader";
-import { useEffect } from "react";
-import { Suspense } from "react";
-import { MainTableComp } from "@/components/tables/MainTableComp";
+import { Suspense, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { LoanHistory } from "@/features/loans/types/loan-types";
 import { mockLoanHistoryData } from "@/features/loans/data/mock-loans-data";
-import { loansHistoryColumnDefinition } from "@/features/loans/components/tables/LoansHistoryColumnDefinition";
+import { Button } from "@/components/ui/button";
+import { useLoanLogic } from "@/features/loans/hooks/use-loan-logic";
+import LoanHistoryTabs from "@/features/loans/components/LoanHistoryTabs";
+import LoanActionModal from "@/features/loans/components/LoanActionModal";
 
 export default function ClientInfoPage() {
   useEffect(() => {
     document.title = "Client Information | Stella - Five Star Finance Inc.";
   }, []);
+
+  const router = useRouter();
+  const [loanHistory, setLoanHistory] =
+    useState<LoanHistory[]>(mockLoanHistoryData);
+  const [selectedLoan, setSelectedLoan] = useState<LoanHistory | null>(null);
+  const [isLoanHistory] = useState(true); // Toggle based on your logic; true for button, false for search
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const { loanSets, buttonLabel } = useLoanLogic(loanHistory, today);
+
+  const handleAddLoan = (type: string) => {
+    const slug = type
+      .toLowerCase()
+      .replace(/ client loan$/, "")
+      .replace(" ", "-");
+    router.push(`/loans/computations/${slug}`);
+  };
+
+  const customHeaderRight = isLoanHistory ? (
+    <Button
+      variant="default"
+      onClick={() => handleAddLoan(buttonLabel.replace("Add ", ""))}
+    >
+      {buttonLabel}
+    </Button>
+  ) : null;
 
   return (
     <ContentLayout title="Client Information">
@@ -26,20 +56,17 @@ export default function ClientInfoPage() {
       />
       <ClientProfileHeader />
       <ClientInfoInSuspense />
-      <MainTableComp<LoanHistory>
-        title="Appointments Overview"
-        description="Review all upcoming loan appointments and ensure client documents are complete before each meeting."
-        data={mockLoanHistoryData}
-        columns={loansHistoryColumnDefinition}
-        filterColumns={["dedCode", "productType", "term", "status"]}
-        initialSort={[
-          { id: "dedCode", desc: false },
-          { id: "maturityDate", desc: false },
-        ]}
-        emptyTitle="No Appointments Found"
-        emptyDescription="There are no appointments scheduled. Add a new appointment to get started."
-        emptyActionLabel="Add New Appointment"
-        emptyOnAction={() => (window.location.href = "/appointments/new")}
+      <LoanHistoryTabs
+        loanSets={loanSets}
+        loanHistory={loanHistory}
+        customHeaderRight={customHeaderRight}
+        setSelectedLoan={setSelectedLoan}
+        handleAddLoan={handleAddLoan}
+      />
+      <LoanActionModal
+        selectedLoan={selectedLoan}
+        setSelectedLoan={setSelectedLoan}
+        today={today}
       />
     </ContentLayout>
   );

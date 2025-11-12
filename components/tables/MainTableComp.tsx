@@ -29,7 +29,9 @@ interface MainTableProps<TData extends TableData> {
   emptyOnAction?: () => void;
   emptyTitle?: string;
   emptyDescription?: string;
-  dashboard?: boolean; // Add dashboard prop
+  dashboard?: boolean;
+  customHeaderRight?: React.ReactNode;
+  onRowDoubleClick?: (data: TData) => void;
 }
 
 export function MainTableComp<TData extends TableData>({
@@ -43,6 +45,9 @@ export function MainTableComp<TData extends TableData>({
   emptyOnAction,
   emptyTitle,
   emptyDescription,
+  customHeaderRight,
+  onRowDoubleClick,
+  dashboard,
 }: MainTableProps<TData>) {
   const { table, isLoading } = useDataTable<TData>({
     data,
@@ -66,11 +71,14 @@ export function MainTableComp<TData extends TableData>({
             <CardTitle className="h4">{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
           </div>
-          <TableFilter
-            table={table}
-            inputRef={inputRef}
-            filterColumns={filterColumns}
-          />
+          {customHeaderRight ?? (
+            <TableFilter
+              table={table}
+              inputRef={inputRef}
+              filterColumns={filterColumns}
+              dashboard={dashboard}
+            />
+          )}
         </div>
       </CardHeader>
       <CardContent className="px-0 min-h-[500px] border-t">
@@ -89,6 +97,7 @@ export function MainTableComp<TData extends TableData>({
             emptyTitle={emptyTitle}
             emptyDescription={emptyDescription}
             hoverColumn={hoverColumn}
+            onRowDoubleClick={onRowDoubleClick}
           />
         </Table>
       </CardContent>
