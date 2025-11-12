@@ -11,6 +11,7 @@ interface LoanHistoryTabsProps {
   customHeaderRight: React.ReactNode;
   setSelectedLoan: (loan: LoanHistory | null) => void;
   handleAddLoan: (type: string) => void;
+  totalSets: number;
 }
 
 export default function LoanHistoryTabs({
@@ -19,6 +20,7 @@ export default function LoanHistoryTabs({
   customHeaderRight,
   setSelectedLoan,
   handleAddLoan,
+  totalSets,
 }: LoanHistoryTabsProps) {
   const getOrdinal = (n: number): string => {
     const s = ["th", "st", "nd", "rd"];
@@ -45,18 +47,32 @@ export default function LoanHistoryTabs({
     emptyDescription: "There are no loans. Add a new loan to get started.",
     emptyActionLabel: "Add New Loan",
     emptyOnAction: () => handleAddLoan("New Client Loan"),
-    customHeaderRight,
     onRowDoubleClick: setSelectedLoan,
   };
 
-  return loanSets.length <= 1 ? (
-    <MainTableComp<LoanHistory> data={loanHistory} {...tableProps} />
-  ) : (
-    <Tabs defaultValue={`set-${loanSets.length}`} className="w-full">
+  // When there is only one set, hide tabs and show the table with the button
+  if (totalSets <= 1) {
+    return (
+      <MainTableComp<LoanHistory>
+        data={loanHistory}
+        {...tableProps}
+        customHeaderRight={customHeaderRight}
+      />
+    );
+  }
+
+  // When there are multiple sets, show tabs and suppress button for the 1st set
+  return (
+    <Tabs defaultValue={`set-${totalSets}`} className="w-full">
       <TabListCustomComp tabs={tabs} />
       {loanSets.map((setData, i) => (
         <TabsContent key={i} value={`set-${i + 1}`}>
-          <MainTableComp<LoanHistory> data={setData} {...tableProps} />
+          <MainTableComp<LoanHistory>
+            data={setData}
+            {...tableProps}
+            // Only show customHeaderRight for sets after the first one
+            customHeaderRight={i === 0 ? null : customHeaderRight}
+          />
         </TabsContent>
       ))}
     </Tabs>

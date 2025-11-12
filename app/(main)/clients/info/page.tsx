@@ -8,8 +8,8 @@ import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LoanHistory } from "@/features/loans/types/loan-types";
 import { mockLoanHistoryData } from "@/features/loans/data/mock-loans-data";
-import { Button } from "@/components/ui/button";
 import { useLoanLogic } from "@/features/loans/hooks/use-loan-logic";
+import { Button } from "@/components/ui/button";
 import LoanHistoryTabs from "@/features/loans/components/LoanHistoryTabs";
 import LoanActionModal from "@/features/loans/components/LoanActionModal";
 
@@ -23,7 +23,7 @@ export default function ClientInfoPage() {
     useState<LoanHistory[]>(mockLoanHistoryData);
   const [selectedLoan, setSelectedLoan] = useState<LoanHistory | null>(null);
   const [isLoanHistory] = useState(true); // Toggle based on your logic; true for button, false for search
-  const today = new Date();
+  const today = new Date("2025-11-13");
   today.setHours(0, 0, 0, 0);
 
   const { loanSets, buttonLabel } = useLoanLogic(loanHistory, today);
@@ -62,6 +62,7 @@ export default function ClientInfoPage() {
         customHeaderRight={customHeaderRight}
         setSelectedLoan={setSelectedLoan}
         handleAddLoan={handleAddLoan}
+        totalSets={loanSets.length}
       />
       <LoanActionModal
         selectedLoan={selectedLoan}
