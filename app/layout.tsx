@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { QueryProvider } from "@/components/providers/query-provider";
+import { TanstackQueryProvider } from "@/components/providers/query-provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  
+
   openGraph: {
     url: "/",
     title: "Stella | Five Star Finance Inc.",
@@ -50,11 +50,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.className} antialiased`}>
-        <QueryProvider>
+        <TanstackQueryProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
           </ThemeProvider>
-        </QueryProvider>
+        </TanstackQueryProvider>
       </body>
     </html>
   );
