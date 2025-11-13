@@ -104,7 +104,10 @@ export const clientsColumnDefinition = (
       cell: ({ row }) => (
         <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <MapPin className="h-3.5 w-3.5" />
-          <span>{row.getValue("branchName") || "N/A"}</span>
+          <span>
+            {String(row.getValue("branchName"))?.replace(/\s*Branch$/, "") ||
+              "N/A"}
+          </span>
         </div>
       ),
     },
@@ -116,12 +119,12 @@ export const clientsColumnDefinition = (
       enableSorting: true,
       cell: ({ row }) => {
         const status = (row.getValue("status") ||
-          "inactive") as keyof typeof clientBadgeStatusMap;
+          "INACTIVE") as keyof typeof clientBadgeStatusMap;
         const config =
-          clientBadgeStatusMap[status] || clientBadgeStatusMap.inactive;
+          clientBadgeStatusMap[status] || clientBadgeStatusMap.INACTIVE;
         return (
           <Badge variant={config.variant} className={cn(config.className)}>
-            {status}
+            {status.toUpperCase()}
           </Badge>
         );
       },

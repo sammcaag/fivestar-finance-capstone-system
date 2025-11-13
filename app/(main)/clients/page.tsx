@@ -29,21 +29,10 @@ export default function ClientsPage() {
     document.title = "Clients Overview | Stella - Five Star Finance Inc.";
   }, []);
 
-  const { data: clientData, isLoading } = useQuery<ClientTableProps[]>({
+  const { data: clientsData, isLoading } = useQuery<ClientTableProps[]>({
     queryKey: ["clients"],
     queryFn: getClients,
   });
-
-  useEffect(() => {
-    console.log(
-      "ClientsPage - clientData:",
-      clientData,
-      "isLoading:",
-      isLoading,
-      "data length:",
-      clientData?.length
-    );
-  }, [clientData, isLoading]);
 
   return (
     <ContentLayout title="Clients Overview">
@@ -61,7 +50,7 @@ export default function ClientsPage() {
       <MainTableComp<ClientTableProps>
         title="Clients Overview"
         description="View and manage the complete list of clients across all branches."
-        data={clientData ?? []}
+        data={clientsData ?? []}
         isLoading={isLoading}
         columns={clientsColumnDefinition(false)}
         filterColumns={["name", "status", "branchName"]}

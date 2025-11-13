@@ -7,8 +7,9 @@ export interface StaffTableProps {
   name: string;
   email: string;
   role: StaffRole;
+  gender: string;
+  branchName: string;
   status: StaffStatus;
-  branch: string;
   createdAt: string;
   lastLogin?: string;
 }

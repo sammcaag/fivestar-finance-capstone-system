@@ -12,16 +12,13 @@ import {
 import { MoreHorizontal, Eye, Edit, Trash, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { clientBadgeStatusMap } from "@/features/clients/utils/client-badge-status-map";
+import { formatDateToReadable } from "@/utils/format-date-to-readable";
 
 const roleConfig = {
-  admin: { variant: "info", className: "uppercase" },
-  loans: { variant: "warning", className: "uppercase" },
-  sales: { variant: "default", className: "uppercase" },
-} as const;
-
-const statusConfig = {
-  active: { variant: "success", className: "capitalize" },
-  inactive: { variant: "error", className: "capitalize" },
+  ADMIN: { variant: "info", className: "uppercase" },
+  LOANS: { variant: "warning", className: "uppercase" },
+  SALES: { variant: "default", className: "uppercase" },
 } as const;
 
 // Custom filter function for searching name and email
@@ -67,7 +64,7 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
     filterFn: "includesString", // Align with TableFilter
     cell: ({ row }) => {
       const role = row.getValue("role") as keyof typeof roleConfig;
-      const config = roleConfig[role] || roleConfig.sales;
+      const config = roleConfig[role] || roleConfig.SALES;
       return (
         <Badge variant={config.variant} className={cn(config.className)}>
           {row.getValue("role")}
@@ -78,25 +75,45 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
     enableSorting: true,
   },
   {
-    accessorKey: "branch",
+    accessorKey: "gender",
+    header: "Gender",
+    filterFn: "includesString",
+    enableColumnFilter: true,
+    enableSorting: true,
+    cell: ({ row }) => (
+      <span className="text-sm text-muted-foreground">
+        {row
+          .getValue("gender")
+          ?.toString()
+          .replace(/^./, (c) => c.toUpperCase())}
+      </span>
+    ),
+  },
+  {
+    accessorKey: "branchName",
     header: "Branch",
     filterFn: "includesString", // Align with TableFilter
     cell: ({ row }) => (
-      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+      <div className="flex items-center gap-1 text-sm text-muted-foreground">
         <MapPin className="h-3.5 w-3.5" />
-        <span>{row.getValue("branch")}</span>
+        <span>
+          {String(row.getValue("branchName"))?.replace(/\s*Branch$/, "") ||
+            "N/A"}
+        </span>
       </div>
     ),
     enableColumnFilter: true,
-    enableSorting: true,
+    enableSorting: false,
   },
   {
     accessorKey: "status",
     header: "Status",
     filterFn: "includesString", // Align with TableFilter
     cell: ({ row }) => {
-      const status = row.getValue("status") as keyof typeof statusConfig;
-      const config = statusConfig[status] || statusConfig.inactive;
+      const status = (row.getValue("status") ||
+        "INACTIVE") as keyof typeof clientBadgeStatusMap;
+      const config =
+        clientBadgeStatusMap[status] || clientBadgeStatusMap.INACTIVE;
       return (
         <Badge variant={config.variant} className={cn(config.className)}>
           {row.getValue("status")}
@@ -110,12 +127,12 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
     accessorKey: "createdAt",
     header: "Hired",
     cell: ({ row }) => (
-      <span className="text-sm">
-        {formatDateTime(row.getValue("createdAt"))}
+      <span className="text-sm text-muted-foreground">
+        {formatDateToReadable(row.getValue("createdAt") || new Date(), true)}
       </span>
     ),
     enableColumnFilter: false,
-    enableSorting: true,
+    enableSorting: false,
   },
   {
     accessorKey: "lastLogin",

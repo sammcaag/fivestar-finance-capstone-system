@@ -4,15 +4,21 @@ import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { MainTableComp } from "@/components/tables/MainTableComp";
+import { getStaffs } from "@/features/staff/api/staff-service";
 import { staffColumnDefinition } from "@/features/staff/component/tables/StaffColumnDefinition";
-import { mockStaffData } from "@/features/staff/data/mock-staff-data";
 import { StaffTableProps } from "@/features/staff/types/staff-types";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 export default function StaffManagementPage() {
   useEffect(() => {
     document.title = "Staff Management | Stella - Five Star Finance Inc.";
   }, []);
+
+  const { data: staffstData, isLoading } = useQuery<StaffTableProps[]>({
+    queryKey: ["clients"],
+    queryFn: getStaffs,
+  });
 
   return (
     <ContentLayout title="Staff Management">
@@ -29,7 +35,8 @@ export default function StaffManagementPage() {
       <MainTableComp<StaffTableProps>
         title="Staff Management"
         description="Manage branch staff accounts, roles, and permissions."
-        data={mockStaffData}
+        data={staffstData ?? []}
+        isLoading={isLoading}
         columns={staffColumnDefinition}
         filterColumns={["name", "role", "status", "branch"]}
         initialSort={[{ id: "name", desc: false }]}
