@@ -69,7 +69,9 @@ export const clientsColumnDefinition = (
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <span className="font-medium text-sm">{client.name}</span>
+              <span className="font-medium text-sm">
+                {client.rank} {client.name}
+              </span>
               <span className="text-xs text-muted-foreground">
                 {client.email}
               </span>
@@ -79,13 +81,28 @@ export const clientsColumnDefinition = (
       },
     },
     {
+      accessorKey: "gender",
+      header: "Gender",
+      filterFn: "includesString",
+      enableColumnFilter: true,
+      enableSorting: true,
+      cell: ({ row }) => (
+        <span className="text-sm text-muted-foreground">
+          {row
+            .getValue("gender")
+            ?.toString()
+            .replace(/^./, (c) => c.toUpperCase())}
+        </span>
+      ),
+    },
+    {
       accessorKey: "branchName",
       header: "Branch",
       filterFn: "includesString",
       enableColumnFilter: true,
       enableSorting: true,
       cell: ({ row }) => (
-        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+        <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <MapPin className="h-3.5 w-3.5" />
           <span>{row.getValue("branchName") || "N/A"}</span>
         </div>
@@ -108,6 +125,18 @@ export const clientsColumnDefinition = (
           </Badge>
         );
       },
+    },
+    {
+      accessorKey: "birthDate",
+      header: "Date of Birth",
+      filterFn: "includesString",
+      enableColumnFilter: false,
+      enableSorting: false,
+      cell: ({ row }) => (
+        <span className="text-sm text-muted-foreground">
+          {formatDateToReadable(row.getValue("birthDate") || new Date(), true)}
+        </span>
+      ),
     },
     {
       accessorKey: "createdAt",

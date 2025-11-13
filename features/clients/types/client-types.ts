@@ -129,4 +129,7 @@ export type ClientTableProps = {
     | "processed"
     | "released";
   createdAt: string | Date;
+  gender: string;
+  birthDate: string | Date;
+  rank: string;
 };
