@@ -128,5 +128,5 @@ export type ClientTableProps = {
     | "inactive"
     | "processed"
     | "released";
-  created_at: string;
+  createdAt: string | Date;
 };

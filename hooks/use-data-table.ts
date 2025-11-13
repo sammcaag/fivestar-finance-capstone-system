@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ColumnDef,
   getFacetedUniqueValues,
@@ -31,19 +31,21 @@ export function useDataTable<TData extends TableData>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+  // Log filter states for debugging
+  console.log(
+    "useDataTable - globalFilter:",
+    globalFilter,
+    "columnFilters:",
+    columnFilters
+  );
 
-    return () => clearTimeout(timer);
-  }, []);
+  // Set isLoading to false since data is provided
+  const isLoading = !data;
 
   const memoColumns = useMemo(
     () =>
@@ -114,6 +116,9 @@ export function useDataTable<TData extends TableData>({
       sorting,
     },
   });
+
+  // Log table rows for debugging
+  console.log("useDataTable - rows:", table.getRowModel().rows);
 
   return {
     table,

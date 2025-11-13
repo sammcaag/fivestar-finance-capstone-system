@@ -28,14 +28,14 @@ import { formatDateToReadable } from "@/utils/format-date-to-readable";
 export const clientsColumnDefinition = (
   dashboard = false
 ): ColumnDef<ClientTableProps>[] => {
-  // Custom filter function for multi-column searching
   const nameSearchFilterFn: FilterFn<ClientTableProps> = (
     row,
     columnId,
     filterValue
   ) => {
-    const searchableRowContent =
-      `${row.original.name} ${row.original.id} ${row.original.email}`.toLowerCase();
+    const searchableRowContent = `${row.original.name} ${
+      row.original.id || ""
+    } ${row.original.email}`.toLowerCase();
     const searchTerm = (filterValue ?? "").toLowerCase();
     return searchableRowContent.includes(searchTerm);
   };
@@ -55,7 +55,7 @@ export const clientsColumnDefinition = (
       accessorKey: "name",
       header: "Client Name",
       filterFn: nameSearchFilterFn,
-      enableColumnFilter: false, // Use global search
+      enableColumnFilter: false,
       enableSorting: true,
       size: 250,
       cell: ({ row }) => {
@@ -69,8 +69,10 @@ export const clientsColumnDefinition = (
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <span className="font-medium text-sm">{client.email}</span>
-              <span className="text-xs text-muted-foreground">{client.id}</span>
+              <span className="font-medium text-sm">{client.name}</span>
+              <span className="text-xs text-muted-foreground">
+                {client.email}
+              </span>
             </div>
           </div>
         );
@@ -85,7 +87,7 @@ export const clientsColumnDefinition = (
       cell: ({ row }) => (
         <div className="flex items-center gap-1 text-xs text-muted-foreground">
           <MapPin className="h-3.5 w-3.5" />
-          <span>{row.getValue("branchName")}</span>
+          <span>{row.getValue("branchName") || "N/A"}</span>
         </div>
       ),
     },
@@ -96,9 +98,8 @@ export const clientsColumnDefinition = (
       enableColumnFilter: true,
       enableSorting: true,
       cell: ({ row }) => {
-        const status = row.getValue(
-          "status"
-        ) as keyof typeof clientBadgeStatusMap;
+        const status = (row.getValue("status") ||
+          "inactive") as keyof typeof clientBadgeStatusMap;
         const config =
           clientBadgeStatusMap[status] || clientBadgeStatusMap.inactive;
         return (
@@ -115,7 +116,7 @@ export const clientsColumnDefinition = (
       enableSorting: true,
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground">
-          {formatDateToReadable(row.getValue("createdAt"), true)}
+          {formatDateToReadable(row.getValue("createdAt") || new Date(), true)}
         </span>
       ),
     },
@@ -148,8 +149,12 @@ export const clientsColumnDefinition = (
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
                   onClick={() => {
-                    navigator.clipboard.writeText(client.id);
-                    alert(`Client ID ${client.id} copied to clipboard`);
+                    if (client.id) {
+                      navigator.clipboard.writeText(client.id);
+                      alert(`Client ID ${client.id} copied to clipboard`);
+                    } else {
+                      alert("Client ID not available");
+                    }
                   }}
                   className="flex cursor-pointer items-center gap-2"
                 >
@@ -160,7 +165,9 @@ export const clientsColumnDefinition = (
                 <DropdownMenuItem
                   className="flex cursor-pointer items-center gap-2"
                   onClick={() =>
-                    (window.location.href = `/clients/${client.id}`)
+                    client.id
+                      ? (window.location.href = `/clients/${client.id}`)
+                      : alert("Client ID not available")
                   }
                 >
                   <Eye className="h-4 w-4" />
@@ -168,7 +175,11 @@ export const clientsColumnDefinition = (
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="flex cursor-pointer items-center gap-2"
-                  onClick={() => (window.location.href = `/loans/${client.id}`)}
+                  onClick={() =>
+                    client.id
+                      ? (window.location.href = `/loans/${client.id}`)
+                      : alert("Client ID not available")
+                  }
                 >
                   <FileText className="h-4 w-4" />
                   View loan details
@@ -176,7 +187,9 @@ export const clientsColumnDefinition = (
                 <DropdownMenuItem
                   className="flex cursor-pointer items-center gap-2"
                   onClick={() =>
-                    (window.location.href = `/clients/${client.id}/edit`)
+                    client.id
+                      ? (window.location.href = `/clients/${client.id}/edit`)
+                      : alert("Client ID not available")
                   }
                 >
                   <Pencil className="h-4 w-4" />

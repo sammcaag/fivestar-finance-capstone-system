@@ -1,5 +1,5 @@
-// TableBodyComp.tsx
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { TableBody } from "../ui/table";
 import { AnimatePresence, motion } from "framer-motion";
 import { flexRender, Table, Row } from "@tanstack/react-table";
@@ -63,6 +63,19 @@ export default function TableBodyComp<TData extends TableData>({
   const hasStatus = (data: TData): data is TData & { status: string } => {
     return typeof data.status === "string";
   };
+
+  useEffect(() => {
+    console.log(
+      "TableBodyComp - rows:",
+      table.getRowModel().rows,
+      "isFiltered:",
+      isFiltered,
+      "globalFilter:",
+      globalFilter,
+      "columnFilters:",
+      columnFilters
+    );
+  }, [table.getRowModel().rows, isFiltered, globalFilter, columnFilters]);
 
   return (
     <TableBody>

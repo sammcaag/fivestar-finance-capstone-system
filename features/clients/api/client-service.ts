@@ -5,10 +5,11 @@ import axiosInstance from "@/lib/axios-instance";
 
 export const getClients = async (): Promise<ClientTableProps[]> => {
   try {
-    const { data } = await axiosInstance.get<ClientTableProps[]>(
-      "/api/users/clients"
-    );
-    return data;
+    const { data } = await axiosInstance.get<{
+      success: boolean;
+      data: ClientTableProps[];
+    }>("/api/users/clients");
+    return data.data; // <-- return the inner array
   } catch (error) {
     throw new Error(
       axios.isAxiosError(error)

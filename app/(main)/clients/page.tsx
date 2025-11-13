@@ -29,15 +29,21 @@ export default function ClientsPage() {
     document.title = "Clients Overview | Stella - Five Star Finance Inc.";
   }, []);
 
-  // ✅ Fetch clients using React Query
-  const clientData = useQuery<ClientTableProps[]>({
+  const { data: clientData, isLoading } = useQuery<ClientTableProps[]>({
     queryKey: ["clients"],
     queryFn: getClients,
   });
 
   useEffect(() => {
-    console.log("THIS IS THE CLIENT DATA", clientData);
-  }, [clientData]);
+    console.log(
+      "ClientsPage - clientData:",
+      clientData,
+      "isLoading:",
+      isLoading,
+      "data length:",
+      clientData?.length
+    );
+  }, [clientData, isLoading]);
 
   return (
     <ContentLayout title="Clients Overview">
@@ -55,9 +61,10 @@ export default function ClientsPage() {
       <MainTableComp<ClientTableProps>
         title="Clients Overview"
         description="View and manage the complete list of clients across all branches."
-        data={clientData.data ?? []}
+        data={clientData ?? []}
+        isLoading={isLoading}
         columns={clientsColumnDefinition(false)}
-        filterColumns={["name", "status", "branch"]}
+        filterColumns={["name", "status", "branchName"]}
         emptyTitle="No Clients Found"
         emptyDescription="There are no clients recorded yet. Add a client to get started."
         emptyActionLabel="Register New Client"

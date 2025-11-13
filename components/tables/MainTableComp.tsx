@@ -33,6 +33,7 @@ interface MainTableProps<TData extends TableData> {
   customHeaderRight?: React.ReactNode;
   onRowDoubleClick?: (data: TData) => void;
   dashboardButtonContent?: string;
+  isLoading?: boolean;
 }
 
 export function MainTableComp<TData extends TableData>({
@@ -50,21 +51,35 @@ export function MainTableComp<TData extends TableData>({
   onRowDoubleClick,
   dashboard,
   dashboardButtonContent,
+  isLoading: externalIsLoading,
 }: MainTableProps<TData>) {
-  useEffect(() => {
-    console.log("MainTableComp - isLoading:", isLoading, "data:", data);
-  }, []);
-  const { table, isLoading } = useDataTable<TData>({
+  const { table, isLoading: hookIsLoading } = useDataTable<TData>({
     data,
     columns,
     filterColumns,
     initialSort,
   });
 
+  useEffect(() => {
+    console.log(
+      "MainTableComp - externalIsLoading:",
+      externalIsLoading,
+      "hookIsLoading:",
+      hookIsLoading,
+      "data:",
+      data,
+      "row count:",
+      table.getRowModel().rows.length
+    );
+  }, [externalIsLoading, hookIsLoading, data, table]);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [hoverColumn, setHoverColumn] = useState<string | null>(null);
 
+  const isLoading = externalIsLoading ?? hookIsLoading;
+
   if (isLoading) {
+    console.log("MainTableComp - Rendering TableRowLoadingState");
     return <TableRowLoadingState columns={columns} />;
   }
 
