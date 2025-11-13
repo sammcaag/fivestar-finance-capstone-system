@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
 import { TableFilter } from "@/components/tables/TableFilter";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { TableData } from "@/types/global-types";
 
@@ -32,6 +32,7 @@ interface MainTableProps<TData extends TableData> {
   dashboard?: boolean;
   customHeaderRight?: React.ReactNode;
   onRowDoubleClick?: (data: TData) => void;
+  dashboardButtonContent?: string;
 }
 
 export function MainTableComp<TData extends TableData>({
@@ -48,7 +49,11 @@ export function MainTableComp<TData extends TableData>({
   customHeaderRight,
   onRowDoubleClick,
   dashboard,
+  dashboardButtonContent,
 }: MainTableProps<TData>) {
+  useEffect(() => {
+    console.log("MainTableComp - isLoading:", isLoading, "data:", data);
+  }, []);
   const { table, isLoading } = useDataTable<TData>({
     data,
     columns,
@@ -77,6 +82,7 @@ export function MainTableComp<TData extends TableData>({
               inputRef={inputRef}
               filterColumns={filterColumns}
               dashboard={dashboard}
+              dashboardButtonContent={dashboardButtonContent}
             />
           )}
         </div>

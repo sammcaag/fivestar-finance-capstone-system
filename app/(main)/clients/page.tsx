@@ -8,7 +8,8 @@ import { useEffect } from "react";
 import { Search, UserPlus } from "lucide-react";
 import { MainTableComp } from "@/components/tables/MainTableComp";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
-import { clientTableData } from "@/features/clients/data/mock-clients-data";
+import { useQuery } from "@tanstack/react-query";
+import { getClients } from "@/features/clients/api/client-service";
 
 const quickActions = [
   {
@@ -28,6 +29,16 @@ export default function ClientsPage() {
     document.title = "Clients Overview | Stella - Five Star Finance Inc.";
   }, []);
 
+  // ✅ Fetch clients using React Query
+  const clientData = useQuery<ClientTableProps[]>({
+    queryKey: ["clients"],
+    queryFn: getClients,
+  });
+
+  useEffect(() => {
+    console.log("THIS IS THE CLIENT DATA", clientData);
+  }, [clientData]);
+
   return (
     <ContentLayout title="Clients Overview">
       <BreadcrumbPages
@@ -44,9 +55,9 @@ export default function ClientsPage() {
       <MainTableComp<ClientTableProps>
         title="Clients Overview"
         description="View and manage the complete list of clients across all branches."
-        data={clientTableData}
+        data={clientData.data ?? []}
         columns={clientsColumnDefinition(false)}
-        filterColumns={["name", "status", "branch", "productType"]}
+        filterColumns={["name", "status", "branch"]}
         emptyTitle="No Clients Found"
         emptyDescription="There are no clients recorded yet. Add a client to get started."
         emptyActionLabel="Register New Client"

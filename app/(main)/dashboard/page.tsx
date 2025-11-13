@@ -99,6 +99,8 @@ export default function DashboardPage() {
             emptyDescription="No clients have been registered in the last 30 days."
             emptyActionLabel="Register New Client"
             emptyOnAction={() => (window.location.href = "/clients/register")}
+            dashboard={true}
+            dashboardButtonContent="Clients"
           />
         </TabsContent>
         <TabsContent value="appointments" className="mt-4">
@@ -112,6 +114,8 @@ export default function DashboardPage() {
             emptyDescription="No appointments have been scheduled in the last 30 days."
             emptyActionLabel="Add New Appointment"
             emptyOnAction={() => (window.location.href = "/appointments/new")}
+            dashboard={true}
+            dashboardButtonContent="Appointments"
           />
         </TabsContent>
       </Tabs>

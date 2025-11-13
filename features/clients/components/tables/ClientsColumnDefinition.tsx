@@ -21,38 +21,9 @@ import {
   Flag,
   MapPin,
 } from "lucide-react";
-import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { clientBadgeStatusMap } from "../../utils/client-badge-status-map";
 import { cn } from "@/lib/utils";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
-import {
-  getProductTypeClass,
-  productTypeConfig,
-} from "@/utils/get-product-type-class";
-
-// Custom filter function for searching name, id, and email
-const nameSearchFilterFn: FilterFn<ClientTableProps> = (
-  row,
-  columnId,
-  filterValue
-) => {
-  const searchableRowContent = `${row.original.name} ${row.original.id} ${
-    row.original.email || ""
-  }`.toLowerCase();
-  const searchTerm = (filterValue ?? "").toLowerCase();
-  return searchableRowContent.includes(searchTerm);
-};
-
-// Custom filter function for status
-const statusFilterFn: FilterFn<ClientTableProps> = (
-  row,
-  columnId,
-  filterValue: string[]
-) => {
-  if (!filterValue?.length) return true;
-  const status = row.getValue(columnId) as string;
-  return filterValue.includes(status);
-};
 
 export const clientsColumnDefinition = (
   dashboard = false
@@ -79,15 +50,6 @@ export const clientsColumnDefinition = (
     return filterValue.includes(status);
   };
 
-  const productTypeFilterFn: FilterFn<ClientTableProps> = (
-    row,
-    columnId,
-    filterValue: string[]
-  ) => {
-    if (!filterValue?.length) return true;
-    const productType = row.getValue(columnId) as string;
-    return filterValue.includes(productType);
-  };
   const baseColumns: ColumnDef<ClientTableProps>[] = [
     {
       accessorKey: "name",
@@ -107,7 +69,7 @@ export const clientsColumnDefinition = (
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <span className="font-medium text-sm">{client.name}</span>
+              <span className="font-medium text-sm">{client.email}</span>
               <span className="text-xs text-muted-foreground">{client.id}</span>
             </div>
           </div>
@@ -115,22 +77,7 @@ export const clientsColumnDefinition = (
       },
     },
     {
-      accessorKey: "loanAmount",
-      header: "Loan Amount",
-      enableColumnFilter: false,
-      enableSorting: true,
-      size: 100,
-      cell: ({ row }) => {
-        const amount = Number.parseFloat(row.getValue("loanAmount"));
-        return (
-          <div className="font-semibold text-sm">
-            {formatToPhCurrency(amount)}
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "branch",
+      accessorKey: "branchName",
       header: "Branch",
       filterFn: "includesString",
       enableColumnFilter: true,
@@ -138,21 +85,9 @@ export const clientsColumnDefinition = (
       cell: ({ row }) => (
         <div className="flex items-center gap-1 text-xs text-muted-foreground">
           <MapPin className="h-3.5 w-3.5" />
-          <span>{row.getValue("branch")}</span>
+          <span>{row.getValue("branchName")}</span>
         </div>
       ),
-    },
-    {
-      accessorKey: "productType",
-      header: "Product Type",
-      filterFn: productTypeFilterFn,
-      cell: ({ row }) => {
-        const productType = row.getValue(
-          "productType"
-        ) as keyof typeof productTypeConfig;
-        const config = getProductTypeClass(productType);
-        return <Badge className={cn(config.className)}>{productType}</Badge>;
-      },
     },
     {
       accessorKey: "status",
@@ -174,13 +109,13 @@ export const clientsColumnDefinition = (
       },
     },
     {
-      accessorKey: "created_at",
+      accessorKey: "createdAt",
       header: "Created At",
       enableColumnFilter: false,
       enableSorting: true,
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground">
-          {formatDateToReadable(row.getValue("created_at"), true)}
+          {formatDateToReadable(row.getValue("createdAt"), true)}
         </span>
       ),
     },

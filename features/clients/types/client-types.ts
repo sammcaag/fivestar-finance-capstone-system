@@ -118,9 +118,7 @@ export type ClientTableProps = {
   id: string;
   name: string;
   email: string;
-  branch: string;
-  loanAmount: number;
-  productType: "New Client" | "Extension" | "Additional" | "Renewal" | "Reloan";
+  branchName: string;
   status:
     | "active"
     | "pending"
@@ -131,5 +129,4 @@ export type ClientTableProps = {
     | "processed"
     | "released";
   created_at: string;
-  
 };

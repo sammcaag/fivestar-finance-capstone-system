@@ -22,11 +22,13 @@ export function TableFilter<TData extends TableData>({
   inputRef,
   filterColumns = [],
   dashboard = false,
+  dashboardButtonContent,
 }: {
   table: Table<TData>;
   inputRef?: React.RefObject<HTMLInputElement | null>;
   filterColumns?: string[];
   dashboard?: boolean;
+  dashboardButtonContent?: string;
 }) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
@@ -68,11 +70,13 @@ export function TableFilter<TData extends TableData>({
                 asChild
                 className="hover:bg-primary hover:text-white"
               >
-                <Link href="/clients">View All Clients</Link>
+                <Link href="/clients">View All {dashboardButtonContent}</Link>
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>See complete client list</p>
+              <p>
+                See complete {dashboardButtonContent?.toLocaleLowerCase()} list
+              </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
