@@ -14,7 +14,6 @@ import {
   Search,
   UserPlus,
 } from "lucide-react";
-import { clientTableData } from "@/features/clients/data/mock-clients-data";
 import { ClientTableProps } from "@/features/clients/types/client-types";
 import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
 import { useEffect } from "react";
@@ -22,14 +21,12 @@ import { MainTableComp } from "@/components/tables/MainTableComp";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
 import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
 import { mockAppointmentsData } from "@/features/loans/appointments/data/mock-appointments-data";
+import { useQuery } from "@tanstack/react-query";
+import { getClients } from "@/features/clients/api/client-service";
 
 // Filter data for the last 30 days
 const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-const recentClients = clientTableData.filter(
-  (client) => new Date(client.created_at) >= thirtyDaysAgo
-);
 
 const recentAppointments = mockAppointmentsData.filter(
   (appointment) => new Date(appointment.appointmentDate) >= thirtyDaysAgo
@@ -68,6 +65,16 @@ export default function DashboardPage() {
     document.title = "Dashboard | Stella - Five Star Finance Inc.";
   }, []);
 
+  const { data: clientsData, isLoading } = useQuery<ClientTableProps[]>({
+    queryKey: ["clients"],
+    queryFn: getClients,
+  });
+
+  // Compute recentClients safely, always defined as an array
+  const recentClients = (clientsData || []).filter(
+    (client) => new Date(client.createdAt) >= thirtyDaysAgo
+  );
+
   return (
     <ContentLayout title="Dashboard">
       <BreadcrumbPages
@@ -93,6 +100,7 @@ export default function DashboardPage() {
             title="Recent Client & Loan Activities"
             description="A quick overview of your most recent client transactions, loan updates, and payment statuses."
             data={recentClients}
+            isLoading={isLoading}
             columns={clientsColumnDefinition(true)}
             filterColumns={["name", "status"]}
             emptyTitle="No Recent Clients"

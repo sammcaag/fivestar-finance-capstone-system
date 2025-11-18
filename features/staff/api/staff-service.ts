@@ -1,13 +1,13 @@
 // src/features/clients/api/getClients.ts
 import axios from "axios";
-import { ClientTableProps } from "../types/client-types";
 import axiosInstance from "@/lib/axios-instance";
+import { StaffTableProps } from "../types/staff-types";
 
-export const getStaffs = async (): Promise<ClientTableProps[]> => {
+export const getStaffs = async (): Promise<StaffTableProps[]> => {
   try {
     const { data } = await axiosInstance.get<{
       success: boolean;
-      data: ClientTableProps[];
+      data: StaffTableProps[];
     }>("/api/users/staffs");
     return data.data; // <-- return the inner array
   } catch (error) {
