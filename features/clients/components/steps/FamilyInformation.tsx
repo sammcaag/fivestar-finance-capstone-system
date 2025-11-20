@@ -63,7 +63,6 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
             label="Date of Birth"
             type="date"
             placeholder="Select birth date"
-            formItemClassName="min-h-[100px]"
           />
 
           <FormFieldWrapper
@@ -111,7 +110,6 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               label="Birth Date of Child 1"
               type="date"
               placeholder="Select birth date"
-              formItemClassName="min-h-[100px]"
             />
           </div>
 
@@ -132,7 +130,6 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               label="Birth Date of Child 2"
               type="date"
               placeholder="Select birth date"
-              formItemClassName="min-h-[100px]"
             />
           </div>
         </div>

@@ -58,8 +58,8 @@ export const clientFamilyInfoSchema = z.object({
 export const pensionerInfoSchema = z.object({
   rank: z.string().min(1, "Rank is required"),
   pensionType: z.string().min(1, "Pension type is required"),
-  serialNumber: z.number().min(0, "Serial number must be greater than 0"),
-  idNumber: z.number().min(1, "ID number is required"),
+  serialNumber: z.string().min(1, "Serial Number is required"),
+  idNumber: z.string().min(1, "ID Number is required"),
   dateEnteredService: z.date().refine((date) => date < today, {
     message: "Date entered service must not be the current date",
   }),
@@ -69,19 +69,17 @@ export const pensionerInfoSchema = z.object({
   dateRetiredService: z.date().refine((date) => date < today, {
     message: "Date retired service must not be the current date",
   }),
-  lengthOfService: z
-    .number()
-    .min(1, "Length of service must be greater than 0"),
+  lengthOfService: z.string().min(1, "Length of service is required"),
   lastUnitAssigned: z.string().optional(),
   branchOfService: z.string().optional(),
 });
 
 // Step 4: Account's Information Schema
 export const accountInfoSchema = z.object({
-  accountNumber: z.number().min(1, "Account number is required"),
+  accountNumber: z.string().min(1, "Account number is required"),
   monthlyPension: z.number().min(1, "Monthly pension is required"),
   monthlyDeduction: z.number().min(1, "Monthly deduction is required"),
-  atmAccountNumber: z.number().min(1, "ATM account number is required"),
+  atmAccountNumber: z.string().min(1, "Atm account number is required"),
   bankName: z.string().min(1, "Bank name is required"),
   branchOfBank: z.string().min(1, "Branch of bank is required"),
 });

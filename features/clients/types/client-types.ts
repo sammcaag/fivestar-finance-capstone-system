@@ -46,20 +46,20 @@ export interface ClientFormValues {
   // Pensioner's Information
   rank: string;
   pensionType: string;
-  serialNumber: number;
-  idNumber: number;
+  serialNumber: string;
+  idNumber: string;
   dateEnteredService: Date;
   dateSeparationService: Date;
   dateRetiredService: Date;
-  lengthOfService: number;
+  lengthOfService: string;
   lastUnitAssigned?: string;
   branchOfService?: string;
 
   // Account's Information
-  accountNumber: number;
+  accountNumber: string;
   monthlyPension: number;
   monthlyDeduction: number;
-  atmAccountNumber: number;
+  atmAccountNumber: string;
   bankName: string;
   branchOfBank: string;
 }
@@ -96,10 +96,10 @@ export interface ClientHistoryRecord {
 
 export const suffixOptions = [
   // { label: "None", value: "" },
-  { label: "Jr.", value: "Jr." },
-  { label: "Sr.", value: "Sr." },
-  { label: "Nr.", value: "Nr." },
-  { label: "Jd.", value: "Jd." },
+  { label: "Jr.", value: "Jr" },
+  { label: "Sr.", value: "Sr" },
+  { label: "Nr.", value: "Nr" },
+  { label: "Jd.", value: "Jd" },
   { label: "I", value: "I" },
   { label: "II", value: "II" },
   { label: "III", value: "III" },
@@ -112,6 +112,45 @@ export const civilStatusOptions = [
   { label: "Divorced", value: "divorced" },
   { label: "Widowed", value: "widowed" },
   { label: "Separated", value: "separated" },
+];
+
+export const rankOptions = [
+  { label: "CPL", value: "CPL" },
+  { label: "SGT", value: "SGT" },
+  { label: "SSG", value: "SSG" },
+  { label: "SSGT", value: "SSGT" },
+  { label: "MSGT", value: "MSGT" },
+  { label: "MSG", value: "MSG" },
+  { label: "WO1", value: "WO1" },
+  { label: "1LT", value: "1LT" },
+  { label: "2LT", value: "2LT" },
+  { label: "CPT", value: "CPT" },
+  { label: "MAJ", value: "MAJ" },
+  { label: "LTC", value: "LTC" },
+  { label: "COL", value: "COL" },
+  { label: "BG", value: "BG" },
+  { label: "MG", value: "MG" },
+  { label: "LTG", value: "LTG" },
+  { label: "GEN", value: "GEN" },
+  { label: "PO1", value: "PO1" },
+  { label: "PO2", value: "PO2" },
+  { label: "PO3", value: "PO3" },
+  { label: "CPO", value: "CPO" },
+  { label: "ENS", value: "ENS" },
+  { label: "PVT", value: "PVT" },
+  { label: "PFC", value: "PFC" },
+  { label: "LTCOL", value: "LTCOL" },
+  { label: "E-W", value: "EW" },
+];
+
+export const pensionTypeOptions = [
+  { label: "COMPULSORY", value: "COMPULSORY" },
+  { label: "OPTIONAL", value: "OPTIONAL" },
+  { label: "CDD", value: "CDD" },
+  { label: "1044", value: "1044" },
+  { label: "GUARDIAN", value: "GUARDIAN" },
+  { label: "ALLOTEE", value: "ALLOTEE" },
+  { label: "WIDOW", value: "WIDOW" },
 ];
 
 export type ClientTableProps = {
