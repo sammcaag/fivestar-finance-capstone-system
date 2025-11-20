@@ -124,7 +124,7 @@ export function FormFieldWrapper<T extends FieldValues>(
                 onValueChange={field.onChange}
                 value={field.value as string}
               >
-                <SelectTrigger className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200">
+                <SelectTrigger className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200">
                   <SelectValue placeholder={props.placeholder} />
                 </SelectTrigger>
                 <SelectContent>

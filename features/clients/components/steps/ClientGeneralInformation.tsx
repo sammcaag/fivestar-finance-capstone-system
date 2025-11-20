@@ -13,9 +13,14 @@ import {
   type ClientGeneralInformationProps,
 } from "@/features/clients/types/client-types";
 import useClientAnimation from "../../hooks/use-client-animation";
+import { useEffect } from "react";
 
 const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
   const { containerVariants, itemVariants } = useClientAnimation();
+
+  useEffect(() => {
+    console.log("FORM VALUES ARE:", form.getValues());
+  });
 
   return (
     <motion.div

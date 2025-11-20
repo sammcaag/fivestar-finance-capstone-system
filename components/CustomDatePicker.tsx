@@ -218,7 +218,7 @@ export default function CustomDatePicker({
             "w-full justify-start text-left font-normal rounded-md",
             "border-0 bg-background hover:bg-accent/50 focus:bg-accent/50",
             "shadow-sm hover:shadow-md transition-all duration-200",
-            "text-foreground",
+            "text-foreground max-h-[80px]",
             !date && "text-muted-foreground",
             !editable && "pointer-events-none opacity-60"
           )}
