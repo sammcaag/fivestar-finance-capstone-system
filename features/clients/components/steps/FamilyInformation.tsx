@@ -153,7 +153,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
                     {...field}
                     defaultCountry="PH"
                     placeholder="+63 912 345 6789"
-                    // disableCountrySelect={true}
+                    disabled
                     className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200"
                     value={
                       parsePhoneNumberFromString(

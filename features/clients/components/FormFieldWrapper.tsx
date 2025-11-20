@@ -19,9 +19,13 @@ import {
 } from "@/components/ui/select";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import CustomDatePicker from "@/components/CustomDatePicker";
+import { PhoneInput } from "@/components/ui/phone-input";
+import { getYear } from "date-fns";
+import { normalizeDate } from "../utils/safe-date-normalizer";
 
-// Discriminated union — fully type-safe
-// type FieldType = "input" | "select" | "custom";
+// Full discriminated union
+// type FieldType = "input" | "select" | "date" | "phone" | "custom";
 
 interface BaseProps<T extends FieldValues> {
   name: FieldPath<T>;
@@ -31,7 +35,7 @@ interface BaseProps<T extends FieldValues> {
   formItemClassName?: string;
 }
 
-// Input field with optional left icon
+// Input with optional icon
 interface InputFieldProps<T extends FieldValues> extends BaseProps<T> {
   type: "input";
   placeholder?: string;
@@ -40,14 +44,26 @@ interface InputFieldProps<T extends FieldValues> extends BaseProps<T> {
   iconClassName?: string;
 }
 
-// Select field
+// Select
 interface SelectFieldProps<T extends FieldValues> extends BaseProps<T> {
   type: "select";
   options: { value: string; label: string }[];
   placeholder?: string;
 }
 
-// Custom field (DatePicker, PhoneInput, etc.)
+// Date field (auto-handled)
+interface DateFieldProps<T extends FieldValues> extends BaseProps<T> {
+  type: "date";
+  placeholder?: string;
+}
+
+// Phone field (auto-handled)
+interface PhoneFieldProps<T extends FieldValues> extends BaseProps<T> {
+  type: "phone";
+  disabled?: boolean;
+}
+
+// Custom fallback
 interface CustomFieldProps<T extends FieldValues> extends BaseProps<T> {
   type: "custom";
   children: (field: {
@@ -59,6 +75,8 @@ interface CustomFieldProps<T extends FieldValues> extends BaseProps<T> {
 type FormFieldWrapperProps<T extends FieldValues> =
   | InputFieldProps<T>
   | SelectFieldProps<T>
+  | DateFieldProps<T>
+  | PhoneFieldProps<T>
   | CustomFieldProps<T>;
 
 export function FormFieldWrapper<T extends FieldValues>(
@@ -106,7 +124,7 @@ export function FormFieldWrapper<T extends FieldValues>(
                 onValueChange={field.onChange}
                 value={field.value as string}
               >
-                <SelectTrigger className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200">
+                <SelectTrigger className="rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200">
                   <SelectValue placeholder={props.placeholder} />
                 </SelectTrigger>
                 <SelectContent>
@@ -117,8 +135,28 @@ export function FormFieldWrapper<T extends FieldValues>(
                   ))}
                 </SelectContent>
               </Select>
+            ) : props.type === "date" ? (
+              <div onClick={(e) => e.stopPropagation()}>
+                <CustomDatePicker
+                  date={normalizeDate(field.value)}
+                  setDate={field.onChange}
+                  endYear={getYear(new Date())}
+                  isFutureDatesUnselectable={true}
+                  customDateFormat="MMMM d, yyyy"
+                  placeholder={props.placeholder || "Select date"}
+                />
+              </div>
+            ) : props.type === "phone" ? (
+              <PhoneInput
+                value={typeof field.value === "string" ? field.value : ""}
+                onChange={field.onChange}
+                defaultCountry="PH"
+                placeholder="+63 912 345 6789"
+                disabled={props.disabled}
+                className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200"
+              />
             ) : (
-              // Custom field — pass field value & onChange directly
+              // custom
               <>{props.children(field)}</>
             )}
           </FormControl>
