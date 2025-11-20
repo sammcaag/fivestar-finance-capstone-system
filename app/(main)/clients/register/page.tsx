@@ -14,6 +14,7 @@ import FamilyInformation from "@/features/clients/components/steps/FamilyInforma
 import PensionersInformation from "@/features/clients/components/steps/PensionersInformation";
 import AccountsInformation from "@/features/clients/components/steps/AccountsInformation";
 import { steps } from "@/features/clients/lib/client-registration-form";
+import { DraftDialog } from "@/features/clients/components/DraftDialog";
 
 export default function RegisterClient() {
   useEffect(() => {
@@ -24,14 +25,17 @@ export default function RegisterClient() {
     form,
     currentStep,
     prev,
-    nextButton,
+    next,
     formModified,
     hasDraft,
     loadSavedDraft,
     deleteSavedDraft,
     handleSaveDraft,
     clearForm,
-    processForm: formProcessor,
+    processForm,
+    dialogMessage,
+    dialogVisible,
+    setDialogVisible,
   } = useClientRegistrationForm();
 
   const slideVariants = {
@@ -68,7 +72,7 @@ export default function RegisterClient() {
 
         <div className="bg-background rounded-lg shadow-lg border mt-10">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(formProcessor)} className="p-6">
+            <form onSubmit={form.handleSubmit(processForm)} className="p-6">
               <div className="relative overflow-hidden">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -89,10 +93,10 @@ export default function RegisterClient() {
                 totalSteps={steps.length}
                 formModified={formModified}
                 hasDraft={hasDraft}
-                isSubmitting={false} // or pass from hook if you track it
+                isSubmitting={false}
                 onPrevious={prev}
-                onNext={() => nextButton?.props?.onClick?.()}
-                onSubmit={() => void form.handleSubmit(formProcessor)()}
+                onNext={next}
+                onSubmit={() => void form.handleSubmit(processForm)()}
                 onSaveDraft={handleSaveDraft}
                 onLoadDraft={loadSavedDraft}
                 onDeleteDraft={deleteSavedDraft}
@@ -101,6 +105,13 @@ export default function RegisterClient() {
             </form>
           </Form>
         </div>
+
+        {/* Dialog for draft actions */}
+        <DraftDialog
+          message={dialogMessage}
+          visible={dialogVisible}
+          onClose={() => setDialogVisible(false)}
+        />
       </motion.div>
     </ContentLayout>
   );

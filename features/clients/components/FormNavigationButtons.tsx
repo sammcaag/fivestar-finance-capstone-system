@@ -44,9 +44,9 @@ export function FormNavigationButtons({
 }: FormNavigationButtonsProps) {
   const buttonStyles = {
     primary:
-      "min-w-24 flex items-center gap-2 rounded-md bg-primary text-primary-foreground shadow-sm hover:shadow-md hover:bg-primary/90 transition-all duration-200",
+      "min-w-24 flex items-center gap-2 rounded-md bg-primary text-primary-foreground shadow-sm hover:shadow-md hover:bg-primary/90 transition-all duration-200 cursor-pointer",
     outline:
-      "group flex items-center gap-1 rounded-md border border-border shadow-sm hover:shadow-md hover:bg-accent hover:text-accent-foreground transition-all duration-200",
+      "group flex items-center gap-1 rounded-md border border-border shadow-sm hover:shadow-md hover:bg-accent hover:text-accent-foreground transition-all duration-200 cursor-pointer",
     disabled: "opacity-50 cursor-not-allowed",
   };
 
