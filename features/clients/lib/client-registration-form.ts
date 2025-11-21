@@ -132,6 +132,7 @@ export const defaultValues = {
   spouseLastName: "",
   spouseDateOfBirth: new Date(),
   spouseContactNumber: "",
+  spouseAddressSameAsClient: false,
   spouseAddressLine1: "",
   spouseAddressLine2: "",
   spouseBarangay: "",
@@ -142,6 +143,8 @@ export const defaultValues = {
 
   firstChildName: "",
   firstChildDateOfBirth: new Date(),
+  firstChildAddressSameAsClient: false,
+  firstChildAddressSameAsSpouse: false,
   firstChildAddressLine1: "",
   firstChildAddressLine2: "",
   firstChildBarangay: "",
@@ -152,6 +155,8 @@ export const defaultValues = {
 
   secondChildName: "",
   secondChildDateOfBirth: new Date(),
+  secondChildAddressSameAsClient: false,
+  secondChildAddressSameAsSpouse: false,
   secondChildAddressLine1: "",
   secondChildAddressLine2: "",
   secondChildBarangay: "",
@@ -162,6 +167,8 @@ export const defaultValues = {
 
   thirdChildName: "",
   thirdChildDateOfBirth: new Date(),
+  thirdChildAddressSameAsClient: false,
+  thirdChildAddressSameAsSpouse: false,
   thirdChildAddressLine1: "",
   thirdChildAddressLine2: "",
   thirdChildBarangay: "",

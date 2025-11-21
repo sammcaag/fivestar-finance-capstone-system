@@ -54,6 +54,7 @@ export const clientFamilyInfoSchema = z.object({
   spouseLastName: z.string().optional(),
   spouseDateOfBirth: z.date().optional(),
 
+  spouseAddressSameAsClient: z.boolean().optional(),
   spouseAddressLine1: z.string().optional(),
   spouseAddressLine2: z.string().optional(),
   spouseBarangay: z.string().optional(),
@@ -73,6 +74,8 @@ export const clientFamilyInfoSchema = z.object({
   // First child
   firstChildName: z.string().optional(),
   firstChildDateOfBirth: z.date().optional(),
+  firstChildAddressSameAsClient: z.boolean().optional(),
+  firstChildAddressSameAsSpouse: z.boolean().optional(),
   firstChildAddressLine1: z.string().optional(),
   firstChildAddressLine2: z.string().optional(),
   firstChildBarangay: z.string().optional(),
@@ -84,6 +87,8 @@ export const clientFamilyInfoSchema = z.object({
   // Second child
   secondChildName: z.string().optional(),
   secondChildDateOfBirth: z.date().optional(),
+  secondChildAddressSameAsClient: z.boolean().optional(),
+  secondChildAddressSameAsSpouse: z.boolean().optional(),
   secondChildAddressLine1: z.string().optional(),
   secondChildAddressLine2: z.string().optional(),
   secondChildBarangay: z.string().optional(),
@@ -95,6 +100,8 @@ export const clientFamilyInfoSchema = z.object({
   // Third child
   thirdChildName: z.string().optional(),
   thirdChildDateOfBirth: z.date().optional(),
+  thirdChildAddressSameAsClient: z.boolean().optional(),
+  thirdChildAddressSameAsSpouse: z.boolean().optional(),
   thirdChildAddressLine1: z.string().optional(),
   thirdChildAddressLine2: z.string().optional(),
   thirdChildBarangay: z.string().optional(),
@@ -150,11 +157,10 @@ const baseSchema = clientGeneralInfoSchema
 // Attach superRefine on the combined schema (single place for conditional rules)
 // -----------------------------
 export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
-  // Helper to check "has text" for string optional values
   const hasText = (v: unknown): v is string =>
     typeof v === "string" && v.trim().length > 0;
 
-  // -------- spouse: if any name part exists, require spouse address fields ----------
+  // -------- spouse ----------
   const spouseNamePresent =
     hasText(data.spouseFirstName) ||
     hasText(data.spouseMiddleName) ||
@@ -175,7 +181,8 @@ export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
         val === undefined ||
         val === null ||
         (typeof val === "string" && val.trim() === "") ||
-        (typeof val === "number" && Number.isNaN(val));
+        (typeof val === "number" &&
+          (Number.isNaN(val) || (field === "spouseZipCode" && val <= 0)));
 
       if (missing) {
         ctx.addIssue({
@@ -202,7 +209,7 @@ export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
     });
   }
 
-  // -------- children: require address fields when corresponding child name exists ----------
+  // -------- children ----------
   const childRules: Array<{
     nameKey: keyof typeof data;
     addressKeys: Array<keyof typeof data>;
@@ -252,7 +259,9 @@ export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
           val === undefined ||
           val === null ||
           (typeof val === "string" && val.trim() === "") ||
-          (typeof val === "number" && Number.isNaN(val));
+          (typeof val === "number" &&
+            (Number.isNaN(val) ||
+              (field.toString().includes("ZipCode") && val <= 0)));
 
         if (missing) {
           ctx.addIssue({

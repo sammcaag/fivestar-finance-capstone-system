@@ -41,6 +41,7 @@ export interface ClientFormValues {
   spouseMiddleName?: string;
   spouseLastName?: string;
   spouseDateOfBirth?: Date;
+  spouseAddressSameAsClient?: boolean;
   spouseAddressLine1?: string;
   spouseAddressLine2?: string;
   spouseBarangay?: string;
@@ -52,6 +53,8 @@ export interface ClientFormValues {
   // Children Information
   firstChildName?: string;
   firstChildDateOfBirth?: Date;
+  firstChildAddressSameAsClient?: boolean;
+  firstChildAddressSameAsSpouse?: boolean;
   firstChildAddressLine1?: string;
   firstChildAddressLine2?: string;
   firstChildBarangay?: string;
@@ -62,6 +65,8 @@ export interface ClientFormValues {
 
   secondChildName?: string;
   secondChildDateOfBirth?: Date;
+  secondChildAddressSameAsClient?: boolean;
+  secondChildAddressSameAsSpouse?: boolean;
   secondChildAddressLine1?: string;
   secondChildAddressLine2?: string;
   secondChildBarangay?: string;
@@ -72,6 +77,8 @@ export interface ClientFormValues {
 
   thirdChildName?: string;
   thirdChildDateOfBirth?: Date;
+  thirdChildAddressSameAsClient?: boolean;
+  thirdChildAddressSameAsSpouse?: boolean;
   thirdChildAddressLine1?: string;
   thirdChildAddressLine2?: string;
   thirdChildBarangay?: string;

@@ -10,9 +10,9 @@ import { loadDraft, saveDraft } from "../utils/draft-computation-storage";
 import {
   defaultValues,
   formDates,
-  optionalFormDates,
   steps,
 } from "../lib/client-registration-form";
+import { clientPayload } from "../lib/client-payload";
 
 export function useClientRegistrationForm() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -112,22 +112,8 @@ export function useClientRegistrationForm() {
 
   // Process form
   const processForm = (data: ClientFormValues) => {
-    const cleanedData = { ...data };
-    optionalFormDates.forEach((dateField) => {
-      const dateValue = cleanedData[dateField as keyof ClientFormValues];
-      if (dateValue instanceof Date) {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        const dateToCompare = new Date(dateValue);
-        dateToCompare.setHours(0, 0, 0, 0);
-
-        if (dateToCompare.getTime() === today.getTime()) {
-          cleanedData[dateField] = "";
-        }
-      }
-    });
-    console.log(JSON.stringify(cleanedData, null, 2));
+    const backendPayload = clientPayload(data);
+    console.log(JSON.stringify(backendPayload, null, 2));
     showDialog("Form submitted successfully!");
   };
 

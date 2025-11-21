@@ -1,17 +1,22 @@
-import { Map, User, Users } from "lucide-react";
-import { FormFieldWrapper } from "./FormFieldWrapper";
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { Map, User, Users } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { ClientFormValues, regionOptions } from "../types/client-types";
+import { FormFieldWrapper } from "./FormFieldWrapper";
+
+type PrefixType = "spouse" | "firstChild" | "secondChild" | "thirdChild";
 
 export const AddressFields = ({
   form,
   prefix,
 }: {
   form: UseFormReturn<ClientFormValues>;
-  prefix: "spouse" | "firstChild" | "secondChild" | "thirdChild";
+  prefix: PrefixType;
 }) => {
-  // Client's address (from previous step)
+  // Track if address was copied
+  const copiedAddressRef = useRef(false);
+
   const clientAddress = {
     addressLine1: form.getValues("addressLine1") ?? "",
     addressLine2: form.getValues("addressLine2") ?? "",
@@ -19,12 +24,12 @@ export const AddressFields = ({
     cityOrMunicipality: form.getValues("cityOrMunicipality") ?? "",
     province: form.getValues("province") ?? "",
     region: form.getValues("region") ?? "",
-    zipCode: Number(form.getValues("zipCode") ?? 0),
+    zipCode: form.getValues("zipCode") ?? 0,
   };
 
   const copyAddress = (
     fields: Record<string, string | number>,
-    prefix: "spouse" | "firstChild" | "secondChild" | "thirdChild"
+    prefix: PrefixType
   ) => {
     const mapping = {
       addressLine1: `${prefix}AddressLine1`,
@@ -44,6 +49,19 @@ export const AddressFields = ({
     });
   };
 
+  // Copy client address
+  const copyClientAddress = () => {
+    copyAddress(clientAddress, prefix);
+    copiedAddressRef.current = true;
+
+    if (prefix === "spouse") form.setValue("spouseAddressSameAsClient", true);
+    else {
+      form.setValue(`${prefix}AddressSameAsClient`, true);
+      form.setValue(`${prefix}AddressSameAsSpouse`, false);
+    }
+  };
+
+  // Copy spouse address to child
   const copySpouseToChild = (
     childPrefix: "firstChild" | "secondChild" | "thirdChild"
   ) => {
@@ -55,11 +73,38 @@ export const AddressFields = ({
         cityOrMunicipality: form.getValues("spouseCityOrMunicipality") ?? "",
         province: form.getValues("spouseProvince") ?? "",
         region: form.getValues("spouseRegion") ?? "",
-        zipCode: Number(form.getValues("spouseZipCode") ?? 0),
+        zipCode: form.getValues("spouseZipCode") ?? 0,
       },
       childPrefix
     );
+    copiedAddressRef.current = true;
+
+    if (form.getValues("spouseAddressSameAsClient") === true) {
+      form.setValue(`${childPrefix}AddressSameAsClient`, true);
+      form.setValue(`${childPrefix}AddressSameAsSpouse`, false);
+    } else {
+      form.setValue(`${childPrefix}AddressSameAsClient`, false);
+      form.setValue(`${childPrefix}AddressSameAsSpouse`, true);
+    }
   };
+
+  // Detect manual typing
+  const handleManualEdit = () => {
+    copiedAddressRef.current = false; // user is typing manually
+
+    if (prefix === "spouse") form.setValue("spouseAddressSameAsClient", false);
+    else {
+      form.setValue(`${prefix}AddressSameAsClient`, false);
+      form.setValue(`${prefix}AddressSameAsSpouse`, false);
+    }
+  };
+
+  // Determine if Clear Address button should be visible
+  const showClearButton =
+    prefix === "spouse"
+      ? form.getValues("spouseAddressSameAsClient")
+      : form.getValues(`${prefix}AddressSameAsClient`) ||
+        form.getValues(`${prefix}AddressSameAsSpouse`);
 
   return (
     <>
@@ -77,7 +122,7 @@ export const AddressFields = ({
             type="button"
             variant="outline"
             className="text-sm"
-            onClick={() => copyAddress(clientAddress, prefix)}
+            onClick={copyClientAddress}
           >
             <User className="w-4 h-4 mr-1" />
             Same Address as Client
@@ -98,8 +143,41 @@ export const AddressFields = ({
               Same Address as Spouse
             </Button>
           )}
+
+          {showClearButton && (
+            <Button
+              type="button"
+              variant="destructive"
+              className="text-sm"
+              onClick={() => {
+                copyAddress(
+                  {
+                    addressLine1: "",
+                    addressLine2: "",
+                    barangay: "",
+                    cityOrMunicipality: "",
+                    province: "",
+                    region: "",
+                    zipCode: 0,
+                  },
+                  prefix
+                );
+                if (prefix === "spouse")
+                  form.setValue("spouseAddressSameAsClient", false);
+                else {
+                  form.setValue(`${prefix}AddressSameAsClient`, false);
+                  form.setValue(`${prefix}AddressSameAsSpouse`, false);
+                }
+                copiedAddressRef.current = false; // allow typing after clear
+              }}
+            >
+              Clear Address
+            </Button>
+          )}
         </div>
       </div>
+
+      {/* Address Fields */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <FormFieldWrapper
           name={`${prefix}AddressLine1`}
@@ -107,6 +185,7 @@ export const AddressFields = ({
           label="Address Line 1"
           type="input"
           placeholder="Door 203, De Leon Plaza Bldg"
+          customFunctionOnChange={handleManualEdit}
         />
         <FormFieldWrapper
           name={`${prefix}AddressLine2`}
@@ -114,6 +193,7 @@ export const AddressFields = ({
           label="Address Line 2"
           type="input"
           placeholder="Yacapin Velez St."
+          customFunctionOnChange={handleManualEdit}
         />
         <FormFieldWrapper
           name={`${prefix}Barangay`}
@@ -121,6 +201,7 @@ export const AddressFields = ({
           label="Barangay"
           type="input"
           placeholder="Macabalan"
+          customFunctionOnChange={handleManualEdit}
         />
         <FormFieldWrapper
           name={`${prefix}CityOrMunicipality`}
@@ -128,6 +209,7 @@ export const AddressFields = ({
           label="City or Municipality"
           type="input"
           placeholder="Cagayan De Oro City"
+          customFunctionOnChange={handleManualEdit}
         />
       </div>
 
@@ -138,6 +220,7 @@ export const AddressFields = ({
           label="Province"
           type="input"
           placeholder="Misamis Oriental"
+          customFunctionOnChange={handleManualEdit}
         />
         <FormFieldWrapper
           name={`${prefix}Region`}
@@ -146,6 +229,7 @@ export const AddressFields = ({
           type="select"
           placeholder="Region X"
           options={regionOptions}
+          customFunctionOnChange={handleManualEdit}
         />
         <FormFieldWrapper
           name={`${prefix}ZipCode`}
@@ -154,6 +238,7 @@ export const AddressFields = ({
           type="input"
           placeholder="9000"
           asNumber
+          customFunctionOnChange={handleManualEdit}
         />
       </div>
     </>

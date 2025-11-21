@@ -44,6 +44,7 @@ interface BaseProps<T extends FieldValues> extends CustomOnChangeProps<T> {
   label: string;
   required?: boolean;
   formItemClassName?: string;
+  customFunctionOnChange?: () => void;
 }
 
 // Input — now with asNumber
@@ -166,6 +167,7 @@ export function FormFieldWrapper<T extends FieldValues>(
                         : field.value ?? ""
                     }
                     onChange={(e) => {
+                      props.customFunctionOnChange?.();
                       const rawValue = e.target.value;
                       const maxAllowed = props.maxNumber ?? 1_000_000;
 
