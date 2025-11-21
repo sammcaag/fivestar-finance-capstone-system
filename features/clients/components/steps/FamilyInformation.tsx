@@ -1,17 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { User, Users } from "lucide-react";
+import { User } from "lucide-react";
 
 import { StepTitleCard } from "../StepTitleCard";
 import { SectionCard } from "../SectionCard";
 import { FormFieldWrapper } from "../FormFieldWrapper";
-
-import {
-  regionOptions,
-  type ClientFamilyInformationProps,
-} from "../../types/client-types";
+import { type ClientFamilyInformationProps } from "../../types/client-types";
 import useClientAnimation from "../../hooks/use-client-animation";
+import { AddressFields } from "../AddressFormFields";
 
 const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
   const { containerVariants, itemVariants } = useClientAnimation();
@@ -21,7 +18,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="space-y-6"
+      className="space-y-8"
     >
       <StepTitleCard
         variants={itemVariants}
@@ -29,7 +26,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
         description="Please provide details about client's spouse and children."
       />
 
-      {/* Spouse Information */}
+      {/* Spouse */}
       <SectionCard
         variants={itemVariants}
         icon={User}
@@ -65,9 +62,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
             control={form.control}
             label="Date of Birth"
             type="date"
-            placeholder="Select birth date"
           />
-
           <FormFieldWrapper
             name="spouseContactNumber"
             control={form.control}
@@ -77,339 +72,82 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <FormFieldWrapper
-            name="spouseAddressLine1"
-            control={form.control}
-            label="Address Line 1"
-            type="input"
-            placeholder="Door 203, De Leon Plaza Bldg"
-          />
-
-          <FormFieldWrapper
-            name="spouseAddressLine2"
-            control={form.control}
-            label="Address Line 2"
-            type="input"
-            placeholder="Yacapin Velez St."
-          />
-
-          <FormFieldWrapper
-            name="spouseBarangay"
-            control={form.control}
-            label="Barangay"
-            type="input"
-            placeholder="Macabalan"
-          />
-
-          <FormFieldWrapper
-            name="spouseCityOrMunicipality"
-            control={form.control}
-            label="City or Municipality"
-            type="input"
-            placeholder="Cagayan De Oro City"
-          />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          <FormFieldWrapper
-            name="spouseProvince"
-            control={form.control}
-            label="Province"
-            type="input"
-            placeholder="Misamis Oriental"
-          />
-
-          <FormFieldWrapper
-            name="spouseRegion"
-            control={form.control}
-            label="Region"
-            type="select"
-            placeholder="Region X"
-            options={regionOptions}
-          />
-
-          <FormFieldWrapper
-            name="spouseZipCode"
-            control={form.control}
-            label="zipCode"
-            type="input"
-            placeholder="9000"
-            asNumber
-          />
-        </div>
+        <AddressFields form={form} prefix="spouse" />
       </SectionCard>
 
-      {/* Children Information */}
+      {/* First Child */}
       <SectionCard
         variants={itemVariants}
-        icon={Users}
-        title="Child 1 Information"
+        icon={User}
+        title="First Child Information"
       >
-        <div className="space-y-6">
-          {/* Child 1 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormFieldWrapper
-              name="firstChildName"
-              control={form.control}
-              label="Name of Child 1"
-              type="input"
-              placeholder="Rey Daug Jr."
-              leftIcon={User}
-            />
-
-            <FormFieldWrapper
-              name="firstChildDateOfBirth"
-              control={form.control}
-              label="Birth Date of Child 1"
-              type="date"
-              placeholder="Select birth date"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            <FormFieldWrapper
-              name="firstChildAddressLine1"
-              control={form.control}
-              label="Address Line 1"
-              type="input"
-              placeholder="Door 203, De Leon Plaza Bldg"
-            />
-
-            <FormFieldWrapper
-              name="firstChildAddressLine2"
-              control={form.control}
-              label="Address Line 2"
-              type="input"
-              placeholder="Yacapin Velez St."
-            />
-
-            <FormFieldWrapper
-              name="firstChildBarangay"
-              control={form.control}
-              label="Barangay"
-              type="input"
-              placeholder="Macabalan"
-            />
-
-            <FormFieldWrapper
-              name="firstChildCityOrMunicipality"
-              control={form.control}
-              label="City or Municipality"
-              type="input"
-              placeholder="Cagayan De Oro City"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-            <FormFieldWrapper
-              name="firstChildProvince"
-              control={form.control}
-              label="Province"
-              type="input"
-              placeholder="Misamis Oriental"
-            />
-
-            <FormFieldWrapper
-              name="firstChildRegion"
-              control={form.control}
-              label="Region"
-              type="select"
-              placeholder="Region X"
-              options={regionOptions}
-            />
-
-            <FormFieldWrapper
-              name="firstChildZipCode"
-              control={form.control}
-              label="zipCode"
-              type="input"
-              placeholder="9000"
-              asNumber
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormFieldWrapper
+            name="firstChildName"
+            control={form.control}
+            label="Name of First Child"
+            type="input"
+            placeholder="Rey Daug Jr."
+            leftIcon={User}
+          />
+          <FormFieldWrapper
+            name="firstChildDateOfBirth"
+            control={form.control}
+            label="Birth Date"
+            type="date"
+          />
         </div>
+        <AddressFields form={form} prefix="firstChild" />
       </SectionCard>
 
+      {/* Second Child */}
       <SectionCard
         variants={itemVariants}
-        icon={Users}
-        title="Child 2 Information"
+        icon={User}
+        title="Second Child Information"
       >
-        <div className="space-y-6">
-          {/* Child 2 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormFieldWrapper
-              name="secondChildName"
-              control={form.control}
-              label="Name of Child 2"
-              type="input"
-              placeholder="Samm Caagbay"
-              leftIcon={User}
-            />
-
-            <FormFieldWrapper
-              name="secondChildDateOfBirth"
-              control={form.control}
-              label="Birth Date of Child 2"
-              type="date"
-              placeholder="Select birth date"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            <FormFieldWrapper
-              name="secondChildAddressLine1"
-              control={form.control}
-              label="Address Line 1"
-              type="input"
-              placeholder="Door 203, De Leon Plaza Bldg"
-            />
-
-            <FormFieldWrapper
-              name="secondChildAddressLine2"
-              control={form.control}
-              label="Address Line 2"
-              type="input"
-              placeholder="Yacapin Velez St."
-            />
-
-            <FormFieldWrapper
-              name="secondChildBarangay"
-              control={form.control}
-              label="Barangay"
-              type="input"
-              placeholder="Macabalan"
-            />
-
-            <FormFieldWrapper
-              name="secondChildCityOrMunicipality"
-              control={form.control}
-              label="City or Municipality"
-              type="input"
-              placeholder="Cagayan De Oro City"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-            <FormFieldWrapper
-              name="secondChildProvince"
-              control={form.control}
-              label="Province"
-              type="input"
-              placeholder="Misamis Oriental"
-            />
-
-            <FormFieldWrapper
-              name="secondChildRegion"
-              control={form.control}
-              label="Region"
-              type="select"
-              placeholder="Region X"
-              options={regionOptions}
-            />
-
-            <FormFieldWrapper
-              name="secondChildZipCode"
-              control={form.control}
-              label="zipCode"
-              type="input"
-              placeholder="9000"
-              asNumber
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormFieldWrapper
+            name="secondChildName"
+            control={form.control}
+            label="Name of Second Child"
+            type="input"
+            placeholder="Samm Caagbay"
+            leftIcon={User}
+          />
+          <FormFieldWrapper
+            name="secondChildDateOfBirth"
+            control={form.control}
+            label="Birth Date"
+            type="date"
+          />
         </div>
+        <AddressFields form={form} prefix="secondChild" />
       </SectionCard>
 
-      {/* Child Information */}
+      {/* Third Child */}
       <SectionCard
         variants={itemVariants}
-        icon={Users}
-        title="Child 3 Information"
+        icon={User}
+        title="Third Child Information"
       >
-        <div className="space-y-6">
-          {/* Child 3 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormFieldWrapper
-              name="thirdChildName"
-              control={form.control}
-              label="Name of Child 3"
-              type="input"
-              placeholder="Rey Lagumbay"
-              leftIcon={User}
-            />
-
-            <FormFieldWrapper
-              name="thirdChildDateOfBirth"
-              control={form.control}
-              label="Birth Date of Child 3"
-              type="date"
-              placeholder="Select birth date"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            <FormFieldWrapper
-              name="thirdChildAddressLine1"
-              control={form.control}
-              label="Address Line 1"
-              type="input"
-              placeholder="Door 203, De Leon Plaza Bldg"
-            />
-
-            <FormFieldWrapper
-              name="thirdChildAddressLine2"
-              control={form.control}
-              label="Address Line 2"
-              type="input"
-              placeholder="Yacapin Velez St."
-            />
-
-            <FormFieldWrapper
-              name="thirdChildBarangay"
-              control={form.control}
-              label="Barangay"
-              type="input"
-              placeholder="Macabalan"
-            />
-
-            <FormFieldWrapper
-              name="thirdChildCityOrMunicipality"
-              control={form.control}
-              label="City or Municipality"
-              type="input"
-              placeholder="Cagayan De Oro City"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-            <FormFieldWrapper
-              name="thirdChildProvince"
-              control={form.control}
-              label="Province"
-              type="input"
-              placeholder="Misamis Oriental"
-            />
-
-            <FormFieldWrapper
-              name="thirdChildRegion"
-              control={form.control}
-              label="Region"
-              type="select"
-              placeholder="Region X"
-              options={regionOptions}
-            />
-
-            <FormFieldWrapper
-              name="thirdChildZipCode"
-              control={form.control}
-              label="zipCode"
-              type="input"
-              placeholder="9000"
-              asNumber
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormFieldWrapper
+            name="thirdChildName"
+            control={form.control}
+            label="Name of Third Child"
+            type="input"
+            placeholder="Rey Lagumbay"
+            leftIcon={User}
+          />
+          <FormFieldWrapper
+            name="thirdChildDateOfBirth"
+            control={form.control}
+            label="Birth Date"
+            type="date"
+          />
         </div>
+        <AddressFields form={form} prefix="thirdChild" />
       </SectionCard>
     </motion.div>
   );
