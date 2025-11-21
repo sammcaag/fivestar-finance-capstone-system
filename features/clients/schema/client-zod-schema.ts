@@ -22,10 +22,10 @@ export const clientGeneralInfoSchema = z.object({
     }),
   alternativeContactNumber: z
     .string()
-    .refine((val) => /^\+639\d{9}$/.test(val), {
-      message: "Phone number must start with 9 and have 10 digits total",
-    })
-    .optional(),
+    .optional()
+    .refine((val) => !val || /^\+639\d{9}$/.test(val), {
+      message: "Phone number must start with +639 and have 10 digits total",
+    }),
   religion: z.string().optional(),
   civilStatus: z
     .string()
@@ -52,6 +52,8 @@ export const clientFamilyInfoSchema = z.object({
   firstChildDateOfBirth: z.date().optional(),
   secondChildName: z.string().optional(),
   secondChildDateOfBirth: z.date().optional(),
+  thirdChildName: z.string().optional(),
+  thirdChildDateOfBirth: z.date().optional(),
 });
 
 // Step 3: Pensioner's Information Schema

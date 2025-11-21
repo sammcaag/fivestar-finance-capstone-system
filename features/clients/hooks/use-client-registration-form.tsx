@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 
 import { clientFormSchema } from "../schema/client-zod-schema";
 import type { ClientFormValues } from "../types/client-types";
@@ -25,8 +24,8 @@ export function useClientRegistrationForm() {
 
   const form = useForm<ClientFormValues>({
     resolver: zodResolver(clientFormSchema),
-    mode: "onBlur",
-    reValidateMode: "onSubmit",
+    mode: "onTouched",
+    reValidateMode: "onChange",
     defaultValues,
   });
 
@@ -61,13 +60,13 @@ export function useClientRegistrationForm() {
   const loadSavedDraft = () => {
     const draft = loadDraft();
     if (draft) {
-      const dateConversions: Partial<ClientFormValues> = {};
+      const dateConversions: Partial<Record<keyof ClientFormValues, Date>> = {};
       formDates.forEach((dateField) => {
         const fieldValue = draft.data[dateField as keyof typeof draft.data];
         if (fieldValue) {
           const date = new Date(fieldValue);
           if (!isNaN(date.getTime())) {
-            dateConversions[dateField as keyof ClientFormValues] = date as any;
+            dateConversions[dateField as keyof ClientFormValues] = date;
           }
         }
       });
@@ -92,47 +91,19 @@ export function useClientRegistrationForm() {
     showDialog("Form has been cleared!");
   };
 
-  // Validate current step
-  const validateCurrentStep = async () => {
-    const stepFields = steps[currentStep]?.fields || [];
-    if (!stepFields.length) return true;
-
-    const stepShape = stepFields.reduce((acc, field) => {
-      acc[field] = clientFormSchema.shape[field];
-      return acc;
-    }, {} as Record<string, z.ZodTypeAny>);
-
-    const stepSchema = z.object(stepShape);
-    const currentValues = Object.fromEntries(
-      stepFields.map((field) => [
-        field,
-        form.getValues()[field as keyof ClientFormValues],
-      ])
-    );
-
-    const result = await stepSchema.safeParseAsync(currentValues);
-    if (!result.success) {
-      result.error.errors.forEach((err) => {
-        form.setError(err.path[0] as keyof ClientFormValues, {
-          type: "manual",
-          message: err.message,
-        });
-      });
-      return false;
-    }
-    return true;
-  };
-
   // Navigation
   const next = async () => {
-    const isValid = await validateCurrentStep();
+    const stepFields = steps[currentStep].fields as (keyof ClientFormValues)[];
+
+    // Validate only the fields in the current step
+    const isValid = await form.trigger(stepFields);
+
     if (!isValid) return;
 
-    if (currentStep < steps.length - 1) {
-      setCurrentStep((s) => s + 1);
-    } else {
-      await form.handleSubmit(processForm)();
-    }
+    // Wait for next tick to avoid immediate render triggering validation of Step 4
+    setTimeout(() => {
+      setCurrentStep((step) => step + 1);
+    });
   };
 
   const prev = () => {
@@ -152,7 +123,7 @@ export function useClientRegistrationForm() {
         dateToCompare.setHours(0, 0, 0, 0);
 
         if (dateToCompare.getTime() === today.getTime()) {
-          (cleanedData as any)[dateField] = null;
+          cleanedData[dateField] = "";
         }
       }
     });
@@ -174,6 +145,5 @@ export function useClientRegistrationForm() {
     processForm,
     dialogMessage,
     dialogVisible,
-    setDialogVisible,
   };
 }

@@ -35,7 +35,6 @@ export default function RegisterClient() {
     processForm,
     dialogMessage,
     dialogVisible,
-    setDialogVisible,
   } = useClientRegistrationForm();
 
   const slideVariants = {
@@ -75,16 +74,21 @@ export default function RegisterClient() {
             <form onSubmit={form.handleSubmit(processForm)} className="p-6">
               <div className="relative overflow-hidden">
                 <AnimatePresence mode="wait">
-                  <motion.div
-                    key={formSteps[currentStep].key}
-                    variants={slideVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={{ duration: 0.3 }}
-                  >
-                    {formSteps[currentStep].component}
-                  </motion.div>
+                  {formSteps.map(
+                    (step, index) =>
+                      index === currentStep && (
+                        <motion.div
+                          key={step.key}
+                          variants={slideVariants}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          transition={{ duration: 0.3 }}
+                        >
+                          {step.component}
+                        </motion.div>
+                      )
+                  )}
                 </AnimatePresence>
               </div>
 
@@ -107,11 +111,7 @@ export default function RegisterClient() {
         </div>
 
         {/* Dialog for draft actions */}
-        <DraftDialog
-          message={dialogMessage}
-          visible={dialogVisible}
-          onClose={() => setDialogVisible(false)}
-        />
+        <DraftDialog message={dialogMessage} visible={dialogVisible} />
       </motion.div>
     </ContentLayout>
   );

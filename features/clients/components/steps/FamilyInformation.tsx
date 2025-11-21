@@ -132,6 +132,26 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               placeholder="Select birth date"
             />
           </div>
+
+          {/* Child 3 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FormFieldWrapper
+              name="thirdChildName"
+              control={form.control}
+              label="Name of Child 3"
+              type="input"
+              placeholder="Rey Lagumbay"
+              leftIcon={User}
+            />
+
+            <FormFieldWrapper
+              name="thirdChildDateOfBirth"
+              control={form.control}
+              label="Birth Date of Child 3"
+              type="date"
+              placeholder="Select birth date"
+            />
+          </div>
         </div>
       </SectionCard>
     </motion.div>

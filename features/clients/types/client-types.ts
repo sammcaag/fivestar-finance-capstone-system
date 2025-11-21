@@ -42,6 +42,8 @@ export interface ClientFormValues {
   firstChildDateOfBirth?: Date;
   secondChildName?: string;
   secondChildDateOfBirth?: Date;
+  thirdChildName?: string;
+  thirdChildDateOfBirth?: Date;
 
   // Pensioner's Information
   rank: string;

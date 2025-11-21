@@ -29,12 +29,14 @@ export const steps = [
       "spouseMiddleName",
       "spouseLastName",
       "spouseDateOfBirth",
-      "spouseAddress",
       "spouseContactNumber",
+      "spouseAddress",
       "firstChildName",
       "firstChildDateOfBirth",
       "secondChildName",
       "secondChildDateOfBirth",
+      "thirdChildName",
+      "thirdChildDateOfBirth",
     ],
   },
   {
@@ -128,4 +130,5 @@ export const optionalFormDates: (keyof ClientFormValues)[] = [
   "spouseDateOfBirth",
   "firstChildDateOfBirth",
   "secondChildDateOfBirth",
+  "thirdChildDateOfBirth",
 ];
