@@ -1,13 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { User, Users, MapPin } from "lucide-react";
+import { User, Users } from "lucide-react";
 
 import { StepTitleCard } from "../StepTitleCard";
 import { SectionCard } from "../SectionCard";
 import { FormFieldWrapper } from "../FormFieldWrapper";
 
-import type { ClientFamilyInformationProps } from "../../types/client-types";
+import {
+  regionOptions,
+  type ClientFamilyInformationProps,
+} from "../../types/client-types";
 import useClientAnimation from "../../hooks/use-client-animation";
 
 const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
@@ -74,14 +77,65 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
           />
         </div>
 
-        <div className="mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <FormFieldWrapper
-            name="spouseAddress"
+            name="spouseAddressLine1"
             control={form.control}
-            label="Address"
+            label="Address Line 1"
             type="input"
-            placeholder="Door 203, De Leon Plaza Bldg., Yacapin Velez St. Cagayan De Oro"
-            leftIcon={MapPin}
+            placeholder="Door 203, De Leon Plaza Bldg"
+          />
+
+          <FormFieldWrapper
+            name="spouseAddressLine2"
+            control={form.control}
+            label="Address Line 2"
+            type="input"
+            placeholder="Yacapin Velez St."
+          />
+
+          <FormFieldWrapper
+            name="spouseBarangay"
+            control={form.control}
+            label="Barangay"
+            type="input"
+            placeholder="Macabalan"
+          />
+
+          <FormFieldWrapper
+            name="spouseCityOrMunicipality"
+            control={form.control}
+            label="City or Municipality"
+            type="input"
+            placeholder="Cagayan De Oro City"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+          <FormFieldWrapper
+            name="spouseProvince"
+            control={form.control}
+            label="Province"
+            type="input"
+            placeholder="Misamis Oriental"
+          />
+
+          <FormFieldWrapper
+            name="spouseRegion"
+            control={form.control}
+            label="Region"
+            type="select"
+            placeholder="Region X"
+            options={regionOptions}
+          />
+
+          <FormFieldWrapper
+            name="spouseZipCode"
+            control={form.control}
+            label="zipCode"
+            type="input"
+            placeholder="9000"
+            asNumber
           />
         </div>
       </SectionCard>
@@ -90,7 +144,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
       <SectionCard
         variants={itemVariants}
         icon={Users}
-        title="Children Information"
+        title="Child 1 Information"
       >
         <div className="space-y-6">
           {/* Child 1 */}
@@ -113,6 +167,76 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
             />
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <FormFieldWrapper
+              name="firstChildAddressLine1"
+              control={form.control}
+              label="Address Line 1"
+              type="input"
+              placeholder="Door 203, De Leon Plaza Bldg"
+            />
+
+            <FormFieldWrapper
+              name="firstChildAddressLine2"
+              control={form.control}
+              label="Address Line 2"
+              type="input"
+              placeholder="Yacapin Velez St."
+            />
+
+            <FormFieldWrapper
+              name="firstChildBarangay"
+              control={form.control}
+              label="Barangay"
+              type="input"
+              placeholder="Macabalan"
+            />
+
+            <FormFieldWrapper
+              name="firstChildCityOrMunicipality"
+              control={form.control}
+              label="City or Municipality"
+              type="input"
+              placeholder="Cagayan De Oro City"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            <FormFieldWrapper
+              name="firstChildProvince"
+              control={form.control}
+              label="Province"
+              type="input"
+              placeholder="Misamis Oriental"
+            />
+
+            <FormFieldWrapper
+              name="firstChildRegion"
+              control={form.control}
+              label="Region"
+              type="select"
+              placeholder="Region X"
+              options={regionOptions}
+            />
+
+            <FormFieldWrapper
+              name="firstChildZipCode"
+              control={form.control}
+              label="zipCode"
+              type="input"
+              placeholder="9000"
+              asNumber
+            />
+          </div>
+        </div>
+      </SectionCard>
+
+      <SectionCard
+        variants={itemVariants}
+        icon={Users}
+        title="Child 2 Information"
+      >
+        <div className="space-y-6">
           {/* Child 2 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormFieldWrapper
@@ -133,6 +257,77 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
             />
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <FormFieldWrapper
+              name="secondChildAddressLine1"
+              control={form.control}
+              label="Address Line 1"
+              type="input"
+              placeholder="Door 203, De Leon Plaza Bldg"
+            />
+
+            <FormFieldWrapper
+              name="secondChildAddressLine2"
+              control={form.control}
+              label="Address Line 2"
+              type="input"
+              placeholder="Yacapin Velez St."
+            />
+
+            <FormFieldWrapper
+              name="secondChildBarangay"
+              control={form.control}
+              label="Barangay"
+              type="input"
+              placeholder="Macabalan"
+            />
+
+            <FormFieldWrapper
+              name="secondChildCityOrMunicipality"
+              control={form.control}
+              label="City or Municipality"
+              type="input"
+              placeholder="Cagayan De Oro City"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            <FormFieldWrapper
+              name="secondChildProvince"
+              control={form.control}
+              label="Province"
+              type="input"
+              placeholder="Misamis Oriental"
+            />
+
+            <FormFieldWrapper
+              name="secondChildRegion"
+              control={form.control}
+              label="Region"
+              type="select"
+              placeholder="Region X"
+              options={regionOptions}
+            />
+
+            <FormFieldWrapper
+              name="secondChildZipCode"
+              control={form.control}
+              label="zipCode"
+              type="input"
+              placeholder="9000"
+              asNumber
+            />
+          </div>
+        </div>
+      </SectionCard>
+
+      {/* Child Information */}
+      <SectionCard
+        variants={itemVariants}
+        icon={Users}
+        title="Child 3 Information"
+      >
+        <div className="space-y-6">
           {/* Child 3 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormFieldWrapper
@@ -150,6 +345,68 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
               label="Birth Date of Child 3"
               type="date"
               placeholder="Select birth date"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <FormFieldWrapper
+              name="thirdChildAddressLine1"
+              control={form.control}
+              label="Address Line 1"
+              type="input"
+              placeholder="Door 203, De Leon Plaza Bldg"
+            />
+
+            <FormFieldWrapper
+              name="thirdChildAddressLine2"
+              control={form.control}
+              label="Address Line 2"
+              type="input"
+              placeholder="Yacapin Velez St."
+            />
+
+            <FormFieldWrapper
+              name="thirdChildBarangay"
+              control={form.control}
+              label="Barangay"
+              type="input"
+              placeholder="Macabalan"
+            />
+
+            <FormFieldWrapper
+              name="thirdChildCityOrMunicipality"
+              control={form.control}
+              label="City or Municipality"
+              type="input"
+              placeholder="Cagayan De Oro City"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            <FormFieldWrapper
+              name="thirdChildProvince"
+              control={form.control}
+              label="Province"
+              type="input"
+              placeholder="Misamis Oriental"
+            />
+
+            <FormFieldWrapper
+              name="thirdChildRegion"
+              control={form.control}
+              label="Region"
+              type="select"
+              placeholder="Region X"
+              options={regionOptions}
+            />
+
+            <FormFieldWrapper
+              name="thirdChildZipCode"
+              control={form.control}
+              label="zipCode"
+              type="input"
+              placeholder="9000"
+              asNumber
             />
           </div>
         </div>

@@ -27,10 +27,10 @@ export interface ClientFormValues {
   cityOrMunicipality: string;
   province: string;
   region: string;
-  zipCode: string;
-  contactNumber: string;
-  alternativeContactNumber?: string;
-  religion?: string;
+  zipCode: number;
+  primaryContact: string;
+  secondaryContact?: string;
+  religion: string;
   civilStatus: string;
   mothersMaidenName?: string;
   placeOfBirth: string;
@@ -41,15 +41,44 @@ export interface ClientFormValues {
   spouseMiddleName?: string;
   spouseLastName?: string;
   spouseDateOfBirth?: Date;
-  spouseAddress?: string;
+  spouseAddressLine1?: string;
+  spouseAddressLine2?: string;
+  spouseBarangay?: string;
+  spouseCityOrMunicipality?: string;
+  spouseProvince?: string;
+  spouseRegion?: string;
+  spouseZipCode?: number;
   spouseContactNumber?: string;
   // Children Information
   firstChildName?: string;
   firstChildDateOfBirth?: Date;
+  firstChildAddressLine1?: string;
+  firstChildAddressLine2?: string;
+  firstChildBarangay?: string;
+  firstChildCityOrMunicipality?: string;
+  firstChildProvince?: string;
+  firstChildRegion?: string;
+  firstChildZipCode?: number;
+
   secondChildName?: string;
   secondChildDateOfBirth?: Date;
+  secondChildAddressLine1?: string;
+  secondChildAddressLine2?: string;
+  secondChildBarangay?: string;
+  secondChildCityOrMunicipality?: string;
+  secondChildProvince?: string;
+  secondChildRegion?: string;
+  secondChildZipCode?: number;
+
   thirdChildName?: string;
   thirdChildDateOfBirth?: Date;
+  thirdChildAddressLine1?: string;
+  thirdChildAddressLine2?: string;
+  thirdChildBarangay?: string;
+  thirdChildCityOrMunicipality?: string;
+  thirdChildProvince?: string;
+  thirdChildRegion?: string;
+  thirdChildZipCode?: number;
 
   // Pensioner's Information
   rank: string;

@@ -184,7 +184,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormFieldWrapper
-            name="contactNumber"
+            name="primaryContact"
             control={form.control}
             label="Contact Number"
             required
@@ -193,7 +193,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
           />
 
           <FormFieldWrapper
-            name="alternativeContactNumber"
+            name="secondaryContact"
             control={form.control}
             label="Alternative Contact Number"
             type="phone"
@@ -213,6 +213,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
             name="religion"
             control={form.control}
             label="Religion"
+            required
             type="input"
             placeholder="Roman Catholic"
           />
@@ -235,6 +236,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
           <FormFieldWrapper
             name="placeOfBirth"
             control={form.control}
+            required
             label="Place of Birth"
             type="input"
             placeholder="Cagayan de Oro City"
