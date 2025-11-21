@@ -124,6 +124,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             type="input"
             placeholder="Enter Length of Service"
             leftIcon={Clock}
+            asNumber
           />
 
           <FormFieldWrapper

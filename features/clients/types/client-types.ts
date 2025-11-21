@@ -51,7 +51,7 @@ export interface ClientFormValues {
   dateEnteredService: Date;
   dateSeparationService: Date;
   dateRetiredService: Date;
-  lengthOfService: string;
+  lengthOfService: number;
   lastUnitAssigned?: string;
   branchOfService?: string;
 

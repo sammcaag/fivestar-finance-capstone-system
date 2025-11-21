@@ -29,8 +29,7 @@ import CustomDatePicker from "@/components/CustomDatePicker";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { getYear } from "date-fns";
 import { normalizeDate } from "../utils/safe-date-normalizer";
-
-// Optional custom onChange for any field type
+import { preventInvalidInput } from "@/utils/handling-input-numbers";
 
 interface CustomOnChangeProps<T extends FieldValues> {
   onChange?: (
@@ -47,13 +46,16 @@ interface BaseProps<T extends FieldValues> extends CustomOnChangeProps<T> {
   formItemClassName?: string;
 }
 
-// Input
+// Input — now with asNumber
 interface InputFieldProps<T extends FieldValues> extends BaseProps<T> {
   type: "input";
   placeholder?: string;
   leftIcon?: LucideIcon;
   inputClassName?: string;
   iconClassName?: string;
+  /** NEW: Automatically convert empty → 0 and ensure number type */
+  asNumber?: boolean;
+  maxNumber?: number;
 }
 
 // Select
@@ -108,7 +110,6 @@ export function FormFieldWrapper<T extends FieldValues>(
       control={control}
       name={name}
       render={({ field }) => {
-        // Unified onChange handler — uses custom if provided
         const handleChange = (value: unknown) => {
           const typedValue = value as PathValue<T, FieldPath<T>>;
 
@@ -144,17 +145,80 @@ export function FormFieldWrapper<T extends FieldValues>(
                   )}
                   <Input
                     placeholder={props.placeholder}
+                    type={"text"}
+                    inputMode={props.asNumber ? "decimal" : "text"}
+                    {...(props.asNumber
+                      ? {
+                          step: "0.01",
+                          min: "0",
+                        }
+                      : {})}
                     className={cn(
                       "rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200",
+                      props.asNumber &&
+                        "[appearance:textfield] [&::-webkit-outer-spin-button]:hidden [&::-webkit-inner-spin-button]:hidden",
                       props.leftIcon && "pl-10",
                       props.inputClassName
                     )}
-                    value={field.value ?? ""}
+                    value={
+                      typeof field.value === "number"
+                        ? field.value
+                        : field.value ?? ""
+                    }
                     onChange={(e) => {
                       const rawValue = e.target.value;
-                      const finalValue = rawValue === "" ? "" : rawValue;
-                      handleChange(finalValue);
+                      const maxAllowed = props.maxNumber ?? 1_000_000;
+
+                      // Normal text input — pass through
+                      if (!props.asNumber) {
+                        handleChange(rawValue);
+                        return;
+                      }
+
+                      // === asNumber mode: strict number handling ===
+
+                      // 1. Empty field → 0
+                      if (rawValue === "") {
+                        handleChange(0);
+                        return;
+                      }
+
+                      // 2. Allow incomplete decimals like "123", "123.", "123.4"
+                      //     This regex matches valid number patterns including trailing dot
+                      // Allow patterns like ".", "123.", ".5", "123.45"
+                      if (/^\d*\.?\d*$/.test(rawValue)) {
+                        // If it ends with a dot or is just ".", keep as string
+                        if (rawValue.endsWith(".")) {
+                          handleChange(rawValue);
+                          return;
+                        }
+
+                        const num = parseFloat(rawValue);
+
+                        if (Number.isNaN(num)) {
+                          handleChange(rawValue);
+                          return;
+                        }
+
+                        if (num > maxAllowed) return;
+
+                        // Only round when input is fully numeric (NOT when user still typing)
+                        const sanitized = Number(num.toFixed(2));
+
+                        handleChange(sanitized);
+                        return;
+                      }
+                      // 3. Anything else (letters, multiple dots, etc.) → ignore completely
+                      return;
                     }}
+                    onKeyDown={
+                      props.asNumber
+                        ? (e: React.KeyboardEvent<HTMLInputElement>) => {
+                            // Block e, E, -, + entirely
+                            preventInvalidInput(e);
+                          }
+                        : undefined
+                    }
                   />
                 </div>
               ) : props.type === "select" ? (
@@ -194,7 +258,6 @@ export function FormFieldWrapper<T extends FieldValues>(
                   className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200"
                 />
               ) : (
-                // custom
                 <>{props.children({ ...field, onChange: handleChange })}</>
               )}
             </FormControl>

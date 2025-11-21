@@ -83,7 +83,6 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
             required
             type="date"
             placeholder="Select birth date"
-            formItemClassName="min-h-[100px]"
           />
 
           <FormFieldWrapper

@@ -69,7 +69,7 @@ export const pensionerInfoSchema = z.object({
   dateRetiredService: z.date().refine((date) => date < today, {
     message: "Date retired service must not be the current date",
   }),
-  lengthOfService: z.string().min(1, "Length of service is required"),
+  lengthOfService: z.number().min(1, "Length of service is required"),
   lastUnitAssigned: z.string().optional(),
   branchOfService: z.string().optional(),
 });

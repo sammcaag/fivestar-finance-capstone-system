@@ -99,7 +99,7 @@ export const defaultValues = {
   dateEnteredService: new Date(),
   dateSeparationService: new Date(),
   dateRetiredService: new Date(),
-  lengthOfService: "",
+  lengthOfService: 0,
   lastUnitAssigned: "",
   branchOfService: "",
   accountNumber: "",
