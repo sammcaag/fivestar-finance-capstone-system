@@ -21,7 +21,13 @@ export interface ClientFormValues {
   suffix?: string;
   dateOfBirth: Date;
   gender: string;
-  address: string;
+  addressLine1: string;
+  addressLine2?: string;
+  barangay?: string;
+  cityOrMunicipality: string;
+  province: string;
+  region: string;
+  zipCode: string;
   contactNumber: string;
   alternativeContactNumber?: string;
   religion?: string;
@@ -153,6 +159,26 @@ export const pensionTypeOptions = [
   { label: "GUARDIAN", value: "GUARDIAN" },
   { label: "ALLOTEE", value: "ALLOTEE" },
   { label: "WIDOW", value: "WIDOW" },
+];
+
+export const regionOptions = [
+  { label: "I", value: "Region I" },
+  { label: "II", value: "Region II" },
+  { label: "III", value: "Region III" },
+  { label: "IV-A", value: "Region IV-A" },
+  { label: "IV-B", value: "Region IV-B" },
+  { label: "V", value: "Region V" },
+  { label: "VI", value: "Region VI" },
+  { label: "VII", value: "Region VII" },
+  { label: "VIII", value: "Region VIII" },
+  { label: "IX", value: "Region IX" },
+  { label: "X", value: "Region X" },
+  { label: "XI", value: "Region XI" },
+  { label: "XII", value: "Region XII" },
+  { label: "XIII", value: "Region XIII" },
+  { label: "NCR", value: "NCR" },
+  { label: "CAR", value: "CAR" },
+  { label: "BARMM", value: "BARMM" },
 ];
 
 export type ClientTableProps = {

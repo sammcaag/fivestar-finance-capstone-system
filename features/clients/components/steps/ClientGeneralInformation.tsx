@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { User, Phone, Heart, MapPin } from "lucide-react";
+import { User, Phone, Heart, Map } from "lucide-react";
 
 import { StepTitleCard } from "../StepTitleCard";
 import { SectionCard } from "../SectionCard";
@@ -9,6 +9,7 @@ import { FormFieldWrapper } from "../FormFieldWrapper";
 
 import {
   civilStatusOptions,
+  regionOptions,
   suffixOptions,
   type ClientGeneralInformationProps,
 } from "@/features/clients/types/client-types";
@@ -99,16 +100,78 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
             ]}
           />
         </div>
+      </SectionCard>
 
-        <div className="mt-6">
+      {/* Basic Information */}
+      <SectionCard
+        variants={itemVariants}
+        icon={Map}
+        title="Address Information"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <FormFieldWrapper
-            name="address"
+            name="addressLine1"
             control={form.control}
-            label="Address"
+            label="Address Line 1"
             required
             type="input"
-            placeholder="Door 203, De Leon Plaza Bldg., Yacapin Velez St. Cagayan De Oro"
-            leftIcon={MapPin}
+            placeholder="Door 203, De Leon Plaza Bldg"
+          />
+
+          <FormFieldWrapper
+            name="addressLine2"
+            control={form.control}
+            label="Address Line 2"
+            type="input"
+            placeholder="Yacapin Velez St."
+          />
+
+          <FormFieldWrapper
+            name="barangay"
+            control={form.control}
+            label="Barangay"
+            type="input"
+            placeholder="Macabalan"
+          />
+
+          <FormFieldWrapper
+            name="cityOrMunicipality"
+            control={form.control}
+            label="City or Municipality"
+            required
+            type="input"
+            placeholder="Cagayan De Oro City"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+          <FormFieldWrapper
+            name="province"
+            control={form.control}
+            label="Province"
+            required
+            type="input"
+            placeholder="Misamis Oriental"
+          />
+
+          <FormFieldWrapper
+            name="region"
+            control={form.control}
+            label="Region"
+            required
+            type="select"
+            placeholder="Region X"
+            options={regionOptions}
+          />
+
+          <FormFieldWrapper
+            name="zipCode"
+            control={form.control}
+            label="zipCode"
+            required
+            type="input"
+            placeholder="9000"
+            asNumber
           />
         </div>
       </SectionCard>

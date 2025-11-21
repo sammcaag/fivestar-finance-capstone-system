@@ -13,7 +13,15 @@ export const clientGeneralInfoSchema = z.object({
   gender: z
     .string()
     .refine((val) => val !== "", { message: "Gender is required" }),
-  address: z.string().min(1, "Address is required"),
+
+  addressLine1: z.string().min(1, "Address line 1 is required"),
+  addressLine2: z.string().optional(),
+  barangay: z.string().optional(),
+  cityOrMunicipality: z.string().min(1, "City or municipality is required"),
+  province: z.string().min(1, "Province is required"),
+  region: z.string().min(1, "Region is required"),
+  zipCode: z.string().min(1, "zipCode is required"),
+
   contactNumber: z
     .string()
     .min(1, "Phone number is required")
