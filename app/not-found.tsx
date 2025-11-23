@@ -35,7 +35,7 @@ export default function NotFoundPages() {
           className="mt-4"
           onClick={() => router.push("/")}
         >
-          Go Back Home
+          Go to Dashboard
         </Button>
       </div>
     </div>

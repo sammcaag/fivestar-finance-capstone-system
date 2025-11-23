@@ -225,7 +225,9 @@ export function FormFieldWrapper<T extends FieldValues>(
                 </div>
               ) : props.type === "select" ? (
                 <Select
-                  onValueChange={handleChange}
+                  onValueChange={(val) =>
+                    handleChange(val === "__NONE__" ? undefined : val)
+                  }
                   value={field.value as string}
                 >
                   <SelectTrigger className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200">

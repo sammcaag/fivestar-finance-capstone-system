@@ -87,11 +87,13 @@ export default function FamilyInformationTab({
                 )}
                 {/* Contact Number */}
 
-                <ClientInfoRowItem
-                  icon={<Phone className="h-4 w-4 text-primary" />}
-                  label="Contact Number"
-                  value={"099 REFETCH NI"}
-                />
+                {spouse.contactInfo && (
+                  <ClientInfoRowItem
+                    icon={<Phone className="h-4 w-4 text-primary" />}
+                    label="Contact Number"
+                    value={spouse.contactInfo?.primary_contact}
+                  />
+                )}
               </div>
             </section>
           )}

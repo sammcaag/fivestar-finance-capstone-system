@@ -139,7 +139,7 @@ export interface ClientHistoryRecord {
 }
 
 export const suffixOptions = [
-  // { label: "None", value: "" },
+  { label: "None", value: "__NONE__" },
   { label: "Jr.", value: "Jr" },
   { label: "Sr.", value: "Sr" },
   { label: "Nr.", value: "Nr" },
@@ -273,8 +273,8 @@ export type Address = {
 };
 
 export type ContactInfo = {
-  primaryContact: string;
-  secondaryContact?: string;
+  primary_contact: string;
+  secondary_contact?: string;
 };
 
 export type ClientPension = {

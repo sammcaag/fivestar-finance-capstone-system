@@ -64,8 +64,8 @@ export default function ClientInformation({
           religion={client.religion}
           birthPlace={client.placeOfBirth}
           address={formatFullAddress(client.address)}
-          primaryContact={client.contactInfo.primaryContact}
-          secondaryContact={client.contactInfo.secondaryContact}
+          primaryContact={client.contactInfo.primary_contact}
+          secondaryContact={client.contactInfo.secondary_contact}
         />
 
         {/* Other Information Tab */}

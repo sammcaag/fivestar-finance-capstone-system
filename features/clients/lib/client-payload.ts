@@ -1,9 +1,17 @@
+import { capitalizeFirstLetterInWords } from "@/utils/capitalize-first-letter-in-words";
 import type { ClientFormValues } from "../types/client-types";
+import { formatFullName } from "@/utils/format-full-name";
 
 export const clientPayload = (data: ClientFormValues) => {
   return {
-    fullName:
-      `${data.firstName} ${data.middleName} ${data.lastName} ${data.suffix}`.trim(),
+    fullName: capitalizeFirstLetterInWords(
+      formatFullName({
+        firstName: data.firstName,
+        middleName: data.middleName,
+        lastName: data.lastName,
+        suffix: data.suffix,
+      })
+    ),
     gender: data.gender,
     birthDate: data.dateOfBirth,
     religion: data.religion,
@@ -58,7 +66,7 @@ export const clientPayload = (data: ClientFormValues) => {
         ? {
             name: data.mothersMaidenName,
             birthDate: null, // optional if you don't have mother's DOB
-            relationship: "mother",
+            relationship: "MOTHER",
             address: null,
             contactInfo: null,
           }
@@ -69,7 +77,7 @@ export const clientPayload = (data: ClientFormValues) => {
         ? {
             name: `${data.spouseFirstName} ${data.spouseMiddleName} ${data.spouseLastName}`.trim(),
             birthDate: data.spouseDateOfBirth,
-            relationship: "spouse",
+            relationship: "SPOUSE",
             addressSameAsClient: data.spouseAddressSameAsClient,
             address: {
               addressLine1: data.spouseAddressLine1,
@@ -97,7 +105,7 @@ export const clientPayload = (data: ClientFormValues) => {
         ? {
             name: data.firstChildName,
             birthDate: data.firstChildDateOfBirth,
-            relationship: "child",
+            relationship: "CHILD",
             addressSameAsClient: data.firstChildAddressSameAsClient,
             addressSameAsSpouse: data.firstChildAddressSameAsSpouse,
             address: {
@@ -117,7 +125,7 @@ export const clientPayload = (data: ClientFormValues) => {
         ? {
             name: data.secondChildName,
             birthDate: data.secondChildDateOfBirth,
-            relationship: "child",
+            relationship: "CHILD",
             addressSameAsClient: data.secondChildAddressSameAsClient,
             addressSameAsSpouse: data.secondChildAddressSameAsSpouse,
             address: {
@@ -137,7 +145,7 @@ export const clientPayload = (data: ClientFormValues) => {
         ? {
             name: data.thirdChildName,
             birthDate: data.thirdChildDateOfBirth,
-            relationship: "child",
+            relationship: "CHILD",
             addressSameAsClient: data.thirdChildAddressSameAsClient,
             addressSameAsSpouse: data.thirdChildAddressSameAsSpouse,
             address: {
