@@ -93,7 +93,7 @@ export default function TableBodyComp<TData extends TableData>({
                 ease: "easeOut",
               }}
               className={clsx(
-                "border-b transition-colors cursor-crosshair",
+                "border-b transition-colors",
                 hasDedCode(row.original)
                   ? getFiRowColors(row as Row<{ dedCode: string }>)
                   : hasStatus(row.original)
@@ -107,7 +107,7 @@ export default function TableBodyComp<TData extends TableData>({
                 <motion.td
                   key={cell.id}
                   className={clsx(
-                    "p-4 align-middle cursor-crosshair",
+                    "p-4 align-middle cursor-pointer",
                     cell.column.id === hoverColumn && "bg-primary/10"
                   )}
                   style={{ width: `${cell.column.getSize()}px` }}

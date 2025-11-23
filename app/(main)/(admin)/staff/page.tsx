@@ -16,7 +16,7 @@ export default function StaffManagementPage() {
   }, []);
 
   const { data: staffstData, isLoading } = useQuery<StaffTableProps[]>({
-    queryKey: ["clients"],
+    queryKey: ["staffs"],
     queryFn: getStaffs,
   });
 

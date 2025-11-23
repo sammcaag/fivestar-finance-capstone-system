@@ -71,10 +71,10 @@ export default function ClientInfoPage() {
   );
 }
 
-function ClientInfoInSuspense() {
+const ClientInfoInSuspense = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <ClientInformation />
     </Suspense>
   );
-}
+};

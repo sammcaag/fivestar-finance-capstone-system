@@ -259,3 +259,67 @@ export type ClientTableProps = {
   birthDate: string | Date;
   rank: string;
 };
+
+// THIS TYPES IS USED FOR DISPLAYING INFORMATION
+
+export type Address = {
+  addressLine1: string;
+  addressLine2: string | null;
+  barangay: string;
+  cityOrMunicipality: string;
+  province: string;
+  region: string;
+  zipCode: string;
+};
+
+export type ContactInfo = {
+  primaryContact: string;
+  secondaryContact?: string;
+};
+
+export type ClientPension = {
+  rank: string;
+  pensionType: string;
+  serialNumber?: string;
+  idNumber?: string;
+  dateEnteredService: string;
+  dateSeparationService: string;
+  dateRetiredService: string;
+  lengthOfService?: string;
+  lastUnitAssigned?: string;
+  branchOfService?: string;
+};
+
+export type ClientAccount = {
+  monthlyPension?: number;
+  monthlyDeduction?: number;
+  atmAccountNumber?: string;
+  bankName?: string;
+  branchOfBank?: string;
+};
+
+export type ClientFamilyInfo = {
+  name: string;
+  birthDate?: string;
+  relationship: "mother" | "spouse" | "child";
+  addressSameAsClient?: boolean;
+  addressSameAsSpouse?: boolean;
+  address?: Address;
+  contactInfo?: ContactInfo;
+};
+
+export type ClientPayload = {
+  fullName: string;
+  gender: string;
+  birthDate: Date;
+  religion: string;
+  civilStatus: string;
+  occupation: string;
+  placeOfBirth: string;
+
+  address: Address;
+  contactInfo: ContactInfo;
+  clientPension: ClientPension;
+  clientAccount: ClientAccount;
+  clientFamilyInfos: ClientFamilyInfo[];
+};

@@ -94,7 +94,7 @@ export default function TableHeaderComp<TData extends TableData>({
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="p-1 shrink-0"
+                              className="p-1 shrink-0 cursor-pointer"
                               aria-label={`Filter by ${header.column.columnDef.header}`}
                             >
                               <Filter className="size-4 text-muted-foreground" />
@@ -135,7 +135,7 @@ export default function TableHeaderComp<TData extends TableData>({
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="p-1 shrink-0"
+                          className="p-1 shrink-0 cursor-pointer"
                           onClick={header.column.getToggleSortingHandler()}
                           aria-label={`Sort by ${header.column.columnDef.header}`}
                         >

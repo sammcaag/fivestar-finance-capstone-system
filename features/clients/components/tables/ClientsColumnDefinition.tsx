@@ -181,7 +181,7 @@ export const clientsColumnDefinition = (
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
                   onClick={() => {
-                    if (client.id) {
+                    if (client.clientPension.serialNumber) {
                       navigator.clipboard.writeText(client.id);
                       alert(`Client ID ${client.id} copied to clipboard`);
                     } else {

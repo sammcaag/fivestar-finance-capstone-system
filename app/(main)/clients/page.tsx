@@ -10,6 +10,7 @@ import { MainTableComp } from "@/components/tables/MainTableComp";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
 import { useQuery } from "@tanstack/react-query";
 import { getClients } from "@/features/clients/api/client-service";
+import { useRouter } from "next/navigation";
 
 const quickActions = [
   {
@@ -25,6 +26,8 @@ const quickActions = [
 ];
 
 export default function ClientsPage() {
+  const router = useRouter(); // initialize router
+
   useEffect(() => {
     document.title = "Clients Overview | Stella - Five Star Finance Inc.";
   }, []);
@@ -33,6 +36,10 @@ export default function ClientsPage() {
     queryKey: ["clients"],
     queryFn: getClients,
   });
+
+  useEffect(() => {
+    console.log("THE DATA IS:", clientsData);
+  }, [clientsData]);
 
   return (
     <ContentLayout title="Clients Overview">
@@ -58,6 +65,10 @@ export default function ClientsPage() {
         emptyDescription="There are no clients recorded yet. Add a client to get started."
         emptyActionLabel="Register New Client"
         emptyOnAction={() => (window.location.href = "/clients/register")}
+        onRowDoubleClick={(client) => {
+          // Navigate to dynamic route [id]/page.tsx using the client (id = serial number)
+          router.push(`/clients/${client.id}`);
+        }}
       />
     </ContentLayout>
   );

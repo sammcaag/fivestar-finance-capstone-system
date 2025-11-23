@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
 import { TableFilter } from "@/components/tables/TableFilter";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { TableData } from "@/types/global-types";
 
@@ -59,19 +59,6 @@ export function MainTableComp<TData extends TableData>({
     filterColumns,
     initialSort,
   });
-
-  useEffect(() => {
-    console.log(
-      "MainTableComp - externalIsLoading:",
-      externalIsLoading,
-      "hookIsLoading:",
-      hookIsLoading,
-      "data:",
-      data,
-      "row count:",
-      table.getRowModel().rows.length
-    );
-  }, [externalIsLoading, hookIsLoading, data, table]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [hoverColumn, setHoverColumn] = useState<string | null>(null);

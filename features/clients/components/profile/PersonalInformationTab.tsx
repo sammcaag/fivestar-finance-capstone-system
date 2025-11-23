@@ -14,9 +14,27 @@ import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { getAge } from "@/utils/get-age";
 import { Separator } from "@/components/ui/separator";
 
-export default function PersonalInformationTab() {
-  const dateOfBirth = formatDateToReadable(clientData.dateOfBirth);
-  const age = getAge(clientData.dateOfBirth);
+interface IPersionalInformation {
+  birthDate?: Date;
+  civilStatus?: string;
+  religion?: string;
+  birthPlace?: string;
+  address?: string;
+  primaryContact?: string;
+  secondaryContact?: string;
+}
+
+export default function PersonalInformationTab({
+  birthDate,
+  civilStatus,
+  religion,
+  birthPlace,
+  address,
+  primaryContact,
+  secondaryContact,
+}: IPersionalInformation) {
+  const dateOfBirth = formatDateToReadable(birthDate || clientData.dateOfBirth);
+  const age = getAge(birthDate || clientData.dateOfBirth);
 
   return (
     <TabsContent value="personal" className="mt-3">
@@ -28,8 +46,8 @@ export default function PersonalInformationTab() {
           <div>
             <CardTitle className="text-xl">Personal Information</CardTitle>
             <CardDescription>
-              View and verify the client's basic identity details such as full
-              name, date of birth, and gender.
+              View and verify the client&apos;s basic identity details such as
+              full name, date of birth, and gender.
             </CardDescription>
           </div>
         </CardHeader>
@@ -48,25 +66,25 @@ export default function PersonalInformationTab() {
             <ClientInfoRowItem
               icon={<Users />}
               label="Civil Status"
-              value={clientData.civilStatus}
+              value={civilStatus || clientData.civilStatus}
             />
             {/* Religion */}
             <ClientInfoRowItem
               icon={<User />}
               label="Religion"
-              value={clientData.religion}
+              value={religion || clientData.religion}
             />
             {/* Place of Birth */}
             <ClientInfoRowItem
               icon={<MapPin />}
               label="Place of Birth"
-              value={clientData.placeOfBirth}
+              value={birthPlace || clientData.placeOfBirth}
             />
             {/* Current Address */}
             <ClientInfoRowItem
               icon={<MapPin />}
               label="Current Address"
-              value={clientData.address.fullAddress}
+              value={address || clientData.address.fullAddress}
             />
           </section>
 
@@ -80,21 +98,42 @@ export default function PersonalInformationTab() {
               <div>
                 <CardTitle className="text-xl">Contact Information</CardTitle>
                 <CardDescription>
-                  Review and confirm the client's phone numbers, email address,
-                  and current residential details.
+                  Review and confirm the client&apos;s phone numbers, email
+                  address, and current residential details.
                 </CardDescription>
               </div>
             </div>
             <Separator className="my-6" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-6">
-              {clientData.contactInfo.map((contact) => (
-                <ClientInfoRowItem
-                  key={contact.id}
-                  icon={<Phone />}
-                  label={contact.type}
-                  value={contact.number}
-                />
-              ))}
+              {primaryContact ? (
+                <>
+                  <ClientInfoRowItem
+                    icon={<Phone />}
+                    label="Primary Contact"
+                    value={primaryContact}
+                  />{" "}
+                  {secondaryContact && (
+                    <ClientInfoRowItem
+                      icon={<Phone />}
+                      label="Secondary Contact"
+                      value={secondaryContact}
+                    />
+                  )}
+                </>
+              ) : (
+                clientData.contactInfo.map(
+                  (
+                    contact //change this to cater contact number
+                  ) => (
+                    <ClientInfoRowItem
+                      key={contact.id}
+                      icon={<Phone />}
+                      label={contact.type}
+                      value={contact.number}
+                    />
+                  )
+                )
+              )}
             </div>
           </section>
         </CardContent>

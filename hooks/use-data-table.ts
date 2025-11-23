@@ -36,14 +36,6 @@ export function useDataTable<TData extends TableData>({
     pageSize: 10,
   });
 
-  // Log filter states for debugging
-  console.log(
-    "useDataTable - globalFilter:",
-    globalFilter,
-    "columnFilters:",
-    columnFilters
-  );
-
   // Set isLoading to false since data is provided
   const isLoading = !data;
 
