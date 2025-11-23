@@ -12,6 +12,7 @@ interface LoanHistoryTabsProps {
   setSelectedLoan: (loan: LoanHistory | null) => void;
   handleAddLoan: (type: string) => void;
   totalSets: number;
+  isLoading?: boolean;
 }
 
 export default function LoanHistoryTabs({
@@ -21,6 +22,7 @@ export default function LoanHistoryTabs({
   setSelectedLoan,
   handleAddLoan,
   totalSets,
+  isLoading = false,
 }: LoanHistoryTabsProps) {
   const getOrdinal = (n: number): string => {
     const s = ["th", "st", "nd", "rd"];
@@ -37,6 +39,7 @@ export default function LoanHistoryTabs({
     title: "Loan History Overview",
     description:
       "Review all loan history and ensure client documents are complete.",
+    isLoading: isLoading,
     columns: loansHistoryColumnDefinition,
     filterColumns: ["dedCode", "productType", "term", "status"],
     initialSort: [

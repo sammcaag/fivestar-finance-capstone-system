@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { ClientPayload } from "../types/client-types";
 import { formatFullAddress } from "@/utils/format-full-address";
+import ClientProfileHeader from "./profile/ClientProfileHeader";
 
 const tabs = [
   { value: "personal", label: "Personal Information" },
@@ -17,7 +18,11 @@ const tabs = [
   { value: "attachments", label: "Attachments" },
 ];
 
-export default function ClientInformation(client: ClientPayload) {
+export default function ClientInformation({
+  client,
+}: {
+  client: ClientPayload;
+}) {
   const router = useRouter();
   // get link details and detect if tab is present then assign it as defaultvalue
   const searchParams = useSearchParams();
@@ -28,32 +33,49 @@ export default function ClientInformation(client: ClientPayload) {
   };
 
   return (
-    <Tabs
-      className="w-full"
-      defaultValue={defaultValue || "personal"}
-      onValueChange={handleChange}
-    >
-      <TabListCustomComp tabs={tabs} />
-
-      {/* General Information Tab */}
-      <PersonalInformationTab
+    <>
+      <ClientProfileHeader
         birthDate={client.birthDate}
+        gender={client.gender}
         civilStatus={client.civilStatus}
-        religion={client.religion}
-        birthPlace={client.placeOfBirth}
+        rank={client.clientPension.rank}
+        lastUnitAssigned={client.clientPension.lastUnitAssigned}
         address={formatFullAddress(client.address)}
-        primaryContact={client.contactInfo.primaryContact}
-        secondaryContact={client.contactInfo.secondaryContact}
+        serialNumber={client.clientPension.serialNumber}
+        branchOfService={client.clientPension.branchOfService}
+        monthlyPension={client.clientAccount.monthlyPension}
+        monthlyDeduction={client.clientAccount.monthlyDeduction}
       />
+      <Tabs
+        className="w-full"
+        defaultValue={defaultValue || "personal"}
+        onValueChange={handleChange}
+      >
+        <TabListCustomComp tabs={tabs} />
 
-      {/* Other Information Tab */}
-      <FamilyInformationTab familyInfos={client.clientFamilyInfos} />
+        {/* General Information Tab */}
+        <PersonalInformationTab
+          birthDate={client.birthDate}
+          civilStatus={client.civilStatus}
+          religion={client.religion}
+          birthPlace={client.placeOfBirth}
+          address={formatFullAddress(client.address)}
+          primaryContact={client.contactInfo.primaryContact}
+          secondaryContact={client.contactInfo.secondaryContact}
+        />
 
-      {/* Pension Information Tab */}
-      <PensionInformationTab />
+        {/* Other Information Tab */}
+        <FamilyInformationTab familyInfos={client.clientFamilyInfos} />
 
-      {/* Attachments Tab */}
-      <AttachmentsTab />
-    </Tabs>
+        {/* Pension Information Tab */}
+        <PensionInformationTab
+          clientPension={client.clientPension}
+          clientAccount={client.clientAccount}
+        />
+
+        {/* Attachments Tab */}
+        <AttachmentsTab />
+      </Tabs>
+    </>
   );
 }

@@ -13,40 +13,77 @@ import { cn } from "@/lib/utils";
 import { avatarFallBack } from "@/utils/avatar-fallback";
 import { getAge } from "@/utils/get-age";
 import { formatCurrency } from "@/features/loans/computations/utils/format-currency";
+import { formatFullAddress } from "@/utils/format-full-address";
 
-export default function ClientProfileHeader() {
-  const age = getAge(clientData.dateOfBirth);
+interface IClientProfile {
+  birthDate: Date;
+  gender: string;
+  civilStatus: string;
+  rank: string;
+  lastUnitAssigned: string;
+  address: string;
+  serialNumber: string;
+  branchOfService: string;
+  monthlyPension: number;
+  monthlyDeduction: number;
+}
+
+export default function ClientProfileHeader({
+  birthDate,
+  gender,
+  civilStatus,
+  rank,
+  lastUnitAssigned,
+  address,
+  serialNumber,
+  branchOfService,
+  monthlyPension,
+  monthlyDeduction,
+}: IClientProfile) {
+  const age = getAge(birthDate || clientData.birthDate);
 
   const identityHighlights = [
     { label: "Age", value: age },
-    { label: "Gender", value: clientData.gender },
-    { label: "Civil Status", value: clientData.civilStatus },
-    { label: "Rank", value: clientData.rank },
-    { label: "Last Unit Assigned", value: clientData.lastUnitAssigned },
-    { label: "Current Address", value: clientData.address.fullAddress },
+    { label: "Gender", value: gender || clientData.gender },
+    { label: "Civil Status", value: civilStatus || clientData.civilStatus },
+    { label: "Rank", value: rank || clientData.rank },
+    {
+      label: "Last Unit Assigned",
+      value: lastUnitAssigned || clientData.lastUnitAssigned,
+    },
+    {
+      label: "Current Address",
+      value: address || formatFullAddress(clientData.address),
+    },
   ].filter((item) => item.value);
 
   const clientBadge = [
-    { label: "ID", value: clientData.id },
-    { label: "Branch of Service", value: clientData.branchOfService },
-    { label: "ATM Account Number", value: clientData.atmAccountNumber },
+    { label: "ID", value: serialNumber || clientData.id },
+    {
+      label: "Branch of Service",
+      value: branchOfService || clientData.branchOfService,
+    },
   ].filter((item) => item.value);
 
   const pensionDetails = [
     {
       id: 1,
       title: "Monthly Pension",
-      details: formatCurrency(clientData.monthlyPension),
+      details:
+        formatCurrency(monthlyPension) ||
+        formatCurrency(clientData.monthlyPension),
     },
     {
       id: 2,
       title: "Monthly Deduction",
-      details: formatCurrency(clientData.monthlyDeduction),
+      details:
+        formatCurrency(monthlyDeduction) ||
+        formatCurrency(clientData.monthlyDeduction),
     },
     {
       id: 3,
       title: "FI1",
-      details: formatCurrency(clientData.fi1),
+      details: "WALA KO KABALO ASA NI",
     },
     {
       id: 4,

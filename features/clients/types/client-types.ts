@@ -97,8 +97,8 @@ export interface ClientFormValues {
   dateSeparationService: Date;
   dateRetiredService: Date;
   lengthOfService: number;
-  lastUnitAssigned?: string;
-  branchOfService?: string;
+  lastUnitAssigned: string;
+  branchOfService: string;
 
   // Account's Information
   monthlyPension: number;
@@ -280,22 +280,22 @@ export type ContactInfo = {
 export type ClientPension = {
   rank: string;
   pensionType: string;
-  serialNumber?: string;
-  idNumber?: string;
+  serialNumber: string;
+  idNumber: string;
   dateEnteredService: string;
   dateSeparationService: string;
   dateRetiredService: string;
-  lengthOfService?: string;
-  lastUnitAssigned?: string;
-  branchOfService?: string;
+  lengthOfService: string;
+  lastUnitAssigned: string;
+  branchOfService: string;
 };
 
 export type ClientAccount = {
-  monthlyPension?: number;
-  monthlyDeduction?: number;
-  atmAccountNumber?: string;
-  bankName?: string;
-  branchOfBank?: string;
+  monthlyPension: number;
+  monthlyDeduction: number;
+  atmAccountNumber: string;
+  bankName: string;
+  branchOfBank: string;
 };
 
 export type ClientFamilyInfo = {

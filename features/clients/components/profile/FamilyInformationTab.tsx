@@ -17,13 +17,13 @@ import { generateOrdinal } from "@/utils/generate-ordinals";
 import { ClientFamilyInfo } from "../../types/client-types";
 import { formatFullAddress } from "@/utils/format-full-address";
 
-type FamilyInformationTabProps = {
+interface IFamilyInformationTab {
   familyInfos: ClientFamilyInfo[];
-};
+}
 
 export default function FamilyInformationTab({
   familyInfos,
-}: FamilyInformationTabProps) {
+}: IFamilyInformationTab) {
   const familyMembers = familyInfos ? familyInfos : clientData.familyMembers;
   const spouse = familyMembers.find(
     (member) => member.relationship.toLowerCase() === "spouse"

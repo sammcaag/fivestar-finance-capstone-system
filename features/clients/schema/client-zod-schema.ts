@@ -130,8 +130,8 @@ export const pensionerInfoSchema = z.object({
     message: "Date retired service must be before today",
   }),
   lengthOfService: z.number().min(1, "Length of service is required"),
-  lastUnitAssigned: z.string().optional(),
-  branchOfService: z.string().optional(),
+  lastUnitAssigned: z.string().min(1, "Last unit assigned is required"),
+  branchOfService: z.string().min(1, "Branch of service is required"),
 });
 
 // -----------------------------

@@ -3,20 +3,31 @@
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import ClientInformation from "@/features/clients/components/ClientInformation";
-import ClientProfileHeader from "@/features/clients/components/profile/ClientProfileHeader";
 import { Suspense, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { LoanHistory } from "@/features/loans/types/loan-types";
 import { mockLoanHistoryData } from "@/features/loans/data/mock-loans-data";
 import { useLoanLogic } from "@/features/loans/hooks/use-loan-logic";
 import { Button } from "@/components/ui/button";
 import LoanHistoryTabs from "@/features/loans/components/LoanHistoryTabs";
 import LoanActionModal from "@/features/loans/components/LoanActionModal";
+import { useQuery } from "@tanstack/react-query";
+import { ClientPayload } from "@/features/clients/types/client-types";
+import { getClientBySerialNumber } from "@/features/clients/api/client-service";
+import ClientProfileHeaderSkeleton from "@/features/clients/components/profile/ClientProfileHeaderSkeleton";
 
 export default function ClientInfoPage() {
   useEffect(() => {
     document.title = "Client Information | Stella - Five Star Finance Inc.";
   }, []);
+
+  const params = useParams();
+  const serialNumber = params.id as string;
+
+  const { data: clientData, isLoading } = useQuery<ClientPayload>({
+    queryKey: ["clientBySerialNumber", serialNumber],
+    queryFn: () => getClientBySerialNumber(serialNumber),
+  });
 
   const router = useRouter();
   const [loanHistory] = useState<LoanHistory[]>(mockLoanHistoryData);
@@ -52,11 +63,15 @@ export default function ClientInfoPage() {
           { href: "/clients/info", label: "Client Information" },
         ]}
       />
-      <ClientProfileHeader />
-      <ClientInfoInSuspense />
+      {!isLoading && clientData ? (
+        <ClientInfoInSuspense client={clientData} />
+      ) : (
+        <ClientProfileHeaderSkeleton />
+      )}
       <LoanHistoryTabs
         loanSets={loanSets}
         loanHistory={loanHistory}
+        isLoading={isLoading}
         customHeaderRight={customHeaderRight}
         setSelectedLoan={setSelectedLoan}
         handleAddLoan={handleAddLoan}
@@ -71,10 +86,10 @@ export default function ClientInfoPage() {
   );
 }
 
-const ClientInfoInSuspense = () => {
+const ClientInfoInSuspense = ({ client }: { client: ClientPayload }) => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ClientInformation />
+      <ClientInformation client={client} />
     </Suspense>
   );
 };

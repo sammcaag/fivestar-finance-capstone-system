@@ -17,7 +17,7 @@ export default function ClientInfoRowItem({
   return (
     <div
       className={cn(
-        "flex items-start gap-4 rounded-xl border border-border/70 bg-card p-4 shadow-sm hover-card",
+        "flex items-center gap-4 rounded-xl border border-border/70 bg-card p-4 shadow-sm hover-card",
         className
       )}
     >

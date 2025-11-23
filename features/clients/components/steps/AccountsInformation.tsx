@@ -47,6 +47,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
             type="input"
             placeholder="0.00"
             leftIcon={PhilippinePeso}
+            required
             asNumber
           />
 
@@ -58,6 +59,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
             type="input"
             placeholder="0.00"
             leftIcon={PhilippinePeso}
+            required
             asNumber
           />
         </div>
@@ -77,7 +79,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
             type="input"
             placeholder="Enter ATM Account Number"
             leftIcon={CreditCard}
-            inputClassName="remove-arrow"
+            required
           />
 
           <FormFieldWrapper
@@ -87,6 +89,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
             type="input"
             placeholder="Enter Bank Name"
             leftIcon={Landmark}
+            required
           />
         </div>
 
@@ -98,6 +101,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
             type="input"
             placeholder="Enter Branch of Bank"
             leftIcon={Landmark}
+            required
           />
         </div>
       </SectionCard>

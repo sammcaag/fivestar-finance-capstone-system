@@ -44,6 +44,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             type="select"
             placeholder="Select rank"
             options={rankOptions}
+            required
           />
 
           <FormFieldWrapper
@@ -53,6 +54,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             type="select"
             placeholder="Select pension type"
             options={pensionTypeOptions}
+            required
           />
         </div>
 
@@ -64,6 +66,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             type="input"
             placeholder="Enter serial number"
             leftIcon={Hash}
+            required
           />
 
           <FormFieldWrapper
@@ -73,6 +76,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             type="input"
             placeholder="Enter ID number"
             leftIcon={Hash}
+            required
           />
         </div>
       </SectionCard>
@@ -90,6 +94,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             label="Date Entered Service"
             type="date"
             placeholder="Select service date"
+            required
           />
 
           <FormFieldWrapper
@@ -98,6 +103,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             label="Date Separation Service"
             type="date"
             placeholder="Select separation date"
+            required
           />
 
           <FormFieldWrapper
@@ -106,6 +112,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             label="Date Retired Service"
             type="date"
             placeholder="Select retirement date"
+            required
           />
         </div>
       </SectionCard>

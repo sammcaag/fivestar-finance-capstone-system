@@ -20,8 +20,17 @@ import { clientData } from "../../data/mock-clients-data";
 import { Separator } from "@/components/ui/separator";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { formatCurrency } from "@/features/loans/computations/utils/format-currency";
+import { ClientAccount, ClientPension } from "../../types/client-types";
 
-export default function PensionInformationTab() {
+interface IPensionInformationTab {
+  clientPension: ClientPension;
+  clientAccount: ClientAccount;
+}
+
+export default function PensionInformationTab({
+  clientPension,
+  clientAccount,
+}: IPensionInformationTab) {
   return (
     <TabsContent value="pension" className="mt-3">
       <Card className="border ">
@@ -49,61 +58,76 @@ export default function PensionInformationTab() {
               <ClientInfoRowItem
                 icon={<User className="h-4 w-4 text-primary" />}
                 label="Rank"
-                value={clientData.rank}
+                value={clientPension.rank || clientData.rank}
               />
               {/* Pension Type */}
               <ClientInfoRowItem
                 icon={<CreditCard className="h-4 w-4 text-primary" />}
                 label="Pension Type"
-                value={clientData.pensionType}
-              />
-              {/* ID Number */}
-              <ClientInfoRowItem
-                icon={<CreditCard className="h-4 w-4 text-primary" />}
-                label="ID Number"
-                value={clientData.idNumber}
+                value={clientPension.pensionType || clientData.pensionType}
               />
               {/* Serial Number */}
               <ClientInfoRowItem
                 icon={<CreditCard className="h-4 w-4 text-primary" />}
                 label="Serial Number"
-                value={clientData.serialNumber}
+                value={clientPension.serialNumber || clientData.serialNumber}
+              />
+              {/* ID Number */}
+              <ClientInfoRowItem
+                icon={<CreditCard className="h-4 w-4 text-primary" />}
+                label="ID Number"
+                value={clientPension.idNumber || clientData.idNumber}
               />
               {/* Date Entered Service */}
               <ClientInfoRowItem
                 icon={<Calendar className="h-4 w-4 text-primary" />}
                 label="Date Entered Service"
-                value={formatDateToReadable(clientData.dateEnteredService)}
+                value={
+                  formatDateToReadable(clientPension.dateEnteredService) ||
+                  formatDateToReadable(clientData.dateEnteredService)
+                }
               />
               {/* Date Separation Service */}
               <ClientInfoRowItem
                 icon={<Calendar className="h-4 w-4 text-primary" />}
                 label="Date Separation Service"
-                value={formatDateToReadable(clientData.dateSeparationService)}
+                value={
+                  formatDateToReadable(clientPension.dateSeparationService) ||
+                  formatDateToReadable(clientData.dateSeparationService)
+                }
               />
               {/* Date Retired Service */}
               <ClientInfoRowItem
                 icon={<Calendar className="h-4 w-4 text-primary" />}
                 label="Date Retired Service"
-                value={formatDateToReadable(clientData.dateRetiredService)}
+                value={
+                  formatDateToReadable(clientPension.dateRetiredService) ||
+                  formatDateToReadable(clientData.dateRetiredService)
+                }
               />
               {/* Length of Service */}
               <ClientInfoRowItem
                 icon={<Calendar className="h-4 w-4 text-primary" />}
                 label="Length of Service"
-                value={clientData.lengthOfService}
+                value={
+                  clientPension.lengthOfService || clientData.lengthOfService
+                }
               />
               {/* Last Unit Assigned */}
               <ClientInfoRowItem
                 icon={<Building2 className="h-4 w-4 text-primary" />}
                 label="Last Unit Assigned"
-                value={clientData.lastUnitAssigned}
+                value={
+                  clientPension.lastUnitAssigned || clientData.lastUnitAssigned
+                }
               />
               {/* Branch of Service */}
               <ClientInfoRowItem
                 icon={<Building2 className="h-4 w-4 text-primary" />}
                 label="Branch of Service"
-                value={clientData.branchOfService}
+                value={
+                  clientPension.branchOfService || clientData.branchOfService
+                }
               />
             </div>
           </section>
@@ -115,35 +139,23 @@ export default function PensionInformationTab() {
               </h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Account Number */}
-              <ClientInfoRowItem
-                icon={<CreditCard className="h-4 w-4 text-primary" />}
-                label="Account Number"
-                value={clientData.accountNumber}
-              />
               {/* Monthly Pension */}
               <ClientInfoRowItem
                 icon={<CreditCard className="h-4 w-4 text-primary" />}
                 label="Monthly Pension"
-                value={formatCurrency(clientData.monthlyPension)}
+                value={
+                  formatCurrency(clientAccount.monthlyPension) ||
+                  formatCurrency(clientData.monthlyPension)
+                }
               />
               {/* Monthly Deduction */}
               <ClientInfoRowItem
                 icon={<CreditCard className="h-4 w-4 text-primary" />}
                 label="Monthly Deduction"
-                value={formatCurrency(clientData.monthlyDeduction)}
-              />
-              {/* FI1 */}
-              <ClientInfoRowItem
-                icon={<CreditCard className="h-4 w-4 text-primary" />}
-                label="FI1"
-                value={formatCurrency(clientData.fi1)}
-              />
-              {/* ATM Account Number */}
-              <ClientInfoRowItem
-                icon={<CreditCard className="h-4 w-4 text-primary" />}
-                label="ATM Account Number"
-                value={clientData.atmAccountNumber}
+                value={
+                  formatCurrency(clientAccount.monthlyDeduction) ||
+                  formatCurrency(clientData.monthlyDeduction)
+                }
               />
             </div>
           </section>
@@ -154,15 +166,23 @@ export default function PensionInformationTab() {
               <h3 className="text-lg font-semibold ">Bank Information</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+              {/* ATM Account Number */}
+              <ClientInfoRowItem
+                icon={<CreditCard className="h-4 w-4 text-primary" />}
+                label="ATM Account Number"
+                value={
+                  clientAccount.atmAccountNumber || clientData.atmAccountNumber
+                }
+              />
               <ClientInfoRowItem
                 icon={<Building2 className="h-4 w-4 text-primary" />}
                 label="Bank Name"
-                value={clientData.bankName}
+                value={clientAccount.bankName || clientData.bankName}
               />
               <ClientInfoRowItem
                 icon={<Building2 className="h-4 w-4 text-primary" />}
                 label="Branch of Bank"
-                value={clientData.branchOfBank}
+                value={clientAccount.branchOfBank || clientData.branchOfBank}
               />
             </div>
           </section>
