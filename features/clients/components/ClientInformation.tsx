@@ -45,6 +45,10 @@ export default function ClientInformation({
         branchOfService={client.clientPension.branchOfService}
         monthlyPension={client.clientAccount.monthlyPension}
         monthlyDeduction={client.clientAccount.monthlyDeduction}
+        status={client.status ?? "INACTIVE"}
+        fullName={client.fullName}
+        profileImageUrl={client.profileImageUrl}
+        remarks={client.remarks}
       />
       <Tabs
         className="w-full"

@@ -314,6 +314,9 @@ export type ClientPayload = {
   civilStatus: string;
   occupation: string;
   placeOfBirth: string;
+  status?: string;
+  profileImageUrl?: string;
+  remarks?: string;
 
   address: Address;
   contactInfo: ContactInfo;

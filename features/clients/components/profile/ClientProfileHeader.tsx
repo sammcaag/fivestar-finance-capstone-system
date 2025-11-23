@@ -8,12 +8,10 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { clientData } from "../../data/mock-clients-data";
 import { cn } from "@/lib/utils";
 import { avatarFallBack } from "@/utils/avatar-fallback";
 import { getAge } from "@/utils/get-age";
 import { formatCurrency } from "@/features/loans/computations/utils/format-currency";
-import { formatFullAddress } from "@/utils/format-full-address";
 
 interface IClientProfile {
   birthDate: Date;
@@ -26,6 +24,10 @@ interface IClientProfile {
   branchOfService: string;
   monthlyPension: number;
   monthlyDeduction: number;
+  status: string;
+  fullName: string;
+  profileImageUrl?: string;
+  remarks?: string;
 }
 
 export default function ClientProfileHeader({
@@ -39,29 +41,33 @@ export default function ClientProfileHeader({
   branchOfService,
   monthlyPension,
   monthlyDeduction,
+  status,
+  fullName,
+  profileImageUrl,
+  remarks,
 }: IClientProfile) {
-  const age = getAge(birthDate || clientData.birthDate);
+  const age = getAge(birthDate);
 
   const identityHighlights = [
     { label: "Age", value: age },
-    { label: "Gender", value: gender || clientData.gender },
-    { label: "Civil Status", value: civilStatus || clientData.civilStatus },
-    { label: "Rank", value: rank || clientData.rank },
+    { label: "Gender", value: gender },
+    { label: "Civil Status", value: civilStatus },
+    { label: "Rank", value: rank },
     {
       label: "Last Unit Assigned",
-      value: lastUnitAssigned || clientData.lastUnitAssigned,
+      value: lastUnitAssigned,
     },
     {
       label: "Current Address",
-      value: address || formatFullAddress(clientData.address),
+      value: address,
     },
   ].filter((item) => item.value);
 
   const clientBadge = [
-    { label: "ID", value: serialNumber || clientData.id },
+    { label: "ID", value: serialNumber },
     {
       label: "Branch of Service",
-      value: branchOfService || clientData.branchOfService,
+      value: branchOfService,
     },
   ].filter((item) => item.value);
 
@@ -69,16 +75,12 @@ export default function ClientProfileHeader({
     {
       id: 1,
       title: "Monthly Pension",
-      details:
-        formatCurrency(monthlyPension) ||
-        formatCurrency(clientData.monthlyPension),
+      details: formatCurrency(monthlyPension),
     },
     {
       id: 2,
       title: "Monthly Deduction",
-      details:
-        formatCurrency(monthlyDeduction) ||
-        formatCurrency(clientData.monthlyDeduction),
+      details: formatCurrency(monthlyDeduction),
     },
     {
       id: 3,
@@ -88,7 +90,7 @@ export default function ClientProfileHeader({
     {
       id: 4,
       title: "Original Account",
-      details: clientData.branch.name,
+      details: "WILL IMPLEMENT",
     },
   ].filter((item) => item.details);
 
@@ -98,7 +100,7 @@ export default function ClientProfileHeader({
         <Badge
           className={cn(
             "absolute right-6 top-6 flex items-center gap-2 rounded-full border border-white/20 px-4 py-1 text-sm font-semibold uppercase tracking-[0.2em] text-white",
-            clientData.status === "ACTIVE"
+            status === "ACTIVE"
               ? "bg-green-100 border-green-500 text-green-700"
               : "bg-red-100 border-red-500 text-red-700"
           )}
@@ -106,19 +108,19 @@ export default function ClientProfileHeader({
           <span
             className={cn(
               "h-2 w-2 rounded-full",
-              clientData.status === "ACTIVE" ? "bg-green-500" : "bg-red-500"
+              status === "ACTIVE" ? "bg-green-500" : "bg-red-500"
             )}
           />
-          {clientData.status}
+          {status}
         </Badge>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:gap-10">
           <Avatar className="h-28 w-28 border-4 border-white/70 shadow-xl ring-4 ring-white/30 md:h-32 md:w-32">
             <AvatarImage
-              src={clientData.profileImageUrl || "/placeholder.svg"}
+              src={profileImageUrl || "/placeholder.svg"}
               alt="Profile picture"
             />
             <AvatarFallback className="text-3xl bg-blue-100 text-primary">
-              {avatarFallBack(clientData.fullName)}
+              {avatarFallBack(fullName)}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 space-y-4">
@@ -127,7 +129,7 @@ export default function ClientProfileHeader({
                 Client Profile
               </CardTitle>
               <CardDescription className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
-                {clientData.fullName}
+                {fullName}
               </CardDescription>
             </div>
             <div className="flex flex-wrap items-center gap-2 text-xs font-medium uppercase tracking-wide text-white/80">
@@ -165,7 +167,7 @@ export default function ClientProfileHeader({
           <div className="space-y-3">
             <h3 className="text-base font-semibold text-foreground">Remarks</h3>
             <div className="rounded-lg shadow-sm border border-border/60 p-4 text-sm leading-relaxed hover-card">
-              <p>{clientData.remarks}</p>
+              <p>{remarks || "No remarks yet"}</p>
             </div>
           </div>
         </div>
