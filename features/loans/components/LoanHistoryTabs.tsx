@@ -41,7 +41,7 @@ export default function LoanHistoryTabs({
     filterColumns: ["dedCode", "productType", "term", "status"],
     initialSort: [
       { id: "dedCode", desc: false },
-      { id: "maturityDate", desc: false },
+      { id: "valueDate", desc: false },
     ],
     emptyTitle: "No Loans Found",
     emptyDescription: "There are no loans. Add a new loan to get started.",

@@ -19,10 +19,8 @@ export default function ClientInfoPage() {
   }, []);
 
   const router = useRouter();
-  const [loanHistory, setLoanHistory] =
-    useState<LoanHistory[]>(mockLoanHistoryData);
+  const [loanHistory] = useState<LoanHistory[]>(mockLoanHistoryData);
   const [selectedLoan, setSelectedLoan] = useState<LoanHistory | null>(null);
-  const [isLoanHistory] = useState(true); // Toggle based on your logic; true for button, false for search
   const today = new Date("2025-11-13");
   today.setHours(0, 0, 0, 0);
 
@@ -36,14 +34,14 @@ export default function ClientInfoPage() {
     router.push(`/loans/computations/${slug}`);
   };
 
-  const customHeaderRight = isLoanHistory ? (
+  const customHeaderRight = (
     <Button
       variant="default"
       onClick={() => handleAddLoan(buttonLabel.replace("Add ", ""))}
     >
       {buttonLabel}
     </Button>
-  ) : null;
+  );
 
   return (
     <ContentLayout title="Client Information">

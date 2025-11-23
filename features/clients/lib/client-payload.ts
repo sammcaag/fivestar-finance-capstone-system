@@ -6,8 +6,9 @@ export const clientPayload = (data: ClientFormValues) => {
       `${data.firstName} ${data.middleName} ${data.lastName} ${data.suffix}`.trim(),
     gender: data.gender,
     birthDate: data.dateOfBirth,
-    civilStatus: data.civilStatus,
     religion: data.religion,
+    civilStatus: data.civilStatus,
+    occupation: data.occupation,
     placeOfBirth: data.placeOfBirth,
 
     // Address
@@ -43,7 +44,6 @@ export const clientPayload = (data: ClientFormValues) => {
 
     // Account info
     clientAccount: {
-      accountNumber: data.accountNumber || null,
       monthlyPension: data.monthlyPension || null,
       monthlyDeduction: data.monthlyDeduction || null,
       atmAccountNumber: data.atmAccountNumber || null,
@@ -80,9 +80,15 @@ export const clientPayload = (data: ClientFormValues) => {
               region: data.spouseRegion,
               zipCode: data.spouseZipCode,
             },
-            contactInfo: {
-              primary_contact: data.spouseContactNumber,
-            },
+            // Only include contactInfo if spouseContactNumber is non-empty string
+            ...(typeof data.spouseContactNumber === "string" &&
+            data.spouseContactNumber.trim().length > 1
+              ? {
+                  contactInfo: {
+                    primary_contact: data.spouseContactNumber.trim(),
+                  },
+                }
+              : {}),
           }
         : null,
 

@@ -32,6 +32,7 @@ export interface ClientFormValues {
   secondaryContact?: string;
   religion: string;
   civilStatus: string;
+  occupation: string;
   mothersMaidenName?: string;
   placeOfBirth: string;
 
@@ -100,7 +101,6 @@ export interface ClientFormValues {
   branchOfService?: string;
 
   // Account's Information
-  accountNumber: string;
   monthlyPension: number;
   monthlyDeduction: number;
   atmAccountNumber: string;
@@ -151,40 +151,63 @@ export const suffixOptions = [
 ];
 
 export const civilStatusOptions = [
-  { label: "Single", value: "single" },
-  { label: "Married", value: "married" },
-  { label: "Divorced", value: "divorced" },
-  { label: "Widowed", value: "widowed" },
-  { label: "Separated", value: "separated" },
+  { label: "Single", value: "SINGLE" },
+  { label: "Married", value: "MARRIED" },
+  { label: "Divorced", value: "DIVORCED" },
+  { label: "Widowed", value: "WIDOWED" },
+  { label: "Separated", value: "SEPARATED" },
+  { label: "W/O Allotee", value: "WOALLOTEE" },
+  { label: "W/ Allotee", value: "WALLOTEE" },
 ];
 
+// export const rankOptions = [
+//   { label: "CPL", value: "CPL" },
+//   { label: "SGT", value: "SGT" },
+//   { label: "SSG", value: "SSG" },
+//   { label: "SSGT", value: "SSGT" },
+//   { label: "MSGT", value: "MSGT" },
+//   { label: "MSG", value: "MSG" },
+//   { label: "WO1", value: "WO1" },
+//   { label: "1LT", value: "LT1" },
+//   { label: "2LT", value: "LT2" },
+//   { label: "CPT", value: "CPT" },
+//   { label: "MAJ", value: "MAJ" },
+//   { label: "LTCOL", value: "LTCOL" },
+//   { label: "BG", value: "BG" },
+//   { label: "MG", value: "MG" },
+//   { label: "LTG", value: "LTG" },
+//   { label: "GEN", value: "GEN" },
+//   { label: "PO1", value: "PO1" },
+//   { label: "PO2", value: "PO2" },
+//   { label: "PO3", value: "PO3" },
+//   { label: "CPO", value: "CPO" },
+//   { label: "ENS", value: "ENS" },
+//   { label: "PVT", value: "PVT" },
+//   { label: "PFC", value: "PFC" },
+//   { label: "LTCOL", value: "LTCOL" },
+//   { label: "E-W", value: "EW" },
+// ];
+
 export const rankOptions = [
-  { label: "CPL", value: "CPL" },
+  { label: "TSG", value: "TSG" },
+  { label: "TSGT", value: "TSGT" },
   { label: "SGT", value: "SGT" },
-  { label: "SSG", value: "SSG" },
-  { label: "SSGT", value: "SSGT" },
-  { label: "MSGT", value: "MSGT" },
   { label: "MSG", value: "MSG" },
-  { label: "WO1", value: "WO1" },
-  { label: "1LT", value: "1LT" },
-  { label: "2LT", value: "2LT" },
-  { label: "CPT", value: "CPT" },
-  { label: "MAJ", value: "MAJ" },
-  { label: "LTC", value: "LTC" },
-  { label: "COL", value: "COL" },
-  { label: "BG", value: "BG" },
-  { label: "MG", value: "MG" },
-  { label: "LTG", value: "LTG" },
-  { label: "GEN", value: "GEN" },
-  { label: "PO1", value: "PO1" },
-  { label: "PO2", value: "PO2" },
-  { label: "PO3", value: "PO3" },
-  { label: "CPO", value: "CPO" },
-  { label: "ENS", value: "ENS" },
-  { label: "PVT", value: "PVT" },
-  { label: "PFC", value: "PFC" },
+  { label: "MSGT", value: "MSGT" },
+  { label: "1LT", value: "LT1" },
+  { label: "2LT", value: "LT2" },
   { label: "LTCOL", value: "LTCOL" },
-  { label: "E-W", value: "EW" },
+  { label: "CAPT", value: "CAPT" },
+  { label: "MAJ", value: "MAJ" },
+  { label: "BGEN", value: "BGEN" },
+  { label: "GEN", value: "GEN" },
+
+  // Additional ranks from backend
+  { label: "EW", value: "EW" },
+  { label: "OW", value: "OW" },
+  { label: "MR", value: "MR" },
+  { label: "MRS", value: "MRS" },
+  { label: "MS", value: "MS" },
 ];
 
 export const pensionTypeOptions = [

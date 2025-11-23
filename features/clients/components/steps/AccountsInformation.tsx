@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {
   DollarSign,
   Building,
-  Hash,
   CreditCard,
   Landmark,
   PhilippinePeso,
@@ -39,17 +38,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
         icon={DollarSign}
         title="Pension Details"
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Account Number */}
-          <FormFieldWrapper
-            name="accountNumber"
-            control={form.control}
-            label="Account Number"
-            type="input"
-            placeholder="Enter account number"
-            leftIcon={Hash}
-          />
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Monthly Pension */}
           <FormFieldWrapper
             name="monthlyPension"

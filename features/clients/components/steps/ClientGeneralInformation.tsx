@@ -208,7 +208,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
         icon={Heart}
         title="Additional Information"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FormFieldWrapper
             name="religion"
             control={form.control}
@@ -226,6 +226,16 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
             placeholder="Select status"
             options={civilStatusOptions}
           />
+          <FormFieldWrapper
+            name="occupation"
+            control={form.control}
+            label="Occupation"
+            type="input"
+            placeholder="Pensioner"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <FormFieldWrapper
             name="mothersMaidenName"
             control={form.control}

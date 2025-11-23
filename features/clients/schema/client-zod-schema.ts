@@ -40,6 +40,7 @@ export const clientGeneralInfoSchema = z.object({
   civilStatus: z.string().refine((v) => v !== "", {
     message: "Civil status is required",
   }),
+  occupation: z.string().min(1, "Occupation is required"),
   mothersMaidenName: z.string().optional(),
   placeOfBirth: z.string().min(1, "Place of birth is required"),
 });
@@ -137,7 +138,6 @@ export const pensionerInfoSchema = z.object({
 // Step 4: Account Info
 // -----------------------------
 export const accountInfoSchema = z.object({
-  accountNumber: z.string().min(1, "Account number is required"),
   monthlyPension: z.number().min(1, "Monthly pension is required"),
   monthlyDeduction: z.number().min(1, "Monthly deduction is required"),
   atmAccountNumber: z.string().min(1, "ATM account number is required"),
