@@ -8,14 +8,13 @@ import {
 import { TabsContent } from "@/components/ui/tabs";
 import { Calendar, MapPin, Phone, User, Users } from "lucide-react";
 import React from "react";
-import { clientData } from "../../data/mock-clients-data";
 import ClientInfoRowItem from "../ClientInfoRowItem";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { getAge } from "@/utils/get-age";
 import { Separator } from "@/components/ui/separator";
 
 interface IPersionalInformation {
-  birthDate?: Date;
+  birthDate: Date;
   civilStatus?: string;
   religion?: string;
   birthPlace?: string;
@@ -33,8 +32,8 @@ export default function PersonalInformationTab({
   primaryContact,
   secondaryContact,
 }: IPersionalInformation) {
-  const dateOfBirth = formatDateToReadable(birthDate || clientData.birthDate);
-  const age = getAge(birthDate || clientData.birthDate);
+  const dateOfBirth = formatDateToReadable(birthDate);
+  const age = getAge(birthDate);
 
   return (
     <TabsContent value="personal" className="mt-3">
@@ -66,25 +65,25 @@ export default function PersonalInformationTab({
             <ClientInfoRowItem
               icon={<Users />}
               label="Civil Status"
-              value={civilStatus || clientData.civilStatus}
+              value={civilStatus}
             />
             {/* Religion */}
             <ClientInfoRowItem
               icon={<User />}
               label="Religion"
-              value={religion || clientData.religion}
+              value={religion}
             />
             {/* Place of Birth */}
             <ClientInfoRowItem
               icon={<MapPin />}
               label="Place of Birth"
-              value={birthPlace || clientData.placeOfBirth}
+              value={birthPlace}
             />
             {/* Current Address */}
             <ClientInfoRowItem
               icon={<MapPin />}
               label="Current Address"
-              value={address || clientData.address.cityOrMunicipality}
+              value={address}
             />
           </section>
 
@@ -105,7 +104,7 @@ export default function PersonalInformationTab({
             </div>
             <Separator className="my-6" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-6">
-              {primaryContact ? (
+              {primaryContact && (
                 <>
                   <ClientInfoRowItem
                     icon={<Phone />}
@@ -120,19 +119,6 @@ export default function PersonalInformationTab({
                     />
                   )}
                 </>
-              ) : (
-                clientData.contactInfo.map(
-                  (
-                    contact //change this to cater contact number
-                  ) => (
-                    <ClientInfoRowItem
-                      key={contact.id}
-                      icon={<Phone />}
-                      label={contact.type}
-                      value={contact.number}
-                    />
-                  )
-                )
               )}
             </div>
           </section>

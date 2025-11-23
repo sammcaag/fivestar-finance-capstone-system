@@ -9,7 +9,6 @@ import { TabsContent } from "@/components/ui/tabs";
 import { Calendar, MapPin, Phone, User, Users } from "lucide-react";
 import React from "react";
 import ClientInfoRowItem from "../ClientInfoRowItem";
-import { clientData } from "../../data/mock-clients-data";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { Separator } from "@/components/ui/separator";
 import { getAge } from "@/utils/get-age";
@@ -24,7 +23,7 @@ interface IFamilyInformationTab {
 export default function FamilyInformationTab({
   familyInfos,
 }: IFamilyInformationTab) {
-  const familyMembers = familyInfos ? familyInfos : clientData.familyMembers;
+  const familyMembers = familyInfos;
   const spouse = familyMembers.find(
     (member) => member.relationship.toLowerCase() === "spouse"
   );
