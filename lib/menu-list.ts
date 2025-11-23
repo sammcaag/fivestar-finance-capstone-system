@@ -5,7 +5,6 @@ import {
   UserRoundPlus,
   Calculator,
   History,
-  FileUser,
   Settings,
   FileChartColumn,
   FilePenLine,
@@ -56,11 +55,6 @@ export function getMenuList(): Group[] {
           href: "/clients/register", // refine form
           label: "Register Client",
           icon: UserRoundPlus,
-        },
-        {
-          href: "/clients/info", // with page client info
-          label: "Client Information",
-          icon: FileUser,
         },
       ],
     },
