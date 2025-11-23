@@ -94,9 +94,8 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
             type="select"
             placeholder="Select gender"
             options={[
-              { value: "male", label: "Male" },
-              { value: "female", label: "Female" },
-              { value: "other", label: "Other" },
+              { value: "MALE", label: "Male" },
+              { value: "FEMALE", label: "Female" },
             ]}
           />
         </div>
@@ -232,6 +231,7 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
             label="Occupation"
             type="input"
             placeholder="Pensioner"
+            required
           />
         </div>
 

@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ClientPayload } from "@/features/clients/types/client-types";
 import { getClientBySerialNumber } from "@/features/clients/api/client-service";
 import ClientProfileHeaderSkeleton from "@/features/clients/components/profile/ClientProfileHeaderSkeleton";
+import NotFoundPage from "@/components/NotFoundPage";
 
 export default function ClientInfoPage() {
   useEffect(() => {
@@ -55,33 +56,37 @@ export default function ClientInfoPage() {
   );
 
   return (
-    <ContentLayout title="Client Information">
+    <ContentLayout title={"Client Information"}>
       <BreadcrumbPages
         links={[
           { href: "/", label: "Home" },
           { href: "/clients", label: "Clients" },
-          { href: "/clients/info", label: "Client Information" },
+          { href: `/clients/${serialNumber}`, label: serialNumber },
         ]}
       />
-      {!isLoading && clientData ? (
-        <ClientInfoInSuspense client={clientData} />
-      ) : (
+      {isLoading ? (
         <ClientProfileHeaderSkeleton />
+      ) : clientData ? (
+        <>
+          <ClientInfoInSuspense client={clientData as ClientPayload} />
+          <LoanHistoryTabs
+            loanSets={loanSets}
+            loanHistory={loanHistory}
+            isLoading={isLoading}
+            customHeaderRight={customHeaderRight}
+            setSelectedLoan={setSelectedLoan}
+            handleAddLoan={handleAddLoan}
+            totalSets={loanSets.length}
+          />
+          <LoanActionModal
+            selectedLoan={selectedLoan}
+            setSelectedLoan={setSelectedLoan}
+            today={today}
+          />
+        </>
+      ) : (
+        <NotFoundPage title={"Client"} />
       )}
-      <LoanHistoryTabs
-        loanSets={loanSets}
-        loanHistory={loanHistory}
-        isLoading={isLoading}
-        customHeaderRight={customHeaderRight}
-        setSelectedLoan={setSelectedLoan}
-        handleAddLoan={handleAddLoan}
-        totalSets={loanSets.length}
-      />
-      <LoanActionModal
-        selectedLoan={selectedLoan}
-        setSelectedLoan={setSelectedLoan}
-        today={today}
-      />
     </ContentLayout>
   );
 }

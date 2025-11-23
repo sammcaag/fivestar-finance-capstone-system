@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 export default function HomePage() {
   const router = useRouter();
 
-
   useEffect(() => {
     router.replace("/dashboard");
     // eslint-disable-next-line react-hooks/exhaustive-deps
