@@ -1,24 +1,20 @@
 import { ClientTableProps } from "../types/client-types";
 
 type AddressInfo = {
-  type: "current" | "home";
-  houseNumber?: string;
-  buildingNumber?: string;
-  street?: string;
-  barangay: string;
+  addressLine1: string;
+  addressLine2?: string;
+  barangay?: string;
   cityOrMunicipality: string;
   province: string;
   region: string;
-  zipCode: string;
-  country: string;
-  fullAddress: string;
+  zipCode: number;
 };
 
 type FamilyInfo = {
   id: string;
-  fullName: string;
+  name: string;
   relationship: string;
-  dateOfBirth: string;
+  birthDate: Date;
   contactNumber?: string;
   address?: AddressInfo;
 };
@@ -27,7 +23,7 @@ export const clientData = {
   // Client table based structure
   id: "SPKND-EJIUS",
   fullName: "John Doe",
-  dateOfBirth: "1958-01-15",
+  birthDate: "1958-01-15",
   gender: "Male",
   placeOfBirth: "Springfield, USA",
   civilStatus: "married",
@@ -60,16 +56,13 @@ export const clientData = {
   // Address Info based structure
   address: {
     type: "home",
-    houseNumber: "550",
-    buildingNumber: "N",
-    street: "King St",
+    addressLine1: "550",
+    addressLine2: "N",
     barangay: "Honolulu",
     cityOrMunicipality: "Honolulu",
     province: "Hawaii",
     region: "Hawaii",
-    zipCode: "96817",
-    country: "USA",
-    fullAddress: "550 N King St, Honolulu, Hawaii 96817",
+    zipCode: 89656,
   } as AddressInfo,
 
   // Pension Info based structure
@@ -98,47 +91,44 @@ export const clientData = {
   familyMembers: [
     {
       id: "1",
-      fullName: "Sarah Smith",
-      relationship: "dependent",
-      dateOfBirth: "March 22, 1960",
+      name: "Sarah Smith",
+      relationship: "child",
+      birthDate: new Date(),
     },
     {
       id: "2",
-      fullName: "Michael Smith",
-      relationship: "dependent",
-      dateOfBirth: "April 10, 1985",
+      name: "Michael Smith",
+      relationship: "child",
+      birthDate: new Date(),
     },
     {
       id: "3",
-      fullName: "Jennifer Smith",
-      relationship: "dependent",
-      dateOfBirth: "July 18, 1988",
+      name: "Jennifer Smith",
+      relationship: "child",
+      birthDate: new Date(),
     },
     {
       id: "4",
-      fullName: "Sarah Jane Smith",
+      name: "Sarah Jane Smith",
       relationship: "spouse",
-      dateOfBirth: "January 15, 1958",
+      birthDate: new Date(),
       contactNumber: "(555) 234-5678",
       address: {
         type: "home",
-        houseNumber: "550",
-        buildingNumber: "N",
-        street: "King St",
+        addressLine1: "550",
+        addressLine2: "N",
         barangay: "Honolulu",
         cityOrMunicipality: "Honolulu",
         province: "Hawaii",
         region: "Hawaii",
         zipCode: "96817",
-        country: "USA",
-        fullAddress: "550 N King St, Honolulu, Hawaii 96817",
       },
     },
     {
       id: "5",
-      fullName: "Mary Johnson",
+      name: "Mary Johnson",
       relationship: "mother",
-      dateOfBirth: "April 10, 1950",
+      birthDate: new Date(),
       contactNumber: "(555) 345-6789",
     },
   ] as FamilyInfo[],
@@ -184,7 +174,11 @@ export const clientTableData: ClientTableProps[] = [
     name: "John Smith",
     email: "john.smith@example.com",
     status: "active",
-    created_at: "2023-11-10",
+    createdAt: "2023-11-10",
+
+    gender: "Male",
+    birthDate: new Date(),
+    rank: "TSG",
     branchName: "Cagayan de Oro City",
   },
   {
@@ -192,7 +186,11 @@ export const clientTableData: ClientTableProps[] = [
     name: "Sarah Johnson",
     email: "sarah.j@example.com",
     status: "active",
-    created_at: "2023-11-15",
+    createdAt: "2023-11-15",
+
+    gender: "Male",
+    birthDate: new Date(),
+    rank: "TSG",
     branchName: "Zamboanga City",
   },
   {
@@ -200,7 +198,11 @@ export const clientTableData: ClientTableProps[] = [
     name: "Michael Brown",
     email: "m.brown@example.com",
     status: "inactive",
-    created_at: "2023-10-05",
+    createdAt: "2023-10-05",
+
+    gender: "Male",
+    birthDate: new Date(),
+    rank: "TSG",
     branchName: "Ilo-Ilo City",
   },
   {
@@ -208,7 +210,11 @@ export const clientTableData: ClientTableProps[] = [
     name: "Emily Davis",
     email: "emily.d@example.com",
     status: "pending",
-    created_at: "2023-11-20",
+    createdAt: "2023-11-20",
+
+    gender: "Male",
+    birthDate: new Date(),
+    rank: "TSG",
     branchName: "Davao City",
   },
   {
@@ -216,7 +222,11 @@ export const clientTableData: ClientTableProps[] = [
     name: "Robert Wilson",
     email: "r.wilson@example.com",
     status: "active",
-    created_at: "2023-11-20",
+    createdAt: "2023-11-20",
+
+    gender: "Male",
+    birthDate: new Date(),
+    rank: "TSG",
     branchName: "Quezon City",
   },
   {
@@ -224,7 +234,11 @@ export const clientTableData: ClientTableProps[] = [
     name: "Jennifer Lee",
     email: "j.lee@example.com",
     status: "inactive",
-    created_at: "2023-11-25",
+    createdAt: "2023-11-25",
+
+    gender: "Male",
+    birthDate: new Date(),
+    rank: "TSG",
     branchName: "Calapan City",
   },
   {
@@ -232,7 +246,11 @@ export const clientTableData: ClientTableProps[] = [
     name: "David Martinez",
     email: "d.martinez@example.com",
     status: "processed",
-    created_at: "2023-11-25",
+    createdAt: "2023-11-25",
+
+    gender: "Male",
+    birthDate: new Date(),
+    rank: "TSG",
     branchName: "Tuguegarao City",
   },
   {
@@ -240,7 +258,11 @@ export const clientTableData: ClientTableProps[] = [
     name: "Lisa Thompson",
     email: "lisa.t@example.com",
     status: "active",
-    created_at: "2023-11-05",
+    createdAt: "2023-11-05",
+
+    gender: "Male",
+    birthDate: new Date(),
+    rank: "TSG",
     branchName: "Tuguegarao City",
   },
   {
@@ -248,7 +270,11 @@ export const clientTableData: ClientTableProps[] = [
     name: "James Anderson",
     email: "j.anderson@example.com",
     status: "processed",
-    created_at: "2023-10-15",
+    createdAt: "2023-10-15",
+
+    gender: "Male",
+    birthDate: new Date(),
+    rank: "TSG",
     branchName: "Cagayan de Oro City",
   },
   {
@@ -256,7 +282,11 @@ export const clientTableData: ClientTableProps[] = [
     name: "Patricia Garcia",
     email: "p.garcia@example.com",
     status: "active",
-    created_at: "2023-11-12",
+    createdAt: "2023-11-12",
+
+    gender: "Male",
+    birthDate: new Date(),
+    rank: "TSG",
     branchName: "Zamboanga City",
   },
 ];

@@ -33,8 +33,8 @@ export default function PersonalInformationTab({
   primaryContact,
   secondaryContact,
 }: IPersionalInformation) {
-  const dateOfBirth = formatDateToReadable(birthDate || clientData.dateOfBirth);
-  const age = getAge(birthDate || clientData.dateOfBirth);
+  const dateOfBirth = formatDateToReadable(birthDate || clientData.birthDate);
+  const age = getAge(birthDate || clientData.birthDate);
 
   return (
     <TabsContent value="personal" className="mt-3">
@@ -84,7 +84,7 @@ export default function PersonalInformationTab({
             <ClientInfoRowItem
               icon={<MapPin />}
               label="Current Address"
-              value={address || clientData.address.fullAddress}
+              value={address || clientData.address.cityOrMunicipality}
             />
           </section>
 

@@ -14,17 +14,25 @@ import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { Separator } from "@/components/ui/separator";
 import { getAge } from "@/utils/get-age";
 import { generateOrdinal } from "@/utils/generate-ordinals";
+import { ClientFamilyInfo } from "../../types/client-types";
+import { formatFullAddress } from "@/utils/format-full-address";
 
-export default function FamilyInformationTab() {
-  const familyMembers = clientData.familyMembers ?? [];
+type FamilyInformationTabProps = {
+  familyInfos: ClientFamilyInfo[];
+};
+
+export default function FamilyInformationTab({
+  familyInfos,
+}: FamilyInformationTabProps) {
+  const familyMembers = familyInfos ? familyInfos : clientData.familyMembers;
   const spouse = familyMembers.find(
-    (member) => member.relationship === "spouse"
+    (member) => member.relationship.toLowerCase() === "spouse"
   );
   const mother = familyMembers.find(
-    (member) => member.relationship === "mother"
+    (member) => member.relationship.toLowerCase() === "mother"
   );
-  const dependents = familyMembers.filter(
-    (member) => member.relationship === "dependent"
+  const children = familyMembers.filter(
+    (member) => member.relationship.toLowerCase() === "child"
   );
 
   return (
@@ -56,36 +64,35 @@ export default function FamilyInformationTab() {
                 <ClientInfoRowItem
                   icon={<User className="h-4 w-4 text-primary" />}
                   label="Spouse's Full Name"
-                  value={spouse.fullName}
+                  value={spouse.name}
                 />
                 {/* Age */}
                 <ClientInfoRowItem
                   icon={<Calendar className="h-4 w-4 text-primary" />}
                   label="Age"
-                  value={getAge(spouse.dateOfBirth)}
+                  value={getAge(spouse.birthDate ?? "")}
                 />
                 {/* Birthdate */}
                 <ClientInfoRowItem
                   icon={<Calendar className="h-4 w-4 text-primary" />}
                   label="Birthdate"
-                  value={formatDateToReadable(spouse.dateOfBirth)}
+                  value={formatDateToReadable(spouse.birthDate ?? "")}
                 />
                 {/* Address */}
-                {spouse.address?.fullAddress && (
+                {spouse.address && (
                   <ClientInfoRowItem
                     icon={<MapPin className="h-4 w-4 text-primary" />}
                     label="Address"
-                    value={spouse.address.fullAddress}
+                    value={formatFullAddress(spouse.address)}
                   />
                 )}
                 {/* Contact Number */}
-                {spouse.contactNumber && (
-                  <ClientInfoRowItem
-                    icon={<Phone className="h-4 w-4 text-primary" />}
-                    label="Contact Number"
-                    value={spouse.contactNumber}
-                  />
-                )}
+
+                <ClientInfoRowItem
+                  icon={<Phone className="h-4 w-4 text-primary" />}
+                  label="Contact Number"
+                  value={"099 REFETCH NI"}
+                />
               </div>
             </section>
           )}
@@ -101,47 +108,40 @@ export default function FamilyInformationTab() {
                 <ClientInfoRowItem
                   icon={<User className="h-4 w-4 text-primary" />}
                   label="Mother's Full Name"
-                  value={mother.fullName}
+                  value={mother.name}
                 />
                 {/* Age */}
                 <ClientInfoRowItem
                   icon={<Calendar className="h-4 w-4 text-primary" />}
                   label="Age"
-                  value={getAge(mother.dateOfBirth)}
+                  value={getAge(mother.birthDate ?? "")}
                 />
                 {/* Birthdate */}
                 <ClientInfoRowItem
                   icon={<Calendar className="h-4 w-4 text-primary" />}
                   label="Birthdate"
-                  value={formatDateToReadable(mother.dateOfBirth)}
+                  value={formatDateToReadable(mother.birthDate ?? "")}
                 />
                 {/* Address */}
-                {mother.address?.fullAddress && (
+                {mother.address && (
                   <ClientInfoRowItem
                     icon={<MapPin className="h-4 w-4 text-primary" />}
                     label="Address"
-                    value={mother.address.fullAddress}
-                  />
-                )}
-                {mother.contactNumber && (
-                  <ClientInfoRowItem
-                    icon={<Phone className="h-4 w-4 text-primary" />}
-                    label="Contact Number"
-                    value={mother.contactNumber}
+                    value={formatFullAddress(mother.address)}
                   />
                 )}
               </div>
             </section>
           )}
 
-          {dependents.length > 0 && (
+          {children.length > 0 && (
             <section className="space-y-3">
               <div className="flex gap-2 flex-row items-center">
                 <Users className="h-5 w-5 text-primary" />
                 <h3 className="text-lg font-semibold">Family Dependents</h3>
               </div>
               <div className="space-y-4">
-                {dependents.map((member, index) => (
+                {children.map((member, index) => (
                   <div className="space-y-3" key={index}>
                     <h4 className="text-base font-medium">
                       {generateOrdinal(index + 1)} dependent
@@ -151,35 +151,27 @@ export default function FamilyInformationTab() {
                       <ClientInfoRowItem
                         icon={<User className="h-4 w-4 text-primary" />}
                         label="Full Name"
-                        value={member.fullName}
+                        value={member.name}
                       />
                       {/* Age */}
                       <ClientInfoRowItem
                         icon={<Calendar className="h-4 w-4 text-primary" />}
                         label="Age"
-                        value={getAge(member.dateOfBirth)}
+                        value={getAge(member.birthDate ?? "")}
                       />
                       {/* Birthdate */}
                       <ClientInfoRowItem
                         icon={<Calendar className="h-4 w-4 text-primary" />}
                         label="Birthdate"
-                        value={formatDateToReadable(member.dateOfBirth)}
+                        value={formatDateToReadable(member.birthDate ?? "")}
                       />
-                      {/* Contact Number */}
-                      {member.contactNumber && (
-                        <ClientInfoRowItem
-                          icon={<Phone className="h-4 w-4 text-primary" />}
-                          label="Contact Number"
-                          value={member.contactNumber}
-                        />
-                      )}
 
                       {/* Address */}
-                      {member.address?.fullAddress && (
+                      {member.address && (
                         <ClientInfoRowItem
                           icon={<MapPin className="h-4 w-4 text-primary" />}
                           label="Address"
-                          value={member.address.fullAddress}
+                          value={formatFullAddress(member.address)}
                         />
                       )}
                     </div>

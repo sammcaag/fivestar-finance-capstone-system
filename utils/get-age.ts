@@ -1,4 +1,7 @@
-export function getAge(birthdate: string | Date, withYrsOld: boolean = true): string {
+export function getAge(
+  birthdate: string | Date,
+  withYrsOld: boolean = true
+): string {
   const birth = new Date(birthdate);
   const today = new Date();
 

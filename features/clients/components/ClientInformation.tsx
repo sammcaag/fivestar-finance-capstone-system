@@ -47,7 +47,7 @@ export default function ClientInformation(client: ClientPayload) {
       />
 
       {/* Other Information Tab */}
-      <FamilyInformationTab />
+      <FamilyInformationTab familyInfos={client.clientFamilyInfos} />
 
       {/* Pension Information Tab */}
       <PensionInformationTab />

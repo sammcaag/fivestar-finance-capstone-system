@@ -264,12 +264,12 @@ export type ClientTableProps = {
 
 export type Address = {
   addressLine1: string;
-  addressLine2: string | null;
-  barangay: string;
+  addressLine2?: string;
+  barangay?: string;
   cityOrMunicipality: string;
   province: string;
   region: string;
-  zipCode: string;
+  zipCode: number;
 };
 
 export type ContactInfo = {
@@ -300,11 +300,9 @@ export type ClientAccount = {
 
 export type ClientFamilyInfo = {
   name: string;
-  birthDate?: string;
+  birthDate: string;
   relationship: "mother" | "spouse" | "child";
-  addressSameAsClient?: boolean;
-  addressSameAsSpouse?: boolean;
-  address?: Address;
+  address: Address;
   contactInfo?: ContactInfo;
 };
 
