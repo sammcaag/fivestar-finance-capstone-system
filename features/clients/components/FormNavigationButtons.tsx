@@ -8,6 +8,7 @@ import {
   FileUp,
   Trash2,
   Eraser,
+  Rotate3DIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -26,6 +27,8 @@ interface FormNavigationButtonsProps {
   onLoadDraft: () => void;
   onDeleteDraft: () => void;
   onClearForm: () => void;
+
+  isEditMode?: boolean;
 }
 
 export function FormNavigationButtons({
@@ -41,6 +44,7 @@ export function FormNavigationButtons({
   onLoadDraft,
   onDeleteDraft,
   onClearForm,
+  isEditMode = false,
 }: FormNavigationButtonsProps) {
   const buttonStyles = {
     primary:
@@ -75,7 +79,7 @@ export function FormNavigationButtons({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.2 }}
     >
-      {/* Left Side */}
+      {/* Right Side */}
       <div className="flex gap-3">
         <Button
           type="button"
@@ -96,46 +100,54 @@ export function FormNavigationButtons({
           className={buttonStyles.outline}
           onClick={onClearForm}
         >
-          <ButtonContent icon={Eraser} text="Clear Data" />
+          {isEditMode ? (
+            <ButtonContent icon={Rotate3DIcon} text="Reset Data" />
+          ) : (
+            <ButtonContent icon={Eraser} text="Clear Data" />
+          )}
         </Button>
       </div>
 
-      {/* Right Side */}
+      {/* Left Side */}
       <div className="flex gap-3">
-        {hasDraft && (
+        {!isEditMode && (
           <>
-            <Button
-              type="button"
-              onClick={onDeleteDraft}
-              variant="destructive"
-              className={buttonStyles.outline}
-            >
-              <ButtonContent icon={Trash2} text="Delete Draft" />
-            </Button>
+            {hasDraft && (
+              <>
+                <Button
+                  type="button"
+                  onClick={onDeleteDraft}
+                  variant="destructive"
+                  className={buttonStyles.outline}
+                >
+                  <ButtonContent icon={Trash2} text="Delete Draft" />
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={onLoadDraft}
+                  variant="outline"
+                  className={buttonStyles.outline}
+                >
+                  <ButtonContent icon={FileUp} text="Load Saved Draft" />
+                </Button>
+              </>
+            )}
 
             <Button
               type="button"
-              onClick={onLoadDraft}
+              onClick={onSaveDraft}
               variant="outline"
-              className={buttonStyles.outline}
+              disabled={!formModified}
+              className={cn(
+                buttonStyles.outline,
+                !formModified && buttonStyles.disabled
+              )}
             >
-              <ButtonContent icon={FileUp} text="Load Saved Draft" />
+              <ButtonContent icon={Save} text="Save Draft" />
             </Button>
           </>
         )}
-
-        <Button
-          type="button"
-          onClick={onSaveDraft}
-          variant="outline"
-          disabled={!formModified}
-          className={cn(
-            buttonStyles.outline,
-            !formModified && buttonStyles.disabled
-          )}
-        >
-          <ButtonContent icon={Save} text="Save Draft" />
-        </Button>
 
         {isLastStep ? (
           <Button
@@ -147,7 +159,7 @@ export function FormNavigationButtons({
               isSubmitting && buttonStyles.disabled
             )}
           >
-            Submit
+            {isEditMode ? "Update" : "Submit"}
             <ArrowRight className="size-4" />
           </Button>
         ) : (

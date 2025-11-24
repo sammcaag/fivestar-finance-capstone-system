@@ -16,6 +16,7 @@ import { ClientPayload } from "@/features/clients/types/client-types";
 import { getClientBySerialNumber } from "@/features/clients/api/client-service";
 import ClientProfileHeaderSkeleton from "@/features/clients/components/profile/ClientProfileHeaderSkeleton";
 import NotFoundPage from "@/components/NotFoundPage";
+import { Pencil } from "lucide-react";
 
 export default function ClientInfoPage() {
   useEffect(() => {
@@ -57,13 +58,25 @@ export default function ClientInfoPage() {
 
   return (
     <ContentLayout title={"Client Information"}>
-      <BreadcrumbPages
-        links={[
-          { href: "/", label: "Home" },
-          { href: "/clients", label: "Clients" },
-          { href: `/clients/${serialNumber}`, label: serialNumber },
-        ]}
-      />
+      <div className="flex justify-between items-center mb-4">
+        <BreadcrumbPages
+          links={[
+            { href: "/", label: "Home" },
+            { href: "/clients", label: "Clients" },
+            { href: `/clients/${serialNumber}`, label: serialNumber },
+          ]}
+        />
+
+        <Button
+          variant="default"
+          size="sm"
+          onClick={() => router.push(`/clients/${serialNumber}/edit`)}
+          className="gap-2 p-5 rounded-lg"
+        >
+          <Pencil className="h-4 w-4" />
+          Edit Client Info
+        </Button>
+      </div>
       {isLoading ? (
         <ClientProfileHeaderSkeleton />
       ) : clientData ? (
