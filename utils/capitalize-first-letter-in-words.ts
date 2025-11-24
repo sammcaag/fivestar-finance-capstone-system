@@ -1,7 +1,7 @@
 export function capitalizeFirstLetterInWords(sentence: string): string {
-  if (!sentence) return "";
   return sentence
     .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .filter(Boolean)
+    .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
 }

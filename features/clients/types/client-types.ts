@@ -301,7 +301,7 @@ export type ClientAccount = {
 export type ClientFamilyInfo = {
   name: string;
   birthDate: string;
-  relationship: "mother" | "spouse" | "child";
+  relationship: "MOTHER" | "SPOUSE" | "CHILD";
   address: Address;
   contactInfo?: ContactInfo;
 };

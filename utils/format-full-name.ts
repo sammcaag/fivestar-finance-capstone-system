@@ -1,31 +1,38 @@
 // utils/full-name.ts
+
+import { capitalizeFirstLetterInWords } from "./capitalize-first-letter-in-words";
+
+export type FullNameProps = {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  suffix?: string;
+};
+
 export function formatFullName({
   firstName,
   middleName,
   lastName,
   suffix,
-}: {
-  firstName: string;
-  middleName?: string | null;
-  lastName: string;
-  suffix?: string | null;
-}): string {
-  // Start with first and last name as mandatory
-  const parts = [firstName];
+}: FullNameProps): string {
+  // Helper to capitalize then replace spaces with "-"
+  const encodePart = (part?: string | null) =>
+    part
+      ? capitalizeFirstLetterInWords(part.replace(/\s+/g, " ").trim()).replace(
+          /\s/g,
+          "-"
+        )
+      : "";
 
-  // Only add middle name if it exists and is not empty
-  if (middleName?.trim()) {
-    parts.push(middleName.trim());
-  }
+  // Encode each part
+  const first = encodePart(firstName);
+  const middle = encodePart(middleName);
+  const last = encodePart(lastName);
+  const suf = encodePart(suffix);
 
-  // Add last name (mandatory)
-  parts.push(lastName);
+  const result = [first, middle || "", last, suf || ""].join(" ");
+  console.log("Formatted fullName:", result); // <--- debug
 
-  // Add suffix if it exists and is not empty
-  if (suffix?.trim()) {
-    parts.push(suffix.trim());
-  }
-
-  // Join all parts with space
-  return parts.join(" ");
+  // Always ensure 4 parts, use empty string if a part is missing
+  return [first, middle || "", last, suf || ""].join(" ");
 }

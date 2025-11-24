@@ -1,17 +1,19 @@
-import { capitalizeFirstLetterInWords } from "@/utils/capitalize-first-letter-in-words";
-import type { ClientFormValues } from "../types/client-types";
+import { decodeFullName } from "@/utils/decode-full-name";
+import type {
+  Address,
+  ClientFormValues,
+  ClientPayload,
+} from "../types/client-types";
 import { formatFullName } from "@/utils/format-full-name";
 
 export const clientPayload = (data: ClientFormValues) => {
   return {
-    fullName: capitalizeFirstLetterInWords(
-      formatFullName({
-        firstName: data.firstName,
-        middleName: data.middleName,
-        lastName: data.lastName,
-        suffix: data.suffix,
-      })
-    ),
+    fullName: formatFullName({
+      firstName: data.firstName,
+      middleName: data.middleName,
+      lastName: data.lastName,
+      suffix: data.suffix,
+    }),
     gender: data.gender,
     birthDate: data.dateOfBirth,
     religion: data.religion,
@@ -162,3 +164,180 @@ export const clientPayload = (data: ClientFormValues) => {
     ].filter(Boolean), // remove nulls
   };
 };
+
+export function mapBackendToClientFormValues(
+  clientData: ClientPayload
+): ClientFormValues {
+  const clientAddress: Address = clientData.address;
+
+  const mother = clientData.clientFamilyInfos.find(
+    (f) => f.relationship.toLowerCase() === "MOTHER"
+  );
+  const spouse = clientData.clientFamilyInfos.find(
+    (f) => f.relationship.toLowerCase() === "SPOUSE"
+  );
+  const children = clientData.clientFamilyInfos.filter(
+    (f) => f.relationship.toLowerCase() === "CHILD"
+  );
+
+  const isSameAddress = (
+    addr1: Address | undefined,
+    addr2: Address | undefined
+  ) => {
+    if (!addr1 || !addr2) return false;
+    return (
+      addr1.addressLine1 === addr2.addressLine1 &&
+      (addr1.addressLine2 ?? "") === (addr2.addressLine2 ?? "") &&
+      (addr1.barangay ?? "") === (addr2.barangay ?? "") &&
+      addr1.cityOrMunicipality === addr2.cityOrMunicipality &&
+      addr1.province === addr2.province &&
+      addr1.region === addr2.region &&
+      addr1.zipCode === addr2.zipCode
+    );
+  };
+
+  // Spouse address flag
+  const spouseAddressSameAsClient = spouse
+    ? isSameAddress(spouse.address, clientAddress)
+    : false;
+
+  // Map children dynamically
+  const mappedChildren = children.slice(0, 3).map((child) => {
+    let sameAsClient = false;
+    let sameAsSpouse = false;
+
+    if (child.address) {
+      if (
+        spouseAddressSameAsClient &&
+        isSameAddress(child.address, spouse?.address)
+      ) {
+        sameAsClient = true;
+      } else if (isSameAddress(child.address, spouse?.address)) {
+        sameAsSpouse = true;
+      }
+    }
+
+    return {
+      name: child.name,
+      birthDate: new Date(child.birthDate),
+      addressSameAsClient: sameAsClient,
+      addressSameAsSpouse: sameAsSpouse,
+      addressLine1: child.address.addressLine1,
+      addressLine2: child.address.addressLine2,
+      barangay: child.address.barangay,
+      cityOrMunicipality: child.address.cityOrMunicipality,
+      province: child.address.province,
+      region: child.address.region,
+      zipCode: child.address.zipCode,
+    };
+  });
+
+  const { firstName, middleName, lastName, suffix } = decodeFullName(
+    clientData.fullName
+  );
+
+  return {
+    // Client General Information
+    firstName,
+    middleName,
+    lastName,
+    suffix,
+    dateOfBirth: new Date(clientData.birthDate),
+    gender: clientData.gender,
+    addressLine1: clientAddress.addressLine1,
+    addressLine2: clientAddress.addressLine2,
+    barangay: clientAddress.barangay,
+    cityOrMunicipality: clientAddress.cityOrMunicipality,
+    province: clientAddress.province,
+    region: clientAddress.region,
+    zipCode: clientAddress.zipCode,
+    primaryContact: clientData.contactInfo.primary_contact,
+    secondaryContact: clientData.contactInfo.secondary_contact,
+    religion: clientData.religion,
+    civilStatus: clientData.civilStatus,
+    occupation: clientData.occupation,
+    mothersMaidenName: mother?.name,
+    placeOfBirth: clientData.placeOfBirth,
+
+    // Spouse Information
+    spouseFirstName: spouse?.name.split(" ")[0] ?? "",
+    spouseMiddleName: spouse?.name.split(" ").slice(1, -1).join(" ") ?? "",
+    spouseLastName: spouse?.name.split(" ").slice(-1)[0] ?? "",
+    spouseDateOfBirth: spouse?.birthDate
+      ? new Date(spouse.birthDate)
+      : undefined,
+    spouseAddressSameAsClient,
+    spouseAddressLine1: spouse?.address.addressLine1 ?? "",
+    spouseAddressLine2: spouse?.address.addressLine2,
+    spouseBarangay: spouse?.address.barangay,
+    spouseCityOrMunicipality: spouse?.address.cityOrMunicipality ?? "",
+    spouseProvince: spouse?.address.province ?? "",
+    spouseRegion: spouse?.address.region ?? "",
+    spouseZipCode: spouse?.address.zipCode ?? 0,
+    spouseContactNumber: spouse?.contactInfo?.primary_contact ?? "",
+
+    // Children
+    firstChildName: mappedChildren[0]?.name ?? "",
+    firstChildDateOfBirth: mappedChildren[0]?.birthDate,
+    firstChildAddressSameAsClient:
+      mappedChildren[0]?.addressSameAsClient ?? false,
+    firstChildAddressSameAsSpouse:
+      mappedChildren[0]?.addressSameAsSpouse ?? false,
+    firstChildAddressLine1: mappedChildren[0]?.addressLine1 ?? "",
+    firstChildAddressLine2: mappedChildren[0]?.addressLine2,
+    firstChildBarangay: mappedChildren[0]?.barangay,
+    firstChildCityOrMunicipality: mappedChildren[0]?.cityOrMunicipality ?? "",
+    firstChildProvince: mappedChildren[0]?.province ?? "",
+    firstChildRegion: mappedChildren[0]?.region ?? "",
+    firstChildZipCode: mappedChildren[0]?.zipCode ?? 0,
+
+    secondChildName: mappedChildren[1]?.name ?? "",
+    secondChildDateOfBirth: mappedChildren[1]?.birthDate,
+    secondChildAddressSameAsClient:
+      mappedChildren[1]?.addressSameAsClient ?? false,
+    secondChildAddressSameAsSpouse:
+      mappedChildren[1]?.addressSameAsSpouse ?? false,
+    secondChildAddressLine1: mappedChildren[1]?.addressLine1 ?? "",
+    secondChildAddressLine2: mappedChildren[1]?.addressLine2,
+    secondChildBarangay: mappedChildren[1]?.barangay,
+    secondChildCityOrMunicipality: mappedChildren[1]?.cityOrMunicipality ?? "",
+    secondChildProvince: mappedChildren[1]?.province ?? "",
+    secondChildRegion: mappedChildren[1]?.region ?? "",
+    secondChildZipCode: mappedChildren[1]?.zipCode ?? 0,
+
+    thirdChildName: mappedChildren[2]?.name ?? "",
+    thirdChildDateOfBirth: mappedChildren[2]?.birthDate,
+    thirdChildAddressSameAsClient:
+      mappedChildren[2]?.addressSameAsClient ?? false,
+    thirdChildAddressSameAsSpouse:
+      mappedChildren[2]?.addressSameAsSpouse ?? false,
+    thirdChildAddressLine1: mappedChildren[2]?.addressLine1 ?? "",
+    thirdChildAddressLine2: mappedChildren[2]?.addressLine2,
+    thirdChildBarangay: mappedChildren[2]?.barangay,
+    thirdChildCityOrMunicipality: mappedChildren[2]?.cityOrMunicipality ?? "",
+    thirdChildProvince: mappedChildren[2]?.province ?? "",
+    thirdChildRegion: mappedChildren[2]?.region ?? "",
+    thirdChildZipCode: mappedChildren[2]?.zipCode ?? 0,
+
+    // Pensioner's Information
+    rank: clientData.clientPension.rank,
+    pensionType: clientData.clientPension.pensionType,
+    serialNumber: clientData.clientPension.serialNumber,
+    idNumber: clientData.clientPension.idNumber,
+    dateEnteredService: new Date(clientData.clientPension.dateEnteredService),
+    dateSeparationService: new Date(
+      clientData.clientPension.dateSeparationService
+    ),
+    dateRetiredService: new Date(clientData.clientPension.dateRetiredService),
+    lengthOfService: Number(clientData.clientPension.lengthOfService),
+    lastUnitAssigned: clientData.clientPension.lastUnitAssigned,
+    branchOfService: clientData.clientPension.branchOfService,
+
+    // Account's Information
+    monthlyPension: clientData.clientAccount.monthlyPension,
+    monthlyDeduction: clientData.clientAccount.monthlyDeduction,
+    atmAccountNumber: clientData.clientAccount.atmAccountNumber,
+    bankName: clientData.clientAccount.bankName,
+    branchOfBank: clientData.clientAccount.branchOfBank,
+  };
+}
