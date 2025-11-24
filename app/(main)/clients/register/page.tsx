@@ -100,7 +100,7 @@ export default function RegisterClient() {
                 isSubmitting={false}
                 onPrevious={prev}
                 onNext={next}
-                onSubmit={() => void form.handleSubmit(processForm)()}
+                onSubmit={form.handleSubmit(processForm)}
                 onSaveDraft={handleSaveDraft}
                 onLoadDraft={loadSavedDraft}
                 onDeleteDraft={deleteSavedDraft}

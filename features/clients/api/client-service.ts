@@ -1,7 +1,8 @@
 // src/features/clients/api/getClients.ts
 import axios from "axios";
-import { ClientPayload, ClientTableProps } from "../types/client-types";
+import { ClientTableProps } from "../types/client-types";
 import axiosInstance from "@/lib/axios-instance";
+import { ClientPayload } from "../types/clients";
 
 export const getClients = async (): Promise<ClientTableProps[]> => {
   try {
@@ -33,6 +34,19 @@ export const getClientBySerialNumber = async (
       axios.isAxiosError(error)
         ? error.response?.data?.message || error.message
         : `Failed to fetch client with serial number ${serialNumber}`
+    );
+  }
+};
+
+export const createClient = async (payload: ClientPayload) => {
+  try {
+    const { data } = await axiosInstance.post("/api/users/client", payload);
+    return data.data;
+  } catch (error) {
+    throw new Error(
+      axios.isAxiosError(error)
+        ? error.response?.data?.message || error.message
+        : "Failed to create a client"
     );
   }
 };

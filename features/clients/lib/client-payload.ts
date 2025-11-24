@@ -1,12 +1,12 @@
 import { decodeFullName } from "@/utils/decode-full-name";
-import type {
-  Address,
-  ClientFormValues,
-  ClientPayload,
-} from "../types/client-types";
+import type { Address, ClientFormValues } from "../types/client-types";
 import { formatFullName } from "@/utils/format-full-name";
+import { formatSpouseFullName } from "@/utils/format-spouse-full-name";
+import { decodeSpouseFullName } from "@/utils/decode-spouse-full-name";
+import { formatContactNumber } from "@/utils/format-contact-number";
+import { ClientPayload, FamilyInfo } from "../types/clients";
 
-export const clientPayload = (data: ClientFormValues) => {
+export const clientPayload = (data: ClientFormValues): ClientPayload => {
   return {
     fullName: formatFullName({
       firstName: data.firstName,
@@ -25,7 +25,7 @@ export const clientPayload = (data: ClientFormValues) => {
     address: {
       addressLine1: data.addressLine1,
       addressLine2: data.addressLine2 || null,
-      barangay: data.barangay,
+      barangay: data.barangay || null,
       cityOrMunicipality: data.cityOrMunicipality,
       province: data.province,
       region: data.region,
@@ -42,126 +42,120 @@ export const clientPayload = (data: ClientFormValues) => {
     clientPension: {
       rank: data.rank,
       pensionType: data.pensionType,
-      serialNumber: data.serialNumber || null,
-      idNumber: data.idNumber || null,
+      serialNumber: data.serialNumber,
+      idNumber: data.idNumber,
       dateEnteredService: data.dateEnteredService,
       dateSeparationService: data.dateSeparationService,
       dateRetiredService: data.dateRetiredService,
-      lengthOfService: data.lengthOfService || null,
-      lastUnitAssigned: data.lastUnitAssigned || null,
-      branchOfService: data.branchOfService || null,
+      lengthOfService: data.lengthOfService,
+      lastUnitAssigned: data.lastUnitAssigned,
+      branchOfService: data.branchOfService,
     },
 
     // Account info
     clientAccount: {
-      monthlyPension: data.monthlyPension || null,
-      monthlyDeduction: data.monthlyDeduction || null,
-      atmAccountNumber: data.atmAccountNumber || null,
-      bankName: data.bankName || null,
-      branchOfBank: data.branchOfBank || null,
+      monthlyPension: data.monthlyPension,
+      monthlyDeduction: data.monthlyDeduction,
+      atmAccountNumber: data.atmAccountNumber,
+      bankName: data.bankName,
+      branchOfBank: data.branchOfBank,
     },
 
     // Family info
     clientFamilyInfos: [
       // Mother
-      data.mothersMaidenName
-        ? {
-            name: data.mothersMaidenName,
-            birthDate: null, // optional if you don't have mother's DOB
-            relationship: "MOTHER",
-            address: null,
-            contactInfo: null,
-          }
-        : null,
+      data.mothersMaidenName && {
+        name: data.mothersMaidenName,
+        birthDate: null, // optional if you don't have mother's DOB
+        relationship: "MOTHER",
+        address: null,
+        contactInfo: null,
+      },
 
       // Spouse
-      data.spouseFirstName
-        ? {
-            name: `${data.spouseFirstName} ${data.spouseMiddleName} ${data.spouseLastName}`.trim(),
-            birthDate: data.spouseDateOfBirth,
-            relationship: "SPOUSE",
-            addressSameAsClient: data.spouseAddressSameAsClient,
-            address: {
-              addressLine1: data.spouseAddressLine1,
-              addressLine2: data.spouseAddressLine2 || null,
-              barangay: data.spouseBarangay,
-              cityOrMunicipality: data.spouseCityOrMunicipality,
-              province: data.spouseProvince,
-              region: data.spouseRegion,
-              zipCode: data.spouseZipCode,
-            },
-            // Only include contactInfo if spouseContactNumber is non-empty string
-            ...(typeof data.spouseContactNumber === "string" &&
-            data.spouseContactNumber.trim().length > 1
-              ? {
-                  contactInfo: {
-                    primary_contact: data.spouseContactNumber.trim(),
-                  },
-                }
-              : {}),
-          }
-        : null,
+      data.spouseFirstName && {
+        name: formatSpouseFullName({
+          firstName: data.spouseFirstName,
+          middleName: data.spouseMiddleName,
+          lastName: data.spouseLastName,
+        }),
+        birthDate: data.spouseDateOfBirth,
+        relationship: "SPOUSE",
+        addressSameAsClient: data.spouseAddressSameAsClient,
+        address: {
+          addressLine1: data.spouseAddressLine1,
+          addressLine2: data.spouseAddressLine2 || null,
+          barangay: data.spouseBarangay || null,
+          cityOrMunicipality: data.spouseCityOrMunicipality,
+          province: data.spouseProvince,
+          region: data.spouseRegion,
+          zipCode: data.spouseZipCode,
+        },
+        // Only include contactInfo if spouseContactNumber is non-empty string
+        ...(typeof data.spouseContactNumber === "string" &&
+        data.spouseContactNumber.trim().length > 1
+          ? {
+              contactInfo: {
+                primary_contact: data.spouseContactNumber.trim(),
+              },
+            }
+          : {}),
+      },
 
       // First child
-      data.firstChildName
-        ? {
-            name: data.firstChildName,
-            birthDate: data.firstChildDateOfBirth,
-            relationship: "CHILD",
-            addressSameAsClient: data.firstChildAddressSameAsClient,
-            addressSameAsSpouse: data.firstChildAddressSameAsSpouse,
-            address: {
-              addressLine1: data.firstChildAddressLine1,
-              addressLine2: data.firstChildAddressLine2 || null,
-              barangay: data.firstChildBarangay,
-              cityOrMunicipality: data.firstChildCityOrMunicipality,
-              province: data.firstChildProvince,
-              region: data.firstChildRegion,
-              zipCode: data.firstChildZipCode,
-            },
-          }
-        : null,
+      data.firstChildName && {
+        name: data.firstChildName,
+        birthDate: data.firstChildDateOfBirth,
+        relationship: "CHILD",
+        addressSameAsClient: data.firstChildAddressSameAsClient,
+        addressSameAsSpouse: data.firstChildAddressSameAsSpouse,
+        address: {
+          addressLine1: data.firstChildAddressLine1,
+          addressLine2: data.firstChildAddressLine2 || null,
+          barangay: data.firstChildBarangay || null,
+          cityOrMunicipality: data.firstChildCityOrMunicipality,
+          province: data.firstChildProvince,
+          region: data.firstChildRegion,
+          zipCode: data.firstChildZipCode,
+        },
+      },
 
       // Second child
-      data.secondChildName
-        ? {
-            name: data.secondChildName,
-            birthDate: data.secondChildDateOfBirth,
-            relationship: "CHILD",
-            addressSameAsClient: data.secondChildAddressSameAsClient,
-            addressSameAsSpouse: data.secondChildAddressSameAsSpouse,
-            address: {
-              addressLine1: data.secondChildAddressLine1,
-              addressLine2: data.secondChildAddressLine2 || null,
-              barangay: data.secondChildBarangay,
-              cityOrMunicipality: data.secondChildCityOrMunicipality,
-              province: data.secondChildProvince,
-              region: data.secondChildRegion,
-              zipCode: data.secondChildZipCode,
-            },
-          }
-        : null,
+      data.secondChildName && {
+        name: data.secondChildName,
+        birthDate: data.secondChildDateOfBirth,
+        relationship: "CHILD",
+        addressSameAsClient: data.secondChildAddressSameAsClient,
+        addressSameAsSpouse: data.secondChildAddressSameAsSpouse,
+        address: {
+          addressLine1: data.secondChildAddressLine1,
+          addressLine2: data.secondChildAddressLine2 || null,
+          barangay: data.secondChildBarangay || null,
+          cityOrMunicipality: data.secondChildCityOrMunicipality,
+          province: data.secondChildProvince,
+          region: data.secondChildRegion,
+          zipCode: data.secondChildZipCode,
+        },
+      },
 
       // Third child
-      data.thirdChildName
-        ? {
-            name: data.thirdChildName,
-            birthDate: data.thirdChildDateOfBirth,
-            relationship: "CHILD",
-            addressSameAsClient: data.thirdChildAddressSameAsClient,
-            addressSameAsSpouse: data.thirdChildAddressSameAsSpouse,
-            address: {
-              addressLine1: data.thirdChildAddressLine1,
-              addressLine2: data.thirdChildAddressLine2 || null,
-              barangay: data.thirdChildBarangay,
-              cityOrMunicipality: data.thirdChildCityOrMunicipality,
-              province: data.thirdChildProvince,
-              region: data.thirdChildRegion,
-              zipCode: data.thirdChildZipCode,
-            },
-          }
-        : null,
-    ].filter(Boolean), // remove nulls
+      data.thirdChildName && {
+        name: data.thirdChildName,
+        birthDate: data.thirdChildDateOfBirth,
+        relationship: "CHILD",
+        addressSameAsClient: data.thirdChildAddressSameAsClient,
+        addressSameAsSpouse: data.thirdChildAddressSameAsSpouse,
+        address: {
+          addressLine1: data.thirdChildAddressLine1,
+          addressLine2: data.thirdChildAddressLine2 || null,
+          barangay: data.thirdChildBarangay || null,
+          cityOrMunicipality: data.thirdChildCityOrMunicipality,
+          province: data.thirdChildProvince,
+          region: data.thirdChildRegion,
+          zipCode: data.thirdChildZipCode,
+        },
+      },
+    ].filter(Boolean) as FamilyInfo[], // remove nulls
   };
 };
 
@@ -171,13 +165,13 @@ export function mapBackendToClientFormValues(
   const clientAddress: Address = clientData.address;
 
   const mother = clientData.clientFamilyInfos.find(
-    (f) => f.relationship.toLowerCase() === "MOTHER"
+    (f) => f.relationship.toUpperCase() === "MOTHER"
   );
   const spouse = clientData.clientFamilyInfos.find(
-    (f) => f.relationship.toLowerCase() === "SPOUSE"
+    (f) => f.relationship.toUpperCase() === "SPOUSE"
   );
   const children = clientData.clientFamilyInfos.filter(
-    (f) => f.relationship.toLowerCase() === "CHILD"
+    (f) => f.relationship.toUpperCase() === "CHILD"
   );
 
   const isSameAddress = (
@@ -219,22 +213,28 @@ export function mapBackendToClientFormValues(
 
     return {
       name: child.name,
-      birthDate: new Date(child.birthDate),
+      birthDate: child.birthDate,
       addressSameAsClient: sameAsClient,
       addressSameAsSpouse: sameAsSpouse,
-      addressLine1: child.address.addressLine1,
-      addressLine2: child.address.addressLine2,
-      barangay: child.address.barangay,
-      cityOrMunicipality: child.address.cityOrMunicipality,
-      province: child.address.province,
-      region: child.address.region,
-      zipCode: child.address.zipCode,
+      addressLine1: child.address?.addressLine1 ?? "",
+      addressLine2: child.address?.addressLine2 ?? "",
+      barangay: child.address?.barangay ?? "",
+      cityOrMunicipality: child.address?.cityOrMunicipality ?? "",
+      province: child.address?.province ?? "",
+      region: child.address?.region ?? "",
+      zipCode: child.address?.zipCode ?? 0,
     };
   });
 
   const { firstName, middleName, lastName, suffix } = decodeFullName(
     clientData.fullName
   );
+
+  const {
+    firstName: spouseFirstName,
+    middleName: spouseMiddleName,
+    lastName: spouseLastName,
+  } = decodeSpouseFullName(mother?.name) || {};
 
   return {
     // Client General Information
@@ -243,38 +243,41 @@ export function mapBackendToClientFormValues(
     lastName,
     suffix,
     dateOfBirth: new Date(clientData.birthDate),
-    gender: clientData.gender,
+    gender: clientData.gender.toUpperCase().trim(),
     addressLine1: clientAddress.addressLine1,
-    addressLine2: clientAddress.addressLine2,
-    barangay: clientAddress.barangay,
+    addressLine2: clientAddress.addressLine2 ?? "",
+    barangay: clientAddress.barangay ?? "",
     cityOrMunicipality: clientAddress.cityOrMunicipality,
     province: clientAddress.province,
     region: clientAddress.region,
     zipCode: clientAddress.zipCode,
-    primaryContact: clientData.contactInfo.primary_contact,
-    secondaryContact: clientData.contactInfo.secondary_contact,
+    primaryContact: formatContactNumber(clientData.contactInfo.primary_contact),
+    secondaryContact: formatContactNumber(
+      clientData.contactInfo.secondary_contact
+    ),
     religion: clientData.religion,
-    civilStatus: clientData.civilStatus,
+    civilStatus: clientData.civilStatus.toUpperCase().trim(),
     occupation: clientData.occupation,
     mothersMaidenName: mother?.name,
     placeOfBirth: clientData.placeOfBirth,
 
     // Spouse Information
-    spouseFirstName: spouse?.name.split(" ")[0] ?? "",
-    spouseMiddleName: spouse?.name.split(" ").slice(1, -1).join(" ") ?? "",
-    spouseLastName: spouse?.name.split(" ").slice(-1)[0] ?? "",
+    spouseFirstName: spouseFirstName,
+    spouseMiddleName: spouseMiddleName,
+    spouseLastName: spouseLastName,
     spouseDateOfBirth: spouse?.birthDate
       ? new Date(spouse.birthDate)
       : undefined,
     spouseAddressSameAsClient,
-    spouseAddressLine1: spouse?.address.addressLine1 ?? "",
-    spouseAddressLine2: spouse?.address.addressLine2,
-    spouseBarangay: spouse?.address.barangay,
-    spouseCityOrMunicipality: spouse?.address.cityOrMunicipality ?? "",
-    spouseProvince: spouse?.address.province ?? "",
-    spouseRegion: spouse?.address.region ?? "",
-    spouseZipCode: spouse?.address.zipCode ?? 0,
-    spouseContactNumber: spouse?.contactInfo?.primary_contact ?? "",
+    spouseAddressLine1: spouse?.address?.addressLine1 ?? "",
+    spouseAddressLine2: spouse?.address?.addressLine2 ?? "",
+    spouseBarangay: spouse?.address?.barangay ?? "",
+    spouseCityOrMunicipality: spouse?.address?.cityOrMunicipality ?? "",
+    spouseProvince: spouse?.address?.province ?? "",
+    spouseRegion: spouse?.address?.region ?? "",
+    spouseZipCode: spouse?.address?.zipCode ?? 0,
+    spouseContactNumber:
+      formatContactNumber(spouse?.contactInfo?.primary_contact) ?? "",
 
     // Children
     firstChildName: mappedChildren[0]?.name ?? "",

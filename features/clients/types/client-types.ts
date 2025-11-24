@@ -282,10 +282,10 @@ export type ClientPension = {
   pensionType: string;
   serialNumber: string;
   idNumber: string;
-  dateEnteredService: string;
-  dateSeparationService: string;
-  dateRetiredService: string;
-  lengthOfService: string;
+  dateEnteredService: Date;
+  dateSeparationService: Date;
+  dateRetiredService: Date;
+  lengthOfService: number;
   lastUnitAssigned: string;
   branchOfService: string;
 };
@@ -296,14 +296,6 @@ export type ClientAccount = {
   atmAccountNumber: string;
   bankName: string;
   branchOfBank: string;
-};
-
-export type ClientFamilyInfo = {
-  name: string;
-  birthDate: string;
-  relationship: "MOTHER" | "SPOUSE" | "CHILD";
-  address: Address;
-  contactInfo?: ContactInfo;
 };
 
 export type ClientPayload = {
@@ -322,5 +314,18 @@ export type ClientPayload = {
   contactInfo: ContactInfo;
   clientPension: ClientPension;
   clientAccount: ClientAccount;
-  clientFamilyInfos: ClientFamilyInfo[];
+  clientFamilyInfos: ClientFamilyInfos[];
+};
+
+// ClientFamilyInfo type (dynamic, supports any family member)
+export type ClientFamilyInfos = {
+  name: string;
+  birthDate?: Date | string;
+  relationship: string;
+  address?: Address;
+  contactInfo?: ContactInfo;
+
+  // Flags for shared addresses
+  addressSameAsClient?: boolean;
+  addressSameAsSpouse?: boolean;
 };

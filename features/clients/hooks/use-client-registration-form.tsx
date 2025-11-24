@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -12,7 +12,13 @@ import {
   formDates,
   steps,
 } from "../lib/client-registration-form";
-import { clientPayload } from "../lib/client-payload";
+import {
+  clientPayload,
+  mapBackendToClientFormValues,
+} from "../lib/client-payload";
+import { useMutation } from "@tanstack/react-query";
+import { createClient } from "../api/client-service";
+import { ClientPayload } from "../types/clients";
 
 export function useClientRegistrationForm() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -27,6 +33,11 @@ export function useClientRegistrationForm() {
     mode: "onTouched",
     reValidateMode: "onChange",
     defaultValues,
+  });
+
+  const { mutateAsync: addClient } = useMutation({
+    mutationKey: ["createClient"],
+    mutationFn: (payload: ClientPayload) => createClient(payload),
   });
 
   // Show dialog helper
@@ -91,6 +102,21 @@ export function useClientRegistrationForm() {
     showDialog("Form has been cleared!");
   };
 
+  const resetForm = useCallback(
+    (backendData: ClientPayload) => {
+      const mappedValues = mapBackendToClientFormValues(backendData); // map backend payload to form values
+      console.log(
+        "THIS IS THE FETCHED MAPPPED DATA:",
+        JSON.stringify(mappedValues)
+      );
+      form.reset(mappedValues);
+      setFormModified(false);
+      setCurrentStep(0);
+      showDialog("Form has been reset to client values!");
+    },
+    [form]
+  );
+
   // Navigation
   const next = async () => {
     const stepFields = steps[currentStep].fields as (keyof ClientFormValues)[];
@@ -111,10 +137,17 @@ export function useClientRegistrationForm() {
   };
 
   // Process form
-  const processForm = (data: ClientFormValues) => {
+  const processForm = async (data: ClientFormValues) => {
     const backendPayload = clientPayload(data);
-    console.log(JSON.stringify(backendPayload, null, 2));
-    showDialog("Form submitted successfully!");
+
+    try {
+      const result = await addClient(backendPayload); // ✅ await
+      console.log("Result:", result);
+      showDialog("Form submitted successfully!");
+    } catch (error) {
+      console.log("Error:", error);
+      showDialog("Failed to submit form!");
+    }
   };
 
   return {
@@ -131,5 +164,6 @@ export function useClientRegistrationForm() {
     processForm,
     dialogMessage,
     dialogVisible,
+    resetForm,
   };
 }

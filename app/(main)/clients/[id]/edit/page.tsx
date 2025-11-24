@@ -8,6 +8,8 @@ import { FormNavigationButtons } from "@/features/clients/components/FormNavigat
 import { useClientRegistrationForm } from "@/features/clients/hooks/use-client-registration-form";
 import { Form } from "@/components/ui/form";
 import { motion, AnimatePresence } from "framer-motion";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 
 import ClientGeneralInformation from "@/features/clients/components/steps/ClientGeneralInformation";
 import FamilyInformation from "@/features/clients/components/steps/FamilyInformation";
@@ -15,11 +17,13 @@ import PensionersInformation from "@/features/clients/components/steps/Pensioner
 import AccountsInformation from "@/features/clients/components/steps/AccountsInformation";
 import { steps } from "@/features/clients/lib/client-registration-form";
 import { DraftDialog } from "@/features/clients/components/DraftDialog";
-import { useParams } from "next/navigation";
+import { getClientBySerialNumber } from "@/features/clients/api/client-service";
+import type { ClientPayload } from "@/features/clients/types/client-types";
+import ClientGeneralInformationSkeleton from "@/features/clients/components/ClientGeneralInformationSkeleton";
 
 export default function EditClientPage() {
   useEffect(() => {
-    document.title = "Register Client | Stella - Five Star Finance Inc.";
+    document.title = "Edit Client | Stella - Five Star Finance Inc.";
   }, []);
 
   const params = useParams();
@@ -35,11 +39,24 @@ export default function EditClientPage() {
     loadSavedDraft,
     deleteSavedDraft,
     handleSaveDraft,
-    clearForm,
     processForm,
     dialogMessage,
     dialogVisible,
+    resetForm,
   } = useClientRegistrationForm();
+
+  // Fetch client data
+  const { data: clientData, isLoading } = useQuery<ClientPayload>({
+    queryKey: ["clientBySerialNumber", serialNumber],
+    queryFn: () => getClientBySerialNumber(serialNumber),
+  });
+
+  // Reset form when clientData is loaded
+  useEffect(() => {
+    if (clientData) {
+      resetForm(clientData);
+    }
+  }, [clientData, resetForm]);
 
   const slideVariants = {
     initial: { opacity: 0, x: 50 },
@@ -81,20 +98,24 @@ export default function EditClientPage() {
             <form onSubmit={form.handleSubmit(processForm)} className="p-6">
               <div className="relative overflow-hidden">
                 <AnimatePresence mode="wait">
-                  {formSteps.map(
-                    (step, index) =>
-                      index === currentStep && (
-                        <motion.div
-                          key={step.key}
-                          variants={slideVariants}
-                          initial="initial"
-                          animate="animate"
-                          exit="exit"
-                          transition={{ duration: 0.3 }}
-                        >
-                          {step.component}
-                        </motion.div>
-                      )
+                  {isLoading || !clientData ? (
+                    <ClientGeneralInformationSkeleton />
+                  ) : (
+                    formSteps.map(
+                      (step, index) =>
+                        index === currentStep && (
+                          <motion.div
+                            key={step.key}
+                            variants={slideVariants}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                            transition={{ duration: 0.3 }}
+                          >
+                            {step.component}
+                          </motion.div>
+                        )
+                    )
                   )}
                 </AnimatePresence>
               </div>
@@ -111,7 +132,7 @@ export default function EditClientPage() {
                 onSaveDraft={handleSaveDraft}
                 onLoadDraft={loadSavedDraft}
                 onDeleteDraft={deleteSavedDraft}
-                onClearForm={clearForm}
+                onClearForm={() => resetForm(clientData!)}
                 isEditMode
               />
             </form>
