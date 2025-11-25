@@ -76,7 +76,13 @@ export function useClientRegistrationForm() {
       const dateConversions: Partial<Record<keyof ClientFormValues, Date>> = {};
       formDates.forEach((dateField) => {
         const fieldValue = draft.data[dateField as keyof typeof draft.data];
-        if (fieldValue) {
+
+        if (
+          fieldValue &&
+          (typeof fieldValue === "string" ||
+            typeof fieldValue === "number" ||
+            fieldValue instanceof Date)
+        ) {
           const date = new Date(fieldValue);
           if (!isNaN(date.getTime())) {
             dateConversions[dateField as keyof ClientFormValues] = date;

@@ -5,7 +5,7 @@
  * @param contact - The input contact number string (optional)
  * @returns The formatted contact number in E.164, or undefined if input is empty
  */
-export function formatContactNumber(contact?: string): string {
+export function formatContactNumber(contact?: string | null): string {
   if (!contact?.trim()) return "";
 
   // Remove all non-numeric characters

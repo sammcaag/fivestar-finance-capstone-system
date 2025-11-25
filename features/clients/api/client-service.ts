@@ -1,8 +1,7 @@
 // src/features/clients/api/getClients.ts
 import axios from "axios";
-import { ClientTableProps } from "../types/client-types";
+import { ClientPayload, ClientTableProps } from "../types/client-types";
 import axiosInstance from "@/lib/axios-instance";
-import { ClientPayload } from "../types/clients";
 
 export const getClients = async (): Promise<ClientTableProps[]> => {
   try {

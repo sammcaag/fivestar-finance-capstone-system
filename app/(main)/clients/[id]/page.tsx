@@ -12,11 +12,11 @@ import { Button } from "@/components/ui/button";
 import LoanHistoryTabs from "@/features/loans/components/LoanHistoryTabs";
 import LoanActionModal from "@/features/loans/components/LoanActionModal";
 import { useQuery } from "@tanstack/react-query";
-import { ClientPayload } from "@/features/clients/types/client-types";
 import { getClientBySerialNumber } from "@/features/clients/api/client-service";
 import ClientProfileHeaderSkeleton from "@/features/clients/components/profile/ClientProfileHeaderSkeleton";
 import NotFoundPage from "@/components/NotFoundPage";
 import { Pencil } from "lucide-react";
+import { ClientPayload } from "@/features/clients/types/clients";
 
 export default function ClientInfoPage() {
   useEffect(() => {

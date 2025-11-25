@@ -1,10 +1,14 @@
 import { decodeFullName } from "@/utils/decode-full-name";
-import type { Address, ClientFormValues } from "../types/client-types";
+import type {
+  Address,
+  ClientFamilyInfos,
+  ClientFormValues,
+  ClientPayload,
+} from "../types/client-types";
 import { formatFullName } from "@/utils/format-full-name";
 import { formatSpouseFullName } from "@/utils/format-spouse-full-name";
 import { decodeSpouseFullName } from "@/utils/decode-spouse-full-name";
 import { formatContactNumber } from "@/utils/format-contact-number";
-import { ClientPayload, FamilyInfo } from "../types/clients";
 import { generateEmail } from "@/utils/generate-email";
 
 export const clientPayload = (data: ClientFormValues): ClientPayload => {
@@ -168,7 +172,7 @@ export const clientPayload = (data: ClientFormValues): ClientPayload => {
           zipCode: data.thirdChildZipCode,
         },
       },
-    ].filter(Boolean) as FamilyInfo[], // remove nulls
+    ].filter(Boolean) as ClientFamilyInfos[], // remove nulls
   };
 };
 
@@ -294,7 +298,7 @@ export function mapBackendToClientFormValues(
 
     // Children
     firstChildName: mappedChildren[0]?.name ?? "",
-    firstChildDateOfBirth: mappedChildren[0]?.birthDate,
+    firstChildDateOfBirth: new Date(mappedChildren[0]?.birthDate ?? new Date()),
     firstChildAddressSameAsClient:
       mappedChildren[0]?.addressSameAsClient ?? false,
     firstChildAddressSameAsSpouse:
@@ -308,7 +312,9 @@ export function mapBackendToClientFormValues(
     firstChildZipCode: mappedChildren[0]?.zipCode ?? 0,
 
     secondChildName: mappedChildren[1]?.name ?? "",
-    secondChildDateOfBirth: mappedChildren[1]?.birthDate,
+    secondChildDateOfBirth: new Date(
+      mappedChildren[1]?.birthDate ?? new Date()
+    ),
     secondChildAddressSameAsClient:
       mappedChildren[1]?.addressSameAsClient ?? false,
     secondChildAddressSameAsSpouse:
@@ -322,7 +328,7 @@ export function mapBackendToClientFormValues(
     secondChildZipCode: mappedChildren[1]?.zipCode ?? 0,
 
     thirdChildName: mappedChildren[2]?.name ?? "",
-    thirdChildDateOfBirth: mappedChildren[2]?.birthDate,
+    thirdChildDateOfBirth: new Date(mappedChildren[2]?.birthDate ?? new Date()),
     thirdChildAddressSameAsClient:
       mappedChildren[2]?.addressSameAsClient ?? false,
     thirdChildAddressSameAsSpouse:

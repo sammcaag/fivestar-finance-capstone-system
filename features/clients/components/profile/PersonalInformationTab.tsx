@@ -20,7 +20,7 @@ interface IPersionalInformation {
   birthPlace?: string;
   address?: string;
   primaryContact?: string;
-  secondaryContact?: string;
+  secondaryContact?: string | null;
 }
 
 export default function PersonalInformationTab({

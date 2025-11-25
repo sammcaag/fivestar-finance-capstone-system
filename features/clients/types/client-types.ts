@@ -264,8 +264,8 @@ export type ClientTableProps = {
 
 export type Address = {
   addressLine1: string;
-  addressLine2?: string;
-  barangay?: string;
+  addressLine2?: string | null;
+  barangay?: string | null;
   cityOrMunicipality: string;
   province: string;
   region: string;
@@ -274,7 +274,13 @@ export type Address = {
 
 export type ContactInfo = {
   primary_contact: string;
-  secondary_contact?: string;
+  secondary_contact?: string | null;
+};
+
+export type userAuth = {
+  email: string;
+  password: string;
+  role: "CLIENT" | "SALES" | "LOANS" | "ADMIN";
 };
 
 export type ClientPension = {
@@ -312,6 +318,7 @@ export type ClientPayload = {
 
   address: Address;
   contactInfo: ContactInfo;
+  userAuth: userAuth;
   clientPension: ClientPension;
   clientAccount: ClientAccount;
   clientFamilyInfos: ClientFamilyInfos[];
@@ -320,8 +327,8 @@ export type ClientPayload = {
 // ClientFamilyInfo type (dynamic, supports any family member)
 export type ClientFamilyInfos = {
   name: string;
-  birthDate?: Date | string;
-  relationship: string;
+  birthDate?: Date;
+  relationship: "MOTHER" | "SPOUSE" | "CHILD";
   address?: Address;
   contactInfo?: ContactInfo;
 
