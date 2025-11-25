@@ -202,6 +202,7 @@ export const formDates: (keyof ClientFormValues)[] = [
   "spouseDateOfBirth",
   "firstChildDateOfBirth",
   "secondChildDateOfBirth",
+  "thirdChildDateOfBirth",
   "dateEnteredService",
   "dateSeparationService",
   "dateRetiredService",

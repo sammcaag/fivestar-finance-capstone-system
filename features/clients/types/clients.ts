@@ -44,6 +44,12 @@ export type FamilyInfo = {
   contactInfo?: ContactInfo;
 };
 
+export type userAuth = {
+  email: string;
+  password: string;
+  role: "CLIENT" | "SALES" | "LOANS" | "ADMIN";
+};
+
 export type ClientPayload = {
   fullName: string;
   gender: string;
@@ -54,6 +60,7 @@ export type ClientPayload = {
   placeOfBirth: string;
   address: Address;
   contactInfo: ContactInfo;
+  userAuth: userAuth;
   clientPension: ClientPension;
   clientAccount: ClientAccount;
   clientFamilyInfos: FamilyInfo[];

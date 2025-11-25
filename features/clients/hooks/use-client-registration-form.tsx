@@ -19,8 +19,10 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { createClient } from "../api/client-service";
 import { ClientPayload } from "../types/clients";
+import { useRouter } from "next/navigation";
 
 export function useClientRegistrationForm() {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [formModified, setFormModified] = useState(false);
   const [hasDraft, setHasDraft] = useState(false);
@@ -139,11 +141,13 @@ export function useClientRegistrationForm() {
   // Process form
   const processForm = async (data: ClientFormValues) => {
     const backendPayload = clientPayload(data);
+    console.log("THIS IS THE DATA PASSED", backendPayload);
 
     try {
       const result = await addClient(backendPayload); // ✅ await
       console.log("Result:", result);
       showDialog("Form submitted successfully!");
+      router.push(`/clients/${result.serialNumber}`);
     } catch (error) {
       console.log("Error:", error);
       showDialog("Failed to submit form!");
