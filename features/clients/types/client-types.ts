@@ -263,6 +263,7 @@ export type ClientTableProps = {
 // THIS TYPES IS USED FOR DISPLAYING INFORMATION
 
 export type Address = {
+  id?: string | null;
   addressLine1: string;
   addressLine2?: string | null;
   barangay?: string | null;
@@ -273,17 +274,20 @@ export type Address = {
 };
 
 export type ContactInfo = {
+  id?: number | null;
   primary_contact: string;
   secondary_contact?: string | null;
 };
 
 export type userAuth = {
+  id?: number;
   email: string;
   password: string;
   role: "CLIENT" | "SALES" | "LOANS" | "ADMIN";
 };
 
 export type ClientPension = {
+  id?: number | null;
   rank: string;
   pensionType: string;
   serialNumber: string;
@@ -297,6 +301,7 @@ export type ClientPension = {
 };
 
 export type ClientAccount = {
+  id?: number | null;
   monthlyPension: number;
   monthlyDeduction: number;
   atmAccountNumber: string;
@@ -305,6 +310,7 @@ export type ClientAccount = {
 };
 
 export type ClientPayload = {
+  id?: number | null;
   fullName: string;
   gender: string;
   birthDate: Date;
@@ -318,7 +324,7 @@ export type ClientPayload = {
 
   address: Address;
   contactInfo: ContactInfo;
-  userAuth: userAuth;
+  userAuth?: userAuth;
   clientPension: ClientPension;
   clientAccount: ClientAccount;
   clientFamilyInfos: ClientFamilyInfos[];
@@ -326,6 +332,7 @@ export type ClientPayload = {
 
 // ClientFamilyInfo type (dynamic, supports any family member)
 export type ClientFamilyInfos = {
+  id?: number | null;
   name: string;
   birthDate?: Date;
   relationship: "MOTHER" | "SPOUSE" | "CHILD";

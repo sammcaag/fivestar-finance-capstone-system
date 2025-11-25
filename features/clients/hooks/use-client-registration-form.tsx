@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { clientFormSchema } from "../schema/client-zod-schema";
-import type { ClientFormValues } from "../types/client-types";
+import type { ClientFormValues, ClientPayload } from "../types/client-types";
 import { loadDraft, saveDraft } from "../utils/draft-computation-storage";
 import {
   defaultValues,
@@ -18,7 +18,6 @@ import {
 } from "../lib/client-payload";
 import { useMutation } from "@tanstack/react-query";
 import { createClient } from "../api/client-service";
-import { ClientPayload } from "../types/clients";
 import { useRouter } from "next/navigation";
 
 export function useClientRegistrationForm() {
@@ -160,6 +159,15 @@ export function useClientRegistrationForm() {
     }
   };
 
+  const updateForm = async (data: ClientFormValues) => {
+    const backendPayload = clientPayload(data);
+    console.log(
+      "THIS IS THE UPDATED DATA PASSED",
+      JSON.stringify(backendPayload, null, 2)
+    );
+    showDialog("Form updated!");
+  };
+
   return {
     form,
     currentStep,
@@ -175,5 +183,6 @@ export function useClientRegistrationForm() {
     dialogMessage,
     dialogVisible,
     resetForm,
+    updateForm,
   };
 }

@@ -40,6 +40,7 @@ export default function EditClientPage() {
     deleteSavedDraft,
     handleSaveDraft,
     processForm,
+    updateForm,
     dialogMessage,
     dialogVisible,
     resetForm,
@@ -128,7 +129,7 @@ export default function EditClientPage() {
                 isSubmitting={false}
                 onPrevious={prev}
                 onNext={next}
-                onSubmit={() => void form.handleSubmit(processForm)()}
+                onSubmit={form.handleSubmit(updateForm)}
                 onSaveDraft={handleSaveDraft}
                 onLoadDraft={loadSavedDraft}
                 onDeleteDraft={deleteSavedDraft}

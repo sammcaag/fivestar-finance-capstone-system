@@ -16,7 +16,7 @@ import { getClientBySerialNumber } from "@/features/clients/api/client-service";
 import ClientProfileHeaderSkeleton from "@/features/clients/components/profile/ClientProfileHeaderSkeleton";
 import NotFoundPage from "@/components/NotFoundPage";
 import { Pencil } from "lucide-react";
-import { ClientPayload } from "@/features/clients/types/clients";
+import { ClientPayload } from "@/features/clients/types/client-types";
 
 export default function ClientInfoPage() {
   useEffect(() => {

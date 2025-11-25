@@ -176,6 +176,180 @@ export const clientPayload = (data: ClientFormValues): ClientPayload => {
   };
 };
 
+export const clientUpdatePayload = (
+  formData: ClientFormValues,
+  fetchedData: ClientPayload
+): ClientPayload => {
+  // Helper to map child fields dynamically
+  const childKeys: (keyof ClientFormValues)[][] = [
+    [
+      "firstChildName",
+      "firstChildDateOfBirth",
+      "firstChildAddressSameAsClient",
+      "firstChildAddressSameAsSpouse",
+      "firstChildAddressLine1",
+      "firstChildAddressLine2",
+      "firstChildBarangay",
+      "firstChildCityOrMunicipality",
+      "firstChildProvince",
+      "firstChildRegion",
+      "firstChildZipCode",
+    ],
+    [
+      "secondChildName",
+      "secondChildDateOfBirth",
+      "secondChildAddressSameAsClient",
+      "secondChildAddressSameAsSpouse",
+      "secondChildAddressLine1",
+      "secondChildAddressLine2",
+      "secondChildBarangay",
+      "secondChildCityOrMunicipality",
+      "secondChildProvince",
+      "secondChildRegion",
+      "secondChildZipCode",
+    ],
+    [
+      "thirdChildName",
+      "thirdChildDateOfBirth",
+      "thirdChildAddressSameAsClient",
+      "thirdChildAddressSameAsSpouse",
+      "thirdChildAddressLine1",
+      "thirdChildAddressLine2",
+      "thirdChildBarangay",
+      "thirdChildCityOrMunicipality",
+      "thirdChildProvince",
+      "thirdChildRegion",
+      "thirdChildZipCode",
+    ],
+  ];
+
+  return {
+    // Main user info
+    id: fetchedData.id,
+    fullName: formatFullName({
+      firstName: formData.firstName,
+      middleName: formData.middleName,
+      lastName: formData.lastName,
+      suffix: formData.suffix,
+    }),
+    gender: formData.gender,
+    birthDate: formData.dateOfBirth,
+    religion: formData.religion,
+    civilStatus: formData.civilStatus,
+    occupation: formData.occupation,
+    placeOfBirth: formData.placeOfBirth,
+
+    // Address
+    address: {
+      id: fetchedData.address?.id,
+      addressLine1: formData.addressLine1,
+      addressLine2: formData.addressLine2 || null,
+      barangay: formData.barangay || null,
+      cityOrMunicipality: formData.cityOrMunicipality,
+      province: formData.province,
+      region: formData.region,
+      zipCode: formData.zipCode,
+    },
+
+    // Contact Info
+    contactInfo: {
+      id: fetchedData.contactInfo?.id,
+      primary_contact: formData.primaryContact,
+      secondary_contact: formData.secondaryContact || null,
+    },
+
+    // Pension info
+    clientPension: {
+      id: fetchedData.clientPension?.id,
+      rank: formData.rank,
+      pensionType: formData.pensionType,
+      serialNumber: formData.serialNumber,
+      idNumber: formData.idNumber,
+      dateEnteredService: formData.dateEnteredService,
+      dateSeparationService: formData.dateSeparationService,
+      dateRetiredService: formData.dateRetiredService,
+      lengthOfService: formData.lengthOfService,
+      lastUnitAssigned: formData.lastUnitAssigned,
+      branchOfService: formData.branchOfService,
+    },
+
+    // Account info
+    clientAccount: {
+      id: fetchedData.clientAccount?.id,
+      monthlyPension: formData.monthlyPension,
+      monthlyDeduction: formData.monthlyDeduction,
+      atmAccountNumber: formData.atmAccountNumber,
+      bankName: formData.bankName,
+      branchOfBank: formData.branchOfBank,
+    },
+
+    // Family info
+    clientFamilyInfos: fetchedData.clientFamilyInfos.map((info, index) => {
+      let updatedInfo: ClientFamilyInfos = {
+        id: info.id,
+        name: info.name,
+        birthDate: info.birthDate,
+        relationship: info.relationship,
+      };
+
+      if (info.relationship === "SPOUSE") {
+        updatedInfo = {
+          ...updatedInfo,
+          name:
+            formatSpouseFullName({
+              firstName: formData.spouseFirstName,
+              middleName: formData.spouseMiddleName,
+              lastName: formData.spouseLastName,
+            }) || "",
+          birthDate: formData.spouseDateOfBirth || new Date(), // or undefined if allowed
+          addressSameAsClient: formData.spouseAddressSameAsClient || false,
+          address: {
+            id: info.address?.id,
+            addressLine1: formData.spouseAddressLine1 || "",
+            addressLine2: formData.spouseAddressLine2 || "",
+            barangay: formData.spouseBarangay || "",
+            cityOrMunicipality: formData.spouseCityOrMunicipality || "",
+            province: formData.spouseProvince || "",
+            region: formData.spouseRegion || "",
+            zipCode: formData.spouseZipCode || 0,
+          },
+          contactInfo: info.contactInfo
+            ? {
+                id: info.contactInfo.id,
+                primary_contact: formData.spouseContactNumber || "",
+              }
+            : undefined,
+        };
+      }
+
+      if (info.relationship === "CHILD") {
+        const childField = childKeys[index - 2]; // map children dynamically
+        if (childField && formData[childField[0]]) {
+          updatedInfo = {
+            ...updatedInfo,
+            name: formData[childField[0]] as string,
+            birthDate: formData[childField[1]] as Date | undefined,
+            addressSameAsClient: formData[childField[2]] as boolean,
+            addressSameAsSpouse: formData[childField[3]] as boolean,
+            address: {
+              id: info.address?.id,
+              addressLine1: formData[childField[4]] as string,
+              addressLine2: formData[childField[5]] as string | null,
+              barangay: formData[childField[6]] as string | null,
+              cityOrMunicipality: formData[childField[7]] as string,
+              province: formData[childField[8]] as string,
+              region: formData[childField[9]] as string,
+              zipCode: formData[childField[10]] as number,
+            },
+          };
+        }
+      }
+
+      return updatedInfo;
+    }),
+  };
+};
+
 export function mapBackendToClientFormValues(
   clientData: ClientPayload
 ): ClientFormValues {
@@ -356,8 +530,18 @@ export function mapBackendToClientFormValues(
     branchOfService: clientData.clientPension.branchOfService,
 
     // Account's Information
-    monthlyPension: clientData.clientAccount.monthlyPension,
-    monthlyDeduction: clientData.clientAccount.monthlyDeduction,
+    monthlyPension: clientData.clientAccount.monthlyPension
+      ? Number(
+          parseFloat(String(clientData.clientAccount.monthlyPension)).toFixed(2)
+        )
+      : 0,
+    monthlyDeduction: clientData.clientAccount.monthlyDeduction
+      ? Number(
+          parseFloat(String(clientData.clientAccount.monthlyDeduction)).toFixed(
+            2
+          )
+        )
+      : 0,
     atmAccountNumber: clientData.clientAccount.atmAccountNumber,
     bankName: clientData.clientAccount.bankName,
     branchOfBank: clientData.clientAccount.branchOfBank,
