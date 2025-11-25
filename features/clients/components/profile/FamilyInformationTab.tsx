@@ -13,11 +13,11 @@ import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { Separator } from "@/components/ui/separator";
 import { getAge } from "@/utils/get-age";
 import { generateOrdinal } from "@/utils/generate-ordinals";
-import { ClientFamilyInfo } from "../../types/client-types";
 import { formatFullAddress } from "@/utils/format-full-address";
+import { ClientFamilyInfos } from "../../types/client-types";
 
 interface IFamilyInformationTab {
-  familyInfos: ClientFamilyInfo[];
+  familyInfos: ClientFamilyInfos[];
 }
 
 export default function FamilyInformationTab({
@@ -51,6 +51,23 @@ export default function FamilyInformationTab({
         </CardHeader>
         <Separator className="mb-6" />
         <CardContent className="space-y-8">
+          {mother && (
+            <section className="space-y-3">
+              <div className="flex gap-2 flex-row items-center">
+                <User className="h-5 w-5 text-primary" />
+                <h3 className="text-lg font-semibold">Mother Information</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Full Name */}
+                <ClientInfoRowItem
+                  icon={<User className="h-4 w-4 text-primary" />}
+                  label="Mother's Full Name"
+                  value={mother.name}
+                />
+              </div>
+            </section>
+          )}
+
           {spouse && (
             <section className="space-y-3">
               <div className="flex gap-2 flex-row items-center">
@@ -92,43 +109,6 @@ export default function FamilyInformationTab({
                     icon={<Phone className="h-4 w-4 text-primary" />}
                     label="Contact Number"
                     value={spouse.contactInfo?.primary_contact}
-                  />
-                )}
-              </div>
-            </section>
-          )}
-
-          {mother && (
-            <section className="space-y-3">
-              <div className="flex gap-2 flex-row items-center">
-                <User className="h-5 w-5 text-primary" />
-                <h3 className="text-lg font-semibold">Mother Information</h3>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Full Name */}
-                <ClientInfoRowItem
-                  icon={<User className="h-4 w-4 text-primary" />}
-                  label="Mother's Full Name"
-                  value={mother.name}
-                />
-                {/* Age */}
-                <ClientInfoRowItem
-                  icon={<Calendar className="h-4 w-4 text-primary" />}
-                  label="Age"
-                  value={getAge(mother.birthDate ?? "")}
-                />
-                {/* Birthdate */}
-                <ClientInfoRowItem
-                  icon={<Calendar className="h-4 w-4 text-primary" />}
-                  label="Birthdate"
-                  value={formatDateToReadable(mother.birthDate ?? "")}
-                />
-                {/* Address */}
-                {mother.address && (
-                  <ClientInfoRowItem
-                    icon={<MapPin className="h-4 w-4 text-primary" />}
-                    label="Address"
-                    value={formatFullAddress(mother.address)}
                   />
                 )}
               </div>
