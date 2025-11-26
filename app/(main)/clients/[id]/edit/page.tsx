@@ -39,7 +39,6 @@ export default function EditClientPage() {
     loadSavedDraft,
     deleteSavedDraft,
     handleSaveDraft,
-    processForm,
     updateForm,
     dialogMessage,
     dialogVisible,
@@ -96,7 +95,13 @@ export default function EditClientPage() {
 
         <div className="bg-background rounded-lg shadow-lg border mt-10">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(processForm)} className="p-6">
+            <form
+              onSubmit={form.handleSubmit((formValues) => {
+                if (!clientData) return; // safety check
+                updateForm(formValues, clientData);
+              })}
+              className="p-6"
+            >
               <div className="relative overflow-hidden">
                 <AnimatePresence mode="wait">
                   {isLoading || !clientData ? (
@@ -129,7 +134,10 @@ export default function EditClientPage() {
                 isSubmitting={false}
                 onPrevious={prev}
                 onNext={next}
-                onSubmit={form.handleSubmit(updateForm)}
+                onSubmit={form.handleSubmit((formValues) => {
+                  if (!clientData) return;
+                  updateForm(formValues, clientData);
+                })}
                 onSaveDraft={handleSaveDraft}
                 onLoadDraft={loadSavedDraft}
                 onDeleteDraft={deleteSavedDraft}

@@ -58,6 +58,7 @@ export interface ClientFormValues {
   firstChildAddressSameAsSpouse?: boolean;
   firstChildAddressLine1?: string;
   firstChildAddressLine2?: string;
+  firstChildBirthOrder?: number | null;
   firstChildBarangay?: string;
   firstChildCityOrMunicipality?: string;
   firstChildProvince?: string;
@@ -70,6 +71,7 @@ export interface ClientFormValues {
   secondChildAddressSameAsSpouse?: boolean;
   secondChildAddressLine1?: string;
   secondChildAddressLine2?: string;
+  secondChildBirthOrder?: number | null;
   secondChildBarangay?: string;
   secondChildCityOrMunicipality?: string;
   secondChildProvince?: string;
@@ -80,6 +82,7 @@ export interface ClientFormValues {
   thirdChildDateOfBirth?: Date;
   thirdChildAddressSameAsClient?: boolean;
   thirdChildAddressSameAsSpouse?: boolean;
+  thirdChildBirthOrder?: number | null;
   thirdChildAddressLine1?: string;
   thirdChildAddressLine2?: string;
   thirdChildBarangay?: string;
@@ -335,6 +338,7 @@ export type ClientFamilyInfos = {
   id?: number | null;
   name: string;
   birthDate?: Date;
+  birthOrder?: number;
   relationship: "MOTHER" | "SPOUSE" | "CHILD";
   address?: Address;
   contactInfo?: ContactInfo;

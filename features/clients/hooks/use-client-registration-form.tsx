@@ -14,6 +14,7 @@ import {
 } from "../lib/client-registration-form";
 import {
   clientPayload,
+  clientUpdatePayload,
   mapBackendToClientFormValues,
 } from "../lib/client-payload";
 import { useMutation } from "@tanstack/react-query";
@@ -146,7 +147,10 @@ export function useClientRegistrationForm() {
   // Process form
   const processForm = async (data: ClientFormValues) => {
     const backendPayload = clientPayload(data);
-    console.log("THIS IS THE DATA PASSED", backendPayload);
+    console.log(
+      "THIS IS THE DATA PASSED",
+      JSON.stringify(backendPayload, null, 2)
+    );
 
     try {
       const result = await addClient(backendPayload); // ✅ await
@@ -159,8 +163,11 @@ export function useClientRegistrationForm() {
     }
   };
 
-  const updateForm = async (data: ClientFormValues) => {
-    const backendPayload = clientPayload(data);
+  const updateForm = async (
+    data: ClientFormValues,
+    fetchedData: ClientPayload
+  ) => {
+    const backendPayload = clientUpdatePayload(data, fetchedData);
     console.log(
       "THIS IS THE UPDATED DATA PASSED",
       JSON.stringify(backendPayload, null, 2)

@@ -126,6 +126,7 @@ export const clientPayload = (data: ClientFormValues): ClientPayload => {
         relationship: "CHILD",
         addressSameAsClient: data.firstChildAddressSameAsClient,
         addressSameAsSpouse: data.firstChildAddressSameAsSpouse,
+        birthOrder: 1,
         address: {
           addressLine1: data.firstChildAddressLine1,
           addressLine2: data.firstChildAddressLine2 || null,
@@ -144,6 +145,7 @@ export const clientPayload = (data: ClientFormValues): ClientPayload => {
         relationship: "CHILD",
         addressSameAsClient: data.secondChildAddressSameAsClient,
         addressSameAsSpouse: data.secondChildAddressSameAsSpouse,
+        birthOrder: 2,
         address: {
           addressLine1: data.secondChildAddressLine1,
           addressLine2: data.secondChildAddressLine2 || null,
@@ -162,6 +164,7 @@ export const clientPayload = (data: ClientFormValues): ClientPayload => {
         relationship: "CHILD",
         addressSameAsClient: data.thirdChildAddressSameAsClient,
         addressSameAsSpouse: data.thirdChildAddressSameAsSpouse,
+        birthOrder: 3,
         address: {
           addressLine1: data.thirdChildAddressLine1,
           addressLine2: data.thirdChildAddressLine2 || null,
@@ -180,51 +183,13 @@ export const clientUpdatePayload = (
   formData: ClientFormValues,
   fetchedData: ClientPayload
 ): ClientPayload => {
-  // Helper to map child fields dynamically
-  const childKeys: (keyof ClientFormValues)[][] = [
-    [
-      "firstChildName",
-      "firstChildDateOfBirth",
-      "firstChildAddressSameAsClient",
-      "firstChildAddressSameAsSpouse",
-      "firstChildAddressLine1",
-      "firstChildAddressLine2",
-      "firstChildBarangay",
-      "firstChildCityOrMunicipality",
-      "firstChildProvince",
-      "firstChildRegion",
-      "firstChildZipCode",
-    ],
-    [
-      "secondChildName",
-      "secondChildDateOfBirth",
-      "secondChildAddressSameAsClient",
-      "secondChildAddressSameAsSpouse",
-      "secondChildAddressLine1",
-      "secondChildAddressLine2",
-      "secondChildBarangay",
-      "secondChildCityOrMunicipality",
-      "secondChildProvince",
-      "secondChildRegion",
-      "secondChildZipCode",
-    ],
-    [
-      "thirdChildName",
-      "thirdChildDateOfBirth",
-      "thirdChildAddressSameAsClient",
-      "thirdChildAddressSameAsSpouse",
-      "thirdChildAddressLine1",
-      "thirdChildAddressLine2",
-      "thirdChildBarangay",
-      "thirdChildCityOrMunicipality",
-      "thirdChildProvince",
-      "thirdChildRegion",
-      "thirdChildZipCode",
-    ],
-  ];
+  // Helper to get child by birthOrder
+  const getChildByBirthOrder = (order: number) =>
+    fetchedData.clientFamilyInfos.find(
+      (f) => f.relationship === "CHILD" && f.birthOrder === order
+    );
 
   return {
-    // Main user info
     id: fetchedData.id,
     fullName: formatFullName({
       firstName: formData.firstName,
@@ -239,7 +204,6 @@ export const clientUpdatePayload = (
     occupation: formData.occupation,
     placeOfBirth: formData.placeOfBirth,
 
-    // Address
     address: {
       id: fetchedData.address?.id,
       addressLine1: formData.addressLine1,
@@ -251,14 +215,12 @@ export const clientUpdatePayload = (
       zipCode: formData.zipCode,
     },
 
-    // Contact Info
     contactInfo: {
       id: fetchedData.contactInfo?.id,
       primary_contact: formData.primaryContact,
       secondary_contact: formData.secondaryContact || null,
     },
 
-    // Pension info
     clientPension: {
       id: fetchedData.clientPension?.id,
       rank: formData.rank,
@@ -273,7 +235,6 @@ export const clientUpdatePayload = (
       branchOfService: formData.branchOfService,
     },
 
-    // Account info
     clientAccount: {
       id: fetchedData.clientAccount?.id,
       monthlyPension: formData.monthlyPension,
@@ -283,70 +244,132 @@ export const clientUpdatePayload = (
       branchOfBank: formData.branchOfBank,
     },
 
-    // Family info
-    clientFamilyInfos: fetchedData.clientFamilyInfos.map((info, index) => {
-      let updatedInfo: ClientFamilyInfos = {
-        id: info.id,
-        name: info.name,
-        birthDate: info.birthDate,
-        relationship: info.relationship,
-      };
+    clientFamilyInfos: [
+      // Mother
+      formData.mothersMaidenName && {
+        id: fetchedData.clientFamilyInfos.find(
+          (f) => f.relationship === "MOTHER"
+        )?.id,
+        name: formData.mothersMaidenName,
+        birthDate: null,
+        relationship: "MOTHER",
+        address: null,
+        contactInfo: null,
+      },
 
-      if (info.relationship === "SPOUSE") {
-        updatedInfo = {
-          ...updatedInfo,
-          name:
-            formatSpouseFullName({
-              firstName: formData.spouseFirstName,
-              middleName: formData.spouseMiddleName,
-              lastName: formData.spouseLastName,
-            }) || "",
-          birthDate: formData.spouseDateOfBirth || new Date(), // or undefined if allowed
-          addressSameAsClient: formData.spouseAddressSameAsClient || false,
-          address: {
-            id: info.address?.id,
-            addressLine1: formData.spouseAddressLine1 || "",
-            addressLine2: formData.spouseAddressLine2 || "",
-            barangay: formData.spouseBarangay || "",
-            cityOrMunicipality: formData.spouseCityOrMunicipality || "",
-            province: formData.spouseProvince || "",
-            region: formData.spouseRegion || "",
-            zipCode: formData.spouseZipCode || 0,
-          },
-          contactInfo: info.contactInfo
-            ? {
-                id: info.contactInfo.id,
-                primary_contact: formData.spouseContactNumber || "",
-              }
-            : undefined,
-        };
-      }
+      // Spouse
+      formData.spouseFirstName && {
+        id: fetchedData.clientFamilyInfos.find(
+          (f) => f.relationship === "SPOUSE"
+        )?.id,
+        name: formatSpouseFullName({
+          firstName: formData.spouseFirstName,
+          middleName: formData.spouseMiddleName,
+          lastName: formData.spouseLastName,
+        }),
+        birthDate: formData.spouseDateOfBirth,
+        relationship: "SPOUSE",
+        addressSameAsClient: formData.spouseAddressSameAsClient,
+        address: {
+          id: fetchedData.clientFamilyInfos.find(
+            (f) => f.relationship === "SPOUSE"
+          )?.address?.id,
+          addressLine1: formData.spouseAddressLine1,
+          addressLine2: formData.spouseAddressLine2 || null,
+          barangay: formData.spouseBarangay || null,
+          cityOrMunicipality: formData.spouseCityOrMunicipality,
+          province: formData.spouseProvince,
+          region: formData.spouseRegion,
+          zipCode: formData.spouseZipCode,
+        },
+        contactInfo: formData.spouseContactNumber
+          ? {
+              id: fetchedData.clientFamilyInfos.find(
+                (f) => f.relationship === "SPOUSE"
+              )?.contactInfo?.id,
+              primary_contact: formData.spouseContactNumber,
+            }
+          : undefined,
+      },
 
-      if (info.relationship === "CHILD") {
-        const childField = childKeys[index - 2]; // map children dynamically
-        if (childField && formData[childField[0]]) {
-          updatedInfo = {
-            ...updatedInfo,
-            name: formData[childField[0]] as string,
-            birthDate: formData[childField[1]] as Date | undefined,
-            addressSameAsClient: formData[childField[2]] as boolean,
-            addressSameAsSpouse: formData[childField[3]] as boolean,
+      // First child
+      formData.firstChildName && {
+        ...(() => {
+          const child = getChildByBirthOrder(1);
+          return {
+            id: child?.id,
+            name: formData.firstChildName,
+            birthDate: formData.firstChildDateOfBirth,
+            relationship: "CHILD",
+            birthOrder: 1,
+            addressSameAsClient: formData.firstChildAddressSameAsClient,
+            addressSameAsSpouse: formData.firstChildAddressSameAsSpouse,
             address: {
-              id: info.address?.id,
-              addressLine1: formData[childField[4]] as string,
-              addressLine2: formData[childField[5]] as string | null,
-              barangay: formData[childField[6]] as string | null,
-              cityOrMunicipality: formData[childField[7]] as string,
-              province: formData[childField[8]] as string,
-              region: formData[childField[9]] as string,
-              zipCode: formData[childField[10]] as number,
+              id: child?.address?.id,
+              addressLine1: formData.firstChildAddressLine1,
+              addressLine2: formData.firstChildAddressLine2 || null,
+              barangay: formData.firstChildBarangay || null,
+              cityOrMunicipality: formData.firstChildCityOrMunicipality,
+              province: formData.firstChildProvince,
+              region: formData.firstChildRegion,
+              zipCode: formData.firstChildZipCode,
             },
           };
-        }
-      }
+        })(),
+      },
 
-      return updatedInfo;
-    }),
+      // Second child
+      formData.secondChildName && {
+        ...(() => {
+          const child = getChildByBirthOrder(2);
+          return {
+            id: child?.id,
+            name: formData.secondChildName,
+            birthDate: formData.secondChildDateOfBirth,
+            relationship: "CHILD",
+            birthOrder: 2,
+            addressSameAsClient: formData.secondChildAddressSameAsClient,
+            addressSameAsSpouse: formData.secondChildAddressSameAsSpouse,
+            address: {
+              id: child?.address?.id,
+              addressLine1: formData.secondChildAddressLine1,
+              addressLine2: formData.secondChildAddressLine2 || null,
+              barangay: formData.secondChildBarangay || null,
+              cityOrMunicipality: formData.secondChildCityOrMunicipality,
+              province: formData.secondChildProvince,
+              region: formData.secondChildRegion,
+              zipCode: formData.secondChildZipCode,
+            },
+          };
+        })(),
+      },
+
+      // Third child
+      formData.thirdChildName && {
+        ...(() => {
+          const child = getChildByBirthOrder(3);
+          return {
+            id: child?.id,
+            name: formData.thirdChildName,
+            birthDate: formData.thirdChildDateOfBirth,
+            relationship: "CHILD",
+            birthOrder: 3,
+            addressSameAsClient: formData.thirdChildAddressSameAsClient,
+            addressSameAsSpouse: formData.thirdChildAddressSameAsSpouse,
+            address: {
+              id: child?.address?.id,
+              addressLine1: formData.thirdChildAddressLine1,
+              addressLine2: formData.thirdChildAddressLine2 || null,
+              barangay: formData.thirdChildBarangay || null,
+              cityOrMunicipality: formData.thirdChildCityOrMunicipality,
+              province: formData.thirdChildProvince,
+              region: formData.thirdChildRegion,
+              zipCode: formData.thirdChildZipCode,
+            },
+          };
+        })(),
+      },
+    ].filter(Boolean) as ClientFamilyInfos[],
   };
 };
 
@@ -354,21 +377,17 @@ export function mapBackendToClientFormValues(
   clientData: ClientPayload
 ): ClientFormValues {
   const clientAddress: Address = clientData.address;
-
   const mother = clientData.clientFamilyInfos.find(
-    (f) => f.relationship.toUpperCase() === "MOTHER"
+    (f) => f.relationship === "MOTHER"
   );
   const spouse = clientData.clientFamilyInfos.find(
-    (f) => f.relationship.toUpperCase() === "SPOUSE"
+    (f) => f.relationship === "SPOUSE"
   );
-  const children = clientData.clientFamilyInfos.filter(
-    (f) => f.relationship.toUpperCase() === "CHILD"
-  );
+  const children = clientData.clientFamilyInfos
+    .filter((f) => f.relationship === "CHILD")
+    .sort((a, b) => (a.birthOrder ?? 0) - (b.birthOrder ?? 0)); // sort by birthOrder
 
-  const isSameAddress = (
-    addr1: Address | undefined,
-    addr2: Address | undefined
-  ) => {
+  const isSameAddress = (addr1?: Address, addr2?: Address) => {
     if (!addr1 || !addr2) return false;
     return (
       addr1.addressLine1 === addr2.addressLine1 &&
@@ -381,41 +400,33 @@ export function mapBackendToClientFormValues(
     );
   };
 
-  // Spouse address flag
-  const spouseAddressSameAsClient = spouse
-    ? isSameAddress(spouse.address, clientAddress)
-    : false;
+  // Map children explicitly using birthOrder (first = 1, second = 2, third = 3)
+  const mapChild = (child: (typeof children)[0] | undefined) => {
+    if (!child) return null;
 
-  // Map children dynamically
-  const mappedChildren = children.slice(0, 3).map((child) => {
-    let sameAsClient = false;
-    let sameAsSpouse = false;
-
-    if (child.address) {
-      if (
-        spouseAddressSameAsClient &&
-        isSameAddress(child.address, spouse?.address)
-      ) {
-        sameAsClient = true;
-      } else if (isSameAddress(child.address, spouse?.address)) {
-        sameAsSpouse = true;
-      }
-    }
+    const sameAsClient = isSameAddress(child.address, clientAddress);
+    const sameAsSpouse =
+      !sameAsClient && isSameAddress(child.address, spouse?.address);
 
     return {
-      name: child.name,
-      birthDate: child.birthDate,
+      name: child.name ?? "",
+      birthDate: child.birthDate ? new Date(child.birthDate) : new Date(),
+      birthOrder: child.birthOrder ?? 0,
       addressSameAsClient: sameAsClient,
       addressSameAsSpouse: sameAsSpouse,
       addressLine1: child.address?.addressLine1 ?? "",
-      addressLine2: child.address?.addressLine2 ?? "",
-      barangay: child.address?.barangay ?? "",
+      addressLine2: child.address?.addressLine2 ?? undefined,
+      barangay: child.address?.barangay ?? undefined,
       cityOrMunicipality: child.address?.cityOrMunicipality ?? "",
       province: child.address?.province ?? "",
       region: child.address?.region ?? "",
       zipCode: child.address?.zipCode ?? 0,
     };
-  });
+  };
+
+  const firstChild = mapChild(children.find((c) => c.birthOrder === 1));
+  const secondChild = mapChild(children.find((c) => c.birthOrder === 2));
+  const thirdChild = mapChild(children.find((c) => c.birthOrder === 3));
 
   const { firstName, middleName, lastName, suffix } = decodeFullName(
     clientData.fullName
@@ -425,16 +436,16 @@ export function mapBackendToClientFormValues(
     firstName: spouseFirstName,
     middleName: spouseMiddleName,
     lastName: spouseLastName,
-  } = decodeSpouseFullName(mother?.name) || {};
+  } = decodeSpouseFullName(spouse?.name) || {};
 
   return {
-    // Client General Information
+    // Client Info
     firstName,
     middleName,
     lastName,
     suffix,
     dateOfBirth: new Date(clientData.birthDate),
-    gender: clientData.gender.toUpperCase().trim(),
+    gender: clientData.gender.toUpperCase(),
     addressLine1: clientAddress.addressLine1,
     addressLine2: clientAddress.addressLine2 ?? "",
     barangay: clientAddress.barangay ?? "",
@@ -447,19 +458,19 @@ export function mapBackendToClientFormValues(
       clientData.contactInfo.secondary_contact
     ),
     religion: clientData.religion,
-    civilStatus: clientData.civilStatus.toUpperCase().trim(),
+    civilStatus: clientData.civilStatus.toUpperCase(),
     occupation: clientData.occupation,
     mothersMaidenName: mother?.name,
     placeOfBirth: clientData.placeOfBirth,
 
-    // Spouse Information
-    spouseFirstName: spouseFirstName,
-    spouseMiddleName: spouseMiddleName,
-    spouseLastName: spouseLastName,
+    // Spouse
+    spouseFirstName,
+    spouseMiddleName,
+    spouseLastName,
     spouseDateOfBirth: spouse?.birthDate
       ? new Date(spouse.birthDate)
-      : undefined,
-    spouseAddressSameAsClient,
+      : new Date(),
+    spouseAddressSameAsClient: isSameAddress(spouse?.address, clientAddress),
     spouseAddressLine1: spouse?.address?.addressLine1 ?? "",
     spouseAddressLine2: spouse?.address?.addressLine2 ?? "",
     spouseBarangay: spouse?.address?.barangay ?? "",
@@ -467,55 +478,49 @@ export function mapBackendToClientFormValues(
     spouseProvince: spouse?.address?.province ?? "",
     spouseRegion: spouse?.address?.region ?? "",
     spouseZipCode: spouse?.address?.zipCode ?? 0,
-    spouseContactNumber:
-      formatContactNumber(spouse?.contactInfo?.primary_contact) ?? "",
+    spouseContactNumber: spouse?.contactInfo?.primary_contact ?? "",
 
     // Children
-    firstChildName: mappedChildren[0]?.name ?? "",
-    firstChildDateOfBirth: new Date(mappedChildren[0]?.birthDate ?? new Date()),
-    firstChildAddressSameAsClient:
-      mappedChildren[0]?.addressSameAsClient ?? false,
-    firstChildAddressSameAsSpouse:
-      mappedChildren[0]?.addressSameAsSpouse ?? false,
-    firstChildAddressLine1: mappedChildren[0]?.addressLine1 ?? "",
-    firstChildAddressLine2: mappedChildren[0]?.addressLine2,
-    firstChildBarangay: mappedChildren[0]?.barangay,
-    firstChildCityOrMunicipality: mappedChildren[0]?.cityOrMunicipality ?? "",
-    firstChildProvince: mappedChildren[0]?.province ?? "",
-    firstChildRegion: mappedChildren[0]?.region ?? "",
-    firstChildZipCode: mappedChildren[0]?.zipCode ?? 0,
+    firstChildName: firstChild?.name ?? "",
+    firstChildDateOfBirth: firstChild?.birthDate ?? new Date(),
+    firstChildAddressSameAsClient: firstChild?.addressSameAsClient ?? false,
+    firstChildAddressSameAsSpouse: firstChild?.addressSameAsSpouse ?? false,
+    firstChildBirthOrder: firstChild?.birthOrder ?? 1,
+    firstChildAddressLine1: firstChild?.addressLine1 ?? "",
+    firstChildAddressLine2: firstChild?.addressLine2 ?? undefined,
+    firstChildBarangay: firstChild?.barangay ?? undefined,
+    firstChildCityOrMunicipality: firstChild?.cityOrMunicipality ?? "",
+    firstChildProvince: firstChild?.province ?? "",
+    firstChildRegion: firstChild?.region ?? "",
+    firstChildZipCode: firstChild?.zipCode ?? 0,
 
-    secondChildName: mappedChildren[1]?.name ?? "",
-    secondChildDateOfBirth: new Date(
-      mappedChildren[1]?.birthDate ?? new Date()
-    ),
-    secondChildAddressSameAsClient:
-      mappedChildren[1]?.addressSameAsClient ?? false,
-    secondChildAddressSameAsSpouse:
-      mappedChildren[1]?.addressSameAsSpouse ?? false,
-    secondChildAddressLine1: mappedChildren[1]?.addressLine1 ?? "",
-    secondChildAddressLine2: mappedChildren[1]?.addressLine2,
-    secondChildBarangay: mappedChildren[1]?.barangay,
-    secondChildCityOrMunicipality: mappedChildren[1]?.cityOrMunicipality ?? "",
-    secondChildProvince: mappedChildren[1]?.province ?? "",
-    secondChildRegion: mappedChildren[1]?.region ?? "",
-    secondChildZipCode: mappedChildren[1]?.zipCode ?? 0,
+    secondChildName: secondChild?.name ?? "",
+    secondChildDateOfBirth: secondChild?.birthDate ?? new Date(),
+    secondChildAddressSameAsClient: secondChild?.addressSameAsClient ?? false,
+    secondChildAddressSameAsSpouse: secondChild?.addressSameAsSpouse ?? false,
+    secondChildBirthOrder: secondChild?.birthOrder ?? 2,
+    secondChildAddressLine1: secondChild?.addressLine1 ?? "",
+    secondChildAddressLine2: secondChild?.addressLine2 ?? undefined,
+    secondChildBarangay: secondChild?.barangay ?? undefined,
+    secondChildCityOrMunicipality: secondChild?.cityOrMunicipality ?? "",
+    secondChildProvince: secondChild?.province ?? "",
+    secondChildRegion: secondChild?.region ?? "",
+    secondChildZipCode: secondChild?.zipCode ?? 0,
 
-    thirdChildName: mappedChildren[2]?.name ?? "",
-    thirdChildDateOfBirth: new Date(mappedChildren[2]?.birthDate ?? new Date()),
-    thirdChildAddressSameAsClient:
-      mappedChildren[2]?.addressSameAsClient ?? false,
-    thirdChildAddressSameAsSpouse:
-      mappedChildren[2]?.addressSameAsSpouse ?? false,
-    thirdChildAddressLine1: mappedChildren[2]?.addressLine1 ?? "",
-    thirdChildAddressLine2: mappedChildren[2]?.addressLine2,
-    thirdChildBarangay: mappedChildren[2]?.barangay,
-    thirdChildCityOrMunicipality: mappedChildren[2]?.cityOrMunicipality ?? "",
-    thirdChildProvince: mappedChildren[2]?.province ?? "",
-    thirdChildRegion: mappedChildren[2]?.region ?? "",
-    thirdChildZipCode: mappedChildren[2]?.zipCode ?? 0,
+    thirdChildName: thirdChild?.name ?? "",
+    thirdChildDateOfBirth: thirdChild?.birthDate ?? new Date(),
+    thirdChildAddressSameAsClient: thirdChild?.addressSameAsClient ?? false,
+    thirdChildAddressSameAsSpouse: thirdChild?.addressSameAsSpouse ?? false,
+    thirdChildBirthOrder: thirdChild?.birthOrder ?? 3,
+    thirdChildAddressLine1: thirdChild?.addressLine1 ?? "",
+    thirdChildAddressLine2: thirdChild?.addressLine2 ?? undefined,
+    thirdChildBarangay: thirdChild?.barangay ?? undefined,
+    thirdChildCityOrMunicipality: thirdChild?.cityOrMunicipality ?? "",
+    thirdChildProvince: thirdChild?.province ?? "",
+    thirdChildRegion: thirdChild?.region ?? "",
+    thirdChildZipCode: thirdChild?.zipCode ?? 0,
 
-    // Pensioner's Information
+    // Pension and Account Info
     rank: clientData.clientPension.rank,
     pensionType: clientData.clientPension.pensionType,
     serialNumber: clientData.clientPension.serialNumber,
@@ -528,20 +533,8 @@ export function mapBackendToClientFormValues(
     lengthOfService: Number(clientData.clientPension.lengthOfService),
     lastUnitAssigned: clientData.clientPension.lastUnitAssigned,
     branchOfService: clientData.clientPension.branchOfService,
-
-    // Account's Information
-    monthlyPension: clientData.clientAccount.monthlyPension
-      ? Number(
-          parseFloat(String(clientData.clientAccount.monthlyPension)).toFixed(2)
-        )
-      : 0,
-    monthlyDeduction: clientData.clientAccount.monthlyDeduction
-      ? Number(
-          parseFloat(String(clientData.clientAccount.monthlyDeduction)).toFixed(
-            2
-          )
-        )
-      : 0,
+    monthlyPension: Number(clientData.clientAccount.monthlyPension ?? 0),
+    monthlyDeduction: Number(clientData.clientAccount.monthlyDeduction ?? 0),
     atmAccountNumber: clientData.clientAccount.atmAccountNumber,
     bankName: clientData.clientAccount.bankName,
     branchOfBank: clientData.clientAccount.branchOfBank,

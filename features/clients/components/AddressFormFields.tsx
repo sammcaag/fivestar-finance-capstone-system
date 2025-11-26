@@ -118,21 +118,35 @@ export const AddressFields = ({
           </h3>
         </div>
         <div className="flex justify-center gap-4">
+          {/* Same Address as Client */}
           <Button
             type="button"
             variant="outline"
-            className="text-sm"
+            className={`text-sm ${
+              prefix === "spouse"
+                ? form.getValues("spouseAddressSameAsClient")
+                  ? "bg-blue-600 text-white border-blue-600"
+                  : ""
+                : form.getValues(`${prefix}AddressSameAsClient`)
+                ? "bg-blue-600 text-white border-blue-600"
+                : ""
+            }`}
             onClick={copyClientAddress}
           >
             <User className="w-4 h-4 mr-1" />
             Same Address as Client
           </Button>
 
+          {/* Same Address as Spouse (Only for children) */}
           {prefix !== "spouse" && (
             <Button
               type="button"
               variant="outline"
-              className="text-sm"
+              className={`text-sm ${
+                form.getValues(`${prefix}AddressSameAsSpouse`)
+                  ? "bg-blue-600 text-white border-blue-600"
+                  : ""
+              }`}
               onClick={() =>
                 copySpouseToChild(
                   prefix as "firstChild" | "secondChild" | "thirdChild"
@@ -144,6 +158,7 @@ export const AddressFields = ({
             </Button>
           )}
 
+          {/* Clear */}
           {showClearButton && (
             <Button
               type="button"
@@ -168,7 +183,7 @@ export const AddressFields = ({
                   form.setValue(`${prefix}AddressSameAsClient`, false);
                   form.setValue(`${prefix}AddressSameAsSpouse`, false);
                 }
-                copiedAddressRef.current = false; // allow typing after clear
+                copiedAddressRef.current = false;
               }}
             >
               Clear Address
