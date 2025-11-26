@@ -72,6 +72,7 @@ export default function ClientInfoPage() {
           size="sm"
           onClick={() => router.push(`/clients/${serialNumber}/edit`)}
           className="gap-2 p-5 rounded-lg"
+          disabled={isLoading || !clientData}
         >
           <Pencil className="h-4 w-4" />
           Edit Client Info

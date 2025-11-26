@@ -56,57 +56,66 @@ export function Menu({ isOpen }: MenuProps) {
                 <p className="pb-2"></p>
               )}
               {menus.map(
-                ({ href, label, icon: Icon, active, submenus }, index) =>
-                  !submenus || submenus.length === 0 ? (
-                    <TooltipProvider disableHoverableContent key={index}>
-                      <Tooltip delayDuration={100}>
-                        <TooltipTrigger asChild>
-                          <Button
-                            variant={
-                              (active === undefined && pathname === href) ||
-                              active
-                                ? "default"
-                                : "ghost"
-                            }
-                            className="w-full justify-start items-center h-10"
-                            asChild
-                          >
-                            <Link href={href} className="flex items-center">
-                              <div
-                                className={cn(
-                                  isOpen === false
-                                    ? "w-full flex justify-center"
-                                    : "mr-4"
+                ({ href, label, icon: Icon, active, submenus }, index) => {
+                  const isActive =
+                    pathname === href || // exact match for all buttons
+                    (["clients", "staff"].some((section) =>
+                      pathname.startsWith(`/${section}`)
+                    ) &&
+                      pathname.startsWith(href)); // nested match only for clients/staff
+
+                  if (!submenus || submenus.length === 0) {
+                    return (
+                      <TooltipProvider disableHoverableContent key={index}>
+                        <Tooltip delayDuration={100}>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={isActive ? "default" : "ghost"}
+                              className="w-full justify-start items-center h-10"
+                              asChild
+                            >
+                              <Link href={href} className="flex items-center">
+                                <div
+                                  className={cn(
+                                    isOpen === false
+                                      ? "w-full flex justify-center"
+                                      : "mr-4"
+                                  )}
+                                >
+                                  <Icon size={18} />
+                                </div>
+                                {isOpen && (
+                                  <p className="max-w-[200px]">{label}</p>
                                 )}
-                              >
-                                <Icon size={18} />
-                              </div>
-                              {isOpen && (
-                                <p className="max-w-[200px]">{label}</p>
-                              )}
-                            </Link>
-                          </Button>
-                        </TooltipTrigger>
-                        {isOpen === false && (
-                          <TooltipContent side="right">{label}</TooltipContent>
-                        )}
-                      </Tooltip>
-                    </TooltipProvider>
-                  ) : (
-                    <div className="w-full" key={index}>
-                      <CollapseMenuButton
-                        icon={Icon}
-                        label={label}
-                        active={
-                          active === undefined
-                            ? pathname.startsWith(href)
-                            : active
-                        }
-                        submenus={submenus}
-                        isOpen={isOpen}
-                      />
-                    </div>
-                  )
+                              </Link>
+                            </Button>
+                          </TooltipTrigger>
+                          {isOpen === false && (
+                            <TooltipContent side="right">
+                              {label}
+                            </TooltipContent>
+                          )}
+                        </Tooltip>
+                      </TooltipProvider>
+                    );
+                  } else {
+                    return (
+                      <div className="w-full" key={index}>
+                        <CollapseMenuButton
+                          icon={Icon}
+                          label={label}
+                          active={
+                            active === undefined
+                              ? pathname.startsWith(href)
+                              : active
+                          }
+                          submenus={submenus}
+                          isOpen={isOpen}
+                        />
+                      </div>
+                    );
+                  }
+                }
               )}
             </li>
           ))}

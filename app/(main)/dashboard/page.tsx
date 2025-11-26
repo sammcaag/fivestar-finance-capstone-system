@@ -23,6 +23,7 @@ import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointment
 import { mockAppointmentsData } from "@/features/loans/appointments/data/mock-appointments-data";
 import { useQuery } from "@tanstack/react-query";
 import { getClients } from "@/features/clients/api/client-service";
+import { useRouter } from "next/navigation";
 
 // Filter data for the last 30 days
 const thirtyDaysAgo = new Date();
@@ -61,6 +62,7 @@ const dashboardQuickActions = [
 ];
 
 export default function DashboardPage() {
+  const router = useRouter();
   useEffect(() => {
     document.title = "Dashboard | Stella - Five Star Finance Inc.";
   }, []);
@@ -109,6 +111,10 @@ export default function DashboardPage() {
             emptyOnAction={() => (window.location.href = "/clients/register")}
             dashboard={true}
             dashboardButtonContent="Clients"
+            onRowDoubleClick={(client) => {
+              // Navigate to dynamic route [id]/page.tsx using the client (id = serial number)
+              router.push(`/clients/${client.id}`);
+            }}
           />
         </TabsContent>
         <TabsContent value="appointments" className="mt-4">

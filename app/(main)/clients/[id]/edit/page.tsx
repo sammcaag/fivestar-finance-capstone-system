@@ -19,7 +19,10 @@ import { steps } from "@/features/clients/lib/client-registration-form";
 import { DraftDialog } from "@/features/clients/components/DraftDialog";
 import { getClientBySerialNumber } from "@/features/clients/api/client-service";
 import type { ClientPayload } from "@/features/clients/types/client-types";
-import ClientGeneralInformationSkeleton from "@/features/clients/components/ClientGeneralInformationSkeleton";
+import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
+import NotFoundPage from "@/components/NotFoundPage";
+import { FormNavigationButtonsSkeleton } from "../../../../../features/clients/components/skeletons/FormNavigationButtonsSkeleton";
+import { StepIndicatorSkeleton } from "@/features/clients/components/skeletons/StepIndicatorSkeleton";
 
 export default function EditClientPage() {
   useEffect(() => {
@@ -85,29 +88,33 @@ export default function EditClientPage() {
         ]}
       />
 
-      <motion.div
-        className="w-full mx-auto mt-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <StepIndicator steps={steps} currentStep={currentStep} />
+      {isLoading ? (
+        <div className="w-full mx-auto pt-6 space-y-10">
+          <StepIndicatorSkeleton steps={steps} currentStep={currentStep} />
+          <ClientGeneralInformationSkeleton />
+          <FormNavigationButtonsSkeleton />
+        </div>
+      ) : clientData ? (
+        <motion.div
+          className="w-full mx-auto mt-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <StepIndicator steps={steps} currentStep={currentStep} />
 
-        <div className="bg-background rounded-lg shadow-lg border mt-10">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit((formValues) => {
-                if (!clientData) return; // safety check
-                updateForm(formValues, clientData);
-              })}
-              className="p-6"
-            >
-              <div className="relative overflow-hidden">
-                <AnimatePresence mode="wait">
-                  {isLoading || !clientData ? (
-                    <ClientGeneralInformationSkeleton />
-                  ) : (
-                    formSteps.map(
+          <div className="bg-background rounded-lg shadow-lg border mt-10">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit((formValues) => {
+                  if (!clientData) return; // safety check
+                  updateForm(formValues, clientData);
+                })}
+                className="p-6"
+              >
+                <div className="relative overflow-hidden">
+                  <AnimatePresence mode="wait">
+                    {formSteps.map(
                       (step, index) =>
                         index === currentStep && (
                           <motion.div
@@ -121,36 +128,38 @@ export default function EditClientPage() {
                             {step.component}
                           </motion.div>
                         )
-                    )
-                  )}
-                </AnimatePresence>
-              </div>
+                    )}
+                  </AnimatePresence>
+                </div>
 
-              <FormNavigationButtons
-                currentStep={currentStep}
-                totalSteps={steps.length}
-                formModified={formModified}
-                hasDraft={hasDraft}
-                isSubmitting={false}
-                onPrevious={prev}
-                onNext={next}
-                onSubmit={form.handleSubmit((formValues) => {
-                  if (!clientData) return;
-                  updateForm(formValues, clientData);
-                })}
-                onSaveDraft={handleSaveDraft}
-                onLoadDraft={loadSavedDraft}
-                onDeleteDraft={deleteSavedDraft}
-                onClearForm={() => resetForm(clientData!)}
-                isEditMode
-              />
-            </form>
-          </Form>
-        </div>
+                <FormNavigationButtons
+                  currentStep={currentStep}
+                  totalSteps={steps.length}
+                  formModified={formModified}
+                  hasDraft={hasDraft}
+                  isSubmitting={false}
+                  onPrevious={prev}
+                  onNext={next}
+                  onSubmit={form.handleSubmit((formValues) => {
+                    if (!clientData) return;
+                    updateForm(formValues, clientData);
+                  })}
+                  onSaveDraft={handleSaveDraft}
+                  onLoadDraft={loadSavedDraft}
+                  onDeleteDraft={deleteSavedDraft}
+                  onClearForm={() => resetForm(clientData!)}
+                  isEditMode
+                />
+              </form>
+            </Form>
+          </div>
 
-        {/* Dialog for draft actions */}
-        <DraftDialog message={dialogMessage} visible={dialogVisible} />
-      </motion.div>
+          {/* Dialog for draft actions */}
+        </motion.div>
+      ) : (
+        <NotFoundPage title={"Client data"} />
+      )}
+      <DraftDialog message={dialogMessage} visible={dialogVisible} />
     </ContentLayout>
   );
 }
