@@ -18,11 +18,12 @@ import {
   mapBackendToClientFormValues,
 } from "../lib/client-payload";
 import { useMutation } from "@tanstack/react-query";
-import { createClient } from "../api/client-service";
+import { createClientApi, updateClientApi } from "../api/client-service";
 import { useRouter } from "next/navigation";
 
 export function useClientRegistrationForm() {
   const router = useRouter();
+
   const [currentStep, setCurrentStep] = useState(0);
   const [formModified, setFormModified] = useState(false);
   const [hasDraft, setHasDraft] = useState(false);
@@ -39,7 +40,18 @@ export function useClientRegistrationForm() {
 
   const { mutateAsync: addClient } = useMutation({
     mutationKey: ["createClient"],
-    mutationFn: (payload: ClientPayload) => createClient(payload),
+    mutationFn: (payload: ClientPayload) => createClientApi(payload),
+  });
+
+  const { mutateAsync: updateClient } = useMutation({
+    mutationKey: ["updateClient"],
+    mutationFn: ({
+      serialNumber,
+      payload,
+    }: {
+      serialNumber: string;
+      payload: ClientPayload;
+    }) => updateClientApi(serialNumber, payload),
   });
 
   // Show dialog helper
@@ -155,7 +167,7 @@ export function useClientRegistrationForm() {
     try {
       const result = await addClient(backendPayload); // ✅ await
       console.log("Result:", result);
-      showDialog("Form submitted successfully!");
+      showDialog("Client information registered successfully!");
       router.push(`/clients/${result.serialNumber}`);
     } catch (error) {
       console.log("Error:", error);
@@ -172,7 +184,19 @@ export function useClientRegistrationForm() {
       "THIS IS THE UPDATED DATA PASSED",
       JSON.stringify(backendPayload, null, 2)
     );
-    showDialog("Form updated!");
+    try {
+      console.log("SERIAL NUMBER", fetchedData.clientPension.serialNumber);
+      const result = await updateClient({
+        serialNumber: fetchedData.clientPension.serialNumber,
+        payload: backendPayload,
+      }); // ✅ await
+      console.log("Result:", result);
+      showDialog("Client information updated successfully!");
+      router.push(`/clients/${result.clientPension.serialNumber}`);
+    } catch (error) {
+      console.log("Error:", error);
+      showDialog("Failed to submit form!");
+    }
   };
 
   return {

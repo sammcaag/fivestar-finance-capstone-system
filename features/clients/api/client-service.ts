@@ -37,7 +37,7 @@ export const getClientBySerialNumber = async (
   }
 };
 
-export const createClient = async (payload: ClientPayload) => {
+export const createClientApi = async (payload: ClientPayload) => {
   try {
     const { data } = await axiosInstance.post("/api/users/client", payload);
     return data.data;
@@ -50,20 +50,21 @@ export const createClient = async (payload: ClientPayload) => {
   }
 };
 
-// export async function getClientBySerialNumber(serialNumber: string) {
-//   return prisma.user.findFirst({
-//     where: {
-//       clientPension: {
-//         serialNumber: serialNumber,
-//       },
-//     },
-//     include: {
-//       userAuth: true,
-//       address: true,
-//       contactInfo: true,
-//       clientAccount: true,
-//       clientPension: true,
-//       clientFamilyInfos: true,
-//     },
-//   });
-// }
+export const updateClientApi = async (
+  serialNumber: string,
+  updatePayload: ClientPayload
+) => {
+  try {
+    const { data } = await axiosInstance.put(
+      `/api/users/client/${serialNumber}`,
+      updatePayload
+    );
+    return data.data;
+  } catch (error) {
+    throw new Error(
+      axios.isAxiosError(error)
+        ? error.response?.data?.message || error.message
+        : "Failed to update client"
+    );
+  }
+};
