@@ -1,4 +1,4 @@
-import { StaffRolesEnum } from "../types/staff-types";
+import { StaffFormValues, StaffRolesEnum } from "../types/staff-types";
 
 export const defaultValues = {
   firstName: "",
@@ -22,3 +22,5 @@ export const defaultValues = {
   role: StaffRolesEnum.SALES,
   placeOfBirth: "",
 };
+
+export const formDates: (keyof StaffFormValues)[] = ["dateOfBirth"];

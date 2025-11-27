@@ -33,6 +33,7 @@ export function useClientRegistrationForm() {
   const [dialogMessage, setDialogMessage] = useState("");
   const [dialogVisible, setDialogVisible] = useState(false);
   const [dialogVariant, setDialogVariant] = useState("info");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<ClientFormValues>({
     resolver: zodResolver(clientFormSchema),
@@ -171,6 +172,7 @@ export function useClientRegistrationForm() {
 
   // Process form
   const processForm = async (data: ClientFormValues) => {
+    setIsSubmitting(true);
     const backendPayload = clientPayload(data);
     console.log(
       "THIS IS THE DATA PASSED",
@@ -190,6 +192,8 @@ export function useClientRegistrationForm() {
         : "Unexpected error";
 
       showDialog(errorMessage, "error");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -197,6 +201,7 @@ export function useClientRegistrationForm() {
     data: ClientFormValues,
     fetchedData: ClientPayload
   ) => {
+    setIsSubmitting(true);
     const backendPayload = clientUpdatePayload(data, fetchedData);
     console.log(
       "THIS IS THE UPDATED DATA PASSED",
@@ -219,6 +224,8 @@ export function useClientRegistrationForm() {
         : "Unexpected error";
 
       showDialog(errorMessage, "error");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -239,5 +246,6 @@ export function useClientRegistrationForm() {
     dialogVariant,
     resetForm,
     updateForm,
+    isSubmitting,
   };
 }

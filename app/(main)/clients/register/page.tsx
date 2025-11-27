@@ -37,6 +37,7 @@ export default function RegisterClient() {
     dialogMessage,
     dialogVisible,
     dialogVariant,
+    isSubmitting,
   } = useClientRegistrationForm();
 
   const slideVariants = {
@@ -107,7 +108,7 @@ export default function RegisterClient() {
                 totalSteps={steps.length}
                 formModified={formModified}
                 hasDraft={hasDraft}
-                isSubmitting={false}
+                isSubmitting={isSubmitting}
                 onPrevious={prev}
                 onNext={next}
                 onSubmit={form.handleSubmit(processForm)}

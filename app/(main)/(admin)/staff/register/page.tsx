@@ -10,6 +10,7 @@ import { DraftDialog } from "@/features/clients/components/DraftDialog";
 import MainHeader from "@/components/MainHeader";
 import StaffGeneralInformation from "@/features/staff/component/forms/StaffGeneralInformation";
 import { useStaffRegistrationForm } from "@/features/staff/hooks/use-staff-registration-form";
+import { SingleStepFormButtons } from "@/features/staff/component/SingleStepNavigationButtons";
 
 export default function RegisterClient() {
   useEffect(() => {
@@ -68,6 +69,18 @@ export default function RegisterClient() {
                   </motion.div>
                 </AnimatePresence>
               </div>
+
+              <SingleStepFormButtons
+                isEditMode={false} // if register form
+                hasDraft={hasDraft}
+                formModified={formModified}
+                isSubmitting={isSubmitting}
+                onSubmit={handleSubmit}
+                onSaveDraft={handleSaveDraft}
+                onLoadDraft={handleLoadDraft}
+                onDeleteDraft={handleDeleteDraft}
+                onClearForm={handleClearForm}
+              />
             </form>
           </Form>
         </div>
