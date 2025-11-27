@@ -46,9 +46,53 @@ export interface StaffFormValues {
   civilStatus: string;
   occupation: string;
   role: StaffRolesEnum;
+  staffId: string;
   placeOfBirth: string;
 }
 
 export interface StaffGeneralInformationProps {
   form: UseFormReturn<StaffFormValues>;
 }
+
+export type Address = {
+  id?: string | null;
+  addressLine1: string;
+  addressLine2?: string | null;
+  barangay?: string | null;
+  cityOrMunicipality: string;
+  province: string;
+  region: string;
+  zipCode: number;
+};
+
+export type ContactInfo = {
+  id?: number | null;
+  primary_contact: string;
+  secondary_contact?: string | null;
+};
+
+export type userAuth = {
+  id?: number;
+  email: string;
+  password: string;
+  role: "SALES" | "LOANS";
+};
+
+export type StaffPayload = {
+  id?: number | null;
+  fullName: string;
+  gender: string;
+  birthDate: Date;
+  religion: string;
+  civilStatus: string;
+  occupation: string;
+  staffId: string;
+  placeOfBirth: string;
+  status?: string;
+  profileImageUrl?: string;
+  remarks?: string;
+
+  address: Address;
+  contactInfo: ContactInfo;
+  userAuth?: userAuth;
+};

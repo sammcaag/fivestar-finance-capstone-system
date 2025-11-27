@@ -10,6 +10,7 @@ import { staffGeneralInfoSchema } from "../schema/staff-zod-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { loadDraft, saveDraft } from "../utils/staff-draft-data-storage";
+import { staffPayload } from "../libs/staff-payload";
 
 export function useStaffRegistrationForm() {
   const router = useRouter();
@@ -103,10 +104,10 @@ export function useStaffRegistrationForm() {
   // Process form
   const processForm = async (data: StaffFormValues) => {
     setIsSubmitting(true);
-    // const backendPayload = clientPayload(data);
+    const backendPayload = staffPayload(data);
     console.log(
-      "THIS IS THE DATA PASSED"
-      //   JSON.stringify(backendPayload, null, 2)
+      "THIS IS THE DATA PASSED",
+      JSON.stringify(backendPayload, null, 2)
     );
 
     try {

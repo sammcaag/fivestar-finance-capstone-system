@@ -19,11 +19,17 @@ export default function RegisterClient() {
 
   const {
     form,
+    formModified,
+    hasDraft,
+    loadSavedDraft,
+    deleteSavedDraft,
+    handleSaveDraft,
     clearForm,
     processForm,
     dialogMessage,
     dialogVisible,
     dialogVariant,
+    isSubmitting,
   } = useStaffRegistrationForm();
 
   const slideVariants = {
@@ -75,11 +81,11 @@ export default function RegisterClient() {
                 hasDraft={hasDraft}
                 formModified={formModified}
                 isSubmitting={isSubmitting}
-                onSubmit={handleSubmit}
+                onSubmit={form.handleSubmit(processForm)}
                 onSaveDraft={handleSaveDraft}
-                onLoadDraft={handleLoadDraft}
-                onDeleteDraft={handleDeleteDraft}
-                onClearForm={handleClearForm}
+                onLoadDraft={loadSavedDraft}
+                onDeleteDraft={deleteSavedDraft}
+                onClearForm={clearForm}
               />
             </form>
           </Form>

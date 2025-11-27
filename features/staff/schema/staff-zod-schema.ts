@@ -36,5 +36,6 @@ export const staffGeneralInfoSchema = z.object({
   }),
   occupation: z.string().min(1, "Occupation is required"),
   role: z.nativeEnum(StaffRolesEnum, { required_error: "Role is required" }),
+  staffId: z.string().min(1, "Staff ID is required"),
   placeOfBirth: z.string().min(1, "Place of birth is required"),
 });

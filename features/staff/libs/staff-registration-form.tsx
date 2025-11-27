@@ -20,6 +20,7 @@ export const defaultValues = {
   civilStatus: "",
   occupation: "",
   role: StaffRolesEnum.SALES,
+  staffId: "",
   placeOfBirth: "",
 };
 

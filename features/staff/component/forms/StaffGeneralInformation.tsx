@@ -229,7 +229,7 @@ const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           <FormFieldWrapper
             name="role"
             control={form.control}
@@ -241,6 +241,14 @@ const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
               { value: "SALES", label: "Sales" },
               { value: "LOANS", label: "Loans" },
             ]}
+          />
+          <FormFieldWrapper
+            name="staffId"
+            control={form.control}
+            required
+            label="Staff ID"
+            type="input"
+            placeholder="FSFI-2025"
           />
           <FormFieldWrapper
             name="placeOfBirth"
