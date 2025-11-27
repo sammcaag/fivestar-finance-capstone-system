@@ -11,11 +11,11 @@ export const getClients = async (): Promise<ClientTableProps[]> => {
     }>("/api/users/clients");
     return data.data; // <-- return the inner array
   } catch (error) {
-    throw new Error(
-      axios.isAxiosError(error)
-        ? error.response?.data?.message || error.message
-        : "Failed to fetch clients"
-    );
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error(`Failed to fetch clients`);
   }
 };
 
@@ -29,11 +29,11 @@ export const getClientBySerialNumber = async (
     }>(`/api/users/client/${serialNumber}`);
     return data.data;
   } catch (error) {
-    throw new Error(
-      axios.isAxiosError(error)
-        ? error.response?.data?.message || error.message
-        : `Failed to fetch client with serial number ${serialNumber}`
-    );
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error(`Failed to fetch client ${serialNumber}`);
   }
 };
 

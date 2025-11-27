@@ -11,11 +11,30 @@ export const getStaffs = async (): Promise<StaffTableProps[]> => {
     }>("/api/users/staffs");
     return data.data; // <-- return the inner array
   } catch (error) {
-    throw new Error(
-      axios.isAxiosError(error)
-        ? error.response?.data?.message || error.message
-        : "Failed to fetch staffs"
-    );
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error(`Failed to fetch staff`);
+  }
+};
+
+export const getStaffByStaffId = async (
+  staffId: string
+): Promise<StaffPayload> => {
+  try {
+    const { data } = await axiosInstance.get<{
+      success: boolean;
+      data: StaffPayload;
+    }>(`/api/users/staff/${staffId}`);
+    console.log("THIS IS THE RETURN STAFF DATA", data.data);
+    return data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error(`Failed to fetch staff ${staffId}`);
   }
 };
 

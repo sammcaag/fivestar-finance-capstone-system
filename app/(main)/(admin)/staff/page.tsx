@@ -14,7 +14,7 @@ import { useEffect } from "react";
 export default function StaffManagementPage() {
   const router = useRouter();
   useEffect(() => {
-    document.title = "Staff Management | Stella - Five Star Finance Inc.";
+    document.title = "Staff Overview | Stella - Five Star Finance Inc.";
   }, []);
 
   const { data: staffstData, isLoading } = useQuery<StaffTableProps[]>({
@@ -23,19 +23,19 @@ export default function StaffManagementPage() {
   });
 
   return (
-    <ContentLayout title="Staff Management">
+    <ContentLayout title="Staff Overview">
       <BreadcrumbPages
         links={[
           { href: "/", label: "Home" },
-          { href: "/staff", label: "Staff Management" },
+          { href: "/staff", label: "Staff" },
         ]}
       />
       <MainHeader
-        title="Staff Management"
+        title="Staff Overview"
         description="Manage branch staff accounts, roles, and permissions. Add new team members, update information, or deactivate users when needed."
       />
       <MainTableComp<StaffTableProps>
-        title="Staff Management"
+        title="Staff Overview"
         description="Manage branch staff accounts, roles, and permissions."
         data={staffstData ?? []}
         isLoading={isLoading}
@@ -48,6 +48,10 @@ export default function StaffManagementPage() {
         }}
         emptyTitle="No Staff Data Found"
         emptyDescription="There are no staff members recorded yet. Add staff to see them here."
+        onRowDoubleClick={(staff) => {
+          // Navigate to dynamic route [id]/page.tsx using the client (id = serial number)
+          router.push(`/staff/${staff.id}`);
+        }}
       />
     </ContentLayout>
   );
