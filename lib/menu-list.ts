@@ -10,6 +10,7 @@ import {
   FilePenLine,
   CalendarClock,
   UserCog,
+  Building,
 } from "lucide-react";
 
 type Submenu = {
@@ -106,11 +107,17 @@ export function getMenuList(): Group[] {
     {
       groupLabel: "Monitoring & Control",
       menus: [
-        // Reports & Analytics
+        // Staff Management
         {
-          href: "/reports",
-          label: "Reports & Analytics",
-          icon: FileChartColumn,
+          href: "/branch",
+          label: "Branch Overview",
+          icon: Building,
+        },
+        // Staff Management
+        {
+          href: "/staff",
+          label: "Staff Management",
+          icon: UserCog,
         },
         // Activity & Audit Logs
         {
@@ -118,11 +125,11 @@ export function getMenuList(): Group[] {
           label: "Activity & Audit Logs",
           icon: History,
         },
-        // Staff Management
+        // Reports & Analytics
         {
-          href: "/staff",
-          label: "Staff Management",
-          icon: UserCog,
+          href: "/reports",
+          label: "Reports & Analytics",
+          icon: FileChartColumn,
         },
         // Settings
         {

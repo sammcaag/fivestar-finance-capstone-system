@@ -24,6 +24,7 @@ import {
 import { clientBadgeStatusMap } from "../../utils/client-badge-status-map";
 import { cn } from "@/lib/utils";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
+import { avatarFallBack } from "@/utils/avatar-fallback";
 
 export const clientsColumnDefinition = (
   dashboard = false
@@ -65,7 +66,7 @@ export const clientsColumnDefinition = (
             <Avatar className="size-10 border border-primary/10 flex-shrink-0">
               <AvatarImage src="/avatar.png" alt={client.name} />
               <AvatarFallback className="bg-primary/5 text-primary text-xs font-semibold">
-                {client.name.substring(0, 2).toUpperCase()}
+                {avatarFallBack(client.name)}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
@@ -181,7 +182,7 @@ export const clientsColumnDefinition = (
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
                   onClick={() => {
-                    if (client.clientPension.serialNumber) {
+                    if (client.id) {
                       navigator.clipboard.writeText(client.id);
                       alert(`Client ID ${client.id} copied to clipboard`);
                     } else {
