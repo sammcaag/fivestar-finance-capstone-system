@@ -5,7 +5,7 @@ import { User } from "lucide-react";
 
 import { StepTitleCard } from "../StepTitleCard";
 import { SectionCard } from "../SectionCard";
-import { FormFieldWrapper } from "../FormFieldWrapper";
+import { FormFieldWrapper } from "../../../../components/FormFieldWrapper";
 import { type ClientFamilyInformationProps } from "../../types/client-types";
 import useClientAnimation from "../../hooks/use-client-animation";
 import { AddressFields } from "../AddressFormFields";

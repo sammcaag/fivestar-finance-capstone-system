@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 interface DraftDialogProps {
   message: string;
   visible: boolean;
-  variant?: "success" | "error" | "info" | "warning";
+  variant?: string;
 }
 
 // Pastel but more visible gradients for elderly-friendly readability

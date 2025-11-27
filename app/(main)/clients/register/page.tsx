@@ -15,6 +15,7 @@ import PensionersInformation from "@/features/clients/components/steps/Pensioner
 import AccountsInformation from "@/features/clients/components/steps/AccountsInformation";
 import { steps } from "@/features/clients/lib/client-registration-form";
 import { DraftDialog } from "@/features/clients/components/DraftDialog";
+import MainHeader from "@/components/MainHeader";
 
 export default function RegisterClient() {
   useEffect(() => {
@@ -45,7 +46,10 @@ export default function RegisterClient() {
   };
 
   const formSteps = [
-    { key: "step-0", component: <ClientGeneralInformation form={form} /> },
+    {
+      key: "step-0",
+      component: <ClientGeneralInformation form={form} />,
+    },
     { key: "step-1", component: <FamilyInformation form={form} /> },
     { key: "step-2", component: <PensionersInformation form={form} /> },
     { key: "step-3", component: <AccountsInformation form={form} /> },
@@ -62,8 +66,13 @@ export default function RegisterClient() {
         ]}
       />
 
+      <MainHeader
+        title="Register Client"
+        description="Easily onboard clients by filling in the fields with their exact information."
+      />
+
       <motion.div
-        className="w-full mx-auto mt-6"
+        className="w-full mx-auto mt-10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

@@ -28,7 +28,7 @@ import { cn } from "@/lib/utils";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { getYear } from "date-fns";
-import { normalizeDate } from "../utils/safe-date-normalizer";
+import { normalizeDate } from "../features/clients/utils/safe-date-normalizer";
 import { preventInvalidInput } from "@/utils/handling-input-numbers";
 
 interface CustomOnChangeProps<T extends FieldValues> {

@@ -64,7 +64,9 @@ export default function ClientsPage() {
         emptyTitle="No Clients Found"
         emptyDescription="There are no clients recorded yet. Add a client to get started."
         emptyActionLabel="Register New Client"
-        emptyOnAction={() => (window.location.href = "/clients/register")}
+        emptyOnAction={() => {
+          router.push("/clients/register");
+        }}
         onRowDoubleClick={(client) => {
           // Navigate to dynamic route [id]/page.tsx using the client (id = serial number)
           router.push(`/clients/${client.id}`);

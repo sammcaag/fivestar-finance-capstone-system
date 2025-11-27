@@ -3,19 +3,18 @@
 import { motion } from "framer-motion";
 import { User, Phone, Heart, Map } from "lucide-react";
 
-import { StepTitleCard } from "../StepTitleCard";
-import { SectionCard } from "../SectionCard";
-import { FormFieldWrapper } from "../../../../components/FormFieldWrapper";
-
 import {
   civilStatusOptions,
   regionOptions,
   suffixOptions,
-  type ClientGeneralInformationProps,
 } from "@/features/clients/types/client-types";
-import useClientAnimation from "../../hooks/use-client-animation";
+import useClientAnimation from "@/features/clients/hooks/use-client-animation";
+import { StepTitleCard } from "@/features/clients/components/StepTitleCard";
+import { SectionCard } from "@/features/clients/components/SectionCard";
+import { FormFieldWrapper } from "@/components/FormFieldWrapper";
+import { type StaffGeneralInformationProps } from "../../types/staff-types";
 
-const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
+const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
   const { containerVariants, itemVariants } = useClientAnimation();
 
   return (
@@ -27,8 +26,8 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
     >
       <StepTitleCard
         variants={itemVariants}
-        title="Client General Information"
-        description="Please fill out all the required information below to begin the client registration process."
+        title="Staff General Information"
+        description="Please fill out all the required information below to begin the staff registration process."
       />
 
       {/* Basic Information */}
@@ -232,11 +231,16 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <FormFieldWrapper
-            name="mothersMaidenName"
+            name="role"
             control={form.control}
-            label="Mother's Maiden Name"
-            type="input"
+            label="Staff Position"
+            type="select"
+            required
             placeholder="Marites"
+            options={[
+              { value: "SALES", label: "Sales" },
+              { value: "LOANS", label: "Loans" },
+            ]}
           />
           <FormFieldWrapper
             name="placeOfBirth"
@@ -252,4 +256,4 @@ const ClientGeneralInformation = ({ form }: ClientGeneralInformationProps) => {
   );
 };
 
-export default ClientGeneralInformation;
+export default StaffGeneralInformation;

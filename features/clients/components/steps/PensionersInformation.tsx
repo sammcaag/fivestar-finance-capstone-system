@@ -5,7 +5,7 @@ import { Medal, Calendar, Hash, Building, Clock } from "lucide-react";
 
 import { StepTitleCard } from "../StepTitleCard";
 import { SectionCard } from "../SectionCard";
-import { FormFieldWrapper } from "../FormFieldWrapper";
+import { FormFieldWrapper } from "../../../../components/FormFieldWrapper";
 
 import {
   pensionTypeOptions,

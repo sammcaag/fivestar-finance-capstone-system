@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Map, User, Users } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { ClientFormValues, regionOptions } from "../types/client-types";
-import { FormFieldWrapper } from "./FormFieldWrapper";
+import { FormFieldWrapper } from "../../../components/FormFieldWrapper";
 
 type PrefixType = "spouse" | "firstChild" | "secondChild" | "thirdChild";
 

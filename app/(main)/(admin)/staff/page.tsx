@@ -8,9 +8,11 @@ import { getStaffs } from "@/features/staff/api/staff-service";
 import { staffColumnDefinition } from "@/features/staff/component/tables/StaffColumnDefinition";
 import { StaffTableProps } from "@/features/staff/types/staff-types";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function StaffManagementPage() {
+  const router = useRouter();
   useEffect(() => {
     document.title = "Staff Management | Stella - Five Star Finance Inc.";
   }, []);
@@ -40,8 +42,10 @@ export default function StaffManagementPage() {
         columns={staffColumnDefinition}
         filterColumns={["name", "role", "status", "branch"]}
         initialSort={[{ id: "name", desc: false }]}
-        emptyActionLabel="No Staff Data"
-        emptyOnAction={() => {}}
+        emptyActionLabel="Register New Staff"
+        emptyOnAction={() => {
+          router.push("/staff/register");
+        }}
         emptyTitle="No Staff Data Found"
         emptyDescription="There are no staff members recorded yet. Add staff to see them here."
       />

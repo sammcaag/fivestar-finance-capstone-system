@@ -11,7 +11,7 @@ import {
 
 import { StepTitleCard } from "../StepTitleCard";
 import { SectionCard } from "../SectionCard";
-import { FormFieldWrapper } from "../FormFieldWrapper";
+import { FormFieldWrapper } from "../../../../components/FormFieldWrapper";
 
 import type { AccountsInformationProps } from "@/features/clients/types/client-types";
 import useClientAnimation from "../../hooks/use-client-animation";
