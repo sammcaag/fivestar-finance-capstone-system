@@ -57,12 +57,16 @@ export function Menu({ isOpen }: MenuProps) {
               )}
               {menus.map(
                 ({ href, label, icon: Icon, active, submenus }, index) => {
-                  const isActive =
-                    pathname === href || // exact match for all buttons
-                    (["clients", "staff"].some((section) =>
-                      pathname.startsWith(`/${section}`)
-                    ) &&
-                      pathname.startsWith(href)); // nested match only for clients/staff
+                  let isActive = false;
+
+                  if (href === "/clients") {
+                    isActive =
+                      pathname === "/clients" ||
+                      (/^\/clients\/[^/]+(\/.*)?$/.test(pathname) &&
+                        !pathname.startsWith("/clients/register"));
+                  } else {
+                    isActive = pathname === href;
+                  }
 
                   if (!submenus || submenus.length === 0) {
                     return (

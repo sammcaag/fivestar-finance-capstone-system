@@ -35,6 +35,7 @@ export default function RegisterClient() {
     processForm,
     dialogMessage,
     dialogVisible,
+    dialogVariant,
   } = useClientRegistrationForm();
 
   const slideVariants = {
@@ -111,7 +112,11 @@ export default function RegisterClient() {
         </div>
 
         {/* Dialog for draft actions */}
-        <DraftDialog message={dialogMessage} visible={dialogVisible} />
+        <DraftDialog
+          message={dialogMessage}
+          visible={dialogVisible}
+          variant={dialogVariant}
+        />
       </motion.div>
     </ContentLayout>
   );

@@ -17,12 +17,14 @@ import {
   clientUpdatePayload,
   mapBackendToClientFormValues,
 } from "../lib/client-payload";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createClientApi, updateClientApi } from "../api/client-service";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export function useClientRegistrationForm() {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [currentStep, setCurrentStep] = useState(0);
   const [formModified, setFormModified] = useState(false);
@@ -30,6 +32,7 @@ export function useClientRegistrationForm() {
 
   const [dialogMessage, setDialogMessage] = useState("");
   const [dialogVisible, setDialogVisible] = useState(false);
+  const [dialogVariant, setDialogVariant] = useState("info");
 
   const form = useForm<ClientFormValues>({
     resolver: zodResolver(clientFormSchema),
@@ -52,11 +55,21 @@ export function useClientRegistrationForm() {
       serialNumber: string;
       payload: ClientPayload;
     }) => updateClientApi(serialNumber, payload),
+    onSuccess: (_, variables) => {
+      // variables contains the object passed to mutate
+      queryClient.invalidateQueries({
+        queryKey: ["clientBySerialNumber", variables.serialNumber],
+      });
+    },
   });
 
   // Show dialog helper
-  const showDialog = (message: string) => {
+  const showDialog = (
+    message: string,
+    variant: "success" | "error" | "info" | "warning"
+  ) => {
     setDialogMessage(message);
+    setDialogVariant(variant);
     setDialogVisible(true);
     setTimeout(() => setDialogVisible(false), 2000); // auto-close after 2s
   };
@@ -79,7 +92,7 @@ export function useClientRegistrationForm() {
   const handleSaveDraft = () => {
     saveDraft(form.getValues());
     setHasDraft(true);
-    showDialog("Draft has been saved successfully!");
+    showDialog("Draft has been saved successfully!", "success");
   };
 
   const loadSavedDraft = () => {
@@ -104,14 +117,14 @@ export function useClientRegistrationForm() {
       const formattedData = { ...draft.data, ...dateConversions };
       form.reset(formattedData as ClientFormValues);
       setFormModified(false);
-      showDialog("Draft has been loaded successfully!");
+      showDialog("Draft has been loaded successfully!", "info");
     }
   };
 
   const deleteSavedDraft = () => {
     localStorage.removeItem("form-draft");
     setHasDraft(false);
-    showDialog("Draft has been deleted successfully!");
+    showDialog("Draft has been deleted successfully!", "error");
   };
 
   // Clear form
@@ -119,7 +132,7 @@ export function useClientRegistrationForm() {
     form.reset(defaultValues);
     setFormModified(false);
     setCurrentStep(0);
-    showDialog("Form has been cleared!");
+    showDialog("Form has been cleared!", "info");
   };
 
   const resetForm = useCallback(
@@ -132,7 +145,7 @@ export function useClientRegistrationForm() {
       form.reset(mappedValues);
       setFormModified(false);
       setCurrentStep(0);
-      showDialog("Form has been reset to client values!");
+      showDialog("Form has been reset to client values!", "success");
     },
     [form]
   );
@@ -167,11 +180,16 @@ export function useClientRegistrationForm() {
     try {
       const result = await addClient(backendPayload); // ✅ await
       console.log("Result:", result);
-      showDialog("Client information registered successfully!");
+      showDialog("Client information registered successfully!", "success");
       router.push(`/clients/${result.serialNumber}`);
     } catch (error) {
       console.log("Error:", error);
-      showDialog("Failed to submit form!");
+
+      const errorMessage = axios.isAxiosError(error)
+        ? error.response?.data?.error || "Request failed"
+        : "Unexpected error";
+
+      showDialog(errorMessage, "error");
     }
   };
 
@@ -191,11 +209,16 @@ export function useClientRegistrationForm() {
         payload: backendPayload,
       }); // ✅ await
       console.log("Result:", result);
-      showDialog("Client information updated successfully!");
+      showDialog("Client information updated successfully!", "success");
       router.push(`/clients/${result.clientPension.serialNumber}`);
     } catch (error) {
       console.log("Error:", error);
-      showDialog("Failed to submit form!");
+
+      const errorMessage = axios.isAxiosError(error)
+        ? error.response?.data?.error || "Request failed"
+        : "Unexpected error";
+
+      showDialog(errorMessage, "error");
     }
   };
 
@@ -213,6 +236,7 @@ export function useClientRegistrationForm() {
     processForm,
     dialogMessage,
     dialogVisible,
+    dialogVariant,
     resetForm,
     updateForm,
   };

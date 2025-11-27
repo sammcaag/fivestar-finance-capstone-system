@@ -57,7 +57,7 @@ export default function EditClientPage() {
   // Reset form when clientData is loaded
   useEffect(() => {
     if (clientData) {
-      resetForm(clientData);
+      setTimeout(() => resetForm(clientData), 0);
     }
   }, [clientData, resetForm]);
 

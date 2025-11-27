@@ -42,11 +42,11 @@ export const createClientApi = async (payload: ClientPayload) => {
     const { data } = await axiosInstance.post("/api/users/client", payload);
     return data.data;
   } catch (error) {
-    throw new Error(
-      axios.isAxiosError(error)
-        ? error.response?.data?.message || error.message
-        : "Failed to create a client"
-    );
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error("Failed to create a client");
   }
 };
 
@@ -61,10 +61,10 @@ export const updateClientApi = async (
     );
     return data.data;
   } catch (error) {
-    throw new Error(
-      axios.isAxiosError(error)
-        ? error.response?.data?.message || error.message
-        : "Failed to update client"
-    );
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error("Failed to create a client");
   }
 };
