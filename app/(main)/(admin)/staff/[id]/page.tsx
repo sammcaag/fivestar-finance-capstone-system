@@ -60,6 +60,7 @@ export default function ClientInfoPage() {
             staffId={staffData.staffId}
             status={staffData.status || "INACTIVE"}
             fullName={staffData.fullName}
+            role={staffData.userAuth.role}
           />
           <StaffPersonalInformation
             birthDate={staffData.birthDate}

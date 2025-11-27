@@ -24,11 +24,7 @@ const roleConfig = {
 } as const;
 
 // Custom filter function for searching name and email
-const staffSearchFilterFn: FilterFn<StaffTableProps> = (
-  row,
-  columnId,
-  filterValue
-) => {
+const staffSearchFilterFn: FilterFn<StaffTableProps> = (row, filterValue) => {
   const searchableRowContent =
     `${row.original.name} ${row.original.email}`.toLowerCase();
   const searchTerm = (filterValue ?? "").toLowerCase();

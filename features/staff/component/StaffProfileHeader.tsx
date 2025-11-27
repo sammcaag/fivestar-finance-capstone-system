@@ -18,6 +18,7 @@ interface IStaffProfile {
   status: string;
   fullName: string;
   profileImageUrl?: string;
+  role: string;
 }
 
 export default function StaffProfileHeader({
@@ -26,12 +27,17 @@ export default function StaffProfileHeader({
   status,
   fullName,
   profileImageUrl,
+  role,
 }: IStaffProfile) {
   const clientBadge = [
     { label: "ID", value: staffId },
     {
       label: "Branch",
       value: branchName,
+    },
+    {
+      label: "Staff Role",
+      value: role,
     },
   ].filter((item) => item.value);
 
@@ -73,7 +79,7 @@ export default function StaffProfileHeader({
                 {formatFullNameFromParts(decodeFullName(fullName))}
               </CardDescription>
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-medium uppercase tracking-wide text-white/80">
+            <div className="flex flex-wrap items-center gap-2 text-sm font-medium uppercase tracking-wide text-white/80">
               {clientBadge.map((item) => (
                 <span
                   key={item.label}

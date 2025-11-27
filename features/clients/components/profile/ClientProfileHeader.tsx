@@ -132,7 +132,7 @@ export default function ClientProfileHeader({
                 {fullName}
               </CardDescription>
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-medium uppercase tracking-wide text-white/80">
+            <div className="flex flex-wrap items-center gap-2 text-sm font-medium uppercase tracking-wide text-white/80">
               {clientBadge.map((item) => (
                 <span
                   key={item.label}
