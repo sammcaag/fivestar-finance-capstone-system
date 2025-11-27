@@ -51,3 +51,22 @@ export const createStaffApi = async (payload: StaffPayload) => {
     throw new Error("Failed to create a client");
   }
 };
+
+export const updateStaffApi = async (
+  staffId: string,
+  updatePayload: StaffPayload
+) => {
+  try {
+    const { data } = await axiosInstance.put(
+      `/api/users/staff/${staffId}`,
+      updatePayload
+    );
+    return data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error("Failed to update a staff");
+  }
+};

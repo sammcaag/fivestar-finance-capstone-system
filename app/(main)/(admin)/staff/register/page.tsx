@@ -12,9 +12,9 @@ import StaffGeneralInformation from "@/features/staff/component/forms/StaffGener
 import { useStaffRegistrationForm } from "@/features/staff/hooks/use-staff-registration-form";
 import { SingleStepFormButtons } from "@/features/staff/component/SingleStepNavigationButtons";
 
-export default function RegisterClient() {
+export default function RegisterStaff() {
   useEffect(() => {
-    document.title = "Register Client | Stella - Five Star Finance Inc.";
+    document.title = "Register Staff | Stella - Five Star Finance Inc.";
   }, []);
 
   const {

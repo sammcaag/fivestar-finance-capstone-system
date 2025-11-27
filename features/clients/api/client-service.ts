@@ -66,6 +66,6 @@ export const updateClientApi = async (
       // throw the actual axios error back to the UI
       throw error;
     }
-    throw new Error("Failed to create a client");
+    throw new Error("Failed to update a client");
   }
 };

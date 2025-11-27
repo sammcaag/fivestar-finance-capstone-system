@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { StaffFormValues, StaffPayload } from "../types/staff-types";
 import { defaultValues, formDates } from "../libs/staff-registration-form";
@@ -10,8 +10,11 @@ import { staffGeneralInfoSchema } from "../schema/staff-zod-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { loadDraft, saveDraft } from "../utils/staff-draft-data-storage";
-import { staffPayload } from "../libs/staff-payload";
-import { createStaffApi } from "../api/staff-service";
+import {
+  mapBackendToStaffFormValues,
+  staffPayload,
+} from "../libs/staff-payload";
+import { createStaffApi, updateStaffApi } from "../api/staff-service";
 
 export function useStaffRegistrationForm() {
   const router = useRouter();
@@ -35,6 +38,23 @@ export function useStaffRegistrationForm() {
   const { mutateAsync: addStaff } = useMutation({
     mutationKey: ["createStaff"],
     mutationFn: (payload: StaffPayload) => createStaffApi(payload),
+  });
+
+  const { mutateAsync: updateStaff } = useMutation({
+    mutationKey: ["updateStaff"],
+    mutationFn: ({
+      staffId,
+      payload,
+    }: {
+      staffId: string;
+      payload: StaffPayload;
+    }) => updateStaffApi(staffId, payload),
+    onSuccess: (_, variables) => {
+      // variables contains the object passed to mutate
+      queryClient.invalidateQueries({
+        queryKey: ["staffByStaffId", variables.staffId],
+      });
+    },
   });
 
   // Show dialog helper
@@ -104,8 +124,24 @@ export function useStaffRegistrationForm() {
   // Clear form
   const clearForm = () => {
     form.reset(defaultValues);
+    setFormModified(false);
     showDialog("Form has been cleared!", "info");
   };
+
+  const resetForm = useCallback(
+    (backendData: StaffPayload, isShowMessage: boolean = true) => {
+      const mappedValues = mapBackendToStaffFormValues(backendData); // map backend payload to form values
+      console.log(
+        "THIS IS THE FETCHED MAPPPED DATA:",
+        JSON.stringify(mappedValues, null, 2)
+      );
+      form.reset(mappedValues);
+      setFormModified(false);
+      if (isShowMessage)
+        showDialog("Form has been reset to staff values!", "success");
+    },
+    [form]
+  );
 
   // Process form
   const processForm = async (data: StaffFormValues) => {
@@ -119,8 +155,39 @@ export function useStaffRegistrationForm() {
     try {
       const result = await addStaff(backendPayload); // ✅ await
       console.log("Result:", result);
-      showDialog("Client information registered successfully!", "success");
-      router.push(`/clients/${result.staffId}`);
+      showDialog("Staff information registered successfully!", "success");
+      router.push(`/staff/${result.staffId}`);
+    } catch (error) {
+      console.log("Error:", error);
+
+      const errorMessage = axios.isAxiosError(error)
+        ? error.response?.data?.error || "Request failed"
+        : "Unexpected error";
+
+      showDialog(errorMessage, "error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const updateForm = async (
+    data: StaffFormValues,
+    fetchedData: StaffPayload
+  ) => {
+    setIsSubmitting(true);
+    const backendPayload = staffPayload(data);
+    console.log(
+      "THIS IS THE UPDATED DATA PASSED",
+      JSON.stringify(backendPayload, null, 2)
+    );
+    try {
+      const result = await updateStaff({
+        staffId: fetchedData.staffId,
+        payload: backendPayload,
+      }); // ✅ await
+      console.log("Result:", result);
+      showDialog("Staff information updated successfully!", "success");
+      router.push(`/staff/${result.staffId}`);
     } catch (error) {
       console.log("Error:", error);
 
@@ -147,5 +214,7 @@ export function useStaffRegistrationForm() {
     dialogVisible,
     dialogVariant,
     isSubmitting,
+    resetForm,
+    updateForm,
   };
 }

@@ -32,7 +32,7 @@ export function useClientRegistrationForm() {
 
   const [dialogMessage, setDialogMessage] = useState("");
   const [dialogVisible, setDialogVisible] = useState(false);
-  const [dialogVariant, setDialogVariant] = useState("info");
+  const [dialogVariant, setDialogVariant] = useState("success");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<ClientFormValues>({
@@ -137,7 +137,7 @@ export function useClientRegistrationForm() {
   };
 
   const resetForm = useCallback(
-    (backendData: ClientPayload) => {
+    (backendData: ClientPayload, isShowMessage: boolean = true) => {
       const mappedValues = mapBackendToClientFormValues(backendData); // map backend payload to form values
       console.log(
         "THIS IS THE FETCHED MAPPPED DATA:",
@@ -146,7 +146,8 @@ export function useClientRegistrationForm() {
       form.reset(mappedValues);
       setFormModified(false);
       setCurrentStep(0);
-      showDialog("Form has been reset to client values!", "success");
+      if (isShowMessage)
+        showDialog("Form has been reset to client values!", "success");
     },
     [form]
   );

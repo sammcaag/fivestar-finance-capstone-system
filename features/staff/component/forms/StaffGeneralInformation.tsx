@@ -233,10 +233,10 @@ const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
           <FormFieldWrapper
             name="role"
             control={form.control}
-            label="Staff Position"
+            label="Staff Role"
             type="select"
             required
-            placeholder="Marites"
+            placeholder="Select Role"
             options={[
               { value: "SALES", label: "Sales" },
               { value: "LOANS", label: "Loans" },

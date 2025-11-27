@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { StaffRolesEnum } from "../types/staff-types";
 
 export const staffGeneralInfoSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -35,7 +34,7 @@ export const staffGeneralInfoSchema = z.object({
     message: "Civil status is required",
   }),
   occupation: z.string().min(1, "Occupation is required"),
-  role: z.nativeEnum(StaffRolesEnum, { required_error: "Role is required" }),
+  role: z.string().min(1, "Role is required"),
   staffId: z.string().min(1, "Staff ID is required"),
   placeOfBirth: z.string().min(1, "Place of birth is required"),
 });

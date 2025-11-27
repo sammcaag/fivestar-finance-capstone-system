@@ -1,4 +1,4 @@
-import { StaffFormValues, StaffRolesEnum } from "../types/staff-types";
+import { StaffFormValues } from "../types/staff-types";
 
 export const defaultValues = {
   firstName: "",
@@ -19,7 +19,7 @@ export const defaultValues = {
   religion: "",
   civilStatus: "",
   occupation: "",
-  role: StaffRolesEnum.SALES,
+  role: "",
   staffId: "",
   placeOfBirth: "",
 };

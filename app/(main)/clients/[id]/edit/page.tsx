@@ -23,6 +23,7 @@ import ClientGeneralInformationSkeleton from "@/features/clients/components/skel
 import NotFoundPage from "@/components/NotFoundPage";
 import { FormNavigationButtonsSkeleton } from "../../../../../features/clients/components/skeletons/FormNavigationButtonsSkeleton";
 import { StepIndicatorSkeleton } from "@/features/clients/components/skeletons/StepIndicatorSkeleton";
+import MainHeader from "@/components/MainHeader";
 
 export default function EditClientPage() {
   useEffect(() => {
@@ -45,6 +46,7 @@ export default function EditClientPage() {
     updateForm,
     dialogMessage,
     dialogVisible,
+    dialogVariant,
     resetForm,
   } = useClientRegistrationForm();
 
@@ -57,7 +59,7 @@ export default function EditClientPage() {
   // Reset form when clientData is loaded
   useEffect(() => {
     if (clientData) {
-      setTimeout(() => resetForm(clientData), 0);
+      setTimeout(() => resetForm(clientData, false), 0);
     }
   }, [clientData, resetForm]);
 
@@ -88,15 +90,20 @@ export default function EditClientPage() {
         ]}
       />
 
+      <MainHeader
+        title="Edit Client Information"
+        description="Edit and update client information efficiently, ensuring all records are accurate and up to date."
+      />
+
       {isLoading ? (
-        <div className="w-full mx-auto pt-6 space-y-10">
+        <div className="w-full mx-auto mt-10 space-y-10">
           <StepIndicatorSkeleton steps={steps} currentStep={currentStep} />
           <ClientGeneralInformationSkeleton />
           <FormNavigationButtonsSkeleton />
         </div>
       ) : clientData ? (
         <motion.div
-          className="w-full mx-auto mt-6"
+          className="w-full mx-auto mt-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -159,7 +166,11 @@ export default function EditClientPage() {
       ) : (
         <NotFoundPage title={"Client data"} />
       )}
-      <DraftDialog message={dialogMessage} visible={dialogVisible} />
+      <DraftDialog
+        message={dialogMessage}
+        visible={dialogVisible}
+        variant={dialogVariant}
+      />
     </ContentLayout>
   );
 }

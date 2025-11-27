@@ -20,11 +20,6 @@ export interface FormErrors {
   [key: string]: string;
 }
 
-export enum StaffRolesEnum {
-  SALES = "SALES",
-  LOANS = "LOANS",
-}
-
 export interface StaffFormValues {
   // Client General Information
   firstName: string;
@@ -45,7 +40,7 @@ export interface StaffFormValues {
   religion: string;
   civilStatus: string;
   occupation: string;
-  role: StaffRolesEnum;
+  role: string;
   staffId: string;
   placeOfBirth: string;
 }
@@ -75,7 +70,7 @@ export type userAuth = {
   id?: number;
   email: string;
   password: string;
-  role: "SALES" | "LOANS";
+  role: string;
 };
 
 export type StaffPayload = {
@@ -94,5 +89,5 @@ export type StaffPayload = {
 
   address: Address;
   contactInfo: ContactInfo;
-  userAuth?: userAuth;
+  userAuth: userAuth;
 };
