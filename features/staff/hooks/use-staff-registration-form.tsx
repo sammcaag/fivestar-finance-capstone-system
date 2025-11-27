@@ -1,16 +1,17 @@
 "use client";
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { StaffFormValues } from "../types/staff-types";
+import { StaffFormValues, StaffPayload } from "../types/staff-types";
 import { defaultValues, formDates } from "../libs/staff-registration-form";
 import { staffGeneralInfoSchema } from "../schema/staff-zod-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { loadDraft, saveDraft } from "../utils/staff-draft-data-storage";
 import { staffPayload } from "../libs/staff-payload";
+import { createStaffApi } from "../api/staff-service";
 
 export function useStaffRegistrationForm() {
   const router = useRouter();
@@ -29,6 +30,11 @@ export function useStaffRegistrationForm() {
     mode: "onTouched",
     reValidateMode: "onChange",
     defaultValues,
+  });
+
+  const { mutateAsync: addStaff } = useMutation({
+    mutationKey: ["createStaff"],
+    mutationFn: (payload: StaffPayload) => createStaffApi(payload),
   });
 
   // Show dialog helper
@@ -111,10 +117,10 @@ export function useStaffRegistrationForm() {
     );
 
     try {
-      //   const result = await addClient(backendPayload); // ✅ await
-      //   console.log("Result:", result);
+      const result = await addStaff(backendPayload); // ✅ await
+      console.log("Result:", result);
       showDialog("Client information registered successfully!", "success");
-      // router.push(`/clients/${result.serialNumber}`);
+      router.push(`/clients/${result.staffId}`);
     } catch (error) {
       console.log("Error:", error);
 

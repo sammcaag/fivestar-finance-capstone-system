@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { clientBadgeStatusMap } from "@/features/clients/utils/client-badge-status-map";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
+import { formatFullNameFromParts } from "@/utils/format-full-name-from-parts";
+import { decodeFullName } from "@/utils/decode-full-name";
 
 const roleConfig = {
   ADMIN: { variant: "info", className: "uppercase" },
@@ -48,7 +50,9 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <span className="font-medium text-sm">{row.original.name}</span>
+          <span className="font-medium text-sm">
+            {formatFullNameFromParts(decodeFullName(row.original.name))}
+          </span>
           <span className="text-xs text-muted-foreground">
             {row.original.email}
           </span>

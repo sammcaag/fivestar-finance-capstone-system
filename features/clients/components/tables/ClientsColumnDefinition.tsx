@@ -25,6 +25,8 @@ import { clientBadgeStatusMap } from "../../utils/client-badge-status-map";
 import { cn } from "@/lib/utils";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { avatarFallBack } from "@/utils/avatar-fallback";
+import { decodeFullName } from "@/utils/decode-full-name";
+import { formatFullNameFromParts } from "@/utils/format-full-name-from-parts";
 
 export const clientsColumnDefinition = (
   dashboard = false
@@ -71,7 +73,8 @@ export const clientsColumnDefinition = (
             </Avatar>
             <div className="flex flex-col">
               <span className="font-medium text-sm">
-                {client.rank} {client.name}
+                {client.rank}{" "}
+                {formatFullNameFromParts(decodeFullName(client.name))}
               </span>
               <span className="text-xs text-muted-foreground">
                 {client.email}

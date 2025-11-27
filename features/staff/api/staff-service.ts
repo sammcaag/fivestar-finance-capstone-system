@@ -1,7 +1,7 @@
 // src/features/clients/api/getClients.ts
 import axios from "axios";
 import axiosInstance from "@/lib/axios-instance";
-import { StaffTableProps } from "../types/staff-types";
+import { StaffPayload, StaffTableProps } from "../types/staff-types";
 
 export const getStaffs = async (): Promise<StaffTableProps[]> => {
   try {
@@ -16,5 +16,19 @@ export const getStaffs = async (): Promise<StaffTableProps[]> => {
         ? error.response?.data?.message || error.message
         : "Failed to fetch staffs"
     );
+  }
+};
+
+export const createStaffApi = async (payload: StaffPayload) => {
+  try {
+    const { data } = await axiosInstance.post("/api/users/staff", payload);
+
+    return data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error("Failed to create a client");
   }
 };

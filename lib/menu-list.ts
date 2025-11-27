@@ -11,6 +11,8 @@ import {
   CalendarClock,
   UserCog,
   Building,
+  Building2Icon,
+  Users2,
 } from "lucide-react";
 
 type Submenu = {
@@ -105,20 +107,42 @@ export function getMenuList(): Group[] {
       ],
     },
     {
-      groupLabel: "Monitoring & Control",
+      groupLabel: "Branch",
       menus: [
-        // Staff Management
+        // Branch Overview
         {
           href: "/branch",
           label: "Branch Overview",
+          icon: Building2Icon,
+        },
+        // Register Branch
+        {
+          href: "/branch/register",
+          label: "Register Branch",
           icon: Building,
         },
-        // Staff Management
+      ],
+    },
+    {
+      groupLabel: "Staff",
+      menus: [
+        // Staff Overview
         {
           href: "/staff",
-          label: "Staff Management",
+          label: "Staff Overview",
+          icon: Users2,
+        },
+        // Staff Branch
+        {
+          href: "/staff/register",
+          label: "Register Staff",
           icon: UserCog,
         },
+      ],
+    },
+    {
+      groupLabel: "Monitoring",
+      menus: [
         // Activity & Audit Logs
         {
           href: "/activity-logs",

@@ -40,6 +40,7 @@ export const getClientBySerialNumber = async (
 export const createClientApi = async (payload: ClientPayload) => {
   try {
     const { data } = await axiosInstance.post("/api/users/client", payload);
+
     return data.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
