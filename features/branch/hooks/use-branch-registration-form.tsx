@@ -10,6 +10,11 @@ import { branchInfoSchema } from "../schema/branch-zod-schema";
 import { defaultValues } from "../libs/branch-registration-form";
 import { createBranchApi, updateBranchApi } from "../api/branch-service";
 import { loadDraft, saveDraft } from "../utils/branch-draft-data-storage";
+import {
+  branchPayload,
+  mapBackendToBranchFormValues,
+} from "../libs/branch-payload";
+import axios from "axios";
 
 export function useStaffRegistrationForm() {
   const router = useRouter();
@@ -37,7 +42,7 @@ export function useStaffRegistrationForm() {
 
   const { mutateAsync: updateBranch } = useMutation({
     mutationKey: ["updateBranch"],
-    mutationFn: ({ id, payload }: { id: string; payload: BranchPayload }) =>
+    mutationFn: ({ id, payload }: { id: number; payload: BranchPayload }) =>
       updateBranchApi(id, payload),
     onSuccess: (_, variables) => {
       // variables contains the object passed to mutate
@@ -104,7 +109,7 @@ export function useStaffRegistrationForm() {
 
   const resetForm = useCallback(
     (backendData: BranchPayload, isShowMessage: boolean = true) => {
-      const mappedValues = mapBackendToStaffFormValues(backendData); // map backend payload to form values
+      const mappedValues = mapBackendToBranchFormValues(backendData); // map backend payload to form values
       console.log(
         "THIS IS THE FETCHED MAPPPED DATA:",
         JSON.stringify(mappedValues, null, 2)
@@ -118,19 +123,19 @@ export function useStaffRegistrationForm() {
   );
 
   // Process form
-  const processForm = async (data: StaffFormValues) => {
+  const processForm = async (data: BranchFormValues) => {
     setIsSubmitting(true);
-    const backendPayload = staffPayload(data);
+    const backendPayload = branchPayload(data);
     console.log(
       "THIS IS THE DATA PASSED",
       JSON.stringify(backendPayload, null, 2)
     );
 
     try {
-      const result = await addStaff(backendPayload); // ✅ await
+      const result = await addBranch(backendPayload); // ✅ await
       console.log("Result:", result);
-      showDialog("Staff information registered successfully!", "success");
-      router.push(`/staff/${result.staffId}`);
+      showDialog("Branch information registered successfully!", "success");
+      router.push(`/branches/${result.id}`);
     } catch (error) {
       console.log("Error:", error);
 
@@ -145,23 +150,23 @@ export function useStaffRegistrationForm() {
   };
 
   const updateForm = async (
-    data: StaffFormValues,
-    fetchedData: StaffPayload
+    data: BranchFormValues,
+    fetchedData: BranchPayload
   ) => {
     setIsSubmitting(true);
-    const backendPayload = staffPayload(data);
+    const backendPayload = branchPayload(data);
     console.log(
       "THIS IS THE UPDATED DATA PASSED",
       JSON.stringify(backendPayload, null, 2)
     );
     try {
-      const result = await updateStaff({
-        staffId: fetchedData.staffId,
+      const result = await updateBranch({
+        id: fetchedData.id!,
         payload: backendPayload,
       }); // ✅ await
       console.log("Result:", result);
-      showDialog("Staff information updated successfully!", "success");
-      router.push(`/staff/${result.staffId}`);
+      showDialog("Branch information updated successfully!", "success");
+      router.push(`/branches/${result.id}`);
     } catch (error) {
       console.log("Error:", error);
 

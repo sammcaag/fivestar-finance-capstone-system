@@ -50,7 +50,7 @@ export const createBranchApi = async (payload: BranchPayload) => {
 };
 
 export const updateBranchApi = async (
-  id: string,
+  id: number,
   updatePayload: BranchPayload
 ) => {
   try {
@@ -64,6 +64,6 @@ export const updateBranchApi = async (
       // throw the actual axios error back to the UI
       throw error;
     }
-    throw new Error("Failed to update a staff");
+    throw new Error("Failed to update branch");
   }
 };
