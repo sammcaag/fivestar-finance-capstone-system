@@ -8,10 +8,9 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { DraftDialog } from "@/features/clients/components/DraftDialog";
 import MainHeader from "@/components/MainHeader";
-import StaffGeneralInformation from "@/features/staff/component/forms/StaffGeneralInformation";
-import { useStaffRegistrationForm } from "@/features/staff/hooks/use-staff-registration-form";
 import { SingleStepFormButtons } from "@/features/staff/component/SingleStepNavigationButtons";
 import BranchInformation from "@/features/branch/components/forms/BranchInformation";
+import { useBranchRegistrationForm } from "@/features/branch/hooks/use-branch-registration-form";
 
 export default function RegisterBranch() {
   useEffect(() => {
@@ -31,7 +30,7 @@ export default function RegisterBranch() {
     dialogVisible,
     dialogVariant,
     isSubmitting,
-  } = useStaffRegistrationForm();
+  } = useBranchRegistrationForm();
 
   const slideVariants = {
     initial: { opacity: 0, x: 50 },

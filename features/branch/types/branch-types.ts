@@ -45,6 +45,13 @@ export type ContactInfo = {
   secondary_contact?: string | null;
 };
 
+export type UserType = {
+  id: string;
+  fullName: string;
+  role: string;
+  avatarUrl?: string;
+};
+
 export type BranchPayload = {
   id?: number | null;
   name: string;
@@ -53,4 +60,5 @@ export type BranchPayload = {
 
   address: Address;
   contactInfo: ContactInfo;
+  users?: UserType[];
 };

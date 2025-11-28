@@ -16,7 +16,7 @@ import {
 } from "../libs/branch-payload";
 import axios from "axios";
 
-export function useStaffRegistrationForm() {
+export function useBranchRegistrationForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
