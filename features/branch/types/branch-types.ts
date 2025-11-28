@@ -11,7 +11,7 @@ export interface BranchTableProps {
 export interface BranchFormValues {
   // Client General Information
   name: string;
-  email?: string; // `?` = optional fields
+  email: string; // `?` = optional fields
   status?: string;
   addressLine1: string;
   addressLine2?: string;

@@ -4,17 +4,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { StaffFormValues, StaffPayload } from "../types/staff-types";
-import { defaultValues, formDates } from "../libs/staff-registration-form";
-import { staffGeneralInfoSchema } from "../schema/staff-zod-schema";
+import { BranchFormValues, BranchPayload } from "../types/branch-types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { loadDraft, saveDraft } from "../utils/staff-draft-data-storage";
-import {
-  mapBackendToStaffFormValues,
-  staffPayload,
-} from "../libs/staff-payload";
-import { createStaffApi, updateStaffApi } from "../api/staff-service";
+import { branchInfoSchema } from "../schema/branch-zod-schema";
+import { defaultValues } from "../libs/branch-registration-form";
+import { createBranchApi, updateBranchApi } from "../api/branch-service";
+import { loadDraft, saveDraft } from "../utils/branch-draft-data-storage";
 
 export function useStaffRegistrationForm() {
   const router = useRouter();
@@ -28,31 +23,26 @@ export function useStaffRegistrationForm() {
   const [dialogVariant, setDialogVariant] = useState("info");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const form = useForm<StaffFormValues>({
-    resolver: zodResolver(staffGeneralInfoSchema),
+  const form = useForm<BranchFormValues>({
+    resolver: zodResolver(branchInfoSchema),
     mode: "onTouched",
     reValidateMode: "onChange",
     defaultValues,
   });
 
-  const { mutateAsync: addStaff } = useMutation({
-    mutationKey: ["createStaff"],
-    mutationFn: (payload: StaffPayload) => createStaffApi(payload),
+  const { mutateAsync: addBranch } = useMutation({
+    mutationKey: ["createBranch"],
+    mutationFn: (payload: BranchPayload) => createBranchApi(payload),
   });
 
-  const { mutateAsync: updateStaff } = useMutation({
-    mutationKey: ["updateStaff"],
-    mutationFn: ({
-      staffId,
-      payload,
-    }: {
-      staffId: string;
-      payload: StaffPayload;
-    }) => updateStaffApi(staffId, payload),
+  const { mutateAsync: updateBranch } = useMutation({
+    mutationKey: ["updateBranch"],
+    mutationFn: ({ id, payload }: { id: string; payload: BranchPayload }) =>
+      updateBranchApi(id, payload),
     onSuccess: (_, variables) => {
       // variables contains the object passed to mutate
       queryClient.invalidateQueries({
-        queryKey: ["staffByStaffId", variables.staffId],
+        queryKey: ["branchById", variables.id],
       });
     },
   });
@@ -92,31 +82,15 @@ export function useStaffRegistrationForm() {
   const loadSavedDraft = () => {
     const draft = loadDraft();
     if (draft) {
-      const dateConversions: Partial<Record<keyof StaffFormValues, Date>> = {};
-      formDates.forEach((dateField) => {
-        const fieldValue = draft.data[dateField as keyof typeof draft.data];
-
-        if (
-          fieldValue &&
-          (typeof fieldValue === "string" ||
-            typeof fieldValue === "number" ||
-            fieldValue instanceof Date)
-        ) {
-          const date = new Date(fieldValue);
-          if (!isNaN(date.getTime())) {
-            dateConversions[dateField as keyof StaffFormValues] = date;
-          }
-        }
-      });
-      const formattedData = { ...draft.data, ...dateConversions };
-      form.reset(formattedData as StaffFormValues);
+      const formattedData = { ...draft.data };
+      form.reset(formattedData as BranchFormValues);
       setFormModified(false);
       showDialog("Draft has been loaded successfully!", "info");
     }
   };
 
   const deleteSavedDraft = () => {
-    localStorage.removeItem("staff-form-draft");
+    localStorage.removeItem("branch-form-draft");
     setHasDraft(false);
     showDialog("Draft has been deleted successfully!", "error");
   };
@@ -129,7 +103,7 @@ export function useStaffRegistrationForm() {
   };
 
   const resetForm = useCallback(
-    (backendData: StaffPayload, isShowMessage: boolean = true) => {
+    (backendData: BranchPayload, isShowMessage: boolean = true) => {
       const mappedValues = mapBackendToStaffFormValues(backendData); // map backend payload to form values
       console.log(
         "THIS IS THE FETCHED MAPPPED DATA:",
