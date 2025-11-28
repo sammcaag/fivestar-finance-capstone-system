@@ -36,7 +36,7 @@ export default function ClientInfoPage() {
         <BreadcrumbPages
           links={[
             { href: "/", label: "Home" },
-            { href: "/branch", label: "Branch Management" },
+            { href: "/branch", label: "Branch" },
             { href: `/branch/${id}`, label: String(id) },
           ]}
         />
