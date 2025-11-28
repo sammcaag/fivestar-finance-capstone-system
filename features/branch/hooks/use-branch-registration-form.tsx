@@ -135,7 +135,7 @@ export function useBranchRegistrationForm() {
       const result = await addBranch(backendPayload); // ✅ await
       console.log("Result:", result);
       showDialog("Branch information registered successfully!", "success");
-      router.push(`/branches/${result.id}`);
+      router.push(`/branch/${result.id}`);
     } catch (error) {
       console.log("Error:", error);
 
@@ -166,7 +166,7 @@ export function useBranchRegistrationForm() {
       }); // ✅ await
       console.log("Result:", result);
       showDialog("Branch information updated successfully!", "success");
-      router.push(`/branches/${result.id}`);
+      router.push(`/branch/${result.id}`);
     } catch (error) {
       console.log("Error:", error);
 
