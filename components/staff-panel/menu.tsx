@@ -64,6 +64,16 @@ export function Menu({ isOpen }: MenuProps) {
                       pathname === "/clients" ||
                       (/^\/clients\/[^/]+(\/.*)?$/.test(pathname) &&
                         !pathname.startsWith("/clients/register"));
+                  } else if (href === "/staff") {
+                    isActive =
+                      pathname === "/staff" ||
+                      (/^\/staff\/[^/]+(\/.*)?$/.test(pathname) &&
+                        !pathname.startsWith("/staff/register"));
+                  } else if (href === "/branch") {
+                    isActive =
+                      pathname === "/branch" ||
+                      (/^\/branch\/[^/]+(\/.*)?$/.test(pathname) &&
+                        !pathname.startsWith("/branch/register"));
                   } else {
                     isActive = pathname === href;
                   }
