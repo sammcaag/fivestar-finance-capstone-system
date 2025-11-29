@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import LoginForm from "@/components/LoginForm";
-import SlideShow from "@/components/SlideShow";
+import LoginForm from "@/features/auth/components/LoginForm";
+import SlideShow from "@/features/auth/components/SlideShow";
 
 export default function LoginPage() {
   useEffect(() => {
