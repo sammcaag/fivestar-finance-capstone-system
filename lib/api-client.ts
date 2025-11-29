@@ -1,21 +1,3 @@
-/**
- * =============================================================================
- * API CLIENT CONFIGURATION
- * =============================================================================
- * 
- * Purpose: Create a configured Axios instance for making API calls
- * 
- * What is Axios?
- * - A library for making HTTP requests (GET, POST, PUT, DELETE)
- * - Like fetch() but with more features and easier error handling
- * 
- * What are interceptors?
- * - Functions that run before requests are sent or after responses arrive
- * - Useful for adding auth tokens, logging, or handling errors globally
- * 
- * Single Responsibility: Configure and export a ready-to-use API client
- */
-
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { getAuthToken, removeAuthToken } from "./auth-storage";
 
@@ -23,15 +5,13 @@ import { getAuthToken, removeAuthToken } from "./auth-storage";
  * Get the API base URL from environment variables
  * Falls back to localhost if not set (useful for development)
  */
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5500";
 
 /**
  * Get the request timeout from environment variables
  * Falls back to 30 seconds if not set
  */
-const API_TIMEOUT =
-  parseInt(process.env.NEXT_PUBLIC_API_TIMEOUT || "30000", 10);
+const API_TIMEOUT = parseInt(process.env.NEXT_PUBLIC_API_TIMEOUT || "1000", 10);
 
 /**
  * Create the main Axios instance with default configuration
@@ -45,14 +25,6 @@ export const apiClient = axios.create({
   },
 });
 
-/**
- * =============================================================================
- * REQUEST INTERCEPTOR
- * =============================================================================
- * 
- * Runs BEFORE every request is sent
- * Purpose: Automatically add authentication token to requests
- */
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // Get the auth token from localStorage
@@ -65,7 +37,9 @@ apiClient.interceptors.request.use(
 
     // Log the request in development (helps with debugging)
     if (process.env.NODE_ENV === "development") {
-      console.log(`🚀 API Request: ${config.method?.toUpperCase()} ${config.url}`);
+      console.log(
+        `🚀 API Request: ${config.method?.toUpperCase()} ${config.url}`
+      );
     }
 
     return config;
@@ -81,7 +55,7 @@ apiClient.interceptors.request.use(
  * =============================================================================
  * RESPONSE INTERCEPTOR
  * =============================================================================
- * 
+ *
  * Runs AFTER every response is received
  * Purpose: Handle errors globally and log responses
  */
@@ -109,7 +83,7 @@ apiClient.interceptors.response.use(
           // Unauthorized - token is invalid or expired
           console.error("❌ 401 Unauthorized: Logging out...");
           removeAuthToken(); // Clear the invalid token
-          
+
           // Redirect to login page
           if (typeof window !== "undefined") {
             window.location.href = "/sign-in";
@@ -153,15 +127,9 @@ apiClient.interceptors.response.use(
 );
 
 /**
- * =============================================================================
- * HELPER FUNCTIONS FOR COMMON API PATTERNS
- * =============================================================================
- */
-
-/**
  * Extract error message from API error response
  * Useful for showing user-friendly error messages
- * 
+ *
  * @param error - The error object from a failed API call
  * @returns A user-friendly error message string
  */

@@ -1,14 +1,11 @@
 import { ReactNode } from "react";
 
 export interface IRequestUser {
-  // for token decoded
-  user: {
-    id: number;
-    email: string;
-    role: string;
-    branchId: number;
-    status: string;
-  };
+  id: number;
+  email: string;
+  role: string;
+  branchId: number;
+  status: string;
 }
 
 interface Slide {

@@ -19,7 +19,7 @@ export default function ProtectedRoute({
         // Not authenticated → redirect to login
         showDialog("Please login to access this page", "error");
         router.push("/login");
-      } else if (!allowedRoles.includes(user.user.role)) {
+      } else if (!allowedRoles.includes(user.role)) {
         // Authenticated but not allowed → redirect to dashboard
         showDialog("Access Denied: You do not have permission", "error");
         router.push("/dashboard");

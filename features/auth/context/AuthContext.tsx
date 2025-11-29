@@ -78,9 +78,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.log("👤 Fetching current user...");
       const freshUser = await getCurrentUser();
       console.log("✅ Current user fetched:", freshUser);
-
+      console.log(freshUser);
       // Check if user is a CLIENT
-      if (freshUser.user.role === "CLIENT") {
+      if (freshUser && freshUser.role === "CLIENT") {
         console.log("❌ User is CLIENT, logging out...");
         await logoutMutate();
         showDialog(

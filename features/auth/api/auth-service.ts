@@ -9,10 +9,10 @@ export const getCurrentUser = async (): Promise<IRequestUser> => {
   try {
     const { data } = await axiosInstance.get<{
       success: boolean;
-      data: IRequestUser;
+      user: IRequestUser;
     }>("/api/auth/me");
 
-    return data.data;
+    return data.user;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw error;
@@ -30,7 +30,6 @@ export const loginApi = async (payload: {
 }) => {
   try {
     const { data } = await axiosInstance.post("/api/auth/sign-in", payload);
-
     return data;
   } catch (error) {
     // Re-throw the error so it can be caught in AuthContext

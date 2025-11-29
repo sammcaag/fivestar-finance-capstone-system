@@ -30,7 +30,7 @@ export default function LoginPage() {
     document.title = "Login | Stella - Five Star Finance Inc.";
 
     // If user is authenticated and not a CLIENT, redirect to dashboard
-    if (user && user.user.role !== "CLIENT") {
+    if (user && user.role !== "CLIENT") {
       router.push("/dashboard");
     }
   }, [user, router]);
