@@ -3,7 +3,7 @@
 import { createContext, useContext, ReactNode, useState } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { IRequestUser } from "../types/auth.types";
+import { AuthContextType, IRequestUser } from "../types/auth.types";
 import {
   getCurrentUser,
   loginApi,
@@ -11,20 +11,6 @@ import {
   refreshTokenApi,
 } from "../api/auth-service";
 import axios from "axios";
-
-interface AuthContextType {
-  user: IRequestUser | null;
-  loading: boolean;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-  refreshToken: () => Promise<void>;
-  dialogMessage: string | null;
-  dialogVariant: "success" | "error" | "info" | "warning";
-  setDialog: (
-    message: string,
-    variant?: "success" | "error" | "info" | "warning"
-  ) => void;
-}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -41,6 +27,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [dialogVariant, setDialogVariant] = useState<
     "success" | "error" | "info" | "warning"
   >("info");
+  const [dialogTimestamp, setDialogTimestamp] = useState<number>(0);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const {
     data: currentUser,
@@ -49,59 +37,102 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   } = useQuery<IRequestUser>({
     queryKey: ["currentUser"],
     queryFn: getCurrentUser,
+    retry: false,
+    refetchOnWindowFocus: false,
   });
 
-  const setDialog = (
-    message: string,
-    variant: "success" | "error" | "info" | "warning" = "info"
-  ) => {
-    setDialogMessage(message);
-    setDialogVariant(variant);
-    setTimeout(() => setDialogMessage(null), 4000);
-  };
-
-  // ----------------------------
-  // Login mutation
-  // ----------------------------
+  // Mutations
   const { mutateAsync: loginMutate } = useMutation({
     mutationKey: ["login"],
     mutationFn: loginApi,
   });
-
-  // ----------------------------
-  // Logout mutation
-  // ----------------------------
   const { mutateAsync: logoutMutate } = useMutation({
     mutationKey: ["logout"],
     mutationFn: logoutApi,
   });
+  const { mutateAsync: refreshMutate } = useMutation({
+    mutationKey: ["refreshToken"],
+    mutationFn: refreshTokenApi,
+  });
+
+  // Helper to show dialog with timestamp
+  const showDialog = (
+    message: string,
+    variant: "success" | "error" | "info" | "warning"
+  ) => {
+    setDialogMessage(message);
+    setDialogVariant(variant);
+    setDialogTimestamp(Date.now());
+  };
 
   const login = async (username: string, password: string): Promise<void> => {
+    setIsProcessing(true);
     try {
-      await loginMutate({ email: username, password });
+      console.log("🔐 Starting login process...");
 
+      // Call login API
+      const response = await loginMutate({ email: username, password });
+      console.log("✅ Login API response:", response);
+
+      // Fetch fresh user data
+      console.log("👤 Fetching current user...");
       const freshUser = await getCurrentUser();
+      console.log("✅ Current user fetched:", freshUser);
 
+      // Check if user is a CLIENT
       if (freshUser.user.role === "CLIENT") {
+        console.log("❌ User is CLIENT, logging out...");
         await logoutMutate();
-        setDialog(
+        showDialog(
           "Access Denied: AFP Retirees and Beneficiaries are not permitted to sign in on this portal. Please use the designated channels for client access.",
           "error"
         );
-        throw new Error("Access restricted for clients.");
+        return;
       }
 
-      await refetch();
-      setDialog("Login successful! Welcome back.", "success");
-      router.push("/dashboard");
+      // Set user data in cache
+      queryClient.setQueryData(["currentUser"], freshUser);
+      console.log("✅ User data set in cache");
+
+      // Show success message from backend
+      showDialog(
+        response.message || "Login successful! Welcome back.",
+        "success"
+      );
+
+      console.log("🚀 Redirecting to dashboard...");
+      // Small delay to show success message before redirect
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
     } catch (err: unknown) {
-      let message =
-        "Login failed. Please check your credentials and try again.";
-      if (axios.isAxiosError(err) && err.response?.data?.message) {
-        message = err.response.data.message;
+      console.error("❌ Login error:", err);
+
+      // Extract error message from backend
+      let message = "Login failed. Please try again.";
+
+      if (axios.isAxiosError(err)) {
+        console.error("Axios error details:", {
+          status: err.response?.status,
+          data: err.response?.data,
+          message: err.message,
+        });
+
+        // Get message from backend response
+        if (err.response?.data?.message) {
+          message = err.response.data.message;
+        } else if (err.response?.data?.error) {
+          message = err.response.data.error;
+        } else if (err.message) {
+          message = err.message;
+        }
+      } else {
+        console.error("Non-axios error:", err);
       }
-      setDialog(message, "error");
-      throw new Error(message);
+
+      showDialog(message, "error");
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -109,20 +140,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await logoutMutate();
       queryClient.removeQueries({ queryKey: ["currentUser"] });
-      setDialog("Logged out successfully.", "success");
+      showDialog("Logged out successfully.", "success");
       router.push("/login");
     } catch {
-      // silently ignore
+      // ignore
     }
   };
-
-  // ----------------------------
-  // Refresh token mutation
-  // ----------------------------
-  const { mutateAsync: refreshMutate } = useMutation({
-    mutationKey: ["refreshToken"],
-    mutationFn: refreshTokenApi,
-  });
 
   const refreshToken = async (): Promise<void> => {
     try {
@@ -138,13 +161,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         user: currentUser || null,
-        loading: isLoading,
+        isLoading: isLoading || isProcessing,
         login,
         logout,
         refreshToken,
         dialogMessage,
         dialogVariant,
-        setDialog,
+        dialogTimestamp,
       }}
     >
       {children}

@@ -1,9 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,31 +12,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { User, Lock } from "lucide-react";
+import { UseFormReturn } from "react-hook-form";
+import { AuthFormValues } from "../types/auth.types";
 
-const loginSchema = z.object({
-  username: z.string().min(1, "Username is required"),
-  password: z.string().min(1, "Password is required"),
-});
+export interface ILoginForm {
+  form: UseFormReturn<AuthFormValues>;
+  onSubmit: () => void;
+  isLoading: boolean;
+}
 
-type LoginSchema = z.infer<typeof loginSchema>;
-
-export default function LoginForm() {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const form = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { username: "", password: "" },
-  });
-
-  const handleLogin = (data: LoginSchema) => {
-    setIsLoading(true);
-    console.log("DATA SUBMITTED", data);
-    setTimeout(() => {
-      setIsLoading(false);
-      window.location.href = "/dashboard";
-    }, 1500);
-  };
-
+export default function LoginForm({ form, onSubmit, isLoading }: ILoginForm) {
   return (
     <div className="relative flex flex-col justify-center p-8 md:p-10">
       <div className="relative top-0 mb-10 text-center">
@@ -49,11 +30,11 @@ export default function LoginForm() {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-8 mb-14">
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Username</FormLabel>

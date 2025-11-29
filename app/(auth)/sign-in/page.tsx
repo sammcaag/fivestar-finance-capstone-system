@@ -1,16 +1,55 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import LoginForm from "@/features/auth/components/LoginForm";
 import SlideShow from "@/features/auth/components/SlideShow";
+import { useAuthSignInForm } from "@/features/auth/hooks/use-auth-form";
+import { DraftDialog } from "@/features/clients/components/DraftDialog";
+import { useAuth } from "@/features/auth/context/AuthContext";
 
 export default function LoginPage() {
-  useEffect(() => {
-    document.title = "Login | Stella - Five Star Finance Inc.";
-  }, []);
+  const router = useRouter();
+  const { user, isLoading: authLoading } = useAuth();
+
+  const {
+    form,
+    handleLogin,
+    isLoading,
+    dialogMessage,
+    dialogVariant,
+    dialogVisible,
+  } = useAuthSignInForm();
 
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    document.title = "Login | Stella - Five Star Finance Inc.";
+
+    // If user is authenticated and not a CLIENT, redirect to dashboard
+    if (user && user.user.role !== "CLIENT") {
+      router.push("/dashboard");
+    }
+  }, [user, router]);
+
+  // Show loading state while checking authentication
+  if (authLoading) {
+    return (
+      <div className="flex min-h-svh items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render login form if user is already authenticated
+  if (user) {
+    return null;
+  }
 
   const slides = [
     {
@@ -35,7 +74,11 @@ export default function LoginPage() {
       <div className="w-full max-w-sm md:max-w-4xl">
         <Card className="overflow-hidden border-0 shadow-lg">
           <CardContent className="relative grid p-0 md:grid-cols-2">
-            <LoginForm />
+            <LoginForm
+              form={form}
+              onSubmit={form.handleSubmit(handleLogin)}
+              isLoading={isLoading}
+            />
             <SlideShow
               slides={slides}
               currentSlide={currentSlide}
@@ -44,6 +87,12 @@ export default function LoginPage() {
           </CardContent>
         </Card>
       </div>
+
+      <DraftDialog
+        message={dialogMessage}
+        visible={dialogVisible}
+        variant={dialogVariant}
+      />
     </div>
   );
 }

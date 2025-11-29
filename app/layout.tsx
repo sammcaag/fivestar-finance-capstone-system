@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { TanstackQueryProvider } from "@/components/providers/query-provider";
+import { AuthProvider } from "@/features/auth/context/AuthContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -51,9 +52,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.className} antialiased`}>
         <TanstackQueryProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
-          </ThemeProvider>
+          <AuthProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              {children}
+            </ThemeProvider>
+          </AuthProvider>
         </TanstackQueryProvider>
       </body>
     </html>

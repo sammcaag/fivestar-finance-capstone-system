@@ -3,18 +3,7 @@
 import { useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface Slide {
-  image: string;
-  title: string;
-  description: string;
-}
-
-interface SlideShowProps {
-  slides: Slide[];
-  currentSlide: number;
-  setCurrentSlide: React.Dispatch<React.SetStateAction<number>>;
-}
+import { SlideShowProps } from "../types/auth.types";
 
 export default function SlideShow({
   slides,

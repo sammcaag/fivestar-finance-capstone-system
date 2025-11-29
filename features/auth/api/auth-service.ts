@@ -1,19 +1,22 @@
 import axios from "axios";
 import { IRequestUser } from "../types/auth.types";
+import axiosInstance from "@/lib/axios-instance";
 
 // ----------------------------
 // Fetch current logged-in user
 // ----------------------------
 export const getCurrentUser = async (): Promise<IRequestUser> => {
   try {
-    const { data } = await axios.get<{
+    const { data } = await axiosInstance.get<{
       success: boolean;
       user: IRequestUser;
     }>("/api/auth/me", { withCredentials: true });
 
     return data.user;
   } catch (error) {
-    if (axios.isAxiosError(error)) throw error;
+    if (axios.isAxiosError(error)) {
+      throw error;
+    }
     throw new Error("Failed to fetch current user");
   }
 };
@@ -26,14 +29,16 @@ export const loginApi = async (payload: {
   password: string;
 }) => {
   try {
-    const { data } = await axios.post<{ success: boolean }>(
-      "/api/auth/sign-in",
-      payload,
-      { withCredentials: true }
-    );
+    const { data } = await axiosInstance.post("/api/auth/sign-in", payload, {
+      withCredentials: true,
+    });
+
     return data;
   } catch (error) {
-    if (axios.isAxiosError(error)) throw error;
+    // Re-throw the error so it can be caught in AuthContext
+    if (axios.isAxiosError(error)) {
+      throw error;
+    }
     throw new Error("Failed to sign in");
   }
 };
@@ -43,9 +48,15 @@ export const loginApi = async (payload: {
 // ----------------------------
 export const logoutApi = async () => {
   try {
-    await axios.post("/api/auth/sign-out", {}, { withCredentials: true });
+    await axiosInstance.post(
+      "/api/auth/sign-out",
+      {},
+      { withCredentials: true }
+    );
   } catch (error) {
-    if (axios.isAxiosError(error)) throw error;
+    if (axios.isAxiosError(error)) {
+      throw error;
+    }
     throw new Error("Failed to sign out");
   }
 };
@@ -55,9 +66,15 @@ export const logoutApi = async () => {
 // ----------------------------
 export const refreshTokenApi = async () => {
   try {
-    await axios.post("/api/auth/refresh", {}, { withCredentials: true });
+    await axiosInstance.post(
+      "/api/auth/refresh",
+      {},
+      { withCredentials: true }
+    );
   } catch (error) {
-    if (axios.isAxiosError(error)) throw error;
+    if (axios.isAxiosError(error)) {
+      throw error;
+    }
     throw new Error("Failed to refresh token");
   }
 };
