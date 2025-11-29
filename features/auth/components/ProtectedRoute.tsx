@@ -10,11 +10,11 @@ export default function ProtectedRoute({
   allowedRoles,
   children,
 }: ProtectedRouteProps) {
-  const { user, loading, showDialog } = useAuth();
+  const { user, isLoading, showDialog } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading) {
+    if (!isLoading) {
       if (!user) {
         // Not authenticated → redirect to login
         showDialog("Please login to access this page", "error");
@@ -25,10 +25,10 @@ export default function ProtectedRoute({
         router.push("/dashboard");
       }
     }
-  }, [loading, user, router, allowedRoles, showDialog]);
+  }, [isLoading, user, router, allowedRoles, showDialog]);
 
   // Show loading while checking auth
-  if (loading) {
+  if (isLoading) {
     return <Loading />;
   } else if (!user) {
     return notFound();

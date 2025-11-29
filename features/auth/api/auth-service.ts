@@ -9,10 +9,10 @@ export const getCurrentUser = async (): Promise<IRequestUser> => {
   try {
     const { data } = await axiosInstance.get<{
       success: boolean;
-      user: IRequestUser;
+      data: IRequestUser;
     }>("/api/auth/me");
 
-    return data.user;
+    return data.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw error;

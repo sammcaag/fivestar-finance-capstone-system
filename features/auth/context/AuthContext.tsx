@@ -168,6 +168,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         dialogMessage,
         dialogVariant,
         dialogTimestamp,
+        showDialog,
       }}
     >
       {children}

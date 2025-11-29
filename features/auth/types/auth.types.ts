@@ -34,6 +34,10 @@ export interface AuthContextType {
   dialogMessage: string | null;
   dialogVariant: "success" | "error" | "info" | "warning";
   dialogTimestamp: number; // ✅ Add timestamp to trigger dialog on same message
+  showDialog: (
+    dialogMessage: string,
+    dialogVariant: "success" | "error" | "info" | "warning"
+  ) => void;
 }
 
 export type AuthFormValues = {
