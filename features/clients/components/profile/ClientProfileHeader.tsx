@@ -28,6 +28,7 @@ interface IClientProfile {
   fullName: string;
   profileImageUrl?: string;
   remarks?: string;
+  branchName: string;
 }
 
 export default function ClientProfileHeader({
@@ -45,6 +46,7 @@ export default function ClientProfileHeader({
   fullName,
   profileImageUrl,
   remarks,
+  branchName,
 }: IClientProfile) {
   const age = getAge(birthDate);
 
@@ -90,7 +92,7 @@ export default function ClientProfileHeader({
     {
       id: 4,
       title: "Original Account",
-      details: "WILL IMPLEMENT",
+      details: branchName,
     },
   ].filter((item) => item.details);
 

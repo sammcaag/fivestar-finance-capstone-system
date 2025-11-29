@@ -312,6 +312,10 @@ export type ClientAccount = {
   branchOfBank: string;
 };
 
+export type Branch = {
+  name: string;
+};
+
 export type ClientPayload = {
   id?: number | null;
   fullName: string;
@@ -319,11 +323,13 @@ export type ClientPayload = {
   birthDate: Date;
   religion: string;
   civilStatus: string;
+  branchId?: number;
   occupation: string;
   placeOfBirth: string;
   status?: string;
   profileImageUrl?: string;
   remarks?: string;
+  branch?: Branch;
 
   address: Address;
   contactInfo: ContactInfo;

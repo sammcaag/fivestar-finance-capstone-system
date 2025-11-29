@@ -21,10 +21,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createClientApi, updateClientApi } from "../api/client-service";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useAuth } from "@/features/auth/context/AuthContext";
 
 export function useClientRegistrationForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { user: userData } = useAuth();
 
   const [currentStep, setCurrentStep] = useState(0);
   const [formModified, setFormModified] = useState(false);
@@ -72,7 +74,7 @@ export function useClientRegistrationForm() {
     setDialogMessage(message);
     setDialogVariant(variant);
     setDialogVisible(true);
-    setTimeout(() => setDialogVisible(false), 2000); // auto-close after 2s
+    setTimeout(() => setDialogVisible(false), 1000); // auto-close after 2s
   };
 
   // Check for saved draft on mount
@@ -174,7 +176,8 @@ export function useClientRegistrationForm() {
   // Process form
   const processForm = async (data: ClientFormValues) => {
     setIsSubmitting(true);
-    const backendPayload = clientPayload(data);
+
+    const backendPayload = clientPayload(data, userData!.branchId);
     console.log(
       "THIS IS THE DATA PASSED",
       JSON.stringify(backendPayload, null, 2)

@@ -44,7 +44,7 @@ export function DraftDialog({
   message,
   visible,
   variant = "info",
-  time = 2,
+  time = 1,
 }: DraftDialogProps) {
   const config = variantConfig[variant];
   const Icon = config.icon;

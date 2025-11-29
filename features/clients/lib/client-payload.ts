@@ -11,7 +11,10 @@ import { decodeSpouseFullName } from "@/utils/decode-spouse-full-name";
 import { formatContactNumber } from "@/utils/format-contact-number";
 import { generateEmail } from "@/utils/generate-email";
 
-export const clientPayload = (data: ClientFormValues): ClientPayload => {
+export const clientPayload = (
+  data: ClientFormValues,
+  branchId: number
+): ClientPayload => {
   return {
     fullName: formatFullName({
       firstName: data.firstName,
@@ -25,6 +28,7 @@ export const clientPayload = (data: ClientFormValues): ClientPayload => {
     civilStatus: data.civilStatus,
     occupation: data.occupation,
     placeOfBirth: data.placeOfBirth,
+    branchId: branchId,
     userAuth: {
       email: generateEmail(
         formatFullName({
@@ -203,6 +207,7 @@ export const clientUpdatePayload = (
     civilStatus: formData.civilStatus,
     occupation: formData.occupation,
     placeOfBirth: formData.placeOfBirth,
+    branchId: fetchedData.branchId,
 
     address: {
       id: fetchedData.address?.id,

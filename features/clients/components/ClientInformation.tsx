@@ -49,6 +49,7 @@ export default function ClientInformation({
         fullName={client.fullName}
         profileImageUrl={client.profileImageUrl}
         remarks={client.remarks}
+        branchName={client.branch!.name.replace(/branch/i, "").trim()}
       />
       <Tabs
         className="w-full"

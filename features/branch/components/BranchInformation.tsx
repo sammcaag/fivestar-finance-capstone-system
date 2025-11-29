@@ -24,10 +24,11 @@ export default function BranchInformation({ users }: BranchInformationProps) {
   const router = useRouter();
 
   const staffUsers = users.filter(
-    (user) => user.role.toLowerCase() === "staff"
+    (user) => user.role?.toLocaleLowerCase() === "staff"
   );
+
   const clientUsers = users.filter(
-    (user) => user.role.toLowerCase() === "client"
+    (user) => user.role?.toLocaleLowerCase() === "client"
   );
 
   return (

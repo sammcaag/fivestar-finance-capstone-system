@@ -17,6 +17,7 @@ import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons
 import NotFoundPage from "@/components/NotFoundPage";
 import { Pencil } from "lucide-react";
 import { ClientPayload } from "@/features/clients/types/client-types";
+import Loading from "@/components/LoadingPage";
 
 export default function ClientInfoPage() {
   useEffect(() => {
@@ -55,6 +56,10 @@ export default function ClientInfoPage() {
       {buttonLabel}
     </Button>
   );
+
+  useEffect(() => {
+    console.log("THIS IS THE DATA PASSED", clientData);
+  }, [clientData]);
 
   return (
     <ContentLayout title={"Client Information"}>
@@ -107,7 +112,7 @@ export default function ClientInfoPage() {
 
 const ClientInfoInSuspense = ({ client }: { client: ClientPayload }) => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loading />}>
       <ClientInformation client={client} />
     </Suspense>
   );
