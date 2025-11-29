@@ -25,20 +25,10 @@ export default function Loading({
                 {/* Main Heart Icon */}
                 <div className="relative">
                   <Heart
-                    className="w-20 h-20 text-red-100"
+                    className="w-20 h-20 text-red-400"
                     strokeWidth={2.5}
                     fill="currentColor"
                   />
-
-                  {/* Philippine Peso symbol in center of heart */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span
-                      className="text-4xl font-bold text-white"
-                      style={{ fontFamily: "Arial, sans-serif" }}
-                    >
-                      ₱
-                    </span>
-                  </div>
                 </div>
 
                 {/* Verification checkmark badge */}
@@ -130,8 +120,7 @@ export default function Loading({
             {/* Service Message */}
             <div className="text-center pt-2 border-t border-blue-200 w-full max-w-md">
               <p className="text-xs text-gray-500 italic mt-4">
-                &qoute;Serving those who served the nation with care and
-                dedication&qoute;
+                {`"Serving those who served the nation with care and dedication"`}
               </p>
             </div>
           </div>

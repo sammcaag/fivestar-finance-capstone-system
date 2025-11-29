@@ -9,10 +9,10 @@ export const getCurrentUser = async (): Promise<IRequestUser> => {
   try {
     const { data } = await axiosInstance.get<{
       success: boolean;
-      user: IRequestUser;
-    }>("/api/auth/me", { withCredentials: true });
+      data: IRequestUser;
+    }>("/api/auth/me");
 
-    return data.user;
+    return data.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw error;
@@ -29,9 +29,7 @@ export const loginApi = async (payload: {
   password: string;
 }) => {
   try {
-    const { data } = await axiosInstance.post("/api/auth/sign-in", payload, {
-      withCredentials: true,
-    });
+    const { data } = await axiosInstance.post("/api/auth/sign-in", payload);
 
     return data;
   } catch (error) {
@@ -48,11 +46,7 @@ export const loginApi = async (payload: {
 // ----------------------------
 export const logoutApi = async () => {
   try {
-    await axiosInstance.post(
-      "/api/auth/sign-out",
-      {},
-      { withCredentials: true }
-    );
+    await axiosInstance.post("/api/auth/sign-out");
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw error;
@@ -66,11 +60,7 @@ export const logoutApi = async () => {
 // ----------------------------
 export const refreshTokenApi = async () => {
   try {
-    await axiosInstance.post(
-      "/api/auth/refresh",
-      {},
-      { withCredentials: true }
-    );
+    await axiosInstance.post("/api/auth/refresh");
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw error;

@@ -8,6 +8,7 @@ import SlideShow from "@/features/auth/components/SlideShow";
 import { useAuthSignInForm } from "@/features/auth/hooks/use-auth-form";
 import { DraftDialog } from "@/features/clients/components/DraftDialog";
 import { useAuth } from "@/features/auth/context/AuthContext";
+import Loading from "@/components/LoadingPage";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,14 +37,7 @@ export default function LoginPage() {
 
   // Show loading state while checking authentication
   if (authLoading) {
-    return (
-      <div className="flex min-h-svh items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   // Don't render login form if user is already authenticated
