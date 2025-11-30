@@ -163,6 +163,9 @@ export function FormFieldWrapper<T extends FieldValues>(
                       props.asNumber &&
                         "[appearance:textfield] [&::-webkit-outer-spin-button]:hidden [&::-webkit-inner-spin-button]:hidden",
                       props.leftIcon && "pl-10",
+                      disabled
+                        ? "cursor-not-allowed disabled:opacity-100"
+                        : "cursor-text",
                       props.inputClassName
                     )}
                     value={
@@ -233,8 +236,15 @@ export function FormFieldWrapper<T extends FieldValues>(
                     handleChange(val === "__NONE__" ? undefined : String(val))
                   }
                   value={String(field.value) as string}
+                  disabled={disabled}
                 >
-                  <SelectTrigger className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200">
+                  <SelectTrigger
+                    className={`w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 ${
+                      disabled
+                        ? "cursor-not-allowed disabled:opacity-100"
+                        : "cursor-text"
+                    }`}
+                  >
                     <SelectValue placeholder={props.placeholder} />
                   </SelectTrigger>
                   <SelectContent>

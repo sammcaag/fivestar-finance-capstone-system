@@ -47,6 +47,7 @@ export interface StaffFormValues {
 
 export interface StaffGeneralInformationProps {
   form: UseFormReturn<StaffFormValues>;
+  isOwnProfile?: boolean;
 }
 
 export type Address = {

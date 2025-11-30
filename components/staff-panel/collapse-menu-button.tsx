@@ -2,11 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import {
-  ChevronDown,
-  Sparkle,
-  type LucideIcon,
-} from "lucide-react";
+import { ChevronDown, Sparkle, type LucideIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -56,7 +52,9 @@ export function CollapseMenuButton({
 }: CollapseMenuButtonProps) {
   const pathname = usePathname();
   const isSubmenuActive = submenus.some((submenu) =>
-    submenu.active === undefined ? submenu.href === pathname : submenu.active
+    submenu.active === undefined
+      ? pathname === submenu.href || pathname.startsWith(`${submenu.href}/`)
+      : submenu.active
   );
   const [isCollapsed, setIsCollapsed] = useState<boolean>(isSubmenuActive);
 
@@ -123,7 +121,9 @@ export function CollapseMenuButton({
           <Button
             key={index}
             variant={
-              (active === undefined && pathname === href) || active
+              (active === undefined &&
+                (pathname === href || pathname.startsWith(`${href}/`))) ||
+              active
                 ? "default"
                 : "ghost"
             }

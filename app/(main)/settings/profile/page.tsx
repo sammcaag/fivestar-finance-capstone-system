@@ -32,12 +32,6 @@ export default function ClientInfoPage() {
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (userId) {
-      router.replace(`?userId=${userId}`);
-    }
-  }, [userId, router]);
-
   return (
     <ContentLayout title={"Staff Information"}>
       <div className="flex justify-between items-center mb-4">

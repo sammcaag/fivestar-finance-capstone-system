@@ -17,9 +17,15 @@ import { useQuery } from "@tanstack/react-query";
 import { BranchTableProps } from "@/features/branch/types/branch-types";
 import { getBranches } from "@/features/branch/api/branch-service";
 import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
+import { useAuth } from "@/features/auth/context/AuthContext";
 
-const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
+const StaffGeneralInformation = ({
+  form,
+  isOwnProfile = false,
+}: StaffGeneralInformationProps) => {
+  const { user } = useAuth();
   const { containerVariants, itemVariants } = useClientAnimation();
+  const isAdmin = user!.role.toUpperCase() === "ADMIN";
 
   const { data: branchesData, isLoading } = useQuery<BranchTableProps[]>({
     queryKey: ["branchesToStaff"],
@@ -32,8 +38,19 @@ const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
       value: String(branch.id),
     })) ?? [];
 
+  const roleOptions = [
+    { value: "SALES", label: "Sales" },
+    { value: "LOANS", label: "Loans" },
+  ];
+
+  if (isAdmin) {
+    roleOptions.push({ value: "ADMIN", label: "Admin" });
+  }
+
+  const title = isOwnProfile ? "Profile" : "Staff";
+
   if (isLoading && !branchesData) {
-    return <ClientGeneralInformationSkeleton title={"Staff"} />;
+    return <ClientGeneralInformationSkeleton title={title} />;
   }
 
   return (
@@ -45,8 +62,8 @@ const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
     >
       <StepTitleCard
         variants={itemVariants}
-        title="Staff General Information"
-        description="Please fill out all the required information below to begin the staff registration process."
+        title={`${title} General Information`}
+        description="Please fill out all the required information below."
       />
 
       {/* Basic Information */}
@@ -256,10 +273,8 @@ const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
             type="select"
             required
             placeholder="Select Role"
-            options={[
-              { value: "SALES", label: "Sales" },
-              { value: "LOANS", label: "Loans" },
-            ]}
+            options={roleOptions}
+            disabled={isOwnProfile}
           />
           <FormFieldWrapper
             name="staffId"
@@ -268,6 +283,7 @@ const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
             label="Staff ID"
             type="input"
             placeholder="FSFI-2025"
+            disabled={!isAdmin}
           />
           <FormFieldWrapper
             name="branchId"
@@ -277,6 +293,7 @@ const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
             type="select"
             placeholder="Select Branch"
             options={branchOptions}
+            disabled={!isAdmin}
           />
         </div>
       </SectionCard>

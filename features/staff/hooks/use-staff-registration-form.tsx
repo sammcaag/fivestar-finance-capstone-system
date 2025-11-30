@@ -16,11 +16,14 @@ import {
 } from "../libs/staff-payload";
 import { createStaffApi, updateStaffApi } from "../api/staff-service";
 import { useDialog } from "@/contexts/DialogContext";
+import { useAuth } from "@/features/auth/context/AuthContext";
 
 export function useStaffRegistrationForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { showDialog } = useDialog();
+  const { user } = useAuth();
+  const userId = user!.id;
 
   const [formModified, setFormModified] = useState(false);
   const [hasDraft, setHasDraft] = useState(false);
@@ -175,7 +178,13 @@ export function useStaffRegistrationForm() {
       }); // ✅ await
       console.log("Result:", result);
       showDialog("Staff information updated successfully!", "success");
-      router.push(`/staff/${result.staffId}`);
+
+      console.log("IS THIS THE OWNER?", result.staffId === userId);
+      if (result.staffId === userId) {
+        router.push("/settings/profile");
+      } else {
+        router.push(`/staff/${result.staffId}`);
+      }
     } catch (error) {
       console.log("Error:", error);
 
