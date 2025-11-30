@@ -33,7 +33,7 @@ export const staffGeneralInfoSchema = z.object({
   civilStatus: z.string().refine((v) => v !== "", {
     message: "Civil status is required",
   }),
-  occupation: z.string().min(1, "Occupation is required"),
+  branchId: z.string().min(1, "Branch is required"),
   role: z.string().min(1, "Role is required"),
   staffId: z.string().min(1, "Staff ID is required"),
   placeOfBirth: z.string().min(1, "Place of birth is required"),

@@ -14,7 +14,11 @@ const fieldSkeleton = (
   </div>
 );
 
-const ClientGeneralInformationSkeleton = () => {
+const ClientGeneralInformationSkeleton = ({
+  title = "Client",
+}: {
+  title?: string;
+}) => {
   const { containerVariants, itemVariants } = useClientAnimation();
 
   return (
@@ -27,8 +31,8 @@ const ClientGeneralInformationSkeleton = () => {
       {/* 👤 Step Title Card */}
       <StepTitleCard
         variants={itemVariants}
-        title="Client General Information"
-        description="Loading client details..."
+        title={`${title} General Information`}
+        description={`Loading ${title.toLowerCase()} details...`}
       />
 
       {/* BASIC INFORMATION */}

@@ -18,7 +18,7 @@ export const defaultValues = {
   secondaryContact: "",
   religion: "",
   civilStatus: "",
-  occupation: "",
+  branchId: "",
   role: "",
   staffId: "",
   placeOfBirth: "",

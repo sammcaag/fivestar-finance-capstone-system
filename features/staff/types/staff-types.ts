@@ -39,7 +39,7 @@ export interface StaffFormValues {
   secondaryContact?: string;
   religion: string;
   civilStatus: string;
-  occupation: string;
+  branchId: string;
   role: string;
   staffId: string;
   placeOfBirth: string;
@@ -87,6 +87,7 @@ export type StaffPayload = {
   profileImageUrl?: string;
   remarks?: string;
 
+  branchId: number;
   address: Address;
   contactInfo: ContactInfo;
   userAuth: userAuth;

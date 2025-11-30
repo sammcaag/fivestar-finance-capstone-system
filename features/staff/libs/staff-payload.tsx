@@ -17,7 +17,8 @@ export const staffPayload = (data: StaffFormValues): StaffPayload => {
     birthDate: data.dateOfBirth,
     religion: data.religion,
     civilStatus: data.civilStatus,
-    occupation: data.occupation,
+    occupation: "STAFF",
+    branchId: Number(data.branchId),
     placeOfBirth: data.placeOfBirth,
     staffId: data.staffId,
     userAuth: {
@@ -79,8 +80,8 @@ export function mapBackendToStaffFormValues(
     ),
     religion: staffData.religion,
     civilStatus: staffData.civilStatus.toUpperCase(),
-    occupation: staffData.occupation,
     role: staffData.userAuth?.role ?? "",
+    branchId: String(staffData.branchId),
     staffId: staffData.staffId,
     placeOfBirth: staffData.placeOfBirth,
   };

@@ -13,9 +13,28 @@ import { StepTitleCard } from "@/features/clients/components/StepTitleCard";
 import { SectionCard } from "@/features/clients/components/SectionCard";
 import { FormFieldWrapper } from "@/components/FormFieldWrapper";
 import { type StaffGeneralInformationProps } from "../../types/staff-types";
+import { useQuery } from "@tanstack/react-query";
+import { BranchTableProps } from "@/features/branch/types/branch-types";
+import { getBranches } from "@/features/branch/api/branch-service";
+import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
 
 const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
   const { containerVariants, itemVariants } = useClientAnimation();
+
+  const { data: branchesData, isLoading } = useQuery<BranchTableProps[]>({
+    queryKey: ["branchesToStaff"],
+    queryFn: getBranches,
+  });
+
+  const branchOptions =
+    branchesData?.map((branch) => ({
+      label: branch.name,
+      value: String(branch.id),
+    })) ?? [];
+
+  if (isLoading && !branchesData) {
+    return <ClientGeneralInformationSkeleton title={"Staff"} />;
+  }
 
   return (
     <motion.div
@@ -220,12 +239,12 @@ const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
             options={civilStatusOptions}
           />
           <FormFieldWrapper
-            name="occupation"
+            name="placeOfBirth"
             control={form.control}
-            label="Occupation"
-            type="input"
-            placeholder="Pensioner"
             required
+            label="Place of Birth"
+            type="input"
+            placeholder="Cagayan de Oro City"
           />
         </div>
 
@@ -251,12 +270,13 @@ const StaffGeneralInformation = ({ form }: StaffGeneralInformationProps) => {
             placeholder="FSFI-2025"
           />
           <FormFieldWrapper
-            name="placeOfBirth"
+            name="branchId"
             control={form.control}
             required
-            label="Place of Birth"
-            type="input"
-            placeholder="Cagayan de Oro City"
+            label="Branch Assigned"
+            type="select"
+            placeholder="Select Branch"
+            options={branchOptions}
           />
         </div>
       </SectionCard>
