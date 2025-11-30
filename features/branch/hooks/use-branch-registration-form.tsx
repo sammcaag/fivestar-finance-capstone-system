@@ -15,17 +15,16 @@ import {
   mapBackendToBranchFormValues,
 } from "../libs/branch-payload";
 import axios from "axios";
+import { useDialog } from "@/contexts/DialogContext";
 
 export function useBranchRegistrationForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { showDialog } = useDialog();
 
   const [formModified, setFormModified] = useState(false);
   const [hasDraft, setHasDraft] = useState(false);
 
-  const [dialogMessage, setDialogMessage] = useState("");
-  const [dialogVisible, setDialogVisible] = useState(false);
-  const [dialogVariant, setDialogVariant] = useState("info");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<BranchFormValues>({
@@ -51,17 +50,6 @@ export function useBranchRegistrationForm() {
       });
     },
   });
-
-  // Show dialog helper
-  const showDialog = (
-    message: string,
-    variant: "success" | "error" | "info" | "warning"
-  ) => {
-    setDialogMessage(message);
-    setDialogVariant(variant);
-    setDialogVisible(true);
-    setTimeout(() => setDialogVisible(false), 2000); // auto-close after 2s
-  };
 
   // Check for saved draft on mount
   useEffect(() => {
@@ -119,7 +107,7 @@ export function useBranchRegistrationForm() {
       if (isShowMessage)
         showDialog("Form has been reset to staff values!", "success");
     },
-    [form]
+    [form, showDialog]
   );
 
   // Process form
@@ -189,9 +177,6 @@ export function useBranchRegistrationForm() {
     deleteSavedDraft,
     clearForm,
     processForm,
-    dialogMessage,
-    dialogVisible,
-    dialogVariant,
     isSubmitting,
     resetForm,
     updateForm,

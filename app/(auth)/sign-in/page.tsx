@@ -6,7 +6,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import LoginForm from "@/features/auth/components/LoginForm";
 import SlideShow from "@/features/auth/components/SlideShow";
 import { useAuthSignInForm } from "@/features/auth/hooks/use-auth-form";
-import { DraftDialog } from "@/features/clients/components/DraftDialog";
 import { useAuth } from "@/features/auth/context/AuthContext";
 import Loading from "@/components/LoadingPage";
 
@@ -14,14 +13,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { user, isLoading: authLoading } = useAuth();
 
-  const {
-    form,
-    handleLogin,
-    isLoading,
-    dialogMessage,
-    dialogVariant,
-    dialogVisible,
-  } = useAuthSignInForm();
+  const { form, handleLogin, isLoading } = useAuthSignInForm();
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -81,12 +73,6 @@ export default function LoginPage() {
           </CardContent>
         </Card>
       </div>
-
-      <DraftDialog
-        message={dialogMessage}
-        visible={dialogVisible}
-        variant={dialogVariant}
-      />
     </div>
   );
 }

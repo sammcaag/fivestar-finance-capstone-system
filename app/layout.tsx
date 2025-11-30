@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { TanstackQueryProvider } from "@/components/providers/query-provider";
 import { AuthProvider } from "@/features/auth/context/AuthContext";
+import { DialogProvider } from "@/contexts/DialogContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -54,7 +55,7 @@ export default function RootLayout({
         <TanstackQueryProvider>
           <AuthProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              {children}
+              <DialogProvider>{children}</DialogProvider>
             </ThemeProvider>
           </AuthProvider>
         </TanstackQueryProvider>

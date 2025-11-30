@@ -71,7 +71,7 @@ export function MainTableComp<TData extends TableData>({
   }
 
   return (
-    <Card className="overflow-hidden border flex-1">
+    <Card className="overflow-hidden border flex-1 bg-background/10">
       <CardHeader>
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-2">

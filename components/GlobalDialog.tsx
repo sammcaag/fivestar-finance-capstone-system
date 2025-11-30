@@ -3,15 +3,16 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, Info, AlertTriangle } from "lucide-react";
 
-interface DraftDialogProps {
+export type DialogVariant = "success" | "error" | "info" | "warning";
+interface DialogProps {
   message: string;
   visible: boolean;
-  variant?: string;
+  variant?: DialogVariant;
   time?: number;
 }
 
 const variantConfig: Record<
-  NonNullable<DraftDialogProps["variant"]>,
+  NonNullable<DialogProps["variant"]>,
   {
     icon: React.ElementType;
     iconColor: string;
@@ -40,12 +41,12 @@ const variantConfig: Record<
   },
 };
 
-export function DraftDialog({
+export function GlobalDialog({
   message,
   visible,
   variant = "info",
   time = 1,
-}: DraftDialogProps) {
+}: DialogProps) {
   const config = variantConfig[variant];
   const Icon = config.icon;
 

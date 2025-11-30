@@ -6,7 +6,6 @@ import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { Form } from "@/components/ui/form";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { DraftDialog } from "@/features/clients/components/DraftDialog";
 import MainHeader from "@/components/MainHeader";
 import { SingleStepFormButtons } from "@/features/staff/component/SingleStepNavigationButtons";
 import BranchInformation from "@/features/branch/components/forms/BranchInformation";
@@ -26,9 +25,6 @@ export default function RegisterBranch() {
     handleSaveDraft,
     clearForm,
     processForm,
-    dialogMessage,
-    dialogVisible,
-    dialogVariant,
     isSubmitting,
   } = useBranchRegistrationForm();
 
@@ -90,13 +86,6 @@ export default function RegisterBranch() {
             </form>
           </Form>
         </div>
-
-        {/* Dialog for draft actions */}
-        <DraftDialog
-          message={dialogMessage}
-          visible={dialogVisible}
-          variant={dialogVariant}
-        />
       </motion.div>
     </ContentLayout>
   );

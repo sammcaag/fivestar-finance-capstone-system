@@ -16,7 +16,6 @@ import FamilyInformation from "@/features/clients/components/steps/FamilyInforma
 import PensionersInformation from "@/features/clients/components/steps/PensionersInformation";
 import AccountsInformation from "@/features/clients/components/steps/AccountsInformation";
 import { steps } from "@/features/clients/lib/client-registration-form";
-import { DraftDialog } from "@/features/clients/components/DraftDialog";
 import { getClientBySerialNumber } from "@/features/clients/api/client-service";
 import type { ClientPayload } from "@/features/clients/types/client-types";
 import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
@@ -44,9 +43,6 @@ export default function EditClientPage() {
     deleteSavedDraft,
     handleSaveDraft,
     updateForm,
-    dialogMessage,
-    dialogVisible,
-    dialogVariant,
     resetForm,
   } = useClientRegistrationForm();
 
@@ -166,11 +162,6 @@ export default function EditClientPage() {
       ) : (
         <NotFoundPage title={"Client data"} />
       )}
-      <DraftDialog
-        message={dialogMessage}
-        visible={dialogVisible}
-        variant={dialogVariant}
-      />
     </ContentLayout>
   );
 }

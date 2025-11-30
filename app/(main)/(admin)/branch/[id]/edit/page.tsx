@@ -6,7 +6,6 @@ import BreadcrumbPages from "@/components/BreadcrumbPages";
 import { Form } from "@/components/ui/form";
 import { motion } from "framer-motion";
 
-import { DraftDialog } from "@/features/clients/components/DraftDialog";
 import MainHeader from "@/components/MainHeader";
 import { SingleStepFormButtons } from "@/features/staff/component/SingleStepNavigationButtons";
 import { useParams } from "next/navigation";
@@ -34,9 +33,6 @@ export default function EditBranch() {
     loadSavedDraft,
     deleteSavedDraft,
     handleSaveDraft,
-    dialogMessage,
-    dialogVisible,
-    dialogVariant,
     isSubmitting,
     resetForm,
     updateForm,
@@ -131,13 +127,6 @@ export default function EditBranch() {
       ) : (
         <NotFoundPage title={"Branch data"} />
       )}
-
-      {/* Dialog for draft actions */}
-      <DraftDialog
-        message={dialogMessage}
-        visible={dialogVisible}
-        variant={dialogVariant}
-      />
     </ContentLayout>
   );
 }

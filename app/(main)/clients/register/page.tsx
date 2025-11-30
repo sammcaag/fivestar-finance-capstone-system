@@ -14,7 +14,6 @@ import FamilyInformation from "@/features/clients/components/steps/FamilyInforma
 import PensionersInformation from "@/features/clients/components/steps/PensionersInformation";
 import AccountsInformation from "@/features/clients/components/steps/AccountsInformation";
 import { steps } from "@/features/clients/lib/client-registration-form";
-import { DraftDialog } from "@/features/clients/components/DraftDialog";
 import MainHeader from "@/components/MainHeader";
 
 export default function RegisterClient() {
@@ -34,9 +33,6 @@ export default function RegisterClient() {
     handleSaveDraft,
     clearForm,
     processForm,
-    dialogMessage,
-    dialogVisible,
-    dialogVariant,
     isSubmitting,
   } = useClientRegistrationForm();
 
@@ -120,13 +116,6 @@ export default function RegisterClient() {
             </form>
           </Form>
         </div>
-
-        {/* Dialog for draft actions */}
-        <DraftDialog
-          message={dialogMessage}
-          visible={dialogVisible}
-          variant={dialogVariant}
-        />
       </motion.div>
     </ContentLayout>
   );

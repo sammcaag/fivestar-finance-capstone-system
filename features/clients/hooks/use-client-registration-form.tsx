@@ -22,19 +22,19 @@ import { createClientApi, updateClientApi } from "../api/client-service";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useAuth } from "@/features/auth/context/AuthContext";
+import { calculateDate } from "@/utils/calculate-dates";
+import { useDialog } from "@/contexts/DialogContext";
 
 export function useClientRegistrationForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { showDialog } = useDialog();
   const { user: userData } = useAuth();
 
   const [currentStep, setCurrentStep] = useState(0);
   const [formModified, setFormModified] = useState(false);
   const [hasDraft, setHasDraft] = useState(false);
 
-  const [dialogMessage, setDialogMessage] = useState("");
-  const [dialogVisible, setDialogVisible] = useState(false);
-  const [dialogVariant, setDialogVariant] = useState("success");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<ClientFormValues>({
@@ -66,16 +66,13 @@ export function useClientRegistrationForm() {
     },
   });
 
-  // Show dialog helper
-  const showDialog = (
-    message: string,
-    variant: "success" | "error" | "info" | "warning"
-  ) => {
-    setDialogMessage(message);
-    setDialogVariant(variant);
-    setDialogVisible(true);
-    setTimeout(() => setDialogVisible(false), 1000); // auto-close after 2s
-  };
+  const dateEntered = form.watch("dateEnteredService");
+  const dateRetired = form.watch("dateRetiredService");
+
+  useEffect(() => {
+    const { years } = calculateDate(dateEntered, dateRetired);
+    form.setValue("lengthOfService", years ?? 0);
+  }, [dateEntered, dateRetired, form]);
 
   // Check for saved draft on mount
   useEffect(() => {
@@ -151,7 +148,7 @@ export function useClientRegistrationForm() {
       if (isShowMessage)
         showDialog("Form has been reset to client values!", "success");
     },
-    [form]
+    [form, showDialog]
   );
 
   // Navigation
@@ -245,9 +242,6 @@ export function useClientRegistrationForm() {
     deleteSavedDraft,
     clearForm,
     processForm,
-    dialogMessage,
-    dialogVisible,
-    dialogVariant,
     resetForm,
     updateForm,
     isSubmitting,

@@ -45,6 +45,7 @@ interface BaseProps<T extends FieldValues> extends CustomOnChangeProps<T> {
   required?: boolean;
   formItemClassName?: string;
   customFunctionOnChange?: () => void;
+  disabled?: boolean;
 }
 
 // Input — now with asNumber
@@ -104,6 +105,7 @@ export function FormFieldWrapper<T extends FieldValues>(
     required = false,
     formItemClassName,
     onChange: customOnChange,
+    disabled = false,
   } = props;
 
   return (
@@ -125,6 +127,7 @@ export function FormFieldWrapper<T extends FieldValues>(
           <FormItem
             className={cn(
               "w-full min-h-[80px] flex flex-col",
+              disabled ? "cursor-not-allowed" : "cursor-text",
               formItemClassName
             )}
           >
@@ -148,6 +151,7 @@ export function FormFieldWrapper<T extends FieldValues>(
                     placeholder={props.placeholder}
                     type={"text"}
                     inputMode={props.asNumber ? "decimal" : "text"}
+                    disabled={disabled}
                     {...(props.asNumber
                       ? {
                           step: "0.01",

@@ -216,7 +216,7 @@ export default function CustomDatePicker({
           variant="outline"
           className={cn(
             "w-full justify-start text-left font-normal rounded-md",
-            "border-0 bg-background hover:bg-accent/50 focus:bg-accent/50",
+            "border-0 bg-background hover:bg-primary/10 focus:bg-primary/10",
             "shadow-sm hover:shadow-md transition-all duration-200",
             "text-foreground h-[38px]",
             !date && "text-muted-foreground",
@@ -224,7 +224,7 @@ export default function CustomDatePicker({
           )}
           disabled={!editable}
         >
-          <CalendarIcon className="mr-3 h-4 w-4 text-primary" />
+          <CalendarIcon className="mr-3 h-4 w-4 text-primary " />
           <div className="flex items-center justify-between w-full">
             <span
               className={cn(

@@ -132,6 +132,8 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             placeholder="Enter Length of Service"
             leftIcon={Clock}
             asNumber
+            inputClassName={"disabled:opacity-100"}
+            disabled
           />
 
           <FormFieldWrapper
