@@ -14,7 +14,6 @@ interface IBranchProfile {
   id: number;
   name: string;
   email: string;
-  contactNumber: string;
   status: string;
 }
 
@@ -22,7 +21,6 @@ export default function BranchProfileHeader({
   id,
   name,
   email,
-  contactNumber,
   status,
 }: IBranchProfile) {
   const clientBadge = [
@@ -30,10 +28,6 @@ export default function BranchProfileHeader({
     {
       label: "Email",
       value: email,
-    },
-    {
-      label: "Contact",
-      value: contactNumber,
     },
   ].filter((item) => item.value);
 

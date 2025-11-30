@@ -45,10 +45,18 @@ export type ContactInfo = {
   secondary_contact?: string | null;
 };
 
+export type userAuth = {
+  id?: number;
+  email: string;
+  role: "CLIENT" | "SALES" | "LOANS" | "ADMIN";
+};
+
 export type UserType = {
   id: string;
   fullName: string;
-  role: string;
+  staffId?: string;
+  userAuth: userAuth;
+  clientPension?: { serialNumber: string };
   avatarUrl?: string;
 };
 
@@ -62,3 +70,16 @@ export type BranchPayload = {
   contactInfo: ContactInfo;
   users?: UserType[];
 };
+
+export interface IBranchInformation {
+  name: string;
+  email: string;
+  primaryContact: string;
+  secondaryContact?: string;
+  users: UserType[];
+}
+
+export interface UserSectionProps {
+  users: UserType[];
+  type: "staff" | "client";
+}

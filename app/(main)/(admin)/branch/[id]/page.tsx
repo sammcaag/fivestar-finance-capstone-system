@@ -60,10 +60,17 @@ export default function ClientInfoPage() {
             id={branchData.id!}
             name={branchData.name}
             email={branchData.email}
-            contactNumber={branchData.contactInfo.primary_contact}
             status={branchData.status || "INACTIVE"}
           />
-          <BranchInformation users={branchData.users ?? []} />
+          <BranchInformation
+            name={branchData.name}
+            email={branchData.email}
+            primaryContact={branchData.contactInfo.primary_contact}
+            secondaryContact={
+              branchData.contactInfo.secondary_contact ?? undefined
+            }
+            users={branchData.users ?? []}
+          />
         </>
       ) : (
         <NotFoundPage title={"Client"} />
