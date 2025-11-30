@@ -5,13 +5,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { defaultValues, loginSchema, LoginSchema } from "../libs/auth-form";
 import { AuthFormValues } from "../types/auth.types";
-import { useEffect, useState } from "react";
 
 export function useAuthSignInForm() {
-  const { login, isLoading, dialogMessage, dialogVariant, dialogTimestamp } =
-    useAuth(); // ✅ Get dialog state from context
-
-  const [dialogVisible, setDialogVisible] = useState(false);
+  const { login, isLoading } = useAuth(); // ✅ Get dialog state from context
 
   const form = useForm<AuthFormValues>({
     resolver: zodResolver(loginSchema),
@@ -19,15 +15,6 @@ export function useAuthSignInForm() {
     reValidateMode: "onChange",
     defaultValues,
   });
-
-  // ✅ Watch for changes in dialogTimestamp to show dialog even with same message
-  useEffect(() => {
-    if (dialogMessage && dialogTimestamp) {
-      setDialogVisible(true);
-      const timer = setTimeout(() => setDialogVisible(false), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [dialogTimestamp, dialogMessage]);
 
   const handleLogin = async (data: LoginSchema) => {
     try {
@@ -41,9 +28,6 @@ export function useAuthSignInForm() {
 
   return {
     isLoading,
-    dialogMessage: dialogMessage || "", // ✅ Pass message from context
-    dialogVariant, // ✅ Pass variant from context
-    dialogVisible,
     handleLogin,
     form,
   };

@@ -11,6 +11,7 @@ import {
   refreshTokenApi,
 } from "../api/auth-service";
 import axios from "axios";
+import { useDialog } from "@/contexts/DialogContext";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -23,11 +24,7 @@ export const useAuth = (): AuthContextType => {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [dialogMessage, setDialogMessage] = useState<string | null>(null);
-  const [dialogVariant, setDialogVariant] = useState<
-    "success" | "error" | "info" | "warning"
-  >("info");
-  const [dialogTimestamp, setDialogTimestamp] = useState<number>(0);
+  const { showDialog } = useDialog();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const {
@@ -54,16 +51,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     mutationKey: ["refreshToken"],
     mutationFn: refreshTokenApi,
   });
-
-  // Helper to show dialog with timestamp
-  const showDialog = (
-    message: string,
-    variant: "success" | "error" | "info" | "warning"
-  ) => {
-    setDialogMessage(message);
-    setDialogVariant(variant);
-    setDialogTimestamp(Date.now());
-  };
 
   const login = async (username: string, password: string): Promise<void> => {
     setIsProcessing(true);
@@ -165,10 +152,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         logout,
         refreshToken,
-        dialogMessage,
-        dialogVariant,
-        dialogTimestamp,
-        showDialog,
       }}
     >
       {children}

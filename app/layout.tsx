@@ -53,11 +53,17 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.className} antialiased`}>
         <TanstackQueryProvider>
-          <AuthProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <DialogProvider>{children}</DialogProvider>
-            </ThemeProvider>
-          </AuthProvider>
+          <DialogProvider>
+            <AuthProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+              >
+                {children}
+              </ThemeProvider>
+            </AuthProvider>
+          </DialogProvider>
         </TanstackQueryProvider>
       </body>
     </html>

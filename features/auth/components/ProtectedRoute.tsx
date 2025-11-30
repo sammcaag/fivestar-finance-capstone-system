@@ -5,13 +5,15 @@ import { useAuth } from "@/features/auth/context/AuthContext";
 import { notFound, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { ProtectedRouteProps } from "../types/auth.types";
+import { useDialog } from "@/contexts/DialogContext";
 
 export default function ProtectedRoute({
   allowedRoles,
   children,
 }: ProtectedRouteProps) {
-  const { user, isLoading, showDialog } = useAuth();
+  const { user, isLoading } = useAuth();
   const router = useRouter();
+  const { showDialog } = useDialog();
 
   useEffect(() => {
     if (!isLoading) {
