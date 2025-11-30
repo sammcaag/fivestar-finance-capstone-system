@@ -6,35 +6,42 @@ export function decodeFullName(fullName: string): FullNameProps {
     suffixOptions.filter((s) => s.value !== "__NONE__").map((s) => s.value)
   );
 
-  const parts = fullName.split(" ");
+  // Split by spaces and replace '-' with ' ' in each part
+  const parts = fullName.split(" ").map((p) => p.replace(/-/g, " "));
 
-  // Ensure at least 4 parts
-  while (parts.length < 4) parts.push("");
+  let firstName = "";
+  let middleName: string | undefined;
+  let lastName = "";
+  let suffix: string | undefined;
 
-  const firstName = parts[0].replace(/-/g, " ");
-  const middleNameRaw = parts[1];
-  const lastNameRaw = parts[2];
-  let suffixRaw = parts[3];
-
-  // Determine if last part is suffix
-  if (!SUFFIXES.has(suffixRaw)) {
-    parts[2] = lastNameRaw + (suffixRaw ? " " + suffixRaw : "");
-    suffixRaw = "";
+  if (parts.length === 4) {
+    // 4 parts: First, Middle, Last, Suffix
+    [firstName, middleName, lastName, suffix] = parts;
+    if (!SUFFIXES.has(suffix)) {
+      lastName = `${lastName} ${suffix}`;
+      suffix = undefined;
+    }
+  } else if (parts.length === 3) {
+    firstName = parts[0];
+    if (SUFFIXES.has(parts[2])) {
+      // Last part is suffix → First, Last, Suffix
+      lastName = parts[1];
+      suffix = parts[2];
+    } else {
+      // Last part is not suffix → First, Middle, Last
+      middleName = parts[1];
+      lastName = parts[2];
+    }
+  } else if (parts.length === 2) {
+    [firstName, lastName] = parts;
+  } else if (parts.length === 1) {
+    firstName = parts[0];
+    lastName = "";
   }
-
-  const middleName = middleNameRaw
-    ? middleNameRaw.replace(/-/g, " ")
-    : undefined;
-  const lastName = parts[2] ? parts[2].replace(/-/g, " ") : "";
 
   if (!firstName || !lastName) {
     throw new Error("Decoded firstName and lastName must always be present.");
   }
 
-  return {
-    firstName,
-    middleName,
-    lastName,
-    suffix: suffixRaw || undefined,
-  };
+  return { firstName, middleName, lastName, suffix };
 }

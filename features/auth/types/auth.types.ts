@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export interface IRequestUser {
-  id: number;
+  id: string;
   email: string;
   role: string;
   branchId: number;

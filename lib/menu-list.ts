@@ -155,11 +155,26 @@ export function getMenuList(): Group[] {
           label: "Reports & Analytics",
           icon: FileChartColumn,
         },
+      ],
+    },
+    {
+      groupLabel: "Settings",
+      menus: [
         // Settings
         {
           href: "/settings",
           label: "Settings",
           icon: Settings,
+          submenus: [
+            {
+              href: `/settings/profile`,
+              label: "Profile",
+            },
+            {
+              href: "/settings/security",
+              label: "Security",
+            },
+          ],
         },
       ],
     },

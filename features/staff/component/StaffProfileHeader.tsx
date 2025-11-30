@@ -29,7 +29,7 @@ export default function StaffProfileHeader({
   profileImageUrl,
   role,
 }: IStaffProfile) {
-  const clientBadge = [
+  const staffBadge = [
     { label: "ID", value: staffId },
     {
       label: "Branch",
@@ -73,14 +73,14 @@ export default function StaffProfileHeader({
           <div className="flex-1 space-y-4">
             <div className="space-y-2">
               <CardTitle className="text-xs font-medium uppercase tracking-[0.3em] text-white/70">
-                Client Profile
+                Staff Profile
               </CardTitle>
               <CardDescription className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
                 {formatFullNameFromParts(decodeFullName(fullName))}
               </CardDescription>
             </div>
             <div className="flex flex-wrap items-center gap-2 text-sm font-medium uppercase tracking-wide text-white/80">
-              {clientBadge.map((item) => (
+              {staffBadge.map((item) => (
                 <span
                   key={item.label}
                   className="rounded-full border border-white/20 bg-white/10 px-3 py-1"

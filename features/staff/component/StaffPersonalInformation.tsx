@@ -28,6 +28,7 @@ interface IPersionalInformation {
   address: string;
   primaryContact: string;
   secondaryContact?: string | null;
+  isOwnProfile?: boolean;
 }
 
 export default function StaffPersonalInformation({
@@ -39,6 +40,7 @@ export default function StaffPersonalInformation({
   address,
   primaryContact,
   secondaryContact,
+  isOwnProfile = false,
 }: IPersionalInformation) {
   const dateOfBirth = formatDateToReadable(birthDate);
   const age = getAge(birthDate);
@@ -52,8 +54,10 @@ export default function StaffPersonalInformation({
         <div>
           <CardTitle className="text-xl">Personal Information</CardTitle>
           <CardDescription>
-            View and verify the staff&apos;s basic identity details such as full
-            name, date of birth, and gender.
+            {`View and verify ${
+              isOwnProfile ? "your" : "the staff's"
+            } basic identity details such as full
+            name, date of birth, and gender.`}
           </CardDescription>
         </div>
       </CardHeader>
@@ -118,8 +122,10 @@ export default function StaffPersonalInformation({
             <div>
               <CardTitle className="text-xl">Contact Information</CardTitle>
               <CardDescription>
-                Review and confirm the staff&apos;s phone numbers, email
-                address, and current residential details.
+                {`Review and confirm ${
+                  isOwnProfile ? "your" : "the staff's"
+                } phone numbers, email
+                address, and current residential details.`}
               </CardDescription>
             </div>
           </div>
