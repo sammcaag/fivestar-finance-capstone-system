@@ -71,9 +71,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.log("❌ User is CLIENT, logging out...");
         await signOutMutate();
         showDialog(
-          "Access Denied: AFP Retirees and Beneficiaries are not permitted to sign in on this portal. Please use the designated channels for client access.",
+          "Access Denied: AFP Retirees and Beneficiaries must use the designated client channels.",
           "error"
         );
+        router.push("/unauthorized");
         return;
       }
 
