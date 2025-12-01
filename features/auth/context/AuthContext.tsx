@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { AuthContextType, IRequestUser } from "../types/auth.types";
 import {
   getCurrentUser,
-  loginApi,
-  logoutApi,
   refreshTokenApi,
+  signInApi,
+  signOutApi,
 } from "../api/auth-service";
 import axios from "axios";
 import { useDialog } from "@/contexts/DialogContext";
@@ -39,26 +39,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   });
 
   // Mutations
-  const { mutateAsync: loginMutate } = useMutation({
-    mutationKey: ["login"],
-    mutationFn: loginApi,
+  const { mutateAsync: signInMutate } = useMutation({
+    mutationKey: ["sign-in"],
+    mutationFn: signInApi,
   });
-  const { mutateAsync: logoutMutate } = useMutation({
-    mutationKey: ["logout"],
-    mutationFn: logoutApi,
+  const { mutateAsync: signOutMutate } = useMutation({
+    mutationKey: ["sign-out"],
+    mutationFn: signOutApi,
   });
   const { mutateAsync: refreshMutate } = useMutation({
     mutationKey: ["refreshToken"],
     mutationFn: refreshTokenApi,
   });
 
-  const login = async (username: string, password: string): Promise<void> => {
+  const signIn = async (username: string, password: string): Promise<void> => {
     setIsProcessing(true);
     try {
       console.log("🔐 Starting login process...");
 
       // Call login API
-      const response = await loginMutate({ email: username, password });
+      const response = await signInMutate({ email: username, password });
       console.log("✅ Login API response:", response);
 
       // Fetch fresh user data
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       // Check if user is a CLIENT
       if (freshUser && freshUser.role === "CLIENT") {
         console.log("❌ User is CLIENT, logging out...");
-        await logoutMutate();
+        await signOutMutate();
         showDialog(
           "Access Denied: AFP Retirees and Beneficiaries are not permitted to sign in on this portal. Please use the designated channels for client access.",
           "error"
@@ -123,12 +123,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const logout = async (): Promise<void> => {
+  const signOut = async (): Promise<void> => {
     try {
-      await logoutMutate();
+      await signOutMutate();
       queryClient.removeQueries({ queryKey: ["currentUser"] });
       showDialog("Logged out successfully.", "success");
-      router.push("/login");
+      router.push("/sign-in");
     } catch {
       // ignore
     }
@@ -149,8 +149,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         user: currentUser || null,
         isLoading: isLoading || isProcessing,
-        login,
-        logout,
+        signIn,
+        signOut,
         refreshToken,
       }}
     >

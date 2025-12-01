@@ -1,3 +1,5 @@
+"use client";
+
 import AdminPanelLayout from "@/components/staff-panel/staff-panel-layout";
 import ProtectedRoute from "@/features/auth/components/ProtectedRoute";
 

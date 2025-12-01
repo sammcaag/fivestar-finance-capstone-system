@@ -24,7 +24,7 @@ export const getCurrentUser = async (): Promise<IRequestUser> => {
 // ----------------------------
 // Login API
 // ----------------------------
-export const loginApi = async (payload: {
+export const signInApi = async (payload: {
   email: string;
   password: string;
 }) => {
@@ -43,7 +43,7 @@ export const loginApi = async (payload: {
 // ----------------------------
 // Logout API
 // ----------------------------
-export const logoutApi = async () => {
+export const signOutApi = async () => {
   try {
     await axiosInstance.post("/api/auth/sign-out");
   } catch (error) {

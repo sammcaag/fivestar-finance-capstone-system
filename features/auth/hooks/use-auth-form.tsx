@@ -7,7 +7,7 @@ import { defaultValues, loginSchema, LoginSchema } from "../libs/auth-form";
 import { AuthFormValues } from "../types/auth.types";
 
 export function useAuthSignInForm() {
-  const { login, isLoading } = useAuth(); // ✅ Get dialog state from context
+  const { signIn, isLoading } = useAuth(); // ✅ Get dialog state from context
 
   const form = useForm<AuthFormValues>({
     resolver: zodResolver(loginSchema),
@@ -18,7 +18,7 @@ export function useAuthSignInForm() {
 
   const handleLogin = async (data: LoginSchema) => {
     try {
-      await login(data.email, data.password);
+      await signIn(data.email, data.password);
       // AuthContext handles redirection based on role
     } catch (err) {
       // Error is already handled in AuthContext

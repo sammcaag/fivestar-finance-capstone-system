@@ -28,8 +28,8 @@ export interface ProtectedRouteProps {
 export interface AuthContextType {
   user: IRequestUser | null;
   isLoading: boolean;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
+  signIn: (username: string, password: string) => Promise<void>;
+  signOut: () => Promise<void>;
   refreshToken: () => Promise<void>;
 }
 

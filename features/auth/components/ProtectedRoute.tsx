@@ -2,10 +2,11 @@
 
 import Loading from "@/components/LoadingPage";
 import { useAuth } from "@/features/auth/context/AuthContext";
-import { notFound, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { ProtectedRouteProps } from "../types/auth.types";
 import { useDialog } from "@/contexts/DialogContext";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export default function ProtectedRoute({
   allowedRoles,
@@ -19,21 +20,20 @@ export default function ProtectedRoute({
     if (!isLoading) {
       if (!user) {
         // Not authenticated → redirect to login
-        showDialog("Please login to access this page", "error");
-        router.push("/login");
+        showDialog("Please sign in to access this page", "error");
+        router.push("/sign-in");
       } else if (!allowedRoles.includes(user.role)) {
         // Authenticated but not allowed → redirect to dashboard
         showDialog("Access Denied: You do not have permission", "error");
-        router.push("/dashboard");
+        router.push("/sign-in");
       }
     }
   }, [isLoading, user, router, allowedRoles, showDialog]);
 
-  // Show loading while checking auth
   if (isLoading) {
     return <Loading />;
-  } else if (!user) {
-    return notFound();
+  } else if (!isLoading || !user) {
+    return <LoadingSpinner />;
   }
 
   // Allowed → render children
