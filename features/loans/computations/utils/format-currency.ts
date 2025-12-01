@@ -1,7 +1,4 @@
-export function formatCurrency(
-  value: number | string,
-  decimalPlaces: number = 2
-): string {
+export function formatCurrency(value: number | string, decimalPlaces: number = 2): string {
   const num = Number(value);
   if (isNaN(num)) return "0.00"; // Handle invalid numbers
 

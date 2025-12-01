@@ -1,13 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { Control, FieldValues, FieldPath } from "react-hook-form";
@@ -62,9 +56,7 @@ export function PasswordFieldWrapper<T extends FieldValues>({
                 disabled={disabled}
                 className={cn(
                   "rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 pr-10",
-                  disabled
-                    ? "cursor-not-allowed disabled:opacity-100"
-                    : "cursor-text",
+                  disabled ? "cursor-not-allowed disabled:opacity-100" : "cursor-text",
                   inputClassName
                 )}
               />

@@ -6,9 +6,7 @@ import { SpouseFullNameProps } from "./format-spouse-full-name";
  * Decode a spouse full name formatted with '-' back into optional name fields.
  * Only handles firstName, middleName, and lastName.
  */
-export function decodeSpouseFullName(
-  fullName?: string
-): SpouseFullNameProps | undefined {
+export function decodeSpouseFullName(fullName?: string): SpouseFullNameProps | undefined {
   if (!fullName?.trim()) return undefined;
 
   const parts = fullName.split(" "); // split by space
@@ -18,8 +16,7 @@ export function decodeSpouseFullName(
 
   const [firstRaw, middleRaw = "", lastRaw = ""] = parts;
 
-  const decodePart = (part: string) =>
-    part ? part.replace(/-/g, " ").trim() : undefined;
+  const decodePart = (part: string) => (part ? part.replace(/-/g, " ").trim() : undefined);
 
   const firstName = decodePart(firstRaw);
   const middleName = decodePart(middleRaw);

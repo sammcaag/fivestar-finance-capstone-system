@@ -20,12 +20,7 @@ export function formatSpouseFullName({
 }: SpouseFullNameProps): string | undefined {
   // Helper to capitalize then replace spaces with "-"
   const encodePart = (part?: string | null) =>
-    part
-      ? capitalizeFirstLetterInWords(part.replace(/\s+/g, " ").trim()).replace(
-          /\s/g,
-          "-"
-        )
-      : "";
+    part ? capitalizeFirstLetterInWords(part.replace(/\s+/g, " ").trim()).replace(/\s/g, "-") : "";
 
   const first = encodePart(firstName);
   const middle = encodePart(middleName);

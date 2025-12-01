@@ -21,9 +21,7 @@ export default function TableHeaderComp<TData extends TableData>({
   hoverColumn: string | null;
   setHoverColumn: (column: string | null) => void;
 }) {
-  const [filterOpenStates, setFilterOpenStates] = useState<
-    Map<string, boolean>
-  >(new Map());
+  const [filterOpenStates, setFilterOpenStates] = useState<Map<string, boolean>>(new Map());
 
   return (
     <TableHeader>
@@ -33,14 +31,11 @@ export default function TableHeaderComp<TData extends TableData>({
             const canSort = header.column.columnDef.enableSorting ?? false;
             const sortDirection = header.column.getIsSorted();
             const isSorted = sortDirection !== false;
-            const canFilter =
-              header.column.columnDef.enableColumnFilter ?? false;
+            const canFilter = header.column.columnDef.enableColumnFilter ?? false;
             const uniqueValues = canFilter
               ? Array.from(header.column.getFacetedUniqueValues().keys()).sort()
               : [];
-            const filterValue = header.column.getFilterValue() as
-              | string[]
-              | undefined;
+            const filterValue = header.column.getFilterValue() as string[] | undefined;
             const isFiltered = !!filterValue?.length;
             const isActive = isFiltered || isSorted;
             const isFilterOpen = filterOpenStates.get(header.id) ?? false;
@@ -64,18 +59,10 @@ export default function TableHeaderComp<TData extends TableData>({
                 onMouseLeave={() => setHoverColumn(null)}
               >
                 <div className="flex items-center justify-between w-full flex-nowrap">
-                  <span
-                    className={cn(
-                      "font-medium flex-1",
-                      isHovered && hasIcons && "truncate"
-                    )}
-                  >
+                  <span className={cn("font-medium flex-1", isHovered && hasIcons && "truncate")}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                      : flexRender(header.column.columnDef.header, header.getContext())}
                   </span>
                   {hasIcons && (
                     <div
@@ -86,10 +73,7 @@ export default function TableHeaderComp<TData extends TableData>({
                       )}
                     >
                       {canFilter && uniqueValues.length > 0 && (
-                        <DropdownMenu
-                          open={isFilterOpen}
-                          onOpenChange={toggleFilterOpen}
-                        >
+                        <DropdownMenu open={isFilterOpen} onOpenChange={toggleFilterOpen}>
                           <DropdownMenuTrigger asChild>
                             <Button
                               variant="ghost"
@@ -106,9 +90,7 @@ export default function TableHeaderComp<TData extends TableData>({
                                 key={value}
                                 checked={filterValue?.includes(value) ?? false}
                                 onCheckedChange={(checked) => {
-                                  const currentFilters = filterValue
-                                    ? [...filterValue]
-                                    : [];
+                                  const currentFilters = filterValue ? [...filterValue] : [];
                                   if (checked) {
                                     currentFilters.push(value);
                                   } else {
@@ -118,9 +100,7 @@ export default function TableHeaderComp<TData extends TableData>({
                                     }
                                   }
                                   header.column.setFilterValue(
-                                    currentFilters.length
-                                      ? currentFilters
-                                      : undefined
+                                    currentFilters.length ? currentFilters : undefined
                                   );
                                 }}
                                 onSelect={(e) => e.preventDefault()}
@@ -140,15 +120,9 @@ export default function TableHeaderComp<TData extends TableData>({
                           aria-label={`Sort by ${header.column.columnDef.header}`}
                         >
                           {sortDirection === "asc" ? (
-                            <ChevronUp
-                              className="size-4 text-primary"
-                              aria-hidden="true"
-                            />
+                            <ChevronUp className="size-4 text-primary" aria-hidden="true" />
                           ) : sortDirection === "desc" ? (
-                            <ChevronDown
-                              className="size-4 text-primary"
-                              aria-hidden="true"
-                            />
+                            <ChevronDown className="size-4 text-primary" aria-hidden="true" />
                           ) : (
                             <ArrowUpDown
                               className="size-4 text-muted-foreground/60"

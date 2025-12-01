@@ -19,9 +19,7 @@ export const extensionCalculatorSchema = z.object({
       (date.getFullYear() === currentYear && date.getMonth() >= currentMonth)
     );
   }, "Maturity Date cannot be from a previous month."),
-  settedOutstandingBalance: z
-    .number()
-    .min(0, "Outstanding balance must be at least 0"),
+  settedOutstandingBalance: z.number().min(0, "Outstanding balance must be at least 0"),
   otherDeduction: z.number().min(0, "Other deduction must be at least 0"),
 });
 

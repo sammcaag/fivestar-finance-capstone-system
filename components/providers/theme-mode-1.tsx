@@ -35,11 +35,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     >
       <div>
         <p className="flex items-center space-x-2">
-          {isDarkMode ? (
-            <Moon className="h-4 w-4" />
-          ) : (
-            <Sun className="h-4 w-4" />
-          )}
+          {isDarkMode ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           <Label htmlFor="theme-mode">Dark Mode</Label>
         </p>
         <Switch

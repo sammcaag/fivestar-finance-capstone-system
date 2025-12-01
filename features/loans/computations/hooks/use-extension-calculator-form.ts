@@ -60,16 +60,12 @@ export const useExtensionCalculatorForm = () => {
     newGp: "0.00",
   });
 
-  const [extensionValueDate, setExtensionValueDate] = useState<Date>(
+  const [extensionValueDate, setExtensionValueDate] = useState<Date>(new Date());
+  const [extensionMaturityDate, setExtensionMaturityDate] = useState<Date>(new Date());
+  const [renewalExtensionValueDate, setRenewalExtensionValueDate] = useState<Date>(new Date());
+  const [renewalExtensionMaturityDate, setRenewalExtensionMaturityDate] = useState<Date>(
     new Date()
   );
-  const [extensionMaturityDate, setExtensionMaturityDate] = useState<Date>(
-    new Date()
-  );
-  const [renewalExtensionValueDate, setRenewalExtensionValueDate] =
-    useState<Date>(new Date());
-  const [renewalExtensionMaturityDate, setRenewalExtensionMaturityDate] =
-    useState<Date>(new Date());
 
   const [hasDeductions, setHasDeductions] = useState<boolean>(false);
   const [isDoneCalculate, setIsDoneCalculate] = useState<boolean>(false);
@@ -103,12 +99,8 @@ export const useExtensionCalculatorForm = () => {
         setReferences(calculationResults.references);
         setExtensionValueDate(calculationResults.extensionValueDate);
         setExtensionMaturityDate(calculationResults.extensionMaturityDate);
-        setRenewalExtensionValueDate(
-          calculationResults.renewalExtensionValueDate
-        );
-        setRenewalExtensionMaturityDate(
-          calculationResults.renewalExtensionMaturityDate
-        );
+        setRenewalExtensionValueDate(calculationResults.renewalExtensionValueDate);
+        setRenewalExtensionMaturityDate(calculationResults.renewalExtensionMaturityDate);
         setNetAmount(`₱\t${calculationResults.netAmount}`);
         setIsDoneCalculate(true);
         setIsCalculating(false);

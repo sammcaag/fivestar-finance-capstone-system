@@ -24,10 +24,7 @@ export const getCurrentUser = async (): Promise<IRequestUser> => {
 // ----------------------------
 // Login API
 // ----------------------------
-export const signInApi = async (payload: {
-  email: string;
-  password: string;
-}) => {
+export const signInApi = async (payload: { email: string; password: string }) => {
   try {
     const { data } = await axiosInstance.post("/api/auth/sign-in", payload);
     return data;

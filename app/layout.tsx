@@ -55,11 +55,7 @@ export default function RootLayout({
         <TanstackQueryProvider>
           <DialogProvider>
             <AuthProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-              >
+              <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
                 {children}
               </ThemeProvider>
             </AuthProvider>

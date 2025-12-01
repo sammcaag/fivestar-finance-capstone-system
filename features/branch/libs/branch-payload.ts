@@ -25,9 +25,7 @@ export const branchPayload = (data: BranchFormValues): BranchPayload => {
   };
 };
 
-export function mapBackendToBranchFormValues(
-  staffData: BranchPayload
-): BranchFormValues {
+export function mapBackendToBranchFormValues(staffData: BranchPayload): BranchFormValues {
   return {
     // Client Info
     name: staffData.name,
@@ -40,8 +38,6 @@ export function mapBackendToBranchFormValues(
     region: staffData.address.region,
     zipCode: staffData.address.zipCode,
     primaryContact: formatContactNumber(staffData.contactInfo.primary_contact),
-    secondaryContact: formatContactNumber(
-      staffData.contactInfo.secondary_contact
-    ),
+    secondaryContact: formatContactNumber(staffData.contactInfo.secondary_contact),
   };
 }

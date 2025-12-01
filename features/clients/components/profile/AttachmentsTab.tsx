@@ -27,16 +27,12 @@ export default function AttachmentsTab() {
             <div>
               <CardTitle className="text-xl">Client Attachments</CardTitle>
               <CardDescription>
-                View, upload, or manage the client's supporting documents such
-                as IDs, pension slips, and authorization forms.
+                View, upload, or manage the client's supporting documents such as IDs, pension
+                slips, and authorization forms.
               </CardDescription>
             </div>
           </div>
-          <Button
-            variant="outline"
-            effect="ringHover"
-            className=" border-primary text-primary"
-          >
+          <Button variant="outline" effect="ringHover" className=" border-primary text-primary">
             <Paperclip className="h-4 w-4 mr-2" />
             Upload New Document
           </Button>
@@ -50,21 +46,16 @@ export default function AttachmentsTab() {
           ) : (
             <div className="col-span-full bg-gray-50 p-8 text-center rounded-md border border-dashed">
               <Paperclip className="h-10 w-10 mx-auto text-gray-400 mb-2" />
-              <p className="text-gray-500">
-                No documents have been uploaded yet
-              </p>
+              <p className="text-gray-500">No documents have been uploaded yet</p>
               <p className="text-sm text-gray-400 mt-1">
-                Upload client documents by clicking the Upload New Document
-                button
+                Upload client documents by clicking the Upload New Document button
               </p>
             </div>
           )}
         </CardContent>
         <CardFooter>
           <div className="bg-blue-50 p-4 rounded-md flex flex-col items-start w-full">
-            <h3 className="font-medium text-primary mb-2">
-              Document Requirements
-            </h3>
+            <h3 className="font-medium text-primary mb-2">Document Requirements</h3>
             <ul className="text-sm text-primary space-y-1 ml-5 list-disc">
               <li>Maximum file size: 10MB</li>
               <li>Supported formats: PDF, JPG, PNG, DOC, DOCX</li>

@@ -11,10 +11,7 @@ import { useForm } from "react-hook-form";
 import { securityAuthSchema } from "../schema/security-zod-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { defaultValues } from "../libs/securtiy-update-form";
-import {
-  mapBackendToSecurityFormValues,
-  securityPayload,
-} from "../libs/security-payload";
+import { mapBackendToSecurityFormValues, securityPayload } from "../libs/security-payload";
 import axios from "axios";
 
 export function useSecurityUpdateForm() {
@@ -28,8 +25,7 @@ export function useSecurityUpdateForm() {
 
   const { mutateAsync: updateSecurity } = useMutation({
     mutationKey: ["updateSecurity"],
-    mutationFn: ({ payload }: { payload: SecurityPayload }) =>
-      updateSecurityApi(payload),
+    mutationFn: ({ payload }: { payload: SecurityPayload }) => updateSecurityApi(payload),
     onSuccess: () => {
       // variables contains the object passed to mutate
       queryClient.invalidateQueries({
@@ -48,13 +44,9 @@ export function useSecurityUpdateForm() {
   const resetForm = useCallback(
     (email: string, isShowMessage: boolean = true) => {
       const mappedValues = mapBackendToSecurityFormValues(email); // map backend payload to form values
-      console.log(
-        "THIS IS THE FETCHED MAPPPED DATA:",
-        JSON.stringify(mappedValues, null, 2)
-      );
+      console.log("THIS IS THE FETCHED MAPPPED DATA:", JSON.stringify(mappedValues, null, 2));
       form.reset(mappedValues);
-      if (isShowMessage)
-        showDialog("Form has been reset to staff values!", "success");
+      if (isShowMessage) showDialog("Form has been reset to staff values!", "success");
     },
     [form, showDialog]
   );
@@ -62,10 +54,7 @@ export function useSecurityUpdateForm() {
   const updateForm = async (data: SecurityFormValues) => {
     setIsSubmitting(true);
     const backendPayload = securityPayload(data, user!.email);
-    console.log(
-      "THIS IS THE UPDATED DATA PASSED",
-      JSON.stringify(backendPayload, null, 2)
-    );
+    console.log("THIS IS THE UPDATED DATA PASSED", JSON.stringify(backendPayload, null, 2));
     try {
       const result = await updateSecurity({ payload: backendPayload }); // ✅ await
       console.log("Result:", result);

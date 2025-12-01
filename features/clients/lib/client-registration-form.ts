@@ -95,13 +95,7 @@ export const steps = [
   {
     id: "Step 4",
     name: "Account's Information",
-    fields: [
-      "monthlyPension",
-      "monthlyDeduction",
-      "atmAccountNumber",
-      "bankName",
-      "branchOfBank",
-    ],
+    fields: ["monthlyPension", "monthlyDeduction", "atmAccountNumber", "bankName", "branchOfBank"],
   },
 ];
 

@@ -11,10 +11,7 @@ import { decodeSpouseFullName } from "@/utils/decode-spouse-full-name";
 import { formatContactNumber } from "@/utils/format-contact-number";
 import { generateEmail } from "@/utils/generate-email";
 
-export const clientPayload = (
-  data: ClientFormValues,
-  branchId: number
-): ClientPayload => {
+export const clientPayload = (data: ClientFormValues, branchId: number): ClientPayload => {
   return {
     fullName: formatFullName({
       firstName: data.firstName,
@@ -189,9 +186,7 @@ export const clientUpdatePayload = (
 ): ClientPayload => {
   // Helper to get child by birthOrder
   const getChildByBirthOrder = (order: number) =>
-    fetchedData.clientFamilyInfos.find(
-      (f) => f.relationship === "CHILD" && f.birthOrder === order
-    );
+    fetchedData.clientFamilyInfos.find((f) => f.relationship === "CHILD" && f.birthOrder === order);
 
   return {
     id: fetchedData.id,
@@ -252,9 +247,7 @@ export const clientUpdatePayload = (
     clientFamilyInfos: [
       // Mother
       formData.mothersMaidenName && {
-        id: fetchedData.clientFamilyInfos.find(
-          (f) => f.relationship === "MOTHER"
-        )?.id,
+        id: fetchedData.clientFamilyInfos.find((f) => f.relationship === "MOTHER")?.id,
         name: formData.mothersMaidenName,
         birthDate: null,
         relationship: "MOTHER",
@@ -264,9 +257,7 @@ export const clientUpdatePayload = (
 
       // Spouse
       formData.spouseFirstName && {
-        id: fetchedData.clientFamilyInfos.find(
-          (f) => f.relationship === "SPOUSE"
-        )?.id,
+        id: fetchedData.clientFamilyInfos.find((f) => f.relationship === "SPOUSE")?.id,
         name: formatSpouseFullName({
           firstName: formData.spouseFirstName,
           middleName: formData.spouseMiddleName,
@@ -276,9 +267,7 @@ export const clientUpdatePayload = (
         relationship: "SPOUSE",
         addressSameAsClient: formData.spouseAddressSameAsClient,
         address: {
-          id: fetchedData.clientFamilyInfos.find(
-            (f) => f.relationship === "SPOUSE"
-          )?.address?.id,
+          id: fetchedData.clientFamilyInfos.find((f) => f.relationship === "SPOUSE")?.address?.id,
           addressLine1: formData.spouseAddressLine1,
           addressLine2: formData.spouseAddressLine2 || null,
           barangay: formData.spouseBarangay || null,
@@ -289,9 +278,8 @@ export const clientUpdatePayload = (
         },
         contactInfo: formData.spouseContactNumber
           ? {
-              id: fetchedData.clientFamilyInfos.find(
-                (f) => f.relationship === "SPOUSE"
-              )?.contactInfo?.id,
+              id: fetchedData.clientFamilyInfos.find((f) => f.relationship === "SPOUSE")
+                ?.contactInfo?.id,
               primary_contact: formData.spouseContactNumber,
             }
           : undefined,
@@ -378,16 +366,10 @@ export const clientUpdatePayload = (
   };
 };
 
-export function mapBackendToClientFormValues(
-  clientData: ClientPayload
-): ClientFormValues {
+export function mapBackendToClientFormValues(clientData: ClientPayload): ClientFormValues {
   const clientAddress: Address = clientData.address;
-  const mother = clientData.clientFamilyInfos.find(
-    (f) => f.relationship === "MOTHER"
-  );
-  const spouse = clientData.clientFamilyInfos.find(
-    (f) => f.relationship === "SPOUSE"
-  );
+  const mother = clientData.clientFamilyInfos.find((f) => f.relationship === "MOTHER");
+  const spouse = clientData.clientFamilyInfos.find((f) => f.relationship === "SPOUSE");
   const children = clientData.clientFamilyInfos
     .filter((f) => f.relationship === "CHILD")
     .sort((a, b) => (a.birthOrder ?? 0) - (b.birthOrder ?? 0)); // sort by birthOrder
@@ -410,8 +392,7 @@ export function mapBackendToClientFormValues(
     if (!child) return null;
 
     const sameAsClient = isSameAddress(child.address, clientAddress);
-    const sameAsSpouse =
-      !sameAsClient && isSameAddress(child.address, spouse?.address);
+    const sameAsSpouse = !sameAsClient && isSameAddress(child.address, spouse?.address);
 
     return {
       name: child.name ?? "",
@@ -433,9 +414,7 @@ export function mapBackendToClientFormValues(
   const secondChild = mapChild(children.find((c) => c.birthOrder === 2));
   const thirdChild = mapChild(children.find((c) => c.birthOrder === 3));
 
-  const { firstName, middleName, lastName, suffix } = decodeFullName(
-    clientData.fullName
-  );
+  const { firstName, middleName, lastName, suffix } = decodeFullName(clientData.fullName);
 
   const {
     firstName: spouseFirstName,
@@ -459,9 +438,7 @@ export function mapBackendToClientFormValues(
     region: clientAddress.region,
     zipCode: clientAddress.zipCode,
     primaryContact: formatContactNumber(clientData.contactInfo.primary_contact),
-    secondaryContact: formatContactNumber(
-      clientData.contactInfo.secondary_contact
-    ),
+    secondaryContact: formatContactNumber(clientData.contactInfo.secondary_contact),
     religion: clientData.religion,
     civilStatus: clientData.civilStatus.toUpperCase(),
     occupation: clientData.occupation,
@@ -472,9 +449,7 @@ export function mapBackendToClientFormValues(
     spouseFirstName,
     spouseMiddleName,
     spouseLastName,
-    spouseDateOfBirth: spouse?.birthDate
-      ? new Date(spouse.birthDate)
-      : new Date(),
+    spouseDateOfBirth: spouse?.birthDate ? new Date(spouse.birthDate) : new Date(),
     spouseAddressSameAsClient: isSameAddress(spouse?.address, clientAddress),
     spouseAddressLine1: spouse?.address?.addressLine1 ?? "",
     spouseAddressLine2: spouse?.address?.addressLine2 ?? "",
@@ -531,9 +506,7 @@ export function mapBackendToClientFormValues(
     serialNumber: clientData.clientPension.serialNumber,
     idNumber: clientData.clientPension.idNumber,
     dateEnteredService: new Date(clientData.clientPension.dateEnteredService),
-    dateSeparationService: new Date(
-      clientData.clientPension.dateSeparationService
-    ),
+    dateSeparationService: new Date(clientData.clientPension.dateSeparationService),
     dateRetiredService: new Date(clientData.clientPension.dateRetiredService),
     lengthOfService: Number(clientData.clientPension.lengthOfService),
     lastUnitAssigned: clientData.clientPension.lastUnitAssigned,

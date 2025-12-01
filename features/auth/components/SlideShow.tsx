@@ -5,11 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SlideShowProps } from "../types/auth.types";
 
-export default function SlideShow({
-  slides,
-  currentSlide,
-  setCurrentSlide,
-}: SlideShowProps) {
+export default function SlideShow({ slides, currentSlide, setCurrentSlide }: SlideShowProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -18,8 +14,7 @@ export default function SlideShow({
   }, [slides.length, setCurrentSlide]);
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () =>
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
     <div className="relative hidden md:block bg-primary/5 dark:bg-primary/10">
@@ -52,9 +47,7 @@ export default function SlideShow({
             key={index}
             className={cn(
               "w-2 h-2 rounded-full transition-all",
-              currentSlide === index
-                ? "bg-white w-6"
-                : "bg-white/50 hover:bg-white/80"
+              currentSlide === index ? "bg-white w-6" : "bg-white/50 hover:bg-white/80"
             )}
             onClick={() => setCurrentSlide(index)}
             aria-label={`Go to slide ${index + 1}`}

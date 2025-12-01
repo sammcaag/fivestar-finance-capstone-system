@@ -31,16 +31,12 @@ export function ModeToggle() {
         <span className="flex items-center mr-1">
           <MoonIcon
             className={`transition-colors ${
-              isDark
-                ? "text-foreground visible"
-                : "text-muted-foreground hidden"
+              isDark ? "text-foreground visible" : "text-muted-foreground hidden"
             }`}
           />
           <SunIcon
             className={`transition-colors ${
-              isDark
-                ? "text-muted-foreground hidden"
-                : "text-foreground visible"
+              isDark ? "text-muted-foreground hidden" : "text-foreground visible"
             }`}
           />
         </span>
@@ -50,10 +46,10 @@ export function ModeToggle() {
         </span>
         {/* Right: Switch */}
         <Switch
-        checked={isDark}
-        tabIndex={-1}
-        aria-hidden="true"
-        onCheckedChange={(checked) => handleToggle(checked)}
+          checked={isDark}
+          tabIndex={-1}
+          aria-hidden="true"
+          onCheckedChange={(checked) => handleToggle(checked)}
         />
       </div>
     </Button>

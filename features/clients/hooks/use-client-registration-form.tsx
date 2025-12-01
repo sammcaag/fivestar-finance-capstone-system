@@ -7,11 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { clientFormSchema } from "../schema/client-zod-schema";
 import type { ClientFormValues, ClientPayload } from "../types/client-types";
 import { loadDraft, saveDraft } from "../utils/draft-computation-storage";
-import {
-  defaultValues,
-  formDates,
-  steps,
-} from "../lib/client-registration-form";
+import { defaultValues, formDates, steps } from "../lib/client-registration-form";
 import {
   clientPayload,
   clientUpdatePayload,
@@ -51,13 +47,8 @@ export function useClientRegistrationForm() {
 
   const { mutateAsync: updateClient } = useMutation({
     mutationKey: ["updateClient"],
-    mutationFn: ({
-      serialNumber,
-      payload,
-    }: {
-      serialNumber: string;
-      payload: ClientPayload;
-    }) => updateClientApi(serialNumber, payload),
+    mutationFn: ({ serialNumber, payload }: { serialNumber: string; payload: ClientPayload }) =>
+      updateClientApi(serialNumber, payload),
     onSuccess: (_, variables) => {
       // variables contains the object passed to mutate
       queryClient.invalidateQueries({
@@ -138,15 +129,11 @@ export function useClientRegistrationForm() {
   const resetForm = useCallback(
     (backendData: ClientPayload, isShowMessage: boolean = true) => {
       const mappedValues = mapBackendToClientFormValues(backendData); // map backend payload to form values
-      console.log(
-        "THIS IS THE FETCHED MAPPPED DATA:",
-        JSON.stringify(mappedValues)
-      );
+      console.log("THIS IS THE FETCHED MAPPPED DATA:", JSON.stringify(mappedValues));
       form.reset(mappedValues);
       setFormModified(false);
       setCurrentStep(0);
-      if (isShowMessage)
-        showDialog("Form has been reset to client values!", "success");
+      if (isShowMessage) showDialog("Form has been reset to client values!", "success");
     },
     [form, showDialog]
   );
@@ -175,10 +162,7 @@ export function useClientRegistrationForm() {
     setIsSubmitting(true);
 
     const backendPayload = clientPayload(data, userData!.branchId);
-    console.log(
-      "THIS IS THE DATA PASSED",
-      JSON.stringify(backendPayload, null, 2)
-    );
+    console.log("THIS IS THE DATA PASSED", JSON.stringify(backendPayload, null, 2));
 
     try {
       const result = await addClient(backendPayload); // ✅ await
@@ -198,16 +182,10 @@ export function useClientRegistrationForm() {
     }
   };
 
-  const updateForm = async (
-    data: ClientFormValues,
-    fetchedData: ClientPayload
-  ) => {
+  const updateForm = async (data: ClientFormValues, fetchedData: ClientPayload) => {
     setIsSubmitting(true);
     const backendPayload = clientUpdatePayload(data, fetchedData);
-    console.log(
-      "THIS IS THE UPDATED DATA PASSED",
-      JSON.stringify(backendPayload, null, 2)
-    );
+    console.log("THIS IS THE UPDATED DATA PASSED", JSON.stringify(backendPayload, null, 2));
     try {
       console.log("SERIAL NUMBER", fetchedData.clientPension.serialNumber);
       const result = await updateClient({

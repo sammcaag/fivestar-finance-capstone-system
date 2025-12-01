@@ -8,9 +8,7 @@ interface FormFieldProps {
   type?: string;
   value: string | number;
   onChange: (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void;
   error?: string;
   required?: boolean;
@@ -40,10 +38,7 @@ export function FormField({
 
   return (
     <div className="space-y-2">
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium text-foreground"
-      >
+      <label htmlFor={name} className="block text-sm font-medium text-foreground">
         {label}
         {required && <span className="ml-1 text-destructive">*</span>}
       </label>

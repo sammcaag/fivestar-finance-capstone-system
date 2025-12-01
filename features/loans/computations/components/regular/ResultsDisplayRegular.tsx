@@ -6,13 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import ResultCard from "../ResultCard";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import type { ResultsDisplayRegularProps } from "../../types/types-regular";
-import {
-  Calendar,
-  DollarSign,
-  Percent,
-  Calculator,
-  AlertTriangle,
-} from "lucide-react";
+import { Calendar, DollarSign, Percent, Calculator, AlertTriangle } from "lucide-react";
 
 export default function ResultsDisplayRegular({
   effectiveInterestRate,
@@ -210,10 +204,7 @@ export default function ResultsDisplayRegular({
 
       <Separator className="my-8" />
 
-      <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 gap-8"
-        variants={containerVariants}
-      >
+      <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-8" variants={containerVariants}>
         <motion.div variants={itemVariants} className="space-y-3">
           <Label className="text-lg font-semibold flex items-center">
             <Calendar className="h-5 w-5 mr-2 text-blue-500" />

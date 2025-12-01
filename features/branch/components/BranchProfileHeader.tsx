@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -17,12 +12,7 @@ interface IBranchProfile {
   status: string;
 }
 
-export default function BranchProfileHeader({
-  id,
-  name,
-  email,
-  status,
-}: IBranchProfile) {
+export default function BranchProfileHeader({ id, name, email, status }: IBranchProfile) {
   const clientBadge = [
     { label: "ID", value: id },
     {

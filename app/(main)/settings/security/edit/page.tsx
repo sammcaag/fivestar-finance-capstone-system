@@ -17,8 +17,7 @@ import SecurityInformationForm from "@/features/auth/components/forms/SecurityIn
 
 export default function EditSecurity() {
   useEffect(() => {
-    document.title =
-      "Edit Security Information | Stella - Five Star Finance Inc.";
+    document.title = "Edit Security Information | Stella - Five Star Finance Inc.";
   }, []);
 
   const { form, isSubmitting, resetForm, updateForm } = useSecurityUpdateForm();

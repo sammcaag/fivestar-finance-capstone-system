@@ -66,9 +66,7 @@ export default function ClientInfoPage() {
             name={branchData.name}
             email={branchData.email}
             primaryContact={branchData.contactInfo.primary_contact}
-            secondaryContact={
-              branchData.contactInfo.secondary_contact ?? undefined
-            }
+            secondaryContact={branchData.contactInfo.secondary_contact ?? undefined}
             users={branchData.users ?? []}
           />
         </>

@@ -40,10 +40,7 @@ export default function ClientProfileHeaderSkeleton() {
           {/* Identity Highlights */}
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="rounded-xl border border-border/60 p-4 shadow-sm"
-              >
+              <div key={i} className="rounded-xl border border-border/60 p-4 shadow-sm">
                 <Skeleton className="h-3 w-24 mb-3" />
                 <Skeleton className="h-5 w-full" />
               </div>

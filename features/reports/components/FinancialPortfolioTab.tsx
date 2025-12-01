@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -105,9 +99,7 @@ export default function FinancialPortfolioTab() {
       <Card>
         <CardHeader>
           <CardTitle>Portfolio Growth Overview</CardTitle>
-          <CardDescription>
-            Total portfolio value and breakdown (in millions)
-          </CardDescription>
+          <CardDescription>Total portfolio value and breakdown (in millions)</CardDescription>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={350}>
@@ -117,13 +109,7 @@ export default function FinancialPortfolioTab() {
                   <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3} />
                   <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
                 </linearGradient>
-                <linearGradient
-                  id="colorOutstanding"
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
+                <linearGradient id="colorOutstanding" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />
                   <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
                 </linearGradient>
@@ -210,9 +196,7 @@ export default function FinancialPortfolioTab() {
         <Card>
           <CardHeader>
             <CardTitle>Portfolio Distribution by Type</CardTitle>
-            <CardDescription>
-              Outstanding amounts per loan category (in millions)
-            </CardDescription>
+            <CardDescription>Outstanding amounts per loan category (in millions)</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -242,9 +226,7 @@ export default function FinancialPortfolioTab() {
       <Card>
         <CardHeader>
           <CardTitle>Portfolio Risk Assessment</CardTitle>
-          <CardDescription>
-            Current loan portfolio segmented by risk level
-          </CardDescription>
+          <CardDescription>Current loan portfolio segmented by risk level</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -252,17 +234,12 @@ export default function FinancialPortfolioTab() {
               <div key={risk.category} className="space-y-2">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-3">
-                    <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: risk.color }}
-                    />
+                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: risk.color }} />
                     <span>{risk.category}</span>
                   </div>
                   <div className="text-right">
                     <span>{risk.loans} loans</span>
-                    <span className="text-muted-foreground ml-2">
-                      ({risk.percentage}%)
-                    </span>
+                    <span className="text-muted-foreground ml-2">({risk.percentage}%)</span>
                   </div>
                 </div>
                 <Progress
@@ -282,9 +259,7 @@ export default function FinancialPortfolioTab() {
       <Card>
         <CardHeader>
           <CardTitle>Branch Financial Performance</CardTitle>
-          <CardDescription>
-            Comparative analysis across all branches
-          </CardDescription>
+          <CardDescription>Comparative analysis across all branches</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -306,11 +281,7 @@ export default function FinancialPortfolioTab() {
                   <TableCell>{branch.outstanding}</TableCell>
                   <TableCell>
                     <Badge
-                      variant={
-                        parseFloat(branch.collectionRate) > 97
-                          ? "default"
-                          : "secondary"
-                      }
+                      variant={parseFloat(branch.collectionRate) > 97 ? "default" : "secondary"}
                     >
                       {branch.collectionRate}
                     </Badge>

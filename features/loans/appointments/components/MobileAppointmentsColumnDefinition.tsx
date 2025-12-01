@@ -11,10 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Eye, Edit, Trash2, Calendar } from "lucide-react";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
-import {
-  getProductTypeClass,
-  productTypeConfig,
-} from "@/utils/get-product-type-class";
+import { getProductTypeClass, productTypeConfig } from "@/utils/get-product-type-class";
 import { cn } from "@/lib/utils";
 
 // Configuration for status and type badges
@@ -61,23 +58,14 @@ const typeConfig = {
 } as const;
 
 // Custom filter function for searching name
-const nameSearchFilterFn: FilterFn<AppointmentTableProps> = (
-  row,
-  columnId,
-  filterValue
-) => {
-  const searchableRowContent =
-    `${row.original.name} ${row.original.id}`.toLowerCase();
+const nameSearchFilterFn: FilterFn<AppointmentTableProps> = (row, columnId, filterValue) => {
+  const searchableRowContent = `${row.original.name} ${row.original.id}`.toLowerCase();
   const searchTerm = (filterValue ?? "").toLowerCase();
   return searchableRowContent.includes(searchTerm);
 };
 
 // Custom filter function for status
-const statusFilterFn: FilterFn<AppointmentTableProps> = (
-  row,
-  columnId,
-  filterValue: string[]
-) => {
+const statusFilterFn: FilterFn<AppointmentTableProps> = (row, columnId, filterValue: string[]) => {
   if (!filterValue?.length) return true;
   const status = row.getValue(columnId) as string;
   return filterValue.includes(status);
@@ -106,9 +94,7 @@ export const mobileAppointmentsColumnDefinition = (
             </Avatar>
             <div className="flex flex-col">
               <span className="font-medium text-sm">{appointment.name}</span>
-              <span className="text-xs text-muted-foreground">
-                {appointment.id}
-              </span>
+              <span className="text-xs text-muted-foreground">{appointment.id}</span>
             </div>
           </div>
         );
@@ -122,9 +108,7 @@ export const mobileAppointmentsColumnDefinition = (
       enableSorting: true,
       size: 100,
       cell: ({ row }) => {
-        const productType = row.getValue(
-          "productType"
-        ) as keyof typeof productTypeConfig;
+        const productType = row.getValue("productType") as keyof typeof productTypeConfig;
         const config = getProductTypeClass(productType);
         return <Badge className={cn(config.className)}>{productType}</Badge>;
       },
@@ -162,12 +146,8 @@ export const mobileAppointmentsColumnDefinition = (
                   weekday: "long",
                 })}
               </span>
-              <span className="text-sm font-medium">
-                {formatDateToReadable(date, false, true)}
-              </span>
-              <span className="text-xs text-muted-foreground">
-                {time || "N/A"}
-              </span>
+              <span className="text-sm font-medium">{formatDateToReadable(date, false, true)}</span>
+              <span className="text-xs text-muted-foreground">{time || "N/A"}</span>
             </div>
           </div>
         );
@@ -181,9 +161,7 @@ export const mobileAppointmentsColumnDefinition = (
       size: 150,
       cell: ({ row }) => (
         <div className="truncate max-w-xs">
-          <span className="text-sm text-muted-foreground">
-            {row.getValue("purpose")}
-          </span>
+          <span className="text-sm text-muted-foreground">{row.getValue("purpose")}</span>
         </div>
       ),
     },
@@ -195,9 +173,7 @@ export const mobileAppointmentsColumnDefinition = (
       size: 150,
       cell: ({ row }) => (
         <div className="truncate max-w-xs">
-          <span className="text-sm text-muted-foreground">
-            {row.getValue("notes")}
-          </span>
+          <span className="text-sm text-muted-foreground">{row.getValue("notes")}</span>
         </div>
       ),
     },

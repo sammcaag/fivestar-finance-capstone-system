@@ -11,8 +11,7 @@ import { useEffect } from "react";
 
 export default function ActivityLogsPage() {
   useEffect(() => {
-    document.title =
-      "Activity and Audit Logs | Stella - Five Star Finance Inc.";
+    document.title = "Activity and Audit Logs | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

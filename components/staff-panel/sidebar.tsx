@@ -51,16 +51,10 @@ export function Sidebar() {
         settings.disabled && "hidden"
       )}
     >
-      <SidebarToggle
-        isOpen={isOpen}
-        setIsOpen={toggleOpen}
-        isHovering={isHovering}
-      />
+      <SidebarToggle isOpen={isOpen} setIsOpen={toggleOpen} isHovering={isHovering} />
       <div className="relative h-full flex flex-col my-4 overflow-y-hidden shadow-md dark:shadow-zinc-800 bg-background">
         <Button
-          className={cn(
-            "transition-transform ease-in-out duration-300 mb-1 mx-auto"
-          )}
+          className={cn("transition-transform ease-in-out duration-300 mb-1 mx-auto")}
           variant="link"
           asChild
         >

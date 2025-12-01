@@ -18,6 +18,15 @@ export default [
         ecmaFeatures: { jsx: true },
         sourceType: "module",
       },
+      globals: {
+        window: "readonly", // fixes 'window is not defined'
+        document: "readonly", // fixes 'document is not defined'
+        localStorage: "readonly", // fixes 'localStorage is not defined'
+        console: "readonly", // fixes 'console is not defined'
+        setTimeout: "readonly", // fixes 'setTimeout is not defined'
+        clearTimeout: "readonly", // fixes 'clearTimeout is not defined'
+        React: "readonly", // fixes 'React is not defined'
+      },
     },
     plugins: {
       "@typescript-eslint": tsPlugin,
@@ -25,9 +34,9 @@ export default [
     },
     rules: {
       "prettier/prettier": "error",
-      "@typescript-eslint/no-explicit-any": "off",
       "no-unused-vars": "warn",
       "no-console": "warn",
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
 

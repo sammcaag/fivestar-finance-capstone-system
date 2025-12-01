@@ -10,17 +10,9 @@ interface SectionCardProps {
   children: ReactNode;
 }
 
-export function SectionCard({
-  variants,
-  icon: Icon,
-  title,
-  children,
-}: SectionCardProps) {
+export function SectionCard({ variants, icon: Icon, title, children }: SectionCardProps) {
   return (
-    <motion.div
-      variants={variants}
-      className="bg-card rounded-lg shadow-lg border"
-    >
+    <motion.div variants={variants} className="bg-card rounded-lg shadow-lg border">
       <div className="p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-2 bg-primary rounded-lg shadow-md">

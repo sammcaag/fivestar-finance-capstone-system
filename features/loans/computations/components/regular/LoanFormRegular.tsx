@@ -12,10 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import type {
-  LoanFormRegularProps,
-  RateProps,
-} from "../../types/types-regular";
+import type { LoanFormRegularProps, RateProps } from "../../types/types-regular";
 import RateCards from "./RateCards";
 import {
   preventInvalidInput,
@@ -56,10 +53,7 @@ export default function LoanFormRegular({
 
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
-  const createInputHandlers = (
-    fieldName: string,
-    onChange: (value: string | number) => void
-  ) => ({
+  const createInputHandlers = (fieldName: string, onChange: (value: string | number) => void) => ({
     onFocus: () => setFocusedField(fieldName),
     onBlur: () => setFocusedField(null),
     onKeyDown: preventInvalidInput,
@@ -101,10 +95,7 @@ export default function LoanFormRegular({
                       step="1000"
                       className={FORM_STYLES.input}
                       {...field}
-                      {...createInputHandlers(
-                        "monthlyAmortization",
-                        field.onChange
-                      )}
+                      {...createInputHandlers("monthlyAmortization", field.onChange)}
                     />
                   </FormControl>
                 </div>
@@ -193,8 +184,7 @@ export default function LoanFormRegular({
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <AlertCircle className="h-4 w-4" />
             <span>
-              Enabling this will allow you to specify outstanding balance and
-              other deductions
+              Enabling this will allow you to specify outstanding balance and other deductions
             </span>
           </div>
         </motion.div>
@@ -252,9 +242,7 @@ export default function LoanFormRegular({
                           type="number"
                           {...field}
                           className={`${FORM_STYLES.input} ${
-                            !hasDeduction
-                              ? `${COLORS.muted} disabled:opacity-100`
-                              : ""
+                            !hasDeduction ? `${COLORS.muted} disabled:opacity-100` : ""
                           }`}
                           disabled={true}
                         />
@@ -321,10 +309,7 @@ export default function LoanFormRegular({
                           isDisabled && `${COLORS.muted} disabled:opacity-100`
                         }`}
                         {...field}
-                        {...createInputHandlers(
-                          "outstandingBalance",
-                          field.onChange
-                        )}
+                        {...createInputHandlers("outstandingBalance", field.onChange)}
                         disabled={isDisabled}
                       />
                     </FormControl>
@@ -370,15 +355,10 @@ export default function LoanFormRegular({
                         type="number"
                         step="1000"
                         className={`${FORM_STYLES.input} ${
-                          isDisabled
-                            ? `${COLORS.muted} disabled:opacity-100`
-                            : ""
+                          isDisabled ? `${COLORS.muted} disabled:opacity-100` : ""
                         }`}
                         {...field}
-                        {...createInputHandlers(
-                          "otherDeduction",
-                          field.onChange
-                        )}
+                        {...createInputHandlers("otherDeduction", field.onChange)}
                         disabled={isDisabled}
                       />
                     </FormControl>
@@ -406,11 +386,7 @@ export default function LoanFormRegular({
             </p>
             <Separator className="flex-1" />
           </div>
-          <RateCards
-            rates={rates}
-            selectedCard={selectedCard}
-            onCardClick={onCardSelect}
-          />
+          <RateCards rates={rates} selectedCard={selectedCard} onCardClick={onCardSelect} />
         </motion.div>
       )}
 

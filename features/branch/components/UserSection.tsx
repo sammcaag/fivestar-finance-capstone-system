@@ -1,12 +1,6 @@
 import { useRouter } from "next/navigation";
 import { UserSectionProps, UserType } from "../types/branch-types";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { HelpCircle, Plus, User, User2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -52,9 +46,7 @@ export default function UserSection({ users, type }: UserSectionProps) {
   const registerRoute = isStaff ? "/staff/register" : "/clients/register";
 
   const getUserRoute = (user: UserType) => {
-    return isStaff
-      ? `/staff/${user.staffId}`
-      : `/clients/${user.clientPension?.serialNumber}`;
+    return isStaff ? `/staff/${user.staffId}` : `/clients/${user.clientPension?.serialNumber}`;
   };
 
   const getUserId = (user: UserType) => {
@@ -68,14 +60,8 @@ export default function UserSection({ users, type }: UserSectionProps) {
   return (
     <Card className="border">
       <CardHeader className="flex-row gap-4 items-center px-6">
-        <span
-          className={`flex h-10 w-10 items-center justify-center rounded-full ${colors.icon}`}
-        >
-          {isStaff ? (
-            <User2 className="h-5 w-5" />
-          ) : (
-            <User className="h-5 w-5" />
-          )}
+        <span className={`flex h-10 w-10 items-center justify-center rounded-full ${colors.icon}`}>
+          {isStaff ? <User2 className="h-5 w-5" /> : <User className="h-5 w-5" />}
         </span>
         <div>
           <CardTitle className="text-xl">{title}</CardTitle>
@@ -106,9 +92,7 @@ export default function UserSection({ users, type }: UserSectionProps) {
                         className="h-32 w-32 object-cover"
                       />
                     ) : (
-                      <AvatarFallback
-                        className={`${colors.fallback} text-4xl font-semibold`}
-                      >
+                      <AvatarFallback className={`${colors.fallback} text-4xl font-semibold`}>
                         {avatarFallBack(user.fullName)}
                       </AvatarFallback>
                     )}
@@ -121,9 +105,7 @@ export default function UserSection({ users, type }: UserSectionProps) {
                   <span className="text-base font-semibold text-foreground mt-2">
                     {user.fullName}
                   </span>
-                  <span className="text-sm text-muted-foreground">
-                    {getUserId(user)}
-                  </span>
+                  <span className="text-sm text-muted-foreground">{getUserId(user)}</span>
                 </div>
               ))}
               <div
@@ -135,9 +117,7 @@ export default function UserSection({ users, type }: UserSectionProps) {
                 >
                   <Plus className="h-12 w-12" />
                 </div>
-                <span
-                  className={`text-base font-semibold ${colors.addButtonText} mt-3`}
-                >
+                <span className={`text-base font-semibold ${colors.addButtonText} mt-3`}>
                   {addButtonText}
                 </span>
               </div>

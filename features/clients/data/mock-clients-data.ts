@@ -30,8 +30,7 @@ export const clientData = {
   religion: "Roman Catholic",
   profileImageUrl: "https://github.com/shadcn.png",
   occupation: "Software Engineer",
-  remarks:
-    "Client has been with us for over 10 years. Very responsive to communications.",
+  remarks: "Client has been with us for over 10 years. Very responsive to communications.",
   contactInfo: [
     {
       id: "1",

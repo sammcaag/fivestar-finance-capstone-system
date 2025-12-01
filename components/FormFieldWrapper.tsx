@@ -1,19 +1,7 @@
 "use client";
 
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Control,
-  FieldValues,
-  FieldPath,
-  PathValue,
-  ControllerRenderProps,
-} from "react-hook-form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Control, FieldValues, FieldPath, PathValue, ControllerRenderProps } from "react-hook-form";
 import { LucideIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -95,9 +83,7 @@ type FormFieldWrapperProps<T extends FieldValues> =
   | PhoneFieldProps<T>
   | CustomFieldProps<T>;
 
-export function FormFieldWrapper<T extends FieldValues>(
-  props: FormFieldWrapperProps<T>
-) {
+export function FormFieldWrapper<T extends FieldValues>(props: FormFieldWrapperProps<T>) {
   const {
     name,
     control,
@@ -163,16 +149,10 @@ export function FormFieldWrapper<T extends FieldValues>(
                       props.asNumber &&
                         "[appearance:textfield] [&::-webkit-outer-spin-button]:hidden [&::-webkit-inner-spin-button]:hidden",
                       props.leftIcon && "pl-10",
-                      disabled
-                        ? "cursor-not-allowed disabled:opacity-100"
-                        : "cursor-text",
+                      disabled ? "cursor-not-allowed disabled:opacity-100" : "cursor-text",
                       props.inputClassName
                     )}
-                    value={
-                      typeof field.value === "number"
-                        ? field.value
-                        : field.value ?? ""
-                    }
+                    value={typeof field.value === "number" ? field.value : (field.value ?? "")}
                     onChange={(e) => {
                       props.customFunctionOnChange?.();
                       const rawValue = e.target.value;
@@ -240,9 +220,7 @@ export function FormFieldWrapper<T extends FieldValues>(
                 >
                   <SelectTrigger
                     className={`w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200 ${
-                      disabled
-                        ? "cursor-not-allowed disabled:opacity-100"
-                        : "cursor-text"
+                      disabled ? "cursor-not-allowed disabled:opacity-100" : "cursor-text"
                     }`}
                   >
                     <SelectValue placeholder={props.placeholder} />

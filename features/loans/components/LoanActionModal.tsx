@@ -67,16 +67,10 @@ export default function LoanActionModal({
         <>
           <DialogHeader>
             <DialogTitle>Add Extension</DialogTitle>
-            <DialogDescription>
-              Client has paid at least 6 months.
-            </DialogDescription>
+            <DialogDescription>Client has paid at least 6 months.</DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              onClick={() =>
-                handleExtensionOrRenewal(loan, "Extension Client Loan")
-              }
-            >
+            <Button onClick={() => handleExtensionOrRenewal(loan, "Extension Client Loan")}>
               Add Extension Client Loan
             </Button>
           </DialogFooter>
@@ -87,16 +81,10 @@ export default function LoanActionModal({
         <>
           <DialogHeader>
             <DialogTitle>Add Renewal</DialogTitle>
-            <DialogDescription>
-              Client has paid half or more of their total term.
-            </DialogDescription>
+            <DialogDescription>Client has paid half or more of their total term.</DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              onClick={() =>
-                handleExtensionOrRenewal(loan, "Renewal Client Loan")
-              }
-            >
+            <Button onClick={() => handleExtensionOrRenewal(loan, "Renewal Client Loan")}>
               Add Renewal Client Loan
             </Button>
           </DialogFooter>
@@ -106,13 +94,8 @@ export default function LoanActionModal({
   };
 
   return (
-    <Dialog
-      open={!!selectedLoan}
-      onOpenChange={(open) => !open && setSelectedLoan(null)}
-    >
-      <DialogContent>
-        {selectedLoan && getModalContent(selectedLoan)}
-      </DialogContent>
+    <Dialog open={!!selectedLoan} onOpenChange={(open) => !open && setSelectedLoan(null)}>
+      <DialogContent>{selectedLoan && getModalContent(selectedLoan)}</DialogContent>
     </Dialog>
   );
 }

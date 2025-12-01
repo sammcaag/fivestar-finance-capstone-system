@@ -20,11 +20,7 @@ const tabs = [
   { value: "attachments", label: "Attachments" },
 ];
 
-export default function ClientInformation({
-  client,
-}: {
-  client: ClientPayload;
-}) {
+export default function ClientInformation({ client }: { client: ClientPayload }) {
   const router = useRouter();
   // get link details and detect if tab is present then assign it as defaultvalue
   const searchParams = useSearchParams();

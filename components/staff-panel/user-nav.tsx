@@ -1,22 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import {
-  LayoutGrid,
-  LogOut,
-  ChevronDown,
-  Users,
-  FilePenLine,
-} from "lucide-react";
+import { LayoutGrid, LogOut, ChevronDown, Users, FilePenLine } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  TooltipProvider,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -70,9 +59,7 @@ export function UserNav() {
               >
                 <Avatar className="size-8 mr-1">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">
-                    {initials}
-                  </AvatarFallback>
+                  <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
                 </Avatar>
                 <span className="truncate font-semibold">{user.name}</span>
                 <ChevronDown className="w-4 h-4 ml-2 transition-transform duration-300 ease-in-out group-[data-state=open]:rotate-180" />
@@ -87,19 +74,13 @@ export function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user.name}</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {user.email}
-            </p>
+            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {dropdownItems.map((item) => (
-            <DropdownMenuItem
-              key={item.label}
-              className="hover:cursor-pointer"
-              asChild
-            >
+            <DropdownMenuItem key={item.label} className="hover:cursor-pointer" asChild>
               <Link href={item.href} className="flex items-center">
                 <item.icon className="w-4 h-4 mr-3 text-muted-foreground" />
                 {item.label}
@@ -109,17 +90,11 @@ export function UserNav() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         {/*Add the dark mode theme here below*/}
-        <DropdownMenuItem
-          className="hover:cursor-pointer p-0"
-          onClick={() => {}}
-        >
+        <DropdownMenuItem className="hover:cursor-pointer p-0" onClick={() => {}}>
           <ModeToggle />
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="hover:cursor-pointer"
-          onClick={async () => await signOut()}
-        >
+        <DropdownMenuItem className="hover:cursor-pointer" onClick={async () => await signOut()}>
           <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
           Sign out
         </DropdownMenuItem>

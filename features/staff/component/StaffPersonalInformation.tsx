@@ -1,18 +1,5 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Calendar,
-  MapPin,
-  Phone,
-  User,
-  Users,
-  VenusAndMars,
-} from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar, MapPin, Phone, User, Users, VenusAndMars } from "lucide-react";
 import React from "react";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { getAge } from "@/utils/get-age";
@@ -65,51 +52,27 @@ export default function StaffPersonalInformation({
       <CardContent className="space-y-6 px-0">
         <section className="grid grid-cols-1 md:grid-cols-2 gap-4 px-6">
           {/* Date of Birth */}
-          <ClientInfoRowItem
-            icon={<Calendar />}
-            label="Birth Date"
-            value={dateOfBirth}
-          />
+          <ClientInfoRowItem icon={<Calendar />} label="Birth Date" value={dateOfBirth} />
 
           {/* Age */}
           <ClientInfoRowItem icon={<Calendar />} label="Age" value={age} />
 
           {/* Gender */}
-          <ClientInfoRowItem
-            icon={<VenusAndMars />}
-            label="Gender"
-            value={gender}
-          />
+          <ClientInfoRowItem icon={<VenusAndMars />} label="Gender" value={gender} />
 
           {/* Civil Status */}
-          <ClientInfoRowItem
-            icon={<Users />}
-            label="Civil Status"
-            value={civilStatus}
-          />
+          <ClientInfoRowItem icon={<Users />} label="Civil Status" value={civilStatus} />
 
           {/* Religion */}
-          <ClientInfoRowItem
-            icon={<User />}
-            label="Religion"
-            value={religion}
-          />
+          <ClientInfoRowItem icon={<User />} label="Religion" value={religion} />
 
           {/* Place of Birth */}
-          <ClientInfoRowItem
-            icon={<MapPin />}
-            label="Place of Birth"
-            value={birthPlace}
-          />
+          <ClientInfoRowItem icon={<MapPin />} label="Place of Birth" value={birthPlace} />
         </section>
 
         <section className="grid grid-cols-1 gap-4 px-6">
           {/* Current Address */}
-          <ClientInfoRowItem
-            icon={<MapPin />}
-            label="Current Address"
-            value={address}
-          />
+          <ClientInfoRowItem icon={<MapPin />} label="Current Address" value={address} />
         </section>
 
         <section className="pt-6">
@@ -122,9 +85,7 @@ export default function StaffPersonalInformation({
             <div>
               <CardTitle className="text-xl">Contact Information</CardTitle>
               <CardDescription>
-                {`Review and confirm ${
-                  isOwnProfile ? "your" : "the staff's"
-                } phone numbers, email
+                {`Review and confirm ${isOwnProfile ? "your" : "the staff's"} phone numbers, email
                 address, and current residential details.`}
               </CardDescription>
             </div>

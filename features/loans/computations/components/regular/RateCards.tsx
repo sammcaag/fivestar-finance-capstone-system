@@ -3,11 +3,7 @@ import { motion } from "framer-motion";
 import type { RateCardsProps } from "../../types/types-regular";
 import { CheckCircle2 } from "lucide-react";
 
-export default function RateCards({
-  rates,
-  selectedCard,
-  onCardClick,
-}: RateCardsProps) {
+export default function RateCards({ rates, selectedCard, onCardClick }: RateCardsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {rates.map((rate, index) => (

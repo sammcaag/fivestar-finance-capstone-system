@@ -66,8 +66,7 @@ export function useCalculatorState() {
   // Fix: Use proper React setState type
   const setValueDate = useCallback<Dispatch<SetStateAction<Date>>>(
     (value) => {
-      const newDate =
-        typeof value === "function" ? value(state.valueDate) : value;
+      const newDate = typeof value === "function" ? value(state.valueDate) : value;
       updateState({ valueDate: newDate });
     },
     [updateState, state.valueDate]
@@ -75,8 +74,7 @@ export function useCalculatorState() {
 
   const setMaturityDate = useCallback<Dispatch<SetStateAction<Date>>>(
     (value) => {
-      const newDate =
-        typeof value === "function" ? value(state.maturityDate) : value;
+      const newDate = typeof value === "function" ? value(state.maturityDate) : value;
       updateState({ maturityDate: newDate });
     },
     [updateState, state.maturityDate]
@@ -84,8 +82,7 @@ export function useCalculatorState() {
 
   const setLoanMaturityDate = useCallback<Dispatch<SetStateAction<Date>>>(
     (value) => {
-      const newDate =
-        typeof value === "function" ? value(state.loanMaturityDate) : value;
+      const newDate = typeof value === "function" ? value(state.loanMaturityDate) : value;
       updateState({ loanMaturityDate: newDate });
     },
     [updateState, state.loanMaturityDate]

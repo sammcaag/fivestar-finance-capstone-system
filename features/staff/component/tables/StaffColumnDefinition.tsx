@@ -25,8 +25,7 @@ const roleConfig = {
 
 // Custom filter function for searching name and email
 const staffSearchFilterFn: FilterFn<StaffTableProps> = (row, filterValue) => {
-  const searchableRowContent =
-    `${row.original.name} ${row.original.email}`.toLowerCase();
+  const searchableRowContent = `${row.original.name} ${row.original.email}`.toLowerCase();
   const searchTerm = (filterValue ?? "").toLowerCase();
   return searchableRowContent.includes(searchTerm);
 };
@@ -49,9 +48,7 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
           <span className="font-medium text-sm">
             {formatFullNameFromParts(decodeFullName(row.original.name))}
           </span>
-          <span className="text-xs text-muted-foreground">
-            {row.original.email}
-          </span>
+          <span className="text-xs text-muted-foreground">{row.original.email}</span>
         </div>
       </div>
     ),
@@ -96,10 +93,7 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
     cell: ({ row }) => (
       <div className="flex items-center gap-1 text-sm text-muted-foreground">
         <MapPin className="h-3.5 w-3.5" />
-        <span>
-          {String(row.getValue("branchName"))?.replace(/\s*Branch$/, "") ||
-            "N/A"}
-        </span>
+        <span>{String(row.getValue("branchName"))?.replace(/\s*Branch$/, "") || "N/A"}</span>
       </div>
     ),
     enableColumnFilter: true,
@@ -110,10 +104,8 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
     header: "Status",
     filterFn: "includesString", // Align with TableFilter
     cell: ({ row }) => {
-      const status = (row.getValue("status") ||
-        "INACTIVE") as keyof typeof clientBadgeStatusMap;
-      const config =
-        clientBadgeStatusMap[status] || clientBadgeStatusMap.INACTIVE;
+      const status = (row.getValue("status") || "INACTIVE") as keyof typeof clientBadgeStatusMap;
+      const config = clientBadgeStatusMap[status] || clientBadgeStatusMap.INACTIVE;
       return (
         <Badge variant={config.variant} className={cn(config.className)}>
           {row.getValue("status")}
@@ -139,9 +131,7 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
     header: "Last Login",
     cell: ({ row }) => (
       <span className="text-sm">
-        {row.getValue("lastLogin")
-          ? formatDateTime(row.getValue("lastLogin"))
-          : "Never"}
+        {row.getValue("lastLogin") ? formatDateTime(row.getValue("lastLogin")) : "Never"}
       </span>
     ),
     enableColumnFilter: false,

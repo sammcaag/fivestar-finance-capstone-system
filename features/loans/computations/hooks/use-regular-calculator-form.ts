@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 export const useRegularCalculatorForm = (
-  clientType: "Renewal" | "New Client" | "Reloan" | "Additional" 
+  clientType: "Renewal" | "New Client" | "Reloan" | "Additional"
 ) => {
   const calculatorForm = useForm<RegularCalculatorSchema>({
     resolver: zodResolver(regularCalculatorSchema),
@@ -41,8 +41,7 @@ export const useRegularCalculatorForm = (
   const [isDoneCalculate, setIsDoneCalculate] = useState<boolean>(false);
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
 
-  const amortizationWatch =
-    clientType === "Renewal" ? watch("monthlyAmortization") : undefined;
+  const amortizationWatch = clientType === "Renewal" ? watch("monthlyAmortization") : undefined;
 
   const calculate = (values: RegularCalculatorSchema, selectedCard: string) => {
     try {
@@ -53,8 +52,7 @@ export const useRegularCalculatorForm = (
         let calculationResults;
 
         if (!hasDeduction) {
-          const { outstandingBalance, otherDeduction, ...filteredValues } =
-            values;
+          const { outstandingBalance, otherDeduction, ...filteredValues } = values;
           calculationResults = calculateRegularLoan(
             {
               ...filteredValues,

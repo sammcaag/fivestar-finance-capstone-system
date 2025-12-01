@@ -1,20 +1,10 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, Transition, motion } from "motion/react";
-import {
-  Children,
-  cloneElement,
-  ReactElement,
-  ReactNode,
-  useEffect,
-  useState,
-  useId,
-} from "react";
+import { Children, cloneElement, ReactElement, ReactNode, useEffect, useState, useId } from "react";
 
 export type AnimatedBackgroundProps = {
-  children:
-    | ReactElement<{ "data-id": string }>[]
-    | ReactElement<{ "data-id": string }>;
+  children: ReactElement<{ "data-id": string }>[] | ReactElement<{ "data-id": string }>;
   defaultValue?: string;
   onValueChange?: (newActiveId: string | null) => void;
   className?: string;
@@ -60,7 +50,7 @@ export function AnimatedBackground({
         onFocus?: React.FocusEventHandler<HTMLButtonElement>;
         role?: string;
         tabIndex?: number;
-        'data-checked'?: string;
+        "data-checked"?: string;
       }>,
       index
     ) => {

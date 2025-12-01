@@ -12,22 +12,13 @@ import {
   isAfter,
   startOfDay,
 } from "date-fns";
-import {
-  CalendarIcon,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { CalendarIcon, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -81,10 +72,7 @@ export default function CustomDatePicker({
     "December",
   ];
 
-  const years = Array.from(
-    { length: endYear - startYear + 1 },
-    (_, i) => startYear + i
-  );
+  const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i);
 
   // Get current date information
   const today = startOfDay(new Date());
@@ -140,8 +128,7 @@ export default function CustomDatePicker({
 
       if (isPreviousMonthsUnselectable) {
         if (targetYear > currentYear) return true;
-        if (targetYear === currentYear && targetMonth >= currentMonth)
-          return true;
+        if (targetYear === currentYear && targetMonth >= currentMonth) return true;
         return false;
       }
 
@@ -226,19 +213,11 @@ export default function CustomDatePicker({
         >
           <CalendarIcon className="mr-3 h-4 w-4 text-primary " />
           <div className="flex items-center justify-between w-full">
-            <span
-              className={cn(
-                "font-medium",
-                date ? "text-foreground" : "text-muted-foreground"
-              )}
-            >
+            <span className={cn("font-medium", date ? "text-foreground" : "text-muted-foreground")}>
               {date ? format(date, customDateFormat) : placeholder}
             </span>
             {editable && (
-              <motion.div
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
-              >
+              <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
                 <ChevronDown className="h-4 w-4 text-muted-foreground" />
               </motion.div>
             )}
@@ -265,10 +244,7 @@ export default function CustomDatePicker({
               {/* Header with Month/Year Selectors */}
               <div className="bg-primary p-4">
                 <div className="flex justify-between items-center gap-3">
-                  <Select
-                    onValueChange={handleMonthChange}
-                    value={months[getMonth(displayMonth)]}
-                  >
+                  <Select onValueChange={handleMonthChange} value={months[getMonth(displayMonth)]}>
                     <SelectTrigger className="w-[130px] bg-primary-foreground border-0 text-primary rounded-md hover:bg-primary-foreground/90 focus:bg-primary-foreground/90">
                       <SelectValue placeholder="Month" />
                     </SelectTrigger>
@@ -278,9 +254,7 @@ export default function CustomDatePicker({
                           key={month}
                           value={month}
                           disabled={disabled}
-                          className={cn(
-                            disabled && "opacity-50 cursor-not-allowed"
-                          )}
+                          className={cn(disabled && "opacity-50 cursor-not-allowed")}
                         >
                           {month}
                         </SelectItem>
@@ -288,10 +262,7 @@ export default function CustomDatePicker({
                     </SelectContent>
                   </Select>
 
-                  <Select
-                    onValueChange={handleYearChange}
-                    value={getYear(displayMonth).toString()}
-                  >
+                  <Select onValueChange={handleYearChange} value={getYear(displayMonth).toString()}>
                     <SelectTrigger className="w-[100px] bg-primary-foreground border-0 text-primary rounded-md hover:bg-primary-foreground/90 focus:bg-primary-foreground/90">
                       <SelectValue placeholder="Year" />
                     </SelectTrigger>
@@ -319,8 +290,7 @@ export default function CustomDatePicker({
                     initialFocus
                     className="rounded-md"
                     classNames={{
-                      months:
-                        "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+                      months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
                       month: "space-y-4",
                       caption: "flex justify-center pt-1 relative items-center",
                       caption_label: "text-sm font-medium text-foreground",
@@ -333,8 +303,7 @@ export default function CustomDatePicker({
                       nav_button_next: "absolute right-1",
                       table: "w-full border-collapse space-y-1",
                       head_row: "flex",
-                      head_cell:
-                        "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+                      head_cell: "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
                       row: "flex w-full mt-2",
                       cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
                       day: cn(
@@ -344,8 +313,7 @@ export default function CustomDatePicker({
                       ),
                       day_selected:
                         "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-                      day_today:
-                        "bg-accent text-accent-foreground font-semibold",
+                      day_today: "bg-accent text-accent-foreground font-semibold",
                       day_outside: "text-muted-foreground opacity-50",
                       day_disabled:
                         "text-muted-foreground opacity-30 cursor-not-allowed hover:bg-transparent",

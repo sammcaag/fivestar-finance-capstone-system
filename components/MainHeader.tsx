@@ -34,9 +34,7 @@ export default function MainHeader({
     >
       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
         <div className="space-y-2 flex-1">
-          <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
-            {title}
-          </h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">{title}</h1>
           <div className="flex items-center space-x-2">
             {Icon && <Icon className="h-5 w-5 text-blue-200" />}
             <p className=" text-blue-100">{description}</p>
@@ -47,9 +45,7 @@ export default function MainHeader({
           <div className="flex flex-col gap-2 items-end max-sm:mt-4">
             <div className="flex items-center space-x-2 text-lg text-background">
               <CalendarDays className="h-4 w-4" />
-              <span className="min-w-max">
-                {formatDateToReadable(new Date())}
-              </span>
+              <span className="min-w-max">{formatDateToReadable(new Date())}</span>
             </div>
             <div className="flex items-center space-x-2 text-lg text-background">
               <RealTime />
@@ -61,12 +57,7 @@ export default function MainHeader({
       {quickActions && (
         <div className="mt-6 space-x-2">
           {quickActions.map((action) => (
-            <Button
-              variant="outline"
-              className="bg-transparent"
-              asChild
-              key={action.label}
-            >
+            <Button variant="outline" className="bg-transparent" asChild key={action.label}>
               <Link href={action.href}>
                 <action.icon className="h-4 w-4" />
                 {action.label}

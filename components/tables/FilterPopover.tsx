@@ -60,9 +60,7 @@ export default function FilterPopover<TData>({
       }
     }
 
-    table
-      .getColumn(columnId)
-      ?.setFilterValue(newFilterValue.length ? newFilterValue : undefined);
+    table.getColumn(columnId)?.setFilterValue(newFilterValue.length ? newFilterValue : undefined);
     setActiveFilters((prev) => ({
       ...prev,
       [title]: newFilterValue,
@@ -86,18 +84,14 @@ export default function FilterPopover<TData>({
       </PopoverTrigger>
       <PopoverContent className="w-auto min-w-36 p-3" align="start">
         <div className="space-y-3">
-          <div className="text-xs font-medium text-muted-foreground">
-            Filters
-          </div>
+          <div className="text-xs font-medium text-muted-foreground">Filters</div>
           <div className="space-y-3">
             {uniqueValues.map((value, i) => (
               <div key={value} className="flex items-center gap-2">
                 <Checkbox
                   id={`${id}-${i}`}
                   checked={selectedFilters.includes(value)}
-                  onCheckedChange={(checked: boolean) =>
-                    handleFilterChange(checked, value)
-                  }
+                  onCheckedChange={(checked: boolean) => handleFilterChange(checked, value)}
                 />
                 <Label
                   htmlFor={`${id}-${i}`}

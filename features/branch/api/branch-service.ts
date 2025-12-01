@@ -49,15 +49,9 @@ export const createBranchApi = async (payload: BranchPayload) => {
   }
 };
 
-export const updateBranchApi = async (
-  id: number,
-  updatePayload: BranchPayload
-) => {
+export const updateBranchApi = async (id: number, updatePayload: BranchPayload) => {
   try {
-    const { data } = await axiosInstance.put(
-      `/api/branches/${id}`,
-      updatePayload
-    );
+    const { data } = await axiosInstance.put(`/api/branches/${id}`, updatePayload);
     return data.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

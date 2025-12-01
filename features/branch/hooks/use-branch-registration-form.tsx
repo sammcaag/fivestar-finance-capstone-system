@@ -10,10 +10,7 @@ import { branchInfoSchema } from "../schema/branch-zod-schema";
 import { defaultValues } from "../libs/branch-registration-form";
 import { createBranchApi, updateBranchApi } from "../api/branch-service";
 import { loadDraft, saveDraft } from "../utils/branch-draft-data-storage";
-import {
-  branchPayload,
-  mapBackendToBranchFormValues,
-} from "../libs/branch-payload";
+import { branchPayload, mapBackendToBranchFormValues } from "../libs/branch-payload";
 import axios from "axios";
 import { useDialog } from "@/contexts/DialogContext";
 
@@ -98,14 +95,10 @@ export function useBranchRegistrationForm() {
   const resetForm = useCallback(
     (backendData: BranchPayload, isShowMessage: boolean = true) => {
       const mappedValues = mapBackendToBranchFormValues(backendData); // map backend payload to form values
-      console.log(
-        "THIS IS THE FETCHED MAPPPED DATA:",
-        JSON.stringify(mappedValues, null, 2)
-      );
+      console.log("THIS IS THE FETCHED MAPPPED DATA:", JSON.stringify(mappedValues, null, 2));
       form.reset(mappedValues);
       setFormModified(false);
-      if (isShowMessage)
-        showDialog("Form has been reset to staff values!", "success");
+      if (isShowMessage) showDialog("Form has been reset to staff values!", "success");
     },
     [form, showDialog]
   );
@@ -114,10 +107,7 @@ export function useBranchRegistrationForm() {
   const processForm = async (data: BranchFormValues) => {
     setIsSubmitting(true);
     const backendPayload = branchPayload(data);
-    console.log(
-      "THIS IS THE DATA PASSED",
-      JSON.stringify(backendPayload, null, 2)
-    );
+    console.log("THIS IS THE DATA PASSED", JSON.stringify(backendPayload, null, 2));
 
     try {
       const result = await addBranch(backendPayload); // ✅ await
@@ -137,16 +127,10 @@ export function useBranchRegistrationForm() {
     }
   };
 
-  const updateForm = async (
-    data: BranchFormValues,
-    fetchedData: BranchPayload
-  ) => {
+  const updateForm = async (data: BranchFormValues, fetchedData: BranchPayload) => {
     setIsSubmitting(true);
     const backendPayload = branchPayload(data);
-    console.log(
-      "THIS IS THE UPDATED DATA PASSED",
-      JSON.stringify(backendPayload, null, 2)
-    );
+    console.log("THIS IS THE UPDATED DATA PASSED", JSON.stringify(backendPayload, null, 2));
     try {
       const result = await updateBranch({
         id: fetchedData.id!,

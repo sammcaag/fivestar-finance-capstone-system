@@ -13,12 +13,7 @@ export default function NotFoundPages() {
       <div className="max-w-2xl w-full text-center space-y-6">
         {/* Icon */}
         <div className="relative size-[500px] mx-auto">
-          <Image
-            src="/not-found-icon.png"
-            alt="Not Found"
-            fill
-            className="object-contain"
-          />
+          <Image src="/not-found-icon.png" alt="Not Found" fill className="object-contain" />
         </div>
 
         {/* Title */}
@@ -30,11 +25,7 @@ export default function NotFoundPages() {
         </p>
 
         {/* Go Back Button */}
-        <Button
-          variant="default"
-          className="mt-4"
-          onClick={() => router.push("/")}
-        >
+        <Button variant="default" className="mt-4" onClick={() => router.push("/")}>
           Go to Home
         </Button>
       </div>

@@ -68,8 +68,7 @@ export const clientFamilyInfoSchema = z.object({
     .string()
     .optional()
     .refine((val) => !val || /^\+639\d{9}$/.test(val), {
-      message:
-        "Spouse contact number must start with +639 and have 10 digits total",
+      message: "Spouse contact number must start with +639 and have 10 digits total",
     }),
 
   // First child
@@ -160,14 +159,11 @@ const baseSchema = clientGeneralInfoSchema
 // Attach superRefine on the combined schema (single place for conditional rules)
 // -----------------------------
 export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
-  const hasText = (v: unknown): v is string =>
-    typeof v === "string" && v.trim().length > 0;
+  const hasText = (v: unknown): v is string => typeof v === "string" && v.trim().length > 0;
 
   // -------- spouse ----------
   const spouseNamePresent =
-    hasText(data.spouseFirstName) ||
-    hasText(data.spouseMiddleName) ||
-    hasText(data.spouseLastName);
+    hasText(data.spouseFirstName) || hasText(data.spouseMiddleName) || hasText(data.spouseLastName);
 
   if (spouseNamePresent) {
     const spouseFields: Array<keyof typeof data> = [
@@ -184,8 +180,7 @@ export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
         val === undefined ||
         val === null ||
         (typeof val === "string" && val.trim() === "") ||
-        (typeof val === "number" &&
-          (Number.isNaN(val) || (field === "spouseZipCode" && val <= 0)));
+        (typeof val === "number" && (Number.isNaN(val) || (field === "spouseZipCode" && val <= 0)));
 
       if (missing) {
         ctx.addIssue({
@@ -263,8 +258,7 @@ export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
           val === null ||
           (typeof val === "string" && val.trim() === "") ||
           (typeof val === "number" &&
-            (Number.isNaN(val) ||
-              (field.toString().includes("ZipCode") && val <= 0)));
+            (Number.isNaN(val) || (field.toString().includes("ZipCode") && val <= 0)));
 
         if (missing) {
           ctx.addIssue({

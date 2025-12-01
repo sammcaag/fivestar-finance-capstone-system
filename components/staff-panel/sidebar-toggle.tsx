@@ -9,11 +9,7 @@ interface SidebarToggleProps {
   isHovering: boolean;
 }
 
-export function SidebarToggle({
-  isOpen,
-  setIsOpen,
-  isHovering,
-}: SidebarToggleProps) {
+export function SidebarToggle({ isOpen, setIsOpen, isHovering }: SidebarToggleProps) {
   return (
     <div className="invisible lg:visible absolute top-[12px] -right-[16px] z-10">
       <Button

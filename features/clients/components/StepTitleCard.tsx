@@ -7,16 +7,9 @@ type StepTitleCardProps = {
   description: string;
 };
 
-export function StepTitleCard({
-  variants,
-  title,
-  description,
-}: StepTitleCardProps) {
+export function StepTitleCard({ variants, title, description }: StepTitleCardProps) {
   return (
-    <motion.div
-      variants={variants}
-      className="bg-card rounded-lg shadow-lg border p-6"
-    >
+    <motion.div variants={variants} className="bg-card rounded-lg shadow-lg border p-6">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold text-foreground">{title}</h2>
         <p className="text-muted-foreground">{description}</p>

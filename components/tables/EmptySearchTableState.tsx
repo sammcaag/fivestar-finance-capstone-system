@@ -27,9 +27,7 @@ export default function EmptySearchTableState({
 
       {/* Content */}
       <div className="text-center max-w-md">
-        <h3 className="text-2xl font-bold text-foreground mb-2 tracking-tight">
-          No results found
-        </h3>
+        <h3 className="text-2xl font-bold text-foreground mb-2 tracking-tight">No results found</h3>
         <p className="text-muted-foreground mb-2 leading-relaxed text-base">
           We couldn&apos;t find anything matching
         </p>
@@ -48,12 +46,7 @@ export default function EmptySearchTableState({
         </div>
 
         {/* Actions */}
-        <Button
-          onClick={onClearSearch}
-          icon={SearchX}
-          iconPlacement="left"
-          className="font-medium"
-        >
+        <Button onClick={onClearSearch} icon={SearchX} iconPlacement="left" className="font-medium">
           Clear Search and Try Again
         </Button>
       </div>

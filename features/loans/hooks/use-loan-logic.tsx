@@ -6,8 +6,7 @@ export function useLoanLogic(loanHistory: LoanHistory[], today: Date) {
   const sortedLoans = useMemo(
     () =>
       [...loanHistory].sort(
-        (a, b) =>
-          new Date(a.madeDate).getTime() - new Date(b.madeDate).getTime()
+        (a, b) => new Date(a.madeDate).getTime() - new Date(b.madeDate).getTime()
       ),
     [loanHistory]
   );

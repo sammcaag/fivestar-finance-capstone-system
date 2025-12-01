@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -66,10 +61,7 @@ export default function StaffProfileHeader({
         </Badge>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:gap-10">
           <Avatar className="h-28 w-28 border-4 border-white/70 shadow-xl ring-4 ring-white/30 md:h-32 md:w-32">
-            <AvatarImage
-              src={profileImageUrl || "/placeholder.svg"}
-              alt="Profile picture"
-            />
+            <AvatarImage src={profileImageUrl || "/placeholder.svg"} alt="Profile picture" />
             <AvatarFallback className="text-3xl bg-blue-100 text-primary">
               {avatarFallBack(fullName)}
             </AvatarFallback>

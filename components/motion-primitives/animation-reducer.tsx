@@ -30,18 +30,14 @@ export function AnimationProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AnimationContext.Provider value={{ shouldReduceMotion }}>
-      {children}
-    </AnimationContext.Provider>
+    <AnimationContext.Provider value={{ shouldReduceMotion }}>{children}</AnimationContext.Provider>
   );
 }
 
 export function useReducedMotion() {
   const context = useContext(AnimationContext);
   if (context === undefined) {
-    throw new Error(
-      "useReducedMotion must be used within an AnimationProvider"
-    );
+    throw new Error("useReducedMotion must be used within an AnimationProvider");
   }
   return context.shouldReduceMotion;
 }
@@ -59,14 +55,8 @@ export function useAnimationConfig() {
     }),
 
     // For CSS transitions
-    cssTransition: (
-      properties = "all",
-      duration = 0.3,
-      easing = "ease-out"
-    ) => {
-      return shouldReduceMotion
-        ? "none"
-        : `${properties} ${duration}s ${easing}`;
+    cssTransition: (properties = "all", duration = 0.3, easing = "ease-out") => {
+      return shouldReduceMotion ? "none" : `${properties} ${duration}s ${easing}`;
     },
 
     // For staggered animations

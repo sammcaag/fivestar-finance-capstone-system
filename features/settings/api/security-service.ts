@@ -4,10 +4,7 @@ import axios from "axios";
 
 export const updateSecurityApi = async (updatePayload: SecurityPayload) => {
   try {
-    const { data } = await axiosInstance.put(
-      `/api/auth/update-credentials`,
-      updatePayload
-    );
+    const { data } = await axiosInstance.put(`/api/auth/update-credentials`, updatePayload);
     return data.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

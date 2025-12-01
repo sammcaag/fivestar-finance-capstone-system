@@ -27,10 +27,7 @@ export const AddressFields = ({
     zipCode: form.getValues("zipCode") ?? 0,
   };
 
-  const copyAddress = (
-    fields: Record<string, string | number>,
-    prefix: PrefixType
-  ) => {
+  const copyAddress = (fields: Record<string, string | number>, prefix: PrefixType) => {
     const mapping = {
       addressLine1: `${prefix}AddressLine1`,
       addressLine2: `${prefix}AddressLine2`,
@@ -62,9 +59,7 @@ export const AddressFields = ({
   };
 
   // Copy spouse address to child
-  const copySpouseToChild = (
-    childPrefix: "firstChild" | "secondChild" | "thirdChild"
-  ) => {
+  const copySpouseToChild = (childPrefix: "firstChild" | "secondChild" | "thirdChild") => {
     copyAddress(
       {
         addressLine1: form.getValues("spouseAddressLine1") ?? "",
@@ -113,9 +108,7 @@ export const AddressFields = ({
           <div className="p-2 bg-primary rounded-lg shadow-md">
             <Map className="h-5 w-5 text-primary-foreground" />
           </div>
-          <h3 className="text-xl font-semibold text-foreground">
-            Address Information
-          </h3>
+          <h3 className="text-xl font-semibold text-foreground">Address Information</h3>
         </div>
         <div className="flex justify-center gap-4">
           {/* Same Address as Client */}
@@ -128,8 +121,8 @@ export const AddressFields = ({
                   ? "bg-blue-600 text-white border-blue-600"
                   : ""
                 : form.getValues(`${prefix}AddressSameAsClient`)
-                ? "bg-blue-600 text-white border-blue-600"
-                : ""
+                  ? "bg-blue-600 text-white border-blue-600"
+                  : ""
             }`}
             onClick={copyClientAddress}
           >
@@ -148,9 +141,7 @@ export const AddressFields = ({
                   : ""
               }`}
               onClick={() =>
-                copySpouseToChild(
-                  prefix as "firstChild" | "secondChild" | "thirdChild"
-                )
+                copySpouseToChild(prefix as "firstChild" | "secondChild" | "thirdChild")
               }
             >
               <Users className="w-4 h-4 mr-1" />
@@ -177,8 +168,7 @@ export const AddressFields = ({
                   },
                   prefix
                 );
-                if (prefix === "spouse")
-                  form.setValue("spouseAddressSameAsClient", false);
+                if (prefix === "spouse") form.setValue("spouseAddressSameAsClient", false);
                 else {
                   form.setValue(`${prefix}AddressSameAsClient`, false);
                   form.setValue(`${prefix}AddressSameAsSpouse`, false);

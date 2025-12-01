@@ -14,11 +14,7 @@ const fieldSkeleton = (
   </div>
 );
 
-const ClientGeneralInformationSkeleton = ({
-  title = "Client",
-}: {
-  title?: string;
-}) => {
+const ClientGeneralInformationSkeleton = ({ title = "Client" }: { title?: string }) => {
   const { containerVariants, itemVariants } = useClientAnimation();
 
   return (
@@ -36,11 +32,7 @@ const ClientGeneralInformationSkeleton = ({
       />
 
       {/* BASIC INFORMATION */}
-      <SectionCard
-        variants={itemVariants}
-        icon={User}
-        title="Basic Information"
-      >
+      <SectionCard variants={itemVariants} icon={User} title="Basic Information">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           {fieldSkeleton}
           {fieldSkeleton}
@@ -55,11 +47,7 @@ const ClientGeneralInformationSkeleton = ({
       </SectionCard>
 
       {/* ADDRESS INFORMATION */}
-      <SectionCard
-        variants={itemVariants}
-        icon={Map}
-        title="Address Information"
-      >
+      <SectionCard variants={itemVariants} icon={Map} title="Address Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           {fieldSkeleton}
           {fieldSkeleton}
@@ -75,11 +63,7 @@ const ClientGeneralInformationSkeleton = ({
       </SectionCard>
 
       {/* CONTACT INFORMATION */}
-      <SectionCard
-        variants={itemVariants}
-        icon={Phone}
-        title="Contact Information"
-      >
+      <SectionCard variants={itemVariants} icon={Phone} title="Contact Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {fieldSkeleton}
           {fieldSkeleton}
@@ -87,11 +71,7 @@ const ClientGeneralInformationSkeleton = ({
       </SectionCard>
 
       {/* ADDITIONAL INFORMATION */}
-      <SectionCard
-        variants={itemVariants}
-        icon={Heart}
-        title="Additional Information"
-      >
+      <SectionCard variants={itemVariants} icon={Heart} title="Additional Information">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {fieldSkeleton}
           {fieldSkeleton}

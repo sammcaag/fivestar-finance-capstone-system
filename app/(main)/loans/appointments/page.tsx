@@ -20,8 +20,7 @@ const quickActions = [
 
 export default function LoanAppointments() {
   useEffect(() => {
-    document.title =
-      "Mobile Loan Appointments | Stella - Five Star Finance Inc.";
+    document.title = "Mobile Loan Appointments | Stella - Five Star Finance Inc.";
   }, []);
 
   return (

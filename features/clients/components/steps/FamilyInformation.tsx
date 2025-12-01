@@ -27,11 +27,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
       />
 
       {/* Spouse */}
-      <SectionCard
-        variants={itemVariants}
-        icon={User}
-        title="Spouse Information"
-      >
+      <SectionCard variants={itemVariants} icon={User} title="Spouse Information">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FormFieldWrapper
             name="spouseFirstName"
@@ -76,11 +72,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
       </SectionCard>
 
       {/* First Child */}
-      <SectionCard
-        variants={itemVariants}
-        icon={User}
-        title="First Child Information"
-      >
+      <SectionCard variants={itemVariants} icon={User} title="First Child Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormFieldWrapper
             name="firstChildName"
@@ -101,11 +93,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
       </SectionCard>
 
       {/* Second Child */}
-      <SectionCard
-        variants={itemVariants}
-        icon={User}
-        title="Second Child Information"
-      >
+      <SectionCard variants={itemVariants} icon={User} title="Second Child Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormFieldWrapper
             name="secondChildName"
@@ -126,11 +114,7 @@ const FamilyInformation = ({ form }: ClientFamilyInformationProps) => {
       </SectionCard>
 
       {/* Third Child */}
-      <SectionCard
-        variants={itemVariants}
-        icon={User}
-        title="Third Child Information"
-      >
+      <SectionCard variants={itemVariants} icon={User} title="Third Child Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormFieldWrapper
             name="thirdChildName"

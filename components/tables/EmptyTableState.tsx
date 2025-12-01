@@ -26,12 +26,8 @@ export default function EmptyTableState({
 
       {/* Content */}
       <div className="text-center max-w-md">
-        <h3 className="text-2xl font-bold text-foreground mb-2 tracking-tight">
-          {emptyTitle}
-        </h3>
-        <p className="text-muted-foreground mb-6 leading-relaxed text-base">
-          {emptyDescription}
-        </p>
+        <h3 className="text-2xl font-bold text-foreground mb-2 tracking-tight">{emptyTitle}</h3>
+        <p className="text-muted-foreground mb-6 leading-relaxed text-base">{emptyDescription}</p>
 
         {/* Actions */}
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">

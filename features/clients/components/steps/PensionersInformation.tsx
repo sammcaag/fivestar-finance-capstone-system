@@ -31,11 +31,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
       />
 
       {/* Service Information */}
-      <SectionCard
-        variants={itemVariants}
-        icon={Medal}
-        title="Service Information"
-      >
+      <SectionCard variants={itemVariants} icon={Medal} title="Service Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormFieldWrapper
             name="rank"
@@ -82,11 +78,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
       </SectionCard>
 
       {/* Service Dates */}
-      <SectionCard
-        variants={itemVariants}
-        icon={Calendar}
-        title="Service Dates"
-      >
+      <SectionCard variants={itemVariants} icon={Calendar} title="Service Dates">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FormFieldWrapper
             name="dateEnteredService"
@@ -118,11 +110,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
       </SectionCard>
 
       {/* Additional Service Details */}
-      <SectionCard
-        variants={itemVariants}
-        icon={Building}
-        title="Additional Service Details"
-      >
+      <SectionCard variants={itemVariants} icon={Building} title="Additional Service Details">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FormFieldWrapper
             name="lengthOfService"

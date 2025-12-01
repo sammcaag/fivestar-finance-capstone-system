@@ -19,9 +19,7 @@ export const getClients = async (): Promise<ClientTableProps[]> => {
   }
 };
 
-export const getClientBySerialNumber = async (
-  serialNumber: string
-): Promise<ClientPayload> => {
+export const getClientBySerialNumber = async (serialNumber: string): Promise<ClientPayload> => {
   try {
     const { data } = await axiosInstance.get<{
       success: boolean;
@@ -51,15 +49,9 @@ export const createClientApi = async (payload: ClientPayload) => {
   }
 };
 
-export const updateClientApi = async (
-  serialNumber: string,
-  updatePayload: ClientPayload
-) => {
+export const updateClientApi = async (serialNumber: string, updatePayload: ClientPayload) => {
   try {
-    const { data } = await axiosInstance.put(
-      `/api/users/client/${serialNumber}`,
-      updatePayload
-    );
+    const { data } = await axiosInstance.put(`/api/users/client/${serialNumber}`, updatePayload);
     return data.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

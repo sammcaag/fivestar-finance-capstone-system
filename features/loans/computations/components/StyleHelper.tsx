@@ -5,10 +5,8 @@ import { Info } from "lucide-react";
 import { FormValues as FormValuesExtension } from "../types/types-extension";
 
 export const FORM_STYLES = {
-  container:
-    "overflow-hidden rounded-lg border bg-card transition-all duration-200 shadow-sm",
-  input:
-    "border-0 bg-background text-lg focus-visible:ring-0 p-2 h-auto w-full",
+  container: "overflow-hidden rounded-lg border bg-card transition-all duration-200 shadow-sm",
+  input: "border-0 bg-background text-lg focus-visible:ring-0 p-2 h-auto w-full",
   selectTrigger:
     "border-0 bg-background text-md focus-visible:ring-0 p-2 h-auto shadow-none w-full",
   label: "text-base font-medium flex items-center",
@@ -75,11 +73,7 @@ export function FormFieldWrapper({
   };
 
   return (
-    <FormItem
-      className={`${
-        FORM_STYLES.container
-      } ${getBorderClass()} ${getBackgroundClass()}`}
-    >
+    <FormItem className={`${FORM_STYLES.container} ${getBorderClass()} ${getBackgroundClass()}`}>
       {children}
     </FormItem>
   );
@@ -119,11 +113,7 @@ export function FormHeader({
         {label}
         {extraContent}
       </FormLabel>
-      <CustomTooltip
-        icon={Info}
-        description={tooltip}
-        iconClassName={getIconColor()}
-      />
+      <CustomTooltip icon={Info} description={tooltip} iconClassName={getIconColor()} />
     </div>
   );
 }

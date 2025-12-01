@@ -4,12 +4,7 @@ import { createContext, useContext, ReactNode, useState } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { AuthContextType, IRequestUser } from "../types/auth.types";
-import {
-  getCurrentUser,
-  refreshTokenApi,
-  signInApi,
-  signOutApi,
-} from "../api/auth-service";
+import { getCurrentUser, refreshTokenApi, signInApi, signOutApi } from "../api/auth-service";
 import axios from "axios";
 import { useDialog } from "@/contexts/DialogContext";
 
@@ -83,10 +78,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.log("✅ User data set in cache");
 
       // Show success message from backend
-      showDialog(
-        response.message || "Login successful! Welcome back.",
-        "success"
-      );
+      showDialog(response.message || "Login successful! Welcome back.", "success");
 
       console.log("🚀 Redirecting to dashboard...");
       // Small delay to show success message before redirect

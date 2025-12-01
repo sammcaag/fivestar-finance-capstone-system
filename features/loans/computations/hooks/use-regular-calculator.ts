@@ -29,23 +29,20 @@ export const useRegularLoanCalculator = () => {
 
   // Function to get the GP Factor based on term and selectedCard
   const getGpFactor = (term: string, selectedCard: string): string => {
-    const rate = GpFactorRegularRates.find(
-      (rate) => rate.term === String(term)
-    );
+    const rate = GpFactorRegularRates.find((rate) => rate.term === String(term));
 
     if (!rate) throw new Error("No rate found for the given term.");
 
     return selectedCard === "1"
       ? rate.regularRate
       : selectedCard === "2"
-      ? rate.specialRate
-      : rate.aRate; // Default to aRate if no match
+        ? rate.specialRate
+        : rate.aRate; // Default to aRate if no match
   };
 
   // Main calculation function that returns the results
   const calculateRegularLoan = (form: RegularCalculatorSchema, selectedCard: string) => {
-    const { term, monthlyAmortization, outstandingBalance, otherDeduction } =
-      form;
+    const { term, monthlyAmortization, outstandingBalance, otherDeduction } = form;
 
     // Calculate value date
     const valueDate = calculateValueDate(new Date());
@@ -63,23 +60,16 @@ export const useRegularLoanCalculator = () => {
     const principalAmount = formatCurrency(monthlyAmortization * term);
 
     //calculate gross proceeds and rounding off to the nearest hundredths
-    const grossProceeds = formatCurrency(
-      (Number(monthlyAmortization) / Number(gpFactor)) * 1000
-    );
+    const grossProceeds = formatCurrency((Number(monthlyAmortization) / Number(gpFactor)) * 1000);
     // Calculate unearned interest
     const unearnedInterest = formatCurrency(
-      Number(removeCommas(principalAmount)) -
-        Number(removeCommas(grossProceeds))
+      Number(removeCommas(principalAmount)) - Number(removeCommas(grossProceeds))
     );
 
     // Calculate documentary stamp
-    const documentaryStamp = formatCurrency(
-      (Number(removeCommas(principalAmount)) / 200) * 1.5
-    );
+    const documentaryStamp = formatCurrency((Number(removeCommas(principalAmount)) / 200) * 1.5);
     // Calculate gross revenue tax
-    const grossRevenueTax = formatCurrency(
-      Number(removeCommas(unearnedInterest)) * 0.05
-    );
+    const grossRevenueTax = formatCurrency(Number(removeCommas(unearnedInterest)) * 0.05);
     // Calculate insurance (example: 0.5% of principal)
     const insurance = grossRevenueTax;
 
@@ -100,10 +90,7 @@ export const useRegularLoanCalculator = () => {
 
     // Calculate effective interest rate (example formula - adjust as needed)
     const effectiveInterestRate = formatCurrency(
-      (2 *
-        (Number(removeCommas(unearnedInterest)) /
-          Number(removeCommas(grossProceeds))) *
-        12) /
+      (2 * (Number(removeCommas(unearnedInterest)) / Number(removeCommas(grossProceeds))) * 12) /
         (term + 3),
       9
     );

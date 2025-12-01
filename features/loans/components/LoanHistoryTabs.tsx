@@ -37,8 +37,7 @@ export default function LoanHistoryTabs({
 
   const tableProps = {
     title: "Loan History Overview",
-    description:
-      "Review all loan history and ensure client documents are complete.",
+    description: "Review all loan history and ensure client documents are complete.",
     isLoading: isLoading,
     columns: loansHistoryColumnDefinition,
     filterColumns: ["dedCode", "productType", "term", "status"],

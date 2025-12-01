@@ -27,11 +27,7 @@ const BranchInformation = ({ form }: BranchInformationProps) => {
       />
 
       {/* Basic Information */}
-      <SectionCard
-        variants={itemVariants}
-        icon={User}
-        title="Basic Information"
-      >
+      <SectionCard variants={itemVariants} icon={User} title="Basic Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormFieldWrapper
             name="name"
@@ -52,11 +48,7 @@ const BranchInformation = ({ form }: BranchInformationProps) => {
       </SectionCard>
 
       {/* Address Information */}
-      <SectionCard
-        variants={itemVariants}
-        icon={Map}
-        title="Address Information"
-      >
+      <SectionCard variants={itemVariants} icon={Map} title="Address Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <FormFieldWrapper
             name="addressLine1"
@@ -126,11 +118,7 @@ const BranchInformation = ({ form }: BranchInformationProps) => {
       </SectionCard>
 
       {/* Contact Information */}
-      <SectionCard
-        variants={itemVariants}
-        icon={Phone}
-        title="Contact Information"
-      >
+      <SectionCard variants={itemVariants} icon={Phone} title="Contact Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormFieldWrapper
             name="primaryContact"

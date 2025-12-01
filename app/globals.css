@@ -11,11 +11,7 @@
 
   --color-primary: hsl(var(--primary));
   --color-primary-bold: var(--color-blue-700);
-  --color-primary-hover: color-mix(
-    in oklab,
-    var(--color-muted) 50%,
-    transparent
-  );
+  --color-primary-hover: color-mix(in oklab, var(--color-muted) 50%, transparent);
   --color-primary-foreground: hsl(var(--primary-foreground));
 
   --color-secondary: hsl(var(--secondary));

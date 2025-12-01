@@ -45,18 +45,12 @@ export function useDataTable<TData extends TableData>({
         if (col.enableColumnFilter) {
           return {
             ...col,
-            filterFn: (
-              row: Row<TData>,
-              id: string,
-              filterValue: string | string[] | undefined
-            ) => {
+            filterFn: (row: Row<TData>, id: string, filterValue: string | string[] | undefined) => {
               const rowValue = row.getValue(id);
               const rowStr = String(rowValue ?? "").toLowerCase();
               if (Array.isArray(filterValue)) {
                 if (filterValue.length === 0) return true;
-                return filterValue.some(
-                  (v) => String(v).toLowerCase() === rowStr
-                );
+                return filterValue.some((v) => String(v).toLowerCase() === rowStr);
               } else if (typeof filterValue === "string") {
                 return rowStr.includes(filterValue.toLowerCase());
               }
@@ -83,11 +77,7 @@ export function useDataTable<TData extends TableData>({
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: (
-      row: Row<TData>,
-      columnId: string,
-      filterValue: string
-    ) => {
+    globalFilterFn: (row: Row<TData>, columnId: string, filterValue: string) => {
       if (!filterValue) return true;
       const search = filterValue.toLowerCase();
       return filterColumns.some((col) => {

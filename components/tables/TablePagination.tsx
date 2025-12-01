@@ -8,18 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from "@/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronFirstIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronLastIcon,
-} from "lucide-react";
+import { ChevronFirstIcon, ChevronLeftIcon, ChevronRightIcon, ChevronLastIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Table } from "@tanstack/react-table";
 
@@ -28,10 +19,7 @@ interface TablePagination<TData> {
   totalCount: number;
 }
 
-export default function TablePagination<TData>({
-  table,
-  totalCount,
-}: TablePagination<TData>) {
+export default function TablePagination<TData>({ table, totalCount }: TablePagination<TData>) {
   const id = useId();
 
   const buttonClassname =
@@ -64,19 +52,12 @@ export default function TablePagination<TData>({
       </div>
       {/* Page number information */}
       <div className="text-muted-foreground flex grow justify-end text-sm whitespace-nowrap">
-        <p
-          className="text-muted-foreground text-sm whitespace-nowrap"
-          aria-live="polite"
-        >
+        <p className="text-muted-foreground text-sm whitespace-nowrap" aria-live="polite">
           <span className="text-foreground">
-            {table.getState().pagination.pageIndex *
-              table.getState().pagination.pageSize +
-              1}
-            -
+            {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}-
             {Math.min(
               Math.max(
-                table.getState().pagination.pageIndex *
-                  table.getState().pagination.pageSize +
+                table.getState().pagination.pageIndex * table.getState().pagination.pageSize +
                   table.getState().pagination.pageSize,
                 0
               ),

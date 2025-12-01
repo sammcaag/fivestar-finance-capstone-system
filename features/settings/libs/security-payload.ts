@@ -1,9 +1,6 @@
 import { SecurityFormValues, SecurityPayload } from "../types/security-types";
 
-export const securityPayload = (
-  data: SecurityFormValues,
-  oldEmail: string
-): SecurityPayload => {
+export const securityPayload = (data: SecurityFormValues, oldEmail: string): SecurityPayload => {
   return {
     oldEmail: oldEmail,
     newEmail: data.email,
@@ -12,9 +9,7 @@ export const securityPayload = (
   };
 };
 
-export const mapBackendToSecurityFormValues = (
-  email: string
-): SecurityFormValues => {
+export const mapBackendToSecurityFormValues = (email: string): SecurityFormValues => {
   return {
     email: email,
     oldPassword: "",

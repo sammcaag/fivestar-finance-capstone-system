@@ -7,12 +7,7 @@ import { motion } from "framer-motion";
 import { Search, CircleX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Table } from "@tanstack/react-table";
 import { TableData } from "@/types/global-types";
@@ -65,18 +60,12 @@ export function TableFilter<TData extends TableData>({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                variant="outline"
-                asChild
-                className="hover:bg-primary hover:text-white"
-              >
+              <Button variant="outline" asChild className="hover:bg-primary hover:text-white">
                 <Link href="/clients">View All {dashboardButtonContent}</Link>
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>
-                See complete {dashboardButtonContent?.toLocaleLowerCase()} list
-              </p>
+              <p>See complete {dashboardButtonContent?.toLocaleLowerCase()} list</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

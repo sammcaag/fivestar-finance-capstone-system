@@ -2,9 +2,7 @@ import { suffixOptions } from "@/features/clients/types/client-types";
 import { FullNameProps } from "./format-full-name";
 
 export function decodeFullName(fullName: string): FullNameProps {
-  const SUFFIXES = new Set(
-    suffixOptions.filter((s) => s.value !== "__NONE__").map((s) => s.value)
-  );
+  const SUFFIXES = new Set(suffixOptions.filter((s) => s.value !== "__NONE__").map((s) => s.value));
 
   // Split by spaces and replace '-' with ' ' in each part
   const parts = fullName.split(" ").map((p) => p.replace(/-/g, " "));

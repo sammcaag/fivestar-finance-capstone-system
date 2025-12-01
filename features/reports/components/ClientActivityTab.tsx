@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -110,9 +104,7 @@ export default function ClientActivityTab() {
       <Card>
         <CardHeader>
           <CardTitle>Client Acquisition Trends</CardTitle>
-          <CardDescription>
-            New vs returning AFP retirees over time
-          </CardDescription>
+          <CardDescription>New vs returning AFP retirees over time</CardDescription>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={350}>
@@ -128,12 +120,7 @@ export default function ClientActivityTab() {
                 }}
               />
               <Legend />
-              <Bar
-                dataKey="newClients"
-                fill="#2563eb"
-                radius={[8, 8, 0, 0]}
-                name="New Clients"
-              />
+              <Bar dataKey="newClients" fill="#2563eb" radius={[8, 8, 0, 0]} name="New Clients" />
               <Bar
                 dataKey="returning"
                 fill="#60a5fa"
@@ -157,12 +144,7 @@ export default function ClientActivityTab() {
               <BarChart data={applicationStagesData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis type="number" stroke="#64748b" />
-                <YAxis
-                  dataKey="stage"
-                  type="category"
-                  width={150}
-                  stroke="#64748b"
-                />
+                <YAxis dataKey="stage" type="category" width={150} stroke="#64748b" />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: "#fff",
@@ -172,10 +154,7 @@ export default function ClientActivityTab() {
                 />
                 <Bar dataKey="count" radius={[0, 8, 8, 0]}>
                   {applicationStagesData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={STAGE_COLORS[index % STAGE_COLORS.length]}
-                    />
+                    <Cell key={`cell-${index}`} fill={STAGE_COLORS[index % STAGE_COLORS.length]} />
                   ))}
                 </Bar>
               </BarChart>
@@ -197,9 +176,7 @@ export default function ClientActivityTab() {
                     <span className="text-sm">{item.stage}</span>
                     <div className="text-right">
                       <span className="text-sm">{item.count}</span>
-                      <span className="text-xs text-muted-foreground ml-2">
-                        ({item.rate}%)
-                      </span>
+                      <span className="text-xs text-muted-foreground ml-2">({item.rate}%)</span>
                     </div>
                   </div>
                   <Progress value={item.rate} className="h-2" />
@@ -214,9 +191,7 @@ export default function ClientActivityTab() {
       <Card>
         <CardHeader>
           <CardTitle>Recent Client Activities</CardTitle>
-          <CardDescription>
-            Latest updates from AFP retiree loan applications
-          </CardDescription>
+          <CardDescription>Latest updates from AFP retiree loan applications</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -235,36 +210,32 @@ export default function ClientActivityTab() {
               {recentActivities.map((activity) => (
                 <TableRow key={activity.clientId}>
                   <TableCell>{activity.client}</TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {activity.clientId}
-                  </TableCell>
+                  <TableCell className="text-muted-foreground">{activity.clientId}</TableCell>
                   <TableCell>{activity.action}</TableCell>
                   <TableCell>{activity.loanType}</TableCell>
                   <TableCell>{activity.amount}</TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {activity.time}
-                  </TableCell>
+                  <TableCell className="text-muted-foreground">{activity.time}</TableCell>
                   <TableCell>
                     <Badge
                       variant={
                         activity.status === "completed"
                           ? "default"
                           : activity.status === "approved"
-                          ? "default"
-                          : activity.status === "action-required"
-                          ? "destructive"
-                          : "secondary"
+                            ? "default"
+                            : activity.status === "action-required"
+                              ? "destructive"
+                              : "secondary"
                       }
                     >
                       {activity.status === "pending"
                         ? "Pending"
                         : activity.status === "in-review"
-                        ? "In Review"
-                        : activity.status === "approved"
-                        ? "Approved"
-                        : activity.status === "completed"
-                        ? "Completed"
-                        : "Action Required"}
+                          ? "In Review"
+                          : activity.status === "approved"
+                            ? "Approved"
+                            : activity.status === "completed"
+                              ? "Completed"
+                              : "Action Required"}
                     </Badge>
                   </TableCell>
                 </TableRow>

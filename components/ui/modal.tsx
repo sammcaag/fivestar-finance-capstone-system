@@ -12,13 +12,7 @@ interface ModalProps {
   size?: "sm" | "md" | "lg" | "xl";
 }
 
-export function Modal({
-  isOpen,
-  onClose,
-  title,
-  children,
-  size = "md",
-}: ModalProps) {
+export function Modal({ isOpen, onClose, title, children, size = "md" }: ModalProps) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -42,10 +36,7 @@ export function Modal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal */}
       <div
@@ -59,12 +50,7 @@ export function Modal({
             onClick={onClose}
             className="rounded-lg p-1 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
           >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

@@ -34,12 +34,7 @@ export default function TableBodyComp<TData extends TableData>({
   const activeColumnFilters = columnFilters.filter((f) => {
     const v = f.value;
     return (
-      v != null &&
-      (typeof v === "string"
-        ? v !== ""
-        : Array.isArray(v)
-        ? v.length > 0
-        : false)
+      v != null && (typeof v === "string" ? v !== "" : Array.isArray(v) ? v.length > 0 : false)
     );
   });
 
@@ -97,8 +92,8 @@ export default function TableBodyComp<TData extends TableData>({
                 hasDedCode(row.original)
                   ? getFiRowColors(row as Row<{ dedCode: string }>)
                   : hasStatus(row.original)
-                  ? getStatusRowClass(row as Row<{ status: string }>)
-                  : "hover:bg-primary/20"
+                    ? getStatusRowClass(row as Row<{ status: string }>)
+                    : "hover:bg-primary/20"
               )}
               data-state={row.getIsSelected() && "selected"}
               onDoubleClick={() => onRowDoubleClick?.(row.original)}
@@ -119,10 +114,7 @@ export default function TableBodyComp<TData extends TableData>({
           ))
         ) : isFiltered ? (
           <motion.tr>
-            <motion.td
-              colSpan={table.getAllColumns().length}
-              className="h-96 text-center"
-            >
+            <motion.td colSpan={table.getAllColumns().length} className="h-96 text-center">
               <EmptySearchTableState
                 searchQuery={searchValue}
                 onClearSearch={() => {
@@ -139,10 +131,7 @@ export default function TableBodyComp<TData extends TableData>({
           </motion.tr>
         ) : (
           <motion.tr>
-            <motion.td
-              colSpan={table.getAllColumns().length}
-              className="h-96 text-center"
-            >
+            <motion.td colSpan={table.getAllColumns().length} className="h-96 text-center">
               <EmptyTableState
                 emptyTitle={emptyTitle}
                 emptyDescription={emptyDescription}

@@ -9,20 +9,10 @@ export type FullNameProps = {
   suffix?: string;
 };
 
-export function formatFullName({
-  firstName,
-  middleName,
-  lastName,
-  suffix,
-}: FullNameProps): string {
+export function formatFullName({ firstName, middleName, lastName, suffix }: FullNameProps): string {
   // Helper to capitalize then replace spaces with "-"
   const encodePart = (part?: string | null) =>
-    part
-      ? capitalizeFirstLetterInWords(part.replace(/\s+/g, " ").trim()).replace(
-          /\s/g,
-          "-"
-        )
-      : "";
+    part ? capitalizeFirstLetterInWords(part.replace(/\s+/g, " ").trim()).replace(/\s/g, "-") : "";
 
   // Encode each part
   const first = encodePart(firstName);

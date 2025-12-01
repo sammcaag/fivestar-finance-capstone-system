@@ -1,8 +1,5 @@
-export const preventInvalidInput = (
-  e: React.KeyboardEvent<HTMLInputElement>
-) => {
-  if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+")
-    e.preventDefault();
+export const preventInvalidInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") e.preventDefault();
 };
 
 export const preventNegativeAndLimitDecimals = (

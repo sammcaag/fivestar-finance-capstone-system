@@ -17,9 +17,7 @@ export default function ResultOutline({
       className="framer-motion-fix"
     >
       <div className="space-y-2">
-        <h4 className="font-medium text-base text-gray-700 dark:text-gray-300">
-          {title}
-        </h4>
+        <h4 className="font-medium text-base text-gray-700 dark:text-gray-300">{title}</h4>
         <p className={`font-semibold text-lg ${textColorClass}`}>{value}</p>
       </div>
       {isOutline && <Separator className="my-3" />}

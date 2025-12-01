@@ -1,13 +1,7 @@
 "use client";
 
 import { GlobalDialog } from "@/components/GlobalDialog";
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useCallback,
-} from "react";
+import React, { createContext, useContext, useState, ReactNode, useCallback } from "react";
 
 type DialogVariant = "success" | "error" | "info" | "warning";
 
@@ -33,27 +27,19 @@ export const DialogProvider = ({ children }: DialogProviderProps) => {
   const [variant, setVariant] = useState<DialogVariant>("info");
   const [time, setTime] = useState(1);
 
-  const showDialog = useCallback(
-    (msg: string, v: DialogVariant = "info", t: number = 1) => {
-      setMessage(msg);
-      setVariant(v);
-      setTime(t);
-      setVisible(true);
+  const showDialog = useCallback((msg: string, v: DialogVariant = "info", t: number = 1) => {
+    setMessage(msg);
+    setVariant(v);
+    setTime(t);
+    setVisible(true);
 
-      setTimeout(() => setVisible(false), t * 1000);
-    },
-    []
-  );
+    setTimeout(() => setVisible(false), t * 1000);
+  }, []);
 
   return (
     <DialogContext.Provider value={{ showDialog }}>
       {children}
-      <GlobalDialog
-        message={message}
-        visible={visible}
-        variant={variant}
-        time={time}
-      />
+      <GlobalDialog message={message} visible={visible} variant={variant} time={time} />
     </DialogContext.Provider>
   );
 };

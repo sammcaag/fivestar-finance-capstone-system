@@ -1,15 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Save,
-  FileUp,
-  Trash2,
-  Eraser,
-  Rotate3DIcon,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Save, FileUp, Trash2, Eraser, Rotate3DIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -54,13 +46,7 @@ export function FormNavigationButtons({
     disabled: "opacity-50 cursor-not-allowed",
   };
 
-  const ButtonContent = ({
-    icon: Icon,
-    text,
-  }: {
-    icon: typeof ArrowLeft;
-    text: string;
-  }) => (
+  const ButtonContent = ({ icon: Icon, text }: { icon: typeof ArrowLeft; text: string }) => (
     <div className="flex items-center gap-2">
       <Icon className="size-4" />
       <span className="w-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:w-auto group-hover:opacity-100 group-hover:ml-1">
@@ -85,10 +71,7 @@ export function FormNavigationButtons({
           type="button"
           onClick={onPrevious}
           disabled={isFirstStep}
-          className={cn(
-            buttonStyles.primary,
-            isFirstStep && buttonStyles.disabled
-          )}
+          className={cn(buttonStyles.primary, isFirstStep && buttonStyles.disabled)}
         >
           <ArrowLeft className="size-4" />
           Previous
@@ -139,10 +122,7 @@ export function FormNavigationButtons({
               onClick={onSaveDraft}
               variant="outline"
               disabled={!formModified}
-              className={cn(
-                buttonStyles.outline,
-                !formModified && buttonStyles.disabled
-              )}
+              className={cn(buttonStyles.outline, !formModified && buttonStyles.disabled)}
             >
               <ButtonContent icon={Save} text="Save Draft" />
             </Button>
@@ -154,20 +134,13 @@ export function FormNavigationButtons({
             type="submit"
             disabled={isSubmitting}
             onClick={onSubmit}
-            className={cn(
-              buttonStyles.primary,
-              isSubmitting && buttonStyles.disabled
-            )}
+            className={cn(buttonStyles.primary, isSubmitting && buttonStyles.disabled)}
           >
             {isEditMode ? "Update" : "Submit"}
             <ArrowRight className="size-4" />
           </Button>
         ) : (
-          <Button
-            type="button"
-            onClick={onNext}
-            className={buttonStyles.primary}
-          >
+          <Button type="button" onClick={onNext} className={buttonStyles.primary}>
             Next
             <ArrowRight className="size-4" />
           </Button>

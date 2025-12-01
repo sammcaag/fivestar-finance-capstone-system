@@ -1,11 +1,6 @@
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
 import { Table } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
@@ -14,9 +9,7 @@ interface TableRowLoadingStateProps<TData> {
   columns: ColumnDef<TData>[];
 }
 
-export default function TableRowLoadingState<TData>({
-  columns,
-}: TableRowLoadingStateProps<TData>) {
+export default function TableRowLoadingState<TData>({ columns }: TableRowLoadingStateProps<TData>) {
   return (
     <Card className="overflow-hidden border flex-1">
       <CardHeader>
@@ -54,10 +47,7 @@ export default function TableRowLoadingState<TData>({
                     <td
                       key={col.id || j.toString()}
                       style={{ width: col.size || 100 }}
-                      className={cn(
-                        "px-4 py-4",
-                        "max-w-[150px] overflow-hidden"
-                      )}
+                      className={cn("px-4 py-4", "max-w-[150px] overflow-hidden")}
                     >
                       <Skeleton className={cn("h-8 w-full max-w-[150px]")} />
                     </td>

@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { EyeOff, Mail, User } from "lucide-react";
 import React from "react";
 import { Separator } from "@/components/ui/separator";
@@ -15,9 +9,7 @@ interface ISecurityInformation {
   isOwnProfile?: boolean;
 }
 
-export default function SecurtiyInformation({
-  isOwnProfile = false,
-}: ISecurityInformation) {
+export default function SecurtiyInformation({ isOwnProfile = false }: ISecurityInformation) {
   const { user } = useAuth();
   const email = user!.email;
 

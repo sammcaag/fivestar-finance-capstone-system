@@ -1,20 +1,7 @@
 import React from "react";
 import { TabsContent } from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import {
-  Banknote,
-  Building,
-  Building2,
-  Calendar,
-  CreditCard,
-  User,
-} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Banknote, Building, Building2, Calendar, CreditCard, User } from "lucide-react";
 import ClientInfoRowItem from "../ClientInfoRowItem";
 import { Separator } from "@/components/ui/separator";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
@@ -40,8 +27,8 @@ export default function PensionInformationTab({
           <div>
             <CardTitle className="text-xl">Pension Information</CardTitle>
             <CardDescription>
-              Review pension-related details such as AFP service branch, pension
-              type, monthly pension, and payee status.
+              Review pension-related details such as AFP service branch, pension type, monthly
+              pension, and payee status.
             </CardDescription>
           </div>
         </CardHeader>
@@ -87,9 +74,7 @@ export default function PensionInformationTab({
               <ClientInfoRowItem
                 icon={<Calendar className="h-4 w-4 text-primary" />}
                 label="Date Separation Service"
-                value={formatDateToReadable(
-                  clientPension.dateSeparationService
-                )}
+                value={formatDateToReadable(clientPension.dateSeparationService)}
               />
               {/* Date Retired Service */}
               <ClientInfoRowItem
@@ -120,9 +105,7 @@ export default function PensionInformationTab({
           <section className="space-y-3">
             <div className="flex gap-2 flex-row items-center">
               <Banknote className="h-5 w-5 text-primary" />
-              <h3 className="text-lg font-semibold ">
-                Client Account Information
-              </h3>
+              <h3 className="text-lg font-semibold ">Client Account Information</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Monthly Pension */}

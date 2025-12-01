@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -86,9 +80,7 @@ export default function LoanPerformanceTab() {
       <Card>
         <CardHeader>
           <CardTitle>Loan Approval Trends</CardTitle>
-          <CardDescription>
-            Monthly approval, rejection, and pending applications
-          </CardDescription>
+          <CardDescription>Monthly approval, rejection, and pending applications</CardDescription>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={350}>
@@ -135,9 +127,7 @@ export default function LoanPerformanceTab() {
         <Card>
           <CardHeader>
             <CardTitle>Monthly Disbursement</CardTitle>
-            <CardDescription>
-              Total amount disbursed per month (in millions)
-            </CardDescription>
+            <CardDescription>Total amount disbursed per month (in millions)</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -178,9 +168,7 @@ export default function LoanPerformanceTab() {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, percent }) =>
-                    `${name}: ${(percent * 100).toFixed(0)}%`
-                  }
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                   outerRadius={100}
                   fill="#8884d8"
                   dataKey="value"
@@ -220,13 +208,7 @@ export default function LoanPerformanceTab() {
                   <TableCell>{loan.total}</TableCell>
                   <TableCell>{loan.approved}</TableCell>
                   <TableCell>
-                    <Badge
-                      variant={
-                        parseFloat(loan.approvalRate) > 85
-                          ? "default"
-                          : "secondary"
-                      }
-                    >
+                    <Badge variant={parseFloat(loan.approvalRate) > 85 ? "default" : "secondary"}>
                       {loan.approvalRate}
                     </Badge>
                   </TableCell>

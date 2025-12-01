@@ -33,9 +33,7 @@ export default function BreadcrumbPages({ links }: BreadcrumbPagesProps) {
                 </BreadcrumbLink>
               )}
             </BreadcrumbItem>
-            {index !== links.length - 1 && (
-              <BreadcrumbSeparator className="ml-2" />
-            )}
+            {index !== links.length - 1 && <BreadcrumbSeparator className="ml-2" />}
           </div>
         ))}
       </BreadcrumbList>

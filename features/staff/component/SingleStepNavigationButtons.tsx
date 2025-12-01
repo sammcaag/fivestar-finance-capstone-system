@@ -2,14 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import {
-  Save,
-  FileUp,
-  Trash2,
-  Eraser,
-  Rotate3DIcon,
-  ArrowRight,
-} from "lucide-react";
+import { Save, FileUp, Trash2, Eraser, Rotate3DIcon, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SingleStepFormButtonsProps {
@@ -46,13 +39,7 @@ export function SingleStepFormButtons({
     disabled: "opacity-50 cursor-not-allowed",
   };
 
-  const CollapsibleButton = ({
-    icon: Icon,
-    text,
-  }: {
-    icon: typeof Save;
-    text: string;
-  }) => (
+  const CollapsibleButton = ({ icon: Icon, text }: { icon: typeof Save; text: string }) => (
     <div className="flex items-center gap-2">
       <Icon className="size-4" />
       <span className="w-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:w-auto group-hover:opacity-100 group-hover:ml-1">
@@ -123,10 +110,7 @@ export function SingleStepFormButtons({
           variant="outline"
           disabled={!formModified}
           onClick={onSaveDraft}
-          className={cn(
-            buttonStyles.outline,
-            !formModified && buttonStyles.disabled
-          )}
+          className={cn(buttonStyles.outline, !formModified && buttonStyles.disabled)}
         >
           <CollapsibleButton icon={Save} text="Save Draft" />
         </Button>
@@ -136,10 +120,7 @@ export function SingleStepFormButtons({
           type="submit"
           disabled={isSubmitting}
           onClick={onSubmit}
-          className={cn(
-            buttonStyles.primary,
-            isSubmitting && buttonStyles.disabled
-          )}
+          className={cn(buttonStyles.primary, isSubmitting && buttonStyles.disabled)}
         >
           {isEditMode ? "Update" : "Submit"}
           <ArrowRight className="size-4" />

@@ -2,17 +2,8 @@
 import { motion } from "framer-motion";
 import { Label } from "@/components/ui/label";
 import CustomDatePicker from "@/components/CustomDatePicker";
-import {
-  Calendar,
-  DollarSign,
-  Percent,
-  Calculator,
-  AlertTriangle,
-} from "lucide-react";
-import type {
-  ResultsDisplayProps,
-  ResultsDisplayDatesProps,
-} from "../../types/types-extension";
+import { Calendar, DollarSign, Percent, Calculator, AlertTriangle } from "lucide-react";
+import type { ResultsDisplayProps, ResultsDisplayDatesProps } from "../../types/types-extension";
 import ResultCard from "../ResultCard";
 import ResultOutline from "./ResultOutline";
 
@@ -114,10 +105,7 @@ export default function ResultsDisplayExtension({
             </motion.div>
           </motion.div>
 
-          <motion.div
-            className="grid grid-cols-1 gap-4"
-            variants={containerVariants}
-          >
+          <motion.div className="grid grid-cols-1 gap-4" variants={containerVariants}>
             <motion.div variants={itemVariants}>
               <ResultCard
                 title="Principal Amount (PN)"
@@ -181,10 +169,7 @@ export default function ResultsDisplayExtension({
             />
           </motion.div>
 
-          <motion.div
-            className="grid grid-cols-1 gap-6"
-            variants={containerVariants}
-          >
+          <motion.div className="grid grid-cols-1 gap-6" variants={containerVariants}>
             <motion.div variants={itemVariants} className="space-y-3">
               <Label className="text-lg font-semibold flex items-center">
                 <Calendar className="h-5 w-5 mr-2 text-blue-500" />
@@ -249,10 +234,7 @@ export default function ResultsDisplayExtension({
             </motion.div>
           </motion.div>
 
-          <motion.div
-            className="grid grid-cols-1 gap-4"
-            variants={containerVariants}
-          >
+          <motion.div className="grid grid-cols-1 gap-4" variants={containerVariants}>
             <motion.div variants={itemVariants}>
               <ResultCard
                 title="Principal Amount (PN)"
@@ -316,10 +298,7 @@ export default function ResultsDisplayExtension({
             />
           </motion.div>
 
-          <motion.div
-            className="grid grid-cols-1 gap-6"
-            variants={containerVariants}
-          >
+          <motion.div className="grid grid-cols-1 gap-6" variants={containerVariants}>
             <motion.div variants={itemVariants} className="space-y-3">
               <Label className="text-lg font-semibold flex items-center">
                 <Calendar className="h-5 w-5 mr-2 text-blue-500" />

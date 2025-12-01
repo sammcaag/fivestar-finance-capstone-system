@@ -1,16 +1,6 @@
-export type LoanType =
-  | "New Client"
-  | "Extension"
-  | "Additional"
-  | "Renewal"
-  | "Reloan";
+export type LoanType = "New Client" | "Extension" | "Additional" | "Renewal" | "Reloan";
 
-type LoanStatus =
-  | "Approved by HQ"
-  | "Pending"
-  | "Disbursed"
-  | "Rejected"
-  | "Forwarded to HQ";
+type LoanStatus = "Approved by HQ" | "Pending" | "Disbursed" | "Rejected" | "Forwarded to HQ";
 export interface LoanTableProps {
   id: string;
   name: string;

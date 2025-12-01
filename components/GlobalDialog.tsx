@@ -41,12 +41,7 @@ const variantConfig: Record<
   },
 };
 
-export function GlobalDialog({
-  message,
-  visible,
-  variant = "info",
-  time = 1,
-}: DialogProps) {
+export function GlobalDialog({ message, visible, variant = "info", time = 1 }: DialogProps) {
   const config = variantConfig[variant];
   const Icon = config.icon;
 
@@ -78,10 +73,7 @@ export function GlobalDialog({
               transition={{ delay: 0.1, type: "spring" }}
             >
               <div className="bg-white dark:bg-slate-800 rounded-full p-4 shadow-lg">
-                <Icon
-                  className={`w-12 h-12 ${config.iconColor}`}
-                  strokeWidth={2}
-                />
+                <Icon className={`w-12 h-12 ${config.iconColor}`} strokeWidth={2} />
               </div>
             </motion.div>
 

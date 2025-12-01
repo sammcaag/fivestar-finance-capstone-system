@@ -2,13 +2,7 @@ import { MenuIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Menu } from "@/components/staff-panel/menu";
-import {
-  Sheet,
-  SheetHeader,
-  SheetContent,
-  SheetTrigger,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import { Sheet, SheetHeader, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import Logo from "../Logo";
 
 export function SheetMenu() {
@@ -19,17 +13,10 @@ export function SheetMenu() {
           <MenuIcon size={20} />
         </Button>
       </SheetTrigger>
-      <SheetContent
-        className="w-auto px-0 h-full flex flex-col overflow-y-auto"
-        side="left"
-      >
+      <SheetContent className="w-auto px-0 h-full flex flex-col overflow-y-auto" side="left">
         <SheetHeader>
           <SheetTitle className="sr-only">Five Star Finance Inc.</SheetTitle>
-          <Button
-            className="flex justify-center items-center pt-1"
-            variant="link"
-            asChild
-          >
+          <Button className="flex justify-center items-center pt-1" variant="link" asChild>
             <Logo withLabel={true} />
           </Button>
         </SheetHeader>

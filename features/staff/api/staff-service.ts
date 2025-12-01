@@ -19,9 +19,7 @@ export const getStaffs = async (): Promise<StaffTableProps[]> => {
   }
 };
 
-export const getStaffByStaffId = async (
-  staffId: string
-): Promise<StaffPayload> => {
+export const getStaffByStaffId = async (staffId: string): Promise<StaffPayload> => {
   try {
     const { data } = await axiosInstance.get<{
       success: boolean;
@@ -52,15 +50,9 @@ export const createStaffApi = async (payload: StaffPayload) => {
   }
 };
 
-export const updateStaffApi = async (
-  staffId: string,
-  updatePayload: StaffPayload
-) => {
+export const updateStaffApi = async (staffId: string, updatePayload: StaffPayload) => {
   try {
-    const { data } = await axiosInstance.put(
-      `/api/users/staff/${staffId}`,
-      updatePayload
-    );
+    const { data } = await axiosInstance.put(`/api/users/staff/${staffId}`, updatePayload);
     return data.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

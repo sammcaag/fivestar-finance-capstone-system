@@ -1,12 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  ArrowUpRightIcon,
-  Calculator,
-  SearchIcon,
-  UserPlus2,
-} from "lucide-react";
+import { ArrowUpRightIcon, Calculator, SearchIcon, UserPlus2 } from "lucide-react";
 
 import {
   CommandDialog,
@@ -25,11 +20,7 @@ import { cn } from "@/lib/utils";
 import { clientSearchMock } from "@/features/clients/data/search-client-mock";
 import type { ClientSearchRecord } from "@/features/clients/data/search-client-mock";
 
-export default function NavBarSearchInput({
-  fullWidth,
-}: {
-  fullWidth: boolean;
-}) {
+export default function NavBarSearchInput({ fullWidth }: { fullWidth: boolean }) {
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
   const [debouncedQuery, setDebouncedQuery] = React.useState("");
@@ -116,9 +107,7 @@ export default function NavBarSearchInput({
             size={16}
             aria-hidden="true"
           />
-          <span className="text-muted-foreground/70 font-normal">
-            Search Clients...
-          </span>
+          <span className="text-muted-foreground/70 font-normal">Search Clients...</span>
         </span>
         <kbd className="text-muted-foreground/70 ms-12 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
           Ctrl+K
@@ -141,9 +130,7 @@ export default function NavBarSearchInput({
                   onSelect={() => handleClientSelect(client)}
                 >
                   <div className="flex flex-col text-left">
-                    <span className="text-sm font-medium text-foreground">
-                      {client.fullName}
-                    </span>
+                    <span className="text-sm font-medium text-foreground">{client.fullName}</span>
                     <span className="text-xs text-muted-foreground">
                       {client.id} • {client.branch}
                     </span>
@@ -159,47 +146,25 @@ export default function NavBarSearchInput({
                 router.push("/clients/register");
               }}
             >
-              <Link
-                href="/clients/register"
-                className="flex items-center gap-2"
-              >
-                <UserPlus2
-                  size={16}
-                  className="opacity-60"
-                  aria-hidden="true"
-                />
+              <Link href="/clients/register" className="flex items-center gap-2">
+                <UserPlus2 size={16} className="opacity-60" aria-hidden="true" />
                 <span>Register a New Client</span>
               </Link>
-              <CommandShortcut className="justify-center">
-                Ctrl+N
-              </CommandShortcut>
+              <CommandShortcut className="justify-center">Ctrl+N</CommandShortcut>
             </CommandItem>
             <CommandItem>
-              <Link
-                href="/loan-computations/new-client"
-                className="flex items-center gap-2"
-              >
-                <Calculator
-                  size={16}
-                  className="opacity-60"
-                  aria-hidden="true"
-                />
+              <Link href="/loan-computations/new-client" className="flex items-center gap-2">
+                <Calculator size={16} className="opacity-60" aria-hidden="true" />
                 <span>New Client Computation</span>
               </Link>
-              <CommandShortcut className="justify-center">
-                Ctrl+I
-              </CommandShortcut>
+              <CommandShortcut className="justify-center">Ctrl+I</CommandShortcut>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Navigation">
             <CommandItem>
               <Link href="/dashboard" className="flex items-center gap-2">
-                <ArrowUpRightIcon
-                  size={16}
-                  className="opacity-60"
-                  aria-hidden="true"
-                />
+                <ArrowUpRightIcon size={16} className="opacity-60" aria-hidden="true" />
                 <span>Go to dashboard</span>
               </Link>
             </CommandItem>

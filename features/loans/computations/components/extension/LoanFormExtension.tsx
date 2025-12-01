@@ -11,12 +11,7 @@ import {
 } from "../../../../../utils/handling-input-numbers";
 import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from "framer-motion";
-import {
-  AlertCircle,
-  AudioLines as PhilippinePeso,
-  Calendar,
-  Clock,
-} from "lucide-react";
+import { AlertCircle, AudioLines as PhilippinePeso, Calendar, Clock } from "lucide-react";
 import CustomDatePicker from "@/components/CustomDatePicker";
 import { getYear } from "date-fns";
 import { useFormContext, type UseFormReturn } from "react-hook-form";
@@ -46,10 +41,7 @@ export default function LoanFormExtension({
   const { control } = useFormContext<ExtensionCalculatorSchema>();
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
-  const createInputHandlers = (
-    fieldName: string,
-    onChange: (value: string | number) => void
-  ) => ({
+  const createInputHandlers = (fieldName: string, onChange: (value: string | number) => void) => ({
     onFocus: () => setFocusedField(fieldName),
     onBlur: () => setFocusedField(null),
     onKeyDown: preventInvalidInput,
@@ -90,10 +82,7 @@ export default function LoanFormExtension({
                       step="1000"
                       className={FORM_STYLES.input}
                       {...field}
-                      {...createInputHandlers(
-                        "monthlyAmortization",
-                        field.onChange
-                      )}
+                      {...createInputHandlers("monthlyAmortization", field.onChange)}
                     />
                   </FormControl>
                 </div>
@@ -131,8 +120,7 @@ export default function LoanFormExtension({
                       className={FORM_STYLES.input}
                       {...field}
                       onChange={(e) => {
-                        const value =
-                          e.target.value === "" ? "" : Number(e.target.value);
+                        const value = e.target.value === "" ? "" : Number(e.target.value);
                         field.onChange(value);
                       }}
                       onFocus={() => setFocusedField("term")}
@@ -209,8 +197,7 @@ export default function LoanFormExtension({
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <AlertCircle className="h-4 w-4" />
           <span>
-            Enabling this will allow you to specify outstanding balance and
-            other deductions
+            Enabling this will allow you to specify outstanding balance and other deductions
           </span>
         </div>
       </motion.div>
@@ -260,10 +247,7 @@ export default function LoanFormExtension({
                           isDisabled && `${COLORS.muted} disabled:opacity-100`
                         }`}
                         {...field}
-                        {...createInputHandlers(
-                          "settedOutstandingBalance",
-                          field.onChange
-                        )}
+                        {...createInputHandlers("settedOutstandingBalance", field.onChange)}
                         disabled={isDisabled}
                       />
                     </FormControl>
@@ -309,15 +293,10 @@ export default function LoanFormExtension({
                         type="number"
                         step="1000"
                         className={`${FORM_STYLES.input} ${
-                          isDisabled
-                            ? `${COLORS.muted} disabled:opacity-100`
-                            : ""
+                          isDisabled ? `${COLORS.muted} disabled:opacity-100` : ""
                         }`}
                         {...field}
-                        {...createInputHandlers(
-                          "otherDeduction",
-                          field.onChange
-                        )}
+                        {...createInputHandlers("otherDeduction", field.onChange)}
                         disabled={isDisabled}
                       />
                     </FormControl>

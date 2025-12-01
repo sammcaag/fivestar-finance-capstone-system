@@ -1,11 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import {
-  Calculator,
-  DollarSign,
-  RefreshCw,
-  ArrowRightLeft,
-} from "lucide-react";
+import { Calculator, DollarSign, RefreshCw, ArrowRightLeft } from "lucide-react";
 import type { ReferencesDisplayProps } from "../../types/types-extension";
 import { Separator } from "@/components/ui/separator";
 import ResultCard from "../ResultCard";
@@ -57,10 +52,7 @@ export default function ReferencesDisplay({
         </div>
       </motion.div>
 
-      <motion.div
-        className="grid grid-cols-1 sm:grid-cols-3 gap-8"
-        variants={containerVariants}
-      >
+      <motion.div className="grid grid-cols-1 sm:grid-cols-3 gap-8" variants={containerVariants}>
         <motion.div variants={itemVariants}>
           <ResultCard
             title="OI Term"
@@ -118,10 +110,7 @@ export default function ReferencesDisplay({
 
       <Separator className="my-4" />
 
-      <motion.div
-        className="grid grid-cols-1 sm:grid-cols-3 gap-8"
-        variants={containerVariants}
-      >
+      <motion.div className="grid grid-cols-1 sm:grid-cols-3 gap-8" variants={containerVariants}>
         <motion.div variants={itemVariants}>
           <ResultCard
             title="Rebates (REN-E)"

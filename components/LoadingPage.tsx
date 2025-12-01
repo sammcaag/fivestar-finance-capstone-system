@@ -24,11 +24,7 @@ export default function Loading({
               <div className="relative bg-gradient-to-br from-blue-600 via-indigo-700 to-blue-800 rounded-2xl p-10 shadow-2xl border-4 border-blue-300/30">
                 {/* Main Heart Icon */}
                 <div className="relative">
-                  <Heart
-                    className="w-20 h-20 text-red-400"
-                    strokeWidth={2.5}
-                    fill="currentColor"
-                  />
+                  <Heart className="w-20 h-20 text-red-400" strokeWidth={2.5} fill="currentColor" />
                 </div>
 
                 {/* Verification checkmark badge */}
@@ -45,10 +41,7 @@ export default function Loading({
 
               {/* Rotating Spinner Ring */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <Loader2
-                  className="w-40 h-40 text-blue-500 animate-spin"
-                  strokeWidth={1.5}
-                />
+                <Loader2 className="w-40 h-40 text-blue-500 animate-spin" strokeWidth={1.5} />
               </div>
             </div>
 
@@ -64,17 +57,13 @@ export default function Loading({
               <p className="text-sm font-semibold text-blue-700 uppercase tracking-wider">
                 Armed Forces of the Philippines
               </p>
-              <p className="text-xs text-gray-600">
-                Retirement & Benefits Information System
-              </p>
+              <p className="text-xs text-gray-600">Retirement & Benefits Information System</p>
             </div>
 
             {/* Loading Messages */}
             <div className="text-center space-y-3 max-w-lg">
               <h3 className="text-2xl font-bold text-gray-800">{message}</h3>
-              <p className="text-base text-gray-600 leading-relaxed">
-                {subtitle}
-              </p>
+              <p className="text-base text-gray-600 leading-relaxed">{subtitle}</p>
             </div>
 
             {/* Enhanced Progress Indicator */}
@@ -82,18 +71,14 @@ export default function Loading({
               <div className="h-2 bg-gray-200 rounded-full overflow-hidden shadow-inner">
                 <div className="h-full bg-gradient-to-r from-blue-500 via-indigo-600 to-blue-500 rounded-full animate-loading-bar shadow-lg"></div>
               </div>
-              <p className="text-xs text-center text-gray-500">
-                Processing your request...
-              </p>
+              <p className="text-xs text-center text-gray-500">Processing your request...</p>
             </div>
 
             {/* Service Indicators */}
             <div className="flex items-center gap-6 pt-4">
               <div className="flex flex-col items-center gap-2">
                 <div className="w-3 h-3 bg-blue-600 rounded-full animate-pulse shadow-lg"></div>
-                <span className="text-xs text-gray-600 font-medium">
-                  Retirees
-                </span>
+                <span className="text-xs text-gray-600 font-medium">Retirees</span>
               </div>
               <div className="h-8 w-px bg-gray-300"></div>
               <div className="flex flex-col items-center gap-2">
@@ -101,9 +86,7 @@ export default function Loading({
                   className="w-3 h-3 bg-indigo-600 rounded-full animate-pulse shadow-lg"
                   style={{ animationDelay: "0.3s" }}
                 ></div>
-                <span className="text-xs text-gray-600 font-medium">
-                  Beneficiaries
-                </span>
+                <span className="text-xs text-gray-600 font-medium">Beneficiaries</span>
               </div>
               <div className="h-8 w-px bg-gray-300"></div>
               <div className="flex flex-col items-center gap-2">
@@ -111,9 +94,7 @@ export default function Loading({
                   className="w-3 h-3 bg-blue-600 rounded-full animate-pulse shadow-lg"
                   style={{ animationDelay: "0.6s" }}
                 ></div>
-                <span className="text-xs text-gray-600 font-medium">
-                  Records
-                </span>
+                <span className="text-xs text-gray-600 font-medium">Records</span>
               </div>
             </div>
 

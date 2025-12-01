@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 import { Calendar, MapPin, Phone, User, Users } from "lucide-react";
 import React from "react";
@@ -45,8 +39,8 @@ export default function PersonalInformationTab({
           <div>
             <CardTitle className="text-xl">Personal Information</CardTitle>
             <CardDescription>
-              View and verify the client&apos;s basic identity details such as
-              full name, date of birth, and gender.
+              View and verify the client&apos;s basic identity details such as full name, date of
+              birth, and gender.
             </CardDescription>
           </div>
         </CardHeader>
@@ -54,37 +48,17 @@ export default function PersonalInformationTab({
         <CardContent className="space-y-6 px-0">
           <section className="grid grid-cols-1 md:grid-cols-2 gap-4 px-6">
             {/* Date of Birth */}
-            <ClientInfoRowItem
-              icon={<Calendar />}
-              label="Birth Date"
-              value={dateOfBirth}
-            />
+            <ClientInfoRowItem icon={<Calendar />} label="Birth Date" value={dateOfBirth} />
             {/* Age */}
             <ClientInfoRowItem icon={<Calendar />} label="Age" value={age} />
             {/* Civil Status */}
-            <ClientInfoRowItem
-              icon={<Users />}
-              label="Civil Status"
-              value={civilStatus}
-            />
+            <ClientInfoRowItem icon={<Users />} label="Civil Status" value={civilStatus} />
             {/* Religion */}
-            <ClientInfoRowItem
-              icon={<User />}
-              label="Religion"
-              value={religion}
-            />
+            <ClientInfoRowItem icon={<User />} label="Religion" value={religion} />
             {/* Place of Birth */}
-            <ClientInfoRowItem
-              icon={<MapPin />}
-              label="Place of Birth"
-              value={birthPlace}
-            />
+            <ClientInfoRowItem icon={<MapPin />} label="Place of Birth" value={birthPlace} />
             {/* Current Address */}
-            <ClientInfoRowItem
-              icon={<MapPin />}
-              label="Current Address"
-              value={address}
-            />
+            <ClientInfoRowItem icon={<MapPin />} label="Current Address" value={address} />
           </section>
 
           <section className="pt-6">
@@ -97,8 +71,8 @@ export default function PersonalInformationTab({
               <div>
                 <CardTitle className="text-xl">Contact Information</CardTitle>
                 <CardDescription>
-                  Review and confirm the client&apos;s phone numbers, email
-                  address, and current residential details.
+                  Review and confirm the client&apos;s phone numbers, email address, and current
+                  residential details.
                 </CardDescription>
               </div>
             </div>

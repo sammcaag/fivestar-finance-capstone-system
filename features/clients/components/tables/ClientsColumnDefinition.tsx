@@ -12,15 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  MoreHorizontal,
-  Copy,
-  Eye,
-  FileText,
-  Pencil,
-  Flag,
-  MapPin,
-} from "lucide-react";
+import { MoreHorizontal, Copy, Eye, FileText, Pencil, Flag, MapPin } from "lucide-react";
 import { clientBadgeStatusMap } from "../../utils/client-badge-status-map";
 import { cn } from "@/lib/utils";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
@@ -28,14 +20,8 @@ import { avatarFallBack } from "@/utils/avatar-fallback";
 import { decodeFullName } from "@/utils/decode-full-name";
 import { formatFullNameFromParts } from "@/utils/format-full-name-from-parts";
 
-export const clientsColumnDefinition = (
-  dashboard = false
-): ColumnDef<ClientTableProps>[] => {
-  const nameSearchFilterFn: FilterFn<ClientTableProps> = (
-    row,
-    columnId,
-    filterValue
-  ) => {
+export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTableProps>[] => {
+  const nameSearchFilterFn: FilterFn<ClientTableProps> = (row, columnId, filterValue) => {
     const searchableRowContent = `${row.original.name} ${
       row.original.id || ""
     } ${row.original.email}`.toLowerCase();
@@ -43,11 +29,7 @@ export const clientsColumnDefinition = (
     return searchableRowContent.includes(searchTerm);
   };
 
-  const statusFilterFn: FilterFn<ClientTableProps> = (
-    row,
-    columnId,
-    filterValue: string[]
-  ) => {
+  const statusFilterFn: FilterFn<ClientTableProps> = (row, columnId, filterValue: string[]) => {
     if (!filterValue?.length) return true;
     const status = row.getValue(columnId) as string;
     return filterValue.includes(status);
@@ -73,12 +55,9 @@ export const clientsColumnDefinition = (
             </Avatar>
             <div className="flex flex-col">
               <span className="font-medium text-sm">
-                {client.rank}{" "}
-                {formatFullNameFromParts(decodeFullName(client.name))}
+                {client.rank} {formatFullNameFromParts(decodeFullName(client.name))}
               </span>
-              <span className="text-xs text-muted-foreground">
-                {client.email}
-              </span>
+              <span className="text-xs text-muted-foreground">{client.email}</span>
             </div>
           </div>
         );
@@ -109,10 +88,7 @@ export const clientsColumnDefinition = (
       cell: ({ row }) => (
         <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <MapPin className="h-3.5 w-3.5" />
-          <span>
-            {String(row.getValue("branchName"))?.replace(/\s*Branch$/, "") ||
-              "N/A"}
-          </span>
+          <span>{String(row.getValue("branchName"))?.replace(/\s*Branch$/, "") || "N/A"}</span>
         </div>
       ),
     },
@@ -124,10 +100,8 @@ export const clientsColumnDefinition = (
       enableSorting: true,
       size: 100,
       cell: ({ row }) => {
-        const status = (row.getValue("status") ||
-          "INACTIVE") as keyof typeof clientBadgeStatusMap;
-        const config =
-          clientBadgeStatusMap[status] || clientBadgeStatusMap.INACTIVE;
+        const status = (row.getValue("status") || "INACTIVE") as keyof typeof clientBadgeStatusMap;
+        const config = clientBadgeStatusMap[status] || clientBadgeStatusMap.INACTIVE;
         return (
           <Badge variant={config.variant} className={cn(config.className)}>
             {status.toUpperCase()}

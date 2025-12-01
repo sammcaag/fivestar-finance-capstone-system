@@ -12,9 +12,7 @@ interface RegularLoanCalculatorProps {
   clientType: "Renewal" | "New Client" | "Reloan" | "Additional";
 }
 
-export default function RegularLoanCalculator({
-  clientType,
-}: RegularLoanCalculatorProps) {
+export default function RegularLoanCalculator({ clientType }: RegularLoanCalculatorProps) {
   const {
     calculatorForm,
     selectedCard,
@@ -76,10 +74,7 @@ export default function RegularLoanCalculator({
         variants={itemVariants}
       >
         <Form {...calculatorForm}>
-          <form
-            onSubmit={handleSubmit(handleCompute)}
-            className="p-6 space-y-8"
-          >
+          <form onSubmit={handleSubmit(handleCompute)} className="p-6 space-y-8">
             <LoanFormRegular
               selectedCard={selectedCard}
               onCardSelect={setSelectedCard}

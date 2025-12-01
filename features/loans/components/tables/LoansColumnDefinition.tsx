@@ -17,34 +17,21 @@ import { cn } from "@/lib/utils";
 import { loanStatusClassNames } from "../../utils/loan-status-classnames";
 
 // Custom filter function for multi-column searching (name and id)
-const nameSearchFilterFn: FilterFn<LoanTableProps> = (
-  row,
-  columnId,
-  filterValue
-) => {
-  const searchableRowContent =
-    `${row.original.name} ${row.original.id}`.toLowerCase();
+const nameSearchFilterFn: FilterFn<LoanTableProps> = (row, columnId, filterValue) => {
+  const searchableRowContent = `${row.original.name} ${row.original.id}`.toLowerCase();
   const searchTerm = (filterValue ?? "").toLowerCase();
   return searchableRowContent.includes(searchTerm);
 };
 
 // Custom filter function for status
-const statusFilterFn: FilterFn<LoanTableProps> = (
-  row,
-  columnId,
-  filterValue: string[]
-) => {
+const statusFilterFn: FilterFn<LoanTableProps> = (row, columnId, filterValue: string[]) => {
   if (!filterValue?.length) return true;
   const status = row.getValue(columnId) as string;
   return filterValue.includes(status);
 };
 
 // Custom filter function for productType
-const productTypeFilterFn: FilterFn<LoanTableProps> = (
-  row,
-  columnId,
-  filterValue: string[]
-) => {
+const productTypeFilterFn: FilterFn<LoanTableProps> = (row, columnId, filterValue: string[]) => {
   if (!filterValue?.length) return true;
   const productType = row.getValue(columnId) as string;
   return filterValue.includes(productType);
@@ -99,9 +86,7 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
     enableSorting: true,
     size: 120,
     cell: ({ row }) => (
-      <span className="font-semibold text-sm">
-        {formatToPhCurrency(row.original.amount)}
-      </span>
+      <span className="font-semibold text-sm">{formatToPhCurrency(row.original.amount)}</span>
     ),
   },
   // STATUS
@@ -150,9 +135,7 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
     enableColumnFilter: false,
     enableSorting: true,
     size: 100,
-    cell: ({ row }) => (
-      <span className="text-sm font-medium">{row.original.term} months</span>
-    ),
+    cell: ({ row }) => <span className="text-sm font-medium">{row.original.term} months</span>,
   },
   // START DATE
   {
@@ -163,9 +146,7 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
     size: 120,
     cell: ({ row }) => {
       const date = new Date(row.original.startDate);
-      return (
-        <span className="text-sm">{formatDateToReadable(date, true)}</span>
-      );
+      return <span className="text-sm">{formatDateToReadable(date, true)}</span>;
     },
   },
   // APPLICATION DATE
@@ -178,9 +159,7 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
     cell: ({ row }) => {
       const date = new Date(row.original.applicationDate);
       return (
-        <span className="text-sm text-muted-foreground">
-          {formatDateToReadable(date, true)}
-        </span>
+        <span className="text-sm text-muted-foreground">{formatDateToReadable(date, true)}</span>
       );
     },
   },

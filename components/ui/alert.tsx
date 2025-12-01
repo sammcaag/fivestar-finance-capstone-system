@@ -67,12 +67,7 @@ export function Alert({ type, title, message, onClose }: AlertProps) {
         </div>
         {onClose && (
           <button onClick={onClose} className="flex-shrink-0 hover:opacity-70">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

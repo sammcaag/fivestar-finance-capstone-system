@@ -53,12 +53,8 @@ export const staffPayload = (data: StaffFormValues): StaffPayload => {
   };
 };
 
-export function mapBackendToStaffFormValues(
-  staffData: StaffPayload
-): StaffFormValues {
-  const { firstName, middleName, lastName, suffix } = decodeFullName(
-    staffData.fullName
-  );
+export function mapBackendToStaffFormValues(staffData: StaffPayload): StaffFormValues {
+  const { firstName, middleName, lastName, suffix } = decodeFullName(staffData.fullName);
   return {
     // Client Info
     firstName,
@@ -75,9 +71,7 @@ export function mapBackendToStaffFormValues(
     region: staffData.address.region,
     zipCode: staffData.address.zipCode,
     primaryContact: formatContactNumber(staffData.contactInfo.primary_contact),
-    secondaryContact: formatContactNumber(
-      staffData.contactInfo.secondary_contact
-    ),
+    secondaryContact: formatContactNumber(staffData.contactInfo.secondary_contact),
     religion: staffData.religion,
     civilStatus: staffData.civilStatus.toUpperCase(),
     role: staffData.userAuth?.role ?? "",

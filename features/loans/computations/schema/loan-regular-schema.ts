@@ -7,9 +7,7 @@ export const regularCalculatorSchema = z.object({
     .number()
     .min(1000, "Monthly Amortization must be greater than or equal to 1,000")
     .max(32000, "Monthly Amortization must not exceed to 32,000"),
-  outstandingBalance: z
-    .number()
-    .min(0, "Outstanding balance must be at least 0"),
+  outstandingBalance: z.number().min(0, "Outstanding balance must be at least 0"),
   otherDeduction: z.number().min(0, "Other deduction must be at least 0"),
   remainingMonths: z.number().min(0, "Remaining months must be at least 0"),
 });

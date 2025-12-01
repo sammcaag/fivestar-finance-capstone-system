@@ -6,11 +6,7 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export function Pagination({
-  currentPage,
-  totalPages,
-  onPageChange,
-}: PaginationProps) {
+export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
   const visiblePages = pages.filter((page) => {
     if (totalPages <= 7) return true;

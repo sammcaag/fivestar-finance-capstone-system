@@ -49,10 +49,7 @@ export default function ClientInfoPage() {
   };
 
   const customHeaderRight = (
-    <Button
-      variant="default"
-      onClick={() => handleAddLoan(buttonLabel.replace("Add ", ""))}
-    >
+    <Button variant="default" onClick={() => handleAddLoan(buttonLabel.replace("Add ", ""))}>
       {buttonLabel}
     </Button>
   );

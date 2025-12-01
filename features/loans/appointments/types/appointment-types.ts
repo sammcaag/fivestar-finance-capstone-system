@@ -1,16 +1,8 @@
 import type { LoanType } from "../../types/loan-types";
 
-export type AppointmentType =
-  | "Consultation"
-  | "Loan Review"
-  | "Document Submission"
-  | "Follow-up";
+export type AppointmentType = "Consultation" | "Loan Review" | "Document Submission" | "Follow-up";
 
-export type AppointmentStatus =
-  | "Scheduled"
-  | "Completed"
-  | "Cancelled"
-  | "No-show";
+export type AppointmentStatus = "Scheduled" | "Completed" | "Cancelled" | "No-show";
 
 export interface AppointmentTableProps {
   id: string;

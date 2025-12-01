@@ -26,11 +26,7 @@ const SecurityInformationForm = ({ form }: SecurityInformationFormProps) => {
       />
 
       {/* Security Information */}
-      <SectionCard
-        variants={itemVariants}
-        icon={User}
-        title="Authentication Information"
-      >
+      <SectionCard variants={itemVariants} icon={User} title="Authentication Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <FormFieldWrapper
             name="email"

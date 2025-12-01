@@ -72,10 +72,7 @@ export default function ExtensionLoanCalculator() {
         variants={itemVariants}
       >
         <Form {...extensionForm}>
-          <form
-            onSubmit={extensionForm.handleSubmit(handleCompute)}
-            className="space-y-8 p-6"
-          >
+          <form onSubmit={extensionForm.handleSubmit(handleCompute)} className="space-y-8 p-6">
             <LoanFormExtension
               form={extensionForm}
               hasDeductions={hasDeductions}
@@ -102,9 +99,7 @@ export default function ExtensionLoanCalculator() {
                   renewalExtensionValueDate={renewalExtensionValueDate}
                   setRenewalExtensionValueDate={setRenewalExtensionValueDate}
                   renewalExtensionMaturityDate={renewalExtensionMaturityDate}
-                  setRenewalExtensionMaturityDate={
-                    setRenewalExtensionMaturityDate
-                  }
+                  setRenewalExtensionMaturityDate={setRenewalExtensionMaturityDate}
                 />
 
                 <motion.div

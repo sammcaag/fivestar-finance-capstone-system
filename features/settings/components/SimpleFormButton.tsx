@@ -60,10 +60,7 @@ export function SimpleFormButtons({
         type="submit"
         disabled={isSubmitting}
         onClick={onSubmit}
-        className={cn(
-          buttonStyles.primary,
-          isSubmitting && buttonStyles.disabled
-        )}
+        className={cn(buttonStyles.primary, isSubmitting && buttonStyles.disabled)}
       >
         {isEditMode ? "Update" : "Submit"}
         <ArrowRight className="size-4" />

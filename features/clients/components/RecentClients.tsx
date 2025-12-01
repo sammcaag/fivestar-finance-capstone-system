@@ -1,12 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -83,14 +77,10 @@ const RecentClients = () => {
               <TableRow className="border-b text-left">
                 <TableHead className="px-4 py-3 font-medium">Name</TableHead>
                 <TableHead className="px-4 py-3 font-medium">Contact</TableHead>
-                <TableHead className="px-4 py-3 font-medium">
-                  Loan Amount
-                </TableHead>
+                <TableHead className="px-4 py-3 font-medium">Loan Amount</TableHead>
                 <TableHead className="px-4 py-3 font-medium">Status</TableHead>
                 <TableHead className="px-4 py-3 font-medium">Added</TableHead>
-                <TableHead className="px-4 py-3 font-medium sr-only">
-                  Actions
-                </TableHead>
+                <TableHead className="px-4 py-3 font-medium sr-only">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -99,26 +89,16 @@ const RecentClients = () => {
                   key={client.id}
                   className="border-b transition-colors hover:bg-primary-hover"
                 >
-                  <TableCell className="px-4 py-3 font-medium">
-                    {client.name}
-                  </TableCell>
+                  <TableCell className="px-4 py-3 font-medium">{client.name}</TableCell>
                   <TableCell className="px-4 py-3">
                     <div className="flex flex-col">
                       <span>{client.email}</span>
-                      <span className="text-xs text-muted-foreground">
-                        {client.phone}
-                      </span>
+                      <span className="text-xs text-muted-foreground">{client.phone}</span>
                     </div>
                   </TableCell>
+                  <TableCell className="px-4 py-3">{client.loanAmount}</TableCell>
                   <TableCell className="px-4 py-3">
-                    {client.loanAmount}
-                  </TableCell>
-                  <TableCell className="px-4 py-3">
-                    <Badge
-                      variant={
-                        client.status === "Active" ? "outline" : "secondary"
-                      }
-                    >
+                    <Badge variant={client.status === "Active" ? "outline" : "secondary"}>
                       {client.status}
                     </Badge>
                   </TableCell>

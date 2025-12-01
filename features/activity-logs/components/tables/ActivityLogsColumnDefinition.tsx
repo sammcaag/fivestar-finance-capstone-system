@@ -40,18 +40,13 @@ const actionConfig = {
 
 // Custom filter function for searching userName
 const userSearchFilterFn: FilterFn<ActivityLog> = (row, filterValue) => {
-  const searchableRowContent =
-    `${row.original.userName} ${row.original.userId}`.toLowerCase();
+  const searchableRowContent = `${row.original.userName} ${row.original.userId}`.toLowerCase();
   const searchTerm = (filterValue ?? "").toLowerCase();
   return searchableRowContent.includes(searchTerm);
 };
 
 // Custom filter function for action
-const actionFilterFn: FilterFn<ActivityLog> = (
-  row,
-  columnId,
-  filterValue: string[]
-) => {
+const actionFilterFn: FilterFn<ActivityLog> = (row, columnId, filterValue: string[]) => {
   if (!filterValue?.length) return true;
   const action = row.getValue(columnId) as string;
   return filterValue.includes(action);
@@ -66,9 +61,7 @@ export const activityLogsColumnDefinition: ColumnDef<ActivityLog>[] = [
     size: 200,
     cell: ({ row }) => (
       <div className="whitespace-nowrap">
-        <span className="text-sm font-medium">
-          {formatDateTime(row.getValue("timestamp"))}
-        </span>
+        <span className="text-sm font-medium">{formatDateTime(row.getValue("timestamp"))}</span>
       </div>
     ),
   },
@@ -83,9 +76,7 @@ export const activityLogsColumnDefinition: ColumnDef<ActivityLog>[] = [
       <div>
         <span className="font-medium text-sm">{row.getValue("userName")}</span>
         {row.original.ipAddress && (
-          <span className="text-xs text-muted-foreground block">
-            {row.original.ipAddress}
-          </span>
+          <span className="text-xs text-muted-foreground block">{row.original.ipAddress}</span>
         )}
       </div>
     ),
@@ -114,9 +105,7 @@ export const activityLogsColumnDefinition: ColumnDef<ActivityLog>[] = [
     enableColumnFilter: true,
     enableSorting: true,
     size: 150,
-    cell: ({ row }) => (
-      <span className="text-sm">{row.getValue("resource")}</span>
-    ),
+    cell: ({ row }) => <span className="text-sm">{row.getValue("resource")}</span>,
   },
   {
     accessorKey: "details",
@@ -125,9 +114,7 @@ export const activityLogsColumnDefinition: ColumnDef<ActivityLog>[] = [
     enableSorting: false,
     size: 300,
     cell: ({ row }) => (
-      <span className="text-sm text-muted-foreground">
-        {row.getValue("details") || "-"}
-      </span>
+      <span className="text-sm text-muted-foreground">{row.getValue("details") || "-"}</span>
     ),
   },
 ];

@@ -7,13 +7,7 @@ import MainHeader from "@/components/MainHeader";
 import { dashboardStatistics } from "@/features/clients/data/mock-clients-stats";
 import StatisticsCard from "@/components/StatisticsCard";
 import TabListCustomComp from "@/components/TabListCustomComp";
-import {
-  Calculator,
-  FileChartColumn,
-  MapPin,
-  Search,
-  UserPlus,
-} from "lucide-react";
+import { Calculator, FileChartColumn, MapPin, Search, UserPlus } from "lucide-react";
 import { ClientTableProps } from "@/features/clients/types/client-types";
 import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
 import { useEffect } from "react";
@@ -94,10 +88,7 @@ export default function DashboardPage() {
       <StatisticsCard statistics={dashboardStatistics} />
       <Tabs defaultValue="overview" className="w-full">
         <TabListCustomComp tabs={dashboardTabs} />
-        <TabsContent
-          value="overview"
-          className="mt-4 flex flex-col md:flex-row gap-8"
-        >
+        <TabsContent value="overview" className="mt-4 flex flex-col md:flex-row gap-8">
           <MainTableComp<ClientTableProps>
             title="Recent Client & Loan Activities"
             description="A quick overview of your most recent client transactions, loan updates, and payment statuses."

@@ -4,12 +4,7 @@ import NavBarSearchInput from "@/components/NavBarSearchInput";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { UserPlus, Calculator } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function Navbar({ title }: { title: string }) {
   return (

@@ -73,6 +73,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Development
 
 The project uses:
+
 - TypeScript for type safety
 - ESLint for code linting
 - Next.js App Router for routing

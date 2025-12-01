@@ -19,9 +19,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
   {
     accessorKey: "dedCode",
     header: "DED Code",
-    cell: ({ row }) => (
-      <span className="whitespace-nowrap">{row.original.dedCode}</span>
-    ),
+    cell: ({ row }) => <span className="whitespace-nowrap">{row.original.dedCode}</span>,
     size: 150,
     enableColumnFilter: true,
     enableSorting: true,
@@ -51,9 +49,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
   {
     accessorKey: "term",
     header: "Term",
-    cell: ({ row }) => (
-      <span className="whitespace-nowrap">{row.original.term} Months</span>
-    ),
+    cell: ({ row }) => <span className="whitespace-nowrap">{row.original.term} Months</span>,
     enableColumnFilter: false,
     enableSorting: false,
   },
@@ -61,9 +57,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
     accessorKey: "madeDate",
     header: "Made Date",
     cell: ({ row }) => (
-      <span className="whitespace-nowrap">
-        {formatDateToReadable(row.original.madeDate, true)}
-      </span>
+      <span className="whitespace-nowrap">{formatDateToReadable(row.original.madeDate, true)}</span>
     ),
     enableColumnFilter: false,
     enableSorting: false,

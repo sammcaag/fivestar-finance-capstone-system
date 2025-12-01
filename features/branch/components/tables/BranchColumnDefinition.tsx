@@ -41,9 +41,7 @@ export const branchColumnDefinition: ColumnDef<BranchTableProps>[] = [
     filterFn: "includesString",
     enableSorting: true,
     cell: ({ row }) => (
-      <span className="text-sm text-muted-foreground">
-        {row.getValue("email") || "—"}
-      </span>
+      <span className="text-sm text-muted-foreground">{row.getValue("email") || "—"}</span>
     ),
   },
 
@@ -54,11 +52,9 @@ export const branchColumnDefinition: ColumnDef<BranchTableProps>[] = [
     filterFn: "includesString",
     enableSorting: true,
     cell: ({ row }) => {
-      const status = (row.getValue("status") ||
-        "INACTIVE") as keyof typeof clientBadgeStatusMap;
+      const status = (row.getValue("status") || "INACTIVE") as keyof typeof clientBadgeStatusMap;
 
-      const config =
-        clientBadgeStatusMap[status] || clientBadgeStatusMap.INACTIVE;
+      const config = clientBadgeStatusMap[status] || clientBadgeStatusMap.INACTIVE;
 
       return (
         <Badge variant={config.variant} className={cn(config.className)}>
@@ -73,9 +69,7 @@ export const branchColumnDefinition: ColumnDef<BranchTableProps>[] = [
     header: "Contact Number",
     size: 200,
     enableSorting: false,
-    cell: ({ row }) => (
-      <span className="text-sm">{row.getValue("contactNumber") || "N/A"}</span>
-    ),
+    cell: ({ row }) => <span className="text-sm">{row.getValue("contactNumber") || "N/A"}</span>,
   },
 
   {

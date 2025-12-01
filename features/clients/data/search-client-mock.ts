@@ -3,12 +3,7 @@ export type ClientSearchRecord = {
   fullName: string;
   branch: string;
   status: "active" | "inactive" | "pending" | "processed" | "released";
-  productType:
-    | "New Client"
-    | "Extension"
-    | "Additional"
-    | "Renewal"
-    | "Reloan";
+  productType: "New Client" | "Extension" | "Additional" | "Renewal" | "Reloan";
 };
 
 export const clientSearchMock: ClientSearchRecord[] = [

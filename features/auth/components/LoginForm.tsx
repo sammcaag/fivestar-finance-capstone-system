@@ -63,11 +63,7 @@ export default function LoginForm({ form, onSubmit, isLoading }: ILoginForm) {
                   <FormControl>
                     <div className="relative">
                       <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                      <PasswordInput
-                        placeholder="Password"
-                        className="pl-10 py-5"
-                        {...field}
-                      />
+                      <PasswordInput placeholder="Password" className="pl-10 py-5" {...field} />
                     </div>
                   </FormControl>
                   <FormMessage />

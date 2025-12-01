@@ -10,10 +10,7 @@ import { staffGeneralInfoSchema } from "../schema/staff-zod-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { loadDraft, saveDraft } from "../utils/staff-draft-data-storage";
-import {
-  mapBackendToStaffFormValues,
-  staffPayload,
-} from "../libs/staff-payload";
+import { mapBackendToStaffFormValues, staffPayload } from "../libs/staff-payload";
 import { createStaffApi, updateStaffApi } from "../api/staff-service";
 import { useDialog } from "@/contexts/DialogContext";
 import { useAuth } from "@/features/auth/context/AuthContext";
@@ -44,13 +41,8 @@ export function useStaffRegistrationForm() {
 
   const { mutateAsync: updateStaff } = useMutation({
     mutationKey: ["updateStaff"],
-    mutationFn: ({
-      staffId,
-      payload,
-    }: {
-      staffId: string;
-      payload: StaffPayload;
-    }) => updateStaffApi(staffId, payload),
+    mutationFn: ({ staffId, payload }: { staffId: string; payload: StaffPayload }) =>
+      updateStaffApi(staffId, payload),
     onSuccess: (_, variables) => {
       // variables contains the object passed to mutate
       queryClient.invalidateQueries({
@@ -122,14 +114,10 @@ export function useStaffRegistrationForm() {
   const resetForm = useCallback(
     (backendData: StaffPayload, isShowMessage: boolean = true) => {
       const mappedValues = mapBackendToStaffFormValues(backendData); // map backend payload to form values
-      console.log(
-        "THIS IS THE FETCHED MAPPPED DATA:",
-        JSON.stringify(mappedValues, null, 2)
-      );
+      console.log("THIS IS THE FETCHED MAPPPED DATA:", JSON.stringify(mappedValues, null, 2));
       form.reset(mappedValues);
       setFormModified(false);
-      if (isShowMessage)
-        showDialog("Form has been reset to staff values!", "success");
+      if (isShowMessage) showDialog("Form has been reset to staff values!", "success");
     },
     [form, showDialog]
   );
@@ -138,10 +126,7 @@ export function useStaffRegistrationForm() {
   const processForm = async (data: StaffFormValues) => {
     setIsSubmitting(true);
     const backendPayload = staffPayload(data);
-    console.log(
-      "THIS IS THE DATA PASSED",
-      JSON.stringify(backendPayload, null, 2)
-    );
+    console.log("THIS IS THE DATA PASSED", JSON.stringify(backendPayload, null, 2));
 
     try {
       const result = await addStaff(backendPayload); // ✅ await
@@ -161,16 +146,10 @@ export function useStaffRegistrationForm() {
     }
   };
 
-  const updateForm = async (
-    data: StaffFormValues,
-    fetchedData: StaffPayload
-  ) => {
+  const updateForm = async (data: StaffFormValues, fetchedData: StaffPayload) => {
     setIsSubmitting(true);
     const backendPayload = staffPayload(data);
-    console.log(
-      "THIS IS THE UPDATED DATA PASSED",
-      JSON.stringify(backendPayload, null, 2)
-    );
+    console.log("THIS IS THE UPDATED DATA PASSED", JSON.stringify(backendPayload, null, 2));
     try {
       const result = await updateStaff({
         staffId: fetchedData.staffId,

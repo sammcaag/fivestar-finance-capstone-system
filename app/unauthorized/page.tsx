@@ -13,18 +13,11 @@ export default function UnauthorizedPage() {
       <div className="w-full text-center">
         {/* Icon */}
         <div className="relative size-[800px] mx-auto">
-          <Image
-            src="/unauthorized-icon.png"
-            alt="Access Denied"
-            fill
-            className="object-contain"
-          />
+          <Image src="/unauthorized-icon.png" alt="Access Denied" fill className="object-contain" />
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl font-bold text-foreground -mt-32">
-          Access Denied
-        </h1>
+        <h1 className="text-4xl font-bold text-foreground -mt-32">Access Denied</h1>
 
         {/* Subtitle */}
         <p className="text-lg text-muted-foreground mt-2">

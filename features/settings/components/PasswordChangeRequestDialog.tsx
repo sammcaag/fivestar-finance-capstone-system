@@ -50,8 +50,8 @@ export function PasswordChangeRequestDialog({
         <DialogHeader>
           <DialogTitle>Request Password Change</DialogTitle>
           <DialogDescription>
-            Submit a request to change your password. An administrator will
-            review and approve your request.
+            Submit a request to change your password. An administrator will review and approve your
+            request.
           </DialogDescription>
         </DialogHeader>
 
@@ -61,8 +61,7 @@ export function PasswordChangeRequestDialog({
             <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
             <div className="space-y-1">
               <p className="text-sm">
-                For security purposes, password changes require administrator
-                approval.
+                For security purposes, password changes require administrator approval.
               </p>
               <p className="text-sm text-muted-foreground">
                 You will be notified once your request has been processed.
@@ -73,8 +72,7 @@ export function PasswordChangeRequestDialog({
           {/* Reason Field */}
           <div className="space-y-2">
             <Label htmlFor="reason">
-              Reason for Password Change{" "}
-              <span className="text-muted-foreground">(Optional)</span>
+              Reason for Password Change <span className="text-muted-foreground">(Optional)</span>
             </Label>
             <Textarea
               id="reason"
@@ -85,18 +83,13 @@ export function PasswordChangeRequestDialog({
               disabled={isSubmitting}
             />
             <p className="text-xs text-muted-foreground">
-              Providing a reason helps administrators process your request
-              faster.
+              Providing a reason helps administrators process your request faster.
             </p>
           </div>
         </div>
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={handleClose}
-            disabled={isSubmitting}
-          >
+          <Button variant="outline" onClick={handleClose} disabled={isSubmitting}>
             Cancel
           </Button>
           <Button onClick={handleSubmit} disabled={isSubmitting}>

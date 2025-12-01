@@ -52,16 +52,8 @@ export function BranchCard({ branch }: BranchCardProps) {
           </div>
         </CardHeader>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <ClientInfoRowItem
-            icon={<Map />}
-            label="Address"
-            value={branch.address}
-          />
-          <ClientInfoRowItem
-            icon={<Mail />}
-            label="Email"
-            value={branch.email}
-          />
+          <ClientInfoRowItem icon={<Map />} label="Address" value={branch.address} />
+          <ClientInfoRowItem icon={<Mail />} label="Email" value={branch.email} />
           <ClientInfoRowItem
             icon={<Contact />}
             label="Contact Number"
@@ -99,9 +91,7 @@ export function BranchCard({ branch }: BranchCardProps) {
                 <span className="text-base font-semibold mt-3 text-foreground text-center">
                   {staff.name}
                 </span>
-                <span className="text-sm text-muted-foreground text-center">
-                  {staff.role}
-                </span>
+                <span className="text-sm text-muted-foreground text-center">{staff.role}</span>
               </div>
             ))}
 

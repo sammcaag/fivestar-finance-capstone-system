@@ -9,12 +9,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-white hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-card hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input bg-card hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
@@ -74,10 +71,7 @@ type ButtonProps = ButtonBaseProps &
 
 export type ButtonIconProps = IconProps | IconRefProps;
 
-const Button = React.forwardRef<
-  HTMLButtonElement,
-  ButtonProps & ButtonIconProps
->(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps & ButtonIconProps>(
   (
     {
       className,
@@ -92,9 +86,7 @@ const Button = React.forwardRef<
     },
     ref
   ) => {
-    const buttonClass = cn(
-      buttonVariants({ variant, effect, size, className })
-    );
+    const buttonClass = cn(buttonVariants({ variant, effect, size, className }));
 
     // When asChild is true, we don't wrap the children with our custom content
     if (asChild) {

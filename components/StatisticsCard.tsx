@@ -23,21 +23,15 @@ export default function StatisticsCard({ statistics }: StatsCardProps) {
       }}
       initial="hidden"
       animate="show"
-      className={cn(
-        "grid gap-4",
-        statistics.length === 3 ? "md:grid-cols-3" : "md:grid-cols-4"
-      )}
+      className={cn("grid gap-4", statistics.length === 3 ? "md:grid-cols-3" : "md:grid-cols-4")}
     >
       {statistics.map((data, index) => {
         const { title, statistic, summary, icon: Icon } = data;
 
         const isNumber =
-          typeof statistic === "number" ||
-          !isNaN(Number.parseFloat(statistic as string));
+          typeof statistic === "number" || !isNaN(Number.parseFloat(statistic as string));
 
-        const numericValue = isNumber
-          ? Number.parseFloat(statistic as string)
-          : 0;
+        const numericValue = isNumber ? Number.parseFloat(statistic as string) : 0;
         const hasDollar = statistic.toString().includes("$");
         const hasPercent = statistic.toString().includes("%");
 
@@ -71,9 +65,7 @@ export default function StatisticsCard({ statistics }: StatsCardProps) {
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-primary/5 to-primary/15 dark:from-[hsl(216,100%,58%,0.1)] dark:to-[hsl(190,100%,50%,0.1)] rounded-lg" />
 
               <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-card-foreground">
-                  {title}
-                </CardTitle>
+                <CardTitle className="text-sm font-medium text-card-foreground">{title}</CardTitle>
                 <div className="rounded-full bg-primary/10 p-2 text-primary">
                   <Icon className="h-4 w-4" />
                 </div>

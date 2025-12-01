@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 import { Calendar, MapPin, Phone, User, Users } from "lucide-react";
 import React from "react";
@@ -20,19 +14,11 @@ interface IFamilyInformationTab {
   familyInfos: ClientFamilyInfos[];
 }
 
-export default function FamilyInformationTab({
-  familyInfos,
-}: IFamilyInformationTab) {
+export default function FamilyInformationTab({ familyInfos }: IFamilyInformationTab) {
   const familyMembers = familyInfos;
-  const spouse = familyMembers.find(
-    (member) => member.relationship.toLowerCase() === "spouse"
-  );
-  const mother = familyMembers.find(
-    (member) => member.relationship.toLowerCase() === "mother"
-  );
-  const children = familyMembers.filter(
-    (member) => member.relationship.toLowerCase() === "child"
-  );
+  const spouse = familyMembers.find((member) => member.relationship.toLowerCase() === "spouse");
+  const mother = familyMembers.find((member) => member.relationship.toLowerCase() === "mother");
+  const children = familyMembers.filter((member) => member.relationship.toLowerCase() === "child");
 
   return (
     <TabsContent value="family" className="mt-3">
@@ -44,8 +30,8 @@ export default function FamilyInformationTab({
           <div>
             <CardTitle className="text-xl">Family Information</CardTitle>
             <CardDescription>
-              Check declared family members and relationships used for pension
-              verification and contact tracing.
+              Check declared family members and relationships used for pension verification and
+              contact tracing.
             </CardDescription>
           </div>
         </CardHeader>

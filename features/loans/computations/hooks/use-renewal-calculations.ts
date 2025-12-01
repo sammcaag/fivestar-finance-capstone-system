@@ -31,10 +31,7 @@ export function useRenewalCalculations({
     setTimeout(() => {
       const remainingMonths = form.getValues("remainingMonths") || 0;
       const monthlyAmortization = form.getValues("monthlyAmortization") || 0;
-      form.setValue(
-        "outstandingBalance",
-        remainingMonths * monthlyAmortization
-      );
+      form.setValue("outstandingBalance", remainingMonths * monthlyAmortization);
     }, 0);
   }, [clientType, loanMaturityDate, amortizationWatch, form]);
 }

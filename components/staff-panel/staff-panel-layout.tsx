@@ -8,11 +8,7 @@ import { useStore } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
-export default function AdminPanelLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AdminPanelLayout({ children }: { children: React.ReactNode }) {
   const sidebar = useStore(useSidebar, (x) => x);
   const [isHovering, setIsHovering] = useState(false);
 

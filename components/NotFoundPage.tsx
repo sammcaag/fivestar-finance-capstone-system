@@ -13,18 +13,11 @@ export default function NotFoundPage({ title }: { title: string }) {
       <div className="w-full text-center">
         {/* Icon */}
         <div className="relative size-[600px] mx-auto">
-          <Image
-            src="/not-found-icon.png"
-            alt="Not Found"
-            fill
-            className="object-contain"
-          />
+          <Image src="/not-found-icon.png" alt="Not Found" fill className="object-contain" />
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl font-bold text-foreground -mt-10">
-          {title} Not Found
-        </h1>
+        <h1 className="text-4xl font-bold text-foreground -mt-10">{title} Not Found</h1>
 
         {/* Subtitle */}
         <p className="text-lg text-muted-foreground">
@@ -32,11 +25,7 @@ export default function NotFoundPage({ title }: { title: string }) {
         </p>
 
         {/* Go Back Button */}
-        <Button
-          variant="default"
-          className="mt-4"
-          onClick={() => router.push("/dashboard")}
-        >
+        <Button variant="default" className="mt-4" onClick={() => router.push("/dashboard")}>
           Go to Dashboard
         </Button>
       </div>

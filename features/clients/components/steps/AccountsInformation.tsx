@@ -1,13 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  DollarSign,
-  Building,
-  CreditCard,
-  Landmark,
-  PhilippinePeso,
-} from "lucide-react";
+import { DollarSign, Building, CreditCard, Landmark, PhilippinePeso } from "lucide-react";
 
 import { StepTitleCard } from "../StepTitleCard";
 import { SectionCard } from "../SectionCard";
@@ -33,11 +27,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
       />
 
       {/* Pension Details */}
-      <SectionCard
-        variants={itemVariants}
-        icon={DollarSign}
-        title="Pension Details"
-      >
+      <SectionCard variants={itemVariants} icon={DollarSign} title="Pension Details">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Monthly Pension */}
           <FormFieldWrapper
@@ -66,11 +56,7 @@ const AccountsInformation = ({ form }: AccountsInformationProps) => {
       </SectionCard>
 
       {/* Banking Information */}
-      <SectionCard
-        variants={itemVariants}
-        icon={Building}
-        title="Banking Information"
-      >
+      <SectionCard variants={itemVariants} icon={Building} title="Banking Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormFieldWrapper
             name="atmAccountNumber"
