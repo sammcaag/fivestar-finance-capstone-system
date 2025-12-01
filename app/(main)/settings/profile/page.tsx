@@ -25,15 +25,15 @@ export default function ClientInfoPage() {
 
   const userId = user!.id;
 
-  const { data: staffData, isLoading } = useQuery<StaffPayload>({
-    queryKey: ["staffByStaffId", userId],
+  const { data: ownerData, isLoading } = useQuery<StaffPayload>({
+    queryKey: ["ownerByStaffId", userId],
     queryFn: () => getStaffByStaffId(userId),
   });
 
   const router = useRouter();
 
   return (
-    <ContentLayout title={"Profile Information"}>
+    <ContentLayout title={"Profile Settings"}>
       <div className="flex justify-between items-center mb-4">
         <BreadcrumbPages
           links={[
@@ -49,7 +49,7 @@ export default function ClientInfoPage() {
           size="sm"
           onClick={() => router.push(`/settings/profile/edit`)}
           className="gap-2 p-5 rounded-lg"
-          disabled={isLoading || !staffData}
+          disabled={isLoading || !ownerData}
         >
           <Pencil className="h-4 w-4" />
           Edit Profile Info
@@ -57,25 +57,25 @@ export default function ClientInfoPage() {
       </div>
       {isLoading ? (
         <ClientProfileHeaderSkeleton />
-      ) : staffData ? (
+      ) : ownerData ? (
         <>
           <StaffProfileHeader
-            staffId={staffData.staffId}
-            status={staffData.status || "INACTIVE"}
-            fullName={staffData.fullName}
-            role={staffData.userAuth.role}
-            branchName={staffData.branch!.name}
+            staffId={ownerData.staffId}
+            status={ownerData.status || "INACTIVE"}
+            fullName={ownerData.fullName}
+            role={ownerData.userAuth.role}
+            branchName={ownerData.branch!.name}
             isOwnProfile
           />
           <StaffPersonalInformation
-            birthDate={staffData.birthDate}
-            gender={staffData.gender}
-            civilStatus={staffData.civilStatus}
-            religion={staffData.religion}
-            birthPlace={staffData.placeOfBirth}
-            address={formatFullAddress(staffData.address)}
-            primaryContact={staffData.contactInfo.primary_contact}
-            secondaryContact={staffData.contactInfo.secondary_contact}
+            birthDate={ownerData.birthDate}
+            gender={ownerData.gender}
+            civilStatus={ownerData.civilStatus}
+            religion={ownerData.religion}
+            birthPlace={ownerData.placeOfBirth}
+            address={formatFullAddress(ownerData.address)}
+            primaryContact={ownerData.contactInfo.primary_contact}
+            secondaryContact={ownerData.contactInfo.secondary_contact}
             isOwnProfile
           />
         </>

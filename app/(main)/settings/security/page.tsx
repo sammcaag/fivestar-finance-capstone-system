@@ -17,22 +17,22 @@ import SecurtiyInformation from "@/features/auth/components/SecurityInformation"
 
 export default function ClientInfoPage() {
   useEffect(() => {
-    document.title = "User Profile | Stella - Five Star Finance Inc.";
+    document.title = "User Security | Stella - Five Star Finance Inc.";
   }, []);
 
   const { user } = useAuth();
 
   const userId = user!.id;
 
-  const { data: staffData, isLoading } = useQuery<StaffPayload>({
-    queryKey: ["staffByStaffId", userId],
+  const { data: ownerData, isLoading } = useQuery<StaffPayload>({
+    queryKey: ["ownerByStaffId", userId],
     queryFn: () => getStaffByStaffId(userId),
   });
 
   const router = useRouter();
 
   return (
-    <ContentLayout title={"Security Information"}>
+    <ContentLayout title={"Security Settings"}>
       <div className="flex justify-between items-center mb-4">
         <BreadcrumbPages
           links={[
@@ -48,7 +48,7 @@ export default function ClientInfoPage() {
           size="sm"
           onClick={() => router.push(`/settings/security/edit`)}
           className="gap-2 p-5 rounded-lg"
-          disabled={isLoading || !staffData}
+          disabled={isLoading || !ownerData}
         >
           <Pencil className="h-4 w-4" />
           Edit Security Info
@@ -56,14 +56,14 @@ export default function ClientInfoPage() {
       </div>
       {isLoading ? (
         <ClientProfileHeaderSkeleton />
-      ) : staffData ? (
+      ) : ownerData ? (
         <>
           <StaffProfileHeader
-            staffId={staffData.staffId}
-            status={staffData.status || "INACTIVE"}
-            fullName={staffData.fullName}
-            role={staffData.userAuth.role}
-            branchName={staffData.branch!.name}
+            staffId={ownerData.staffId}
+            status={ownerData.status || "INACTIVE"}
+            fullName={ownerData.fullName}
+            role={ownerData.userAuth.role}
+            branchName={ownerData.branch!.name}
             isOwnProfile
           />
           <SecurtiyInformation isOwnProfile />
