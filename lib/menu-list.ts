@@ -1,17 +1,17 @@
 import {
-  Users,
-  LayoutGrid,
-  LucideIcon,
-  UserRoundPlus,
-  Calculator,
-  History,
-  Settings,
-  FileChartColumn,
-  FilePenLine,
-  CalendarClock,
-  UserCog,
   Building,
   Building2Icon,
+  Calculator,
+  CalendarClock,
+  FileChartColumn,
+  FilePenLine,
+  History,
+  LayoutGrid,
+  LucideIcon,
+  Settings,
+  UserCog,
+  UserRoundPlus,
+  Users,
   Users2,
 } from "lucide-react";
 
@@ -135,6 +135,7 @@ export function getMenuList(): Group[] {
         // Staff Branch
         {
           href: "/staff/register",
+
           label: "Register Staff",
           icon: UserCog,
         },

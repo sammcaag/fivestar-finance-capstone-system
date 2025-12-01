@@ -27,7 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "../ModeToggle";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@/features/auth/context/AuthContext";
 
 export function UserNav() {
   const user = {
@@ -57,7 +57,7 @@ export function UserNav() {
     },
   ];
 
-  const router = useRouter();
+  const { signOut } = useAuth();
   return (
     <DropdownMenu>
       <TooltipProvider disableHoverableContent>
@@ -118,7 +118,7 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="hover:cursor-pointer"
-          onClick={() => router.replace("/sign-in")}
+          onClick={async () => await signOut()}
         >
           <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
           Sign out

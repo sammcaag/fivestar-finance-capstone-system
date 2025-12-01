@@ -1,0 +1,25 @@
+{
+  // Prettier as main formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Auto format on save
+  "editor.formatOnSave": true,
+
+  // Run lint & import fix on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+    "source.organizeImports": "always"
+  },
+
+  // For ESLint Flat config (Next.js 14+ or newer ESLint)
+  "eslint.useFlatConfig": true,
+  "eslint.enable": true,
+
+  // Ignore build files
+  "files.exclude": {
+    "**/.next": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/node_modules": true
+  }
+}

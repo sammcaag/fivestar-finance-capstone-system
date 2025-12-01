@@ -13,14 +13,17 @@ import { extensionCalculatorDefaultValues } from "../schema/loan-extension-schem
 import { toast } from "sonner";
 
 export const useExtensionCalculatorForm = () => {
-
   const extensionForm = useForm<FormValues>({
     resolver: zodResolver(extensionCalculatorSchema),
     defaultValues: extensionCalculatorDefaultValues,
     mode: "onSubmit", // Prevent premature validation
   });
 
-  const { watch, getValues, setValue, formState:{errors}, reset } = extensionForm;
+  const {
+    watch,
+    formState: { errors },
+    reset,
+  } = extensionForm;
 
   const { calculateExtensionLoan } = useExtensionCalculator();
 
@@ -190,6 +193,5 @@ export const useExtensionCalculatorForm = () => {
     setRenewalExtensionMaturityDate,
     hasDeductions,
     setHasDeductions,
-    
-  }
+  };
 };
