@@ -16,7 +16,7 @@ import StaffPersonalInformation from "@/features/staff/component/StaffPersonalIn
 import { formatFullAddress } from "@/utils/format-full-address";
 import { useAuth } from "@/features/auth/context/AuthContext";
 
-export default function ClientInfoPage() {
+export default function ProfileInfoPage() {
   useEffect(() => {
     document.title = "User Profile | Stella - Five Star Finance Inc.";
   }, []);

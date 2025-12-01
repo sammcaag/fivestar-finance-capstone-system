@@ -7,49 +7,32 @@ import { Form } from "@/components/ui/form";
 import { motion } from "framer-motion";
 
 import MainHeader from "@/components/MainHeader";
-import StaffGeneralInformation from "@/features/staff/component/forms/StaffGeneralInformation";
-import { useStaffRegistrationForm } from "@/features/staff/hooks/use-staff-registration-form";
-import { SingleStepFormButtons } from "@/features/staff/component/SingleStepNavigationButtons";
-import { useParams } from "next/navigation";
-import { getStaffByStaffId } from "@/features/staff/api/staff-service";
-import { StaffPayload } from "@/features/staff/types/staff-types";
-import { useQuery } from "@tanstack/react-query";
 import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
 import { FormNavigationButtonsSkeleton } from "@/features/clients/components/skeletons/FormNavigationButtonsSkeleton";
 import NotFoundPage from "@/components/NotFoundPage";
+import { useAuth } from "@/features/auth/context/AuthContext";
+import { useSecurityUpdateForm } from "@/features/settings/hooks/use-security-update-form";
+import { SimpleFormButtons } from "@/features/settings/components/SimpleFormButton";
+import SecurityInformationForm from "@/features/auth/components/forms/SecurityInformationForm";
 
-export default function EditStaff() {
+export default function EditSecurity() {
   useEffect(() => {
-    document.title = "Register Client | Stella - Five Star Finance Inc.";
+    document.title =
+      "Edit Security Information | Stella - Five Star Finance Inc.";
   }, []);
 
-  const params = useParams();
-  const staffId = params.id as string;
+  const { form, isSubmitting, resetForm, updateForm } = useSecurityUpdateForm();
 
-  const {
-    form,
-    formModified,
-    hasDraft,
-    loadSavedDraft,
-    deleteSavedDraft,
-    handleSaveDraft,
-    isSubmitting,
-    resetForm,
-    updateForm,
-  } = useStaffRegistrationForm();
-
-  // Fetch client data
-  const { data: staffData, isLoading } = useQuery<StaffPayload>({
-    queryKey: ["staffByStaffId", staffId],
-    queryFn: () => getStaffByStaffId(staffId),
-  });
+  const { user, isLoading } = useAuth();
+  const userId = user!.id;
+  const email = user!.email;
 
   // Reset form when clientData is loaded
   useEffect(() => {
-    if (staffData) {
-      setTimeout(() => resetForm(staffData, false), 0);
+    if (email) {
+      setTimeout(() => resetForm(email, false), 0);
     }
-  }, [staffData, resetForm]);
+  }, [email, resetForm]);
 
   const slideVariants = {
     initial: { opacity: 0, x: 50 },
@@ -78,7 +61,7 @@ export default function EditStaff() {
           <ClientGeneralInformationSkeleton />
           <FormNavigationButtonsSkeleton />
         </div>
-      ) : staffData ? (
+      ) : user ? (
         <motion.div
           className="w-full mx-auto mt-10"
           initial={{ opacity: 0, y: 20 }}
@@ -87,13 +70,7 @@ export default function EditStaff() {
         >
           <div className="bg-background rounded-lg shadow-lg border mt-10">
             <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit((formValues) => {
-                  if (!staffData) return; // safety check
-                  updateForm(formValues, staffData);
-                })}
-                className="p-6"
-              >
+              <form onSubmit={form.handleSubmit(updateForm)} className="p-6">
                 <div className="relative overflow-hidden">
                   <motion.div
                     variants={slideVariants}
@@ -102,23 +79,15 @@ export default function EditStaff() {
                     exit="exit"
                     transition={{ duration: 0.3 }}
                   >
-                    <StaffGeneralInformation form={form} />
+                    <SecurityInformationForm form={form} />
                   </motion.div>
                 </div>
 
-                <SingleStepFormButtons
-                  isEditMode={true} // if register form
-                  hasDraft={hasDraft}
-                  formModified={formModified}
+                <SimpleFormButtons
+                  isEditMode={true}
                   isSubmitting={isSubmitting}
-                  onSubmit={form.handleSubmit((formValues) => {
-                    if (!staffData) return;
-                    updateForm(formValues, staffData);
-                  })}
-                  onSaveDraft={handleSaveDraft}
-                  onLoadDraft={loadSavedDraft}
-                  onDeleteDraft={deleteSavedDraft}
-                  onClearForm={() => resetForm(staffData)}
+                  onSubmit={form.handleSubmit(updateForm)}
+                  onClearForm={() => resetForm(user!.email)}
                 />
               </form>
             </Form>

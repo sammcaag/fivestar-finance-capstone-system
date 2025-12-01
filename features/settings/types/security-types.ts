@@ -1,3 +1,5 @@
+import { UseFormReturn } from "react-hook-form";
+
 export type SecurityFormValues = {
   email: string;
   oldPassword: string;
@@ -10,4 +12,8 @@ export type SecurityPayload = {
   newEmail: string;
   oldPassword: string;
   newPassword: string;
+};
+
+export type SecurityInformationFormProps = {
+  form: UseFormReturn<SecurityFormValues>;
 };

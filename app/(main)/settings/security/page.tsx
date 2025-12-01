@@ -15,7 +15,7 @@ import { StaffPayload } from "@/features/staff/types/staff-types";
 import { useAuth } from "@/features/auth/context/AuthContext";
 import SecurtiyInformation from "@/features/auth/components/SecurityInformation";
 
-export default function ClientInfoPage() {
+export default function SecurityInfoPage() {
   useEffect(() => {
     document.title = "User Security | Stella - Five Star Finance Inc.";
   }, []);

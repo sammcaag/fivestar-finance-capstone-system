@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useDialog } from "@/contexts/DialogContext";
@@ -17,8 +17,9 @@ import {
 } from "../libs/security-payload";
 import axios from "axios";
 
-export function useStaffRegistrationForm() {
+export function useSecurityUpdateForm() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { showDialog } = useDialog();
   const { user } = useAuth();
   const userId = user!.id;
@@ -27,13 +28,19 @@ export function useStaffRegistrationForm() {
 
   const { mutateAsync: updateSecurity } = useMutation({
     mutationKey: ["updateSecurity"],
-    mutationFn: ({ payload }: { staffId: string; payload: SecurityPayload }) =>
+    mutationFn: ({ payload }: { payload: SecurityPayload }) =>
       updateSecurityApi(payload),
+    onSuccess: () => {
+      // variables contains the object passed to mutate
+      queryClient.invalidateQueries({
+        queryKey: ["ownerByStaffId", userId],
+      });
+    },
   });
 
   const form = useForm<SecurityFormValues>({
     resolver: zodResolver(securityAuthSchema),
-    mode: "onTouched",
+    mode: "all",
     reValidateMode: "onChange",
     defaultValues,
   });
@@ -60,10 +67,7 @@ export function useStaffRegistrationForm() {
       JSON.stringify(backendPayload, null, 2)
     );
     try {
-      const result = await updateSecurity({
-        staffId: userId,
-        payload: backendPayload,
-      }); // ✅ await
+      const result = await updateSecurity({ payload: backendPayload }); // ✅ await
       console.log("Result:", result);
       showDialog("Security information updated successfully!", "success");
 

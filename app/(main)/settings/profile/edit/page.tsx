@@ -9,7 +9,6 @@ import { motion } from "framer-motion";
 import MainHeader from "@/components/MainHeader";
 import StaffGeneralInformation from "@/features/staff/component/forms/StaffGeneralInformation";
 import { useStaffRegistrationForm } from "@/features/staff/hooks/use-staff-registration-form";
-import { SingleStepFormButtons } from "@/features/staff/component/SingleStepNavigationButtons";
 import { getStaffByStaffId } from "@/features/staff/api/staff-service";
 import { StaffPayload } from "@/features/staff/types/staff-types";
 import { useQuery } from "@tanstack/react-query";
@@ -17,8 +16,9 @@ import ClientGeneralInformationSkeleton from "@/features/clients/components/skel
 import { FormNavigationButtonsSkeleton } from "@/features/clients/components/skeletons/FormNavigationButtonsSkeleton";
 import NotFoundPage from "@/components/NotFoundPage";
 import { useAuth } from "@/features/auth/context/AuthContext";
+import { SimpleFormButtons } from "@/features/settings/components/SimpleFormButton";
 
-export default function EditStaff() {
+export default function EditProfile() {
   useEffect(() => {
     document.title = "Edit User Profile | Stella - Five Star Finance Inc.";
   }, []);
@@ -27,17 +27,7 @@ export default function EditStaff() {
 
   const staffId = user!.id;
 
-  const {
-    form,
-    formModified,
-    hasDraft,
-    loadSavedDraft,
-    deleteSavedDraft,
-    handleSaveDraft,
-    isSubmitting,
-    resetForm,
-    updateForm,
-  } = useStaffRegistrationForm();
+  const { form, resetForm, updateForm } = useStaffRegistrationForm();
 
   // Fetch client data
   const { data: staffData, isLoading } = useQuery<StaffPayload>({
@@ -107,18 +97,12 @@ export default function EditStaff() {
                   </motion.div>
                 </div>
 
-                <SingleStepFormButtons
-                  isEditMode={true} // if register form
-                  hasDraft={hasDraft}
-                  formModified={formModified}
-                  isSubmitting={isSubmitting}
+                <SimpleFormButtons
+                  isEditMode={true}
                   onSubmit={form.handleSubmit((formValues) => {
                     if (!staffData) return;
                     updateForm(formValues, staffData);
                   })}
-                  onSaveDraft={handleSaveDraft}
-                  onLoadDraft={loadSavedDraft}
-                  onDeleteDraft={deleteSavedDraft}
                   onClearForm={() => resetForm(staffData)}
                 />
               </form>

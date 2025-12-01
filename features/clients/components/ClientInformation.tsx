@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { ClientPayload } from "../types/client-types";
 import { formatFullAddress } from "@/utils/format-full-address";
 import ClientProfileHeader from "./profile/ClientProfileHeader";
+import { decodeFullName } from "@/utils/decode-full-name";
+import { formatFullNameFromParts } from "@/utils/format-full-name-from-parts";
 
 const tabs = [
   { value: "personal", label: "Personal Information" },
@@ -46,7 +48,7 @@ export default function ClientInformation({
         monthlyPension={client.clientAccount.monthlyPension}
         monthlyDeduction={client.clientAccount.monthlyDeduction}
         status={client.status ?? "INACTIVE"}
-        fullName={client.fullName}
+        fullName={formatFullNameFromParts(decodeFullName(client.fullName))}
         profileImageUrl={client.profileImageUrl}
         remarks={client.remarks}
         branchName={client.branch!.name.replace(/branch/i, "").trim()}

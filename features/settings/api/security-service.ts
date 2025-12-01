@@ -8,7 +8,7 @@ export const updateSecurityApi = async (updatePayload: SecurityPayload) => {
       `/api/auth/update-credentials`,
       updatePayload
     );
-    return data; // note only data to return including the message
+    return data.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       // throw the actual axios error back to the UI

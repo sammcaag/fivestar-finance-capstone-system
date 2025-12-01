@@ -60,7 +60,7 @@ export const clientsColumnDefinition = (
       filterFn: nameSearchFilterFn,
       enableColumnFilter: false,
       enableSorting: true,
-      size: 250,
+      size: 300,
       cell: ({ row }) => {
         const client = row.original;
         return (
@@ -90,6 +90,7 @@ export const clientsColumnDefinition = (
       filterFn: "includesString",
       enableColumnFilter: true,
       enableSorting: true,
+      size: 100,
       cell: ({ row }) => (
         <span className="text-sm text-muted-foreground">
           {row
@@ -121,6 +122,7 @@ export const clientsColumnDefinition = (
       filterFn: statusFilterFn,
       enableColumnFilter: true,
       enableSorting: true,
+      size: 100,
       cell: ({ row }) => {
         const status = (row.getValue("status") ||
           "INACTIVE") as keyof typeof clientBadgeStatusMap;
@@ -147,7 +149,7 @@ export const clientsColumnDefinition = (
     },
     {
       accessorKey: "createdAt",
-      header: "Created At",
+      header: "Registered At",
       enableColumnFilter: false,
       enableSorting: true,
       cell: ({ row }) => (
