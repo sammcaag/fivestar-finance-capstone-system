@@ -1,17 +1,9 @@
 "use client";
 
+import { FormFieldWrapper } from "@/components/FormFieldWrapper";
+import { PasswordFieldWrapper } from "@/components/PasswordFieldWrapper";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { PasswordInput } from "@/components/ui/password-input";
-import { User, Lock } from "lucide-react";
+import { Form } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
 import { AuthFormValues } from "../types/auth.types";
 
@@ -32,43 +24,20 @@ export default function LoginForm({ form, onSubmit, isLoading }: ILoginForm) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-8 mb-14">
-            <FormField
-              control={form.control}
+            <FormFieldWrapper
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                      <Input
-                        {...field}
-                        id="username"
-                        placeholder="Enter your username"
-                        className="pl-10 h-11 bg-blue-50/50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-800 focus-visible:ring-primary"
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
               control={form.control}
+              label="Email Address"
+              required
+              type="input"
+              placeholder="admin@fsfi.com.ph"
+            />
+            <PasswordFieldWrapper
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                      <PasswordInput placeholder="Password" className="pl-10 py-5" {...field} />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              control={form.control}
+              label="Password"
+              required
+              placeholder="Input your password here"
             />
           </div>
 

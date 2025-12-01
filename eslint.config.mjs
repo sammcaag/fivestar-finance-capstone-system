@@ -25,7 +25,10 @@ export default [
         console: "readonly", // fixes 'console is not defined'
         setTimeout: "readonly", // fixes 'setTimeout is not defined'
         clearTimeout: "readonly", // fixes 'clearTimeout is not defined'
-        React: "readonly", // fixes 'React is not defined'
+        navigator: "readonly", // <- add this
+        alert: "readonly", // <- add this
+        confirm: "readonly", // <- add this
+        React: "readonly",
       },
     },
     plugins: {
