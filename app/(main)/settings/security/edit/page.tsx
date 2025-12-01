@@ -24,7 +24,6 @@ export default function EditSecurity() {
   const { form, isSubmitting, resetForm, updateForm } = useSecurityUpdateForm();
 
   const { user, isLoading } = useAuth();
-  const userId = user!.id;
   const email = user!.email;
 
   // Reset form when clientData is loaded
@@ -41,19 +40,22 @@ export default function EditSecurity() {
   };
 
   return (
-    <ContentLayout title="Edit Staff Information">
+    <ContentLayout title="Edit Security Information">
       <BreadcrumbPages
         links={[
           { href: "/", label: "Home" },
           { href: "/settings", label: "Settings" },
           { href: `/settings/security`, label: "Security" },
-          { href: `/settings/security/${userId}`, label: userId },
+          {
+            href: `/settings/security/edit`,
+            label: `Edit Security Information`,
+          },
         ]}
       />
 
       <MainHeader
-        title="Edit Staff Information"
-        description="Edit and update staff information efficiently, ensuring all records are accurate and up to date."
+        title="Edit Security Information"
+        description="Edit and update security information efficiently, ensuring all records are accurate and up to date."
       />
 
       {isLoading ? (

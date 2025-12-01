@@ -7,6 +7,7 @@ import useClientAnimation from "@/features/clients/hooks/use-client-animation";
 import { SecurityInformationFormProps } from "@/features/settings/types/security-types";
 import { StepTitleCard } from "@/features/clients/components/StepTitleCard";
 import { SectionCard } from "@/features/clients/components/SectionCard";
+import { PasswordFieldWrapper } from "@/components/PasswordFieldWrapper";
 
 const SecurityInformationForm = ({ form }: SecurityInformationFormProps) => {
   const { containerVariants, itemVariants } = useClientAnimation();
@@ -39,27 +40,25 @@ const SecurityInformationForm = ({ form }: SecurityInformationFormProps) => {
             type="input"
             placeholder="daug.rey@fsfi.com.ph"
           />
-          <FormFieldWrapper
+          <PasswordFieldWrapper
             name="oldPassword"
             control={form.control}
             label="Old Password"
-            type="input"
+            required
             placeholder="Input your old password here"
           />
-          <FormFieldWrapper
+          <PasswordFieldWrapper
             name="newPassword"
             control={form.control}
             label="New Password"
             required
-            type="input"
             placeholder="Input your new password here"
           />
-          <FormFieldWrapper
+          <PasswordFieldWrapper
             name="confirmNewPassword"
             control={form.control}
             label="Confirm New Password"
             required
-            type="input"
             placeholder="Confirm your new password"
           />
         </div>

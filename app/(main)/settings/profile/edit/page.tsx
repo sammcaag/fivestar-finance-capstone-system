@@ -55,7 +55,7 @@ export default function EditProfile() {
           { href: "/", label: "Home" },
           { href: "/settings", label: "Settings" },
           { href: `/settings/profile`, label: "Profile" },
-          { href: `/settings/profile/${staffId}`, label: staffId },
+          { href: `/settings/profile/edit`, label: "Edit Profile Information" },
         ]}
       />
 
