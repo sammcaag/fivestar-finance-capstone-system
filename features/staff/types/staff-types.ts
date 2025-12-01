@@ -74,6 +74,11 @@ export type userAuth = {
   role: string;
 };
 
+export type Branch = {
+  id: number;
+  name: string;
+};
+
 export type StaffPayload = {
   id?: number | null;
   fullName: string;
@@ -89,6 +94,7 @@ export type StaffPayload = {
   remarks?: string;
 
   branchId: number;
+  branch?: Branch;
   address: Address;
   contactInfo: ContactInfo;
   userAuth: userAuth;

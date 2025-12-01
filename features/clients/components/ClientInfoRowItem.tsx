@@ -6,6 +6,7 @@ type ClientInfoRowItemProps = {
   label: string;
   value: React.ReactNode;
   className?: string;
+  isCapitalize?: boolean;
 };
 
 export default function ClientInfoRowItem({
@@ -13,6 +14,7 @@ export default function ClientInfoRowItem({
   label,
   value,
   className,
+  isCapitalize = true,
 }: ClientInfoRowItemProps) {
   return (
     <div
@@ -28,7 +30,11 @@ export default function ClientInfoRowItem({
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
           {label}
         </p>
-        <div className="text-base font-semibold leading-snug text-foreground capitalize">
+        <div
+          className={`text-base font-semibold leading-snug text-foreground ${
+            isCapitalize ? "capitalize" : ""
+          }}`}
+        >
           {value}
         </div>
       </div>

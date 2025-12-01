@@ -14,11 +14,12 @@ import { decodeFullName } from "@/utils/decode-full-name";
 
 interface IStaffProfile {
   staffId: string;
-  branchName?: string;
+  branchName: string;
   status: string;
   fullName: string;
   profileImageUrl?: string;
   role: string;
+  isOwnProfile?: boolean;
 }
 
 export default function StaffProfileHeader({
@@ -28,18 +29,21 @@ export default function StaffProfileHeader({
   fullName,
   profileImageUrl,
   role,
+  isOwnProfile,
 }: IStaffProfile) {
   const staffBadge = [
     { label: "ID", value: staffId },
     {
       label: "Branch",
-      value: branchName,
+      value: branchName.toLowerCase().replace(/ branch$/, ""),
     },
     {
       label: "Staff Role",
       value: role,
     },
   ].filter((item) => item.value);
+
+  const title = isOwnProfile ? "Profile Info" : "Staff Profile";
 
   return (
     <Card className="overflow-hidden border border-border/50 shadow-md">
@@ -73,7 +77,7 @@ export default function StaffProfileHeader({
           <div className="flex-1 space-y-4">
             <div className="space-y-2">
               <CardTitle className="text-xs font-medium uppercase tracking-[0.3em] text-white/70">
-                Staff Profile
+                {title}
               </CardTitle>
               <CardDescription className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
                 {formatFullNameFromParts(decodeFullName(fullName))}

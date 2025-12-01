@@ -33,7 +33,7 @@ export default function ClientInfoPage() {
   const router = useRouter();
 
   return (
-    <ContentLayout title={"Staff Information"}>
+    <ContentLayout title={"Profile Information"}>
       <div className="flex justify-between items-center mb-4">
         <BreadcrumbPages
           links={[
@@ -64,6 +64,8 @@ export default function ClientInfoPage() {
             status={staffData.status || "INACTIVE"}
             fullName={staffData.fullName}
             role={staffData.userAuth.role}
+            branchName={staffData.branch!.name}
+            isOwnProfile
           />
           <StaffPersonalInformation
             birthDate={staffData.birthDate}
