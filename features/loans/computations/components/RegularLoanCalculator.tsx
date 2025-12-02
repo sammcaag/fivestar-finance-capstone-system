@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { motion } from "framer-motion";
 import { ArrowRight, Calculator, PrinterIcon, RefreshCw } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRegularCalculatorForm } from "../hooks/use-regular-calculator-form";
 import LoanFormRegular from "./regular/LoanFormRegular";
 import ResultsDisplay from "./regular/ResultsDisplayRegular";
@@ -38,13 +38,17 @@ export default function RegularLoanCalculator({ clientType }: RegularLoanCalcula
     handlePrint,
   } = useRegularCalculatorForm(clientType);
 
-  const fromClient = sessionStorage.getItem("fromClientProfile") === "true";
+  // ← Replace everything related to fromClient with this
+  const [fromClient, setFromClient] = useState(false);
 
   useEffect(() => {
-    if (fromClient) sessionStorage.removeItem("fromClientProfile");
-  }, [fromClient]);
-
-  const { handleSubmit } = calculatorForm;
+    const flag = sessionStorage.getItem("fromClientProfile");
+    if (flag === "true") {
+      setFromClient(true);
+      // Remove only after we have read it and set state
+      sessionStorage.removeItem("fromClientProfile");
+    }
+  }, []); // ← Run only once on mount
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -85,7 +89,9 @@ export default function RegularLoanCalculator({ clientType }: RegularLoanCalcula
       >
         <Form {...calculatorForm}>
           <form
-            onSubmit={handleSubmit(fromClient && isDoneCalculate ? handleProceed : handleCompute)}
+            onSubmit={calculatorForm.handleSubmit(
+              fromClient && isDoneCalculate ? handleProceed : handleCompute
+            )}
             className="p-6 space-y-8"
           >
             {/* Your form */}
