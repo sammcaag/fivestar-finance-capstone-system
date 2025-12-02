@@ -33,10 +33,16 @@ export default function ClientInfoPage() {
     queryFn: () => getClientBySerialNumber(serialNumber),
   });
 
-  const [loanHistory] = useState<LoanHistoryPayload[]>(clientData?.clientLoanHistory ?? []);
+  const [loanHistory, setLoanHistory] = useState<LoanHistoryPayload[]>([]);
   const [selectedLoan, setSelectedLoan] = useState<LoanHistoryPayload | null>(null);
   const today = new Date("2025-11-13");
   today.setHours(0, 0, 0, 0);
+
+  useEffect(() => {
+    if (clientData?.clientLoanHistory) {
+      setLoanHistory(clientData.clientLoanHistory);
+    }
+  }, [clientData]);
 
   const { loanSets, buttonLabel } = useLoanLogic(loanHistory, today);
 
@@ -47,7 +53,7 @@ export default function ClientInfoPage() {
       .toLowerCase()
       .replace(/ client loan$/, "")
       .replace(" ", "-");
-    router.push(`/loans/computations/${slug}?clientId=${serialNumber}`);
+    router.push(`/loans/computations/${slug}?id=${clientData!.id}&clientId=${serialNumber}`);
   };
 
   const customHeaderRight = (
@@ -101,6 +107,7 @@ export default function ClientInfoPage() {
             totalSets={loanSets.length}
           />
           <AdvancedLoanActionModal
+            id={clientData!.id}
             selectedLoan={selectedLoan}
             setSelectedLoan={setSelectedLoan}
             today={today}

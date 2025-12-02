@@ -20,12 +20,14 @@ import { useParams, useRouter } from "next/navigation";
 import { LoanHistoryPayload } from "../history/types/loan-form-types";
 
 interface AdvancedLoanActionModalProps {
+  id?: number | null;
   selectedLoan: LoanHistoryPayload | null;
   setSelectedLoan: (loan: LoanHistoryPayload | null) => void;
   today: Date;
 }
 
 export default function AdvancedLoanActionModal({
+  id,
   selectedLoan,
   setSelectedLoan,
   today,
@@ -49,7 +51,9 @@ export default function AdvancedLoanActionModal({
     // This flag is the key to enable "Proceed" button
     sessionStorage.setItem("fromClientProfile", "true");
 
-    router.push(`/loans/computations/${type}?clientId=${clientId}&dedCode=${selectedLoan.dedCode}`);
+    router.push(
+      `/loans/computations/${type}?id=${id}&clientId=${clientId}&dedCode=${selectedLoan.dedCode}`
+    );
     setSelectedLoan(null);
   };
 

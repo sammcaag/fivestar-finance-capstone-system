@@ -158,19 +158,21 @@ export const useRegularCalculatorForm = (
   }, [selectedCard]);
 
   const handleProceed = (values: RegularCalculatorSchema) => {
-    const dataToSave = {
+    const data = {
       ...values,
       results,
       netAmount,
       valueDate,
       maturityDate,
+      id: searchParams.get("id"),
       clientId: searchParams.get("clientId"),
       dedCode: searchParams.get("dedCode"), // for renewal/extension
       computationType: clientType, // New Client / Reloan / Additional / Renewal
     };
+    console.log("THIS IS THE DATA RETURNED WHEN PROCEED", data);
 
-    sessionStorage.setItem("pendingLoanData", JSON.stringify(dataToSave));
-    router.push("/loans/add");
+    sessionStorage.setItem("pendingLoanData", JSON.stringify(data));
+    router.push(`/clients/${data.clientId}/add-loan-history`);
   };
   return {
     calculatorForm,

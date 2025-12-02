@@ -14,7 +14,7 @@ import { loanHistoryPayload, mapBackendToLoanHistoryFormValues } from "../lib/lo
 import { loanHistorySchema } from "../schema/loan-history-zod-schema";
 import { LoanHistoryFormValues, LoanHistoryPayload } from "../types/loan-form-types";
 
-export function useStaffRegistrationForm() {
+export function useLoanHistoryForm() {
   const router = useRouter();
   const { showDialog } = useDialog();
   const { user } = useAuth();
@@ -64,8 +64,8 @@ export function useStaffRegistrationForm() {
     try {
       const result = await addLoanHistory(backendPayload); // ✅ await
       console.log("Result:", result);
-      showDialog("Staff information registered successfully!", "success");
-      router.push(`/staff/${result.staffId}`);
+      showDialog(`Loan ${data.dedCode} created successfully!`, "success");
+      router.push(`/clients/${clientId}/add-loan-history`);
     } catch (error) {
       console.log("Error:", error);
 
