@@ -1,10 +1,13 @@
-export enum LoanHistoryProductType {
-  NEW_CLIENT,
-  ADDITIONAL,
-  RELOAN,
-  RENEWAL,
-  EXTENSION,
-}
+export const LoanHistoryProductEnum = {
+  NEW_CLIENT: "new_client",
+  ADDITIONAL: "additional",
+  RELOAN: "reloan",
+  RENEWAL: "renewal",
+  EXTENSION: "extension",
+} as const;
+
+export type LoanHistoryProductType =
+  (typeof LoanHistoryProductEnum)[keyof typeof LoanHistoryProductEnum];
 
 export type LoanHistoryFormValues = {
   dedCode: string;
