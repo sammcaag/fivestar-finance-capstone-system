@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import Loading from "@/components/LoadingPage";
 import { Card, CardContent } from "@/components/ui/card";
 import LoginForm from "@/features/auth/components/LoginForm";
 import SlideShow from "@/features/auth/components/SlideShow";
-import { useAuthSignInForm } from "@/features/auth/hooks/use-auth-form";
 import { useAuth } from "@/features/auth/context/AuthContext";
-import Loading from "@/components/LoadingPage";
+import { useAuthSignInForm } from "@/features/auth/hooks/use-auth-form";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function LoginPage() {
   ];
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 p-6 md:p-10">
+    <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 dark:from-sky-900 dark:to-sky-500 p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-4xl">
         <Card className="overflow-hidden border-0 shadow-lg">
           <CardContent className="relative grid p-0 md:grid-cols-2">
