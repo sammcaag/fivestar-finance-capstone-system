@@ -3,13 +3,13 @@ import { MainTableComp } from "@/components/tables/MainTableComp";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { loansHistoryColumnDefinition } from "@/features/loans/components/tables/LoansHistoryColumnDefinition";
-import { LoanHistory } from "@/features/loans/types/loan-types";
+import { LoanHistoryPayload } from "../history/types/loan-form-types";
 
 interface LoanHistoryTabsProps {
-  loanSets: LoanHistory[][];
-  loanHistory: LoanHistory[];
+  loanSets: LoanHistoryPayload[][];
+  loanHistory: LoanHistoryPayload[];
   customHeaderRight: React.ReactNode;
-  setSelectedLoan: (loan: LoanHistory | null) => void;
+  setSelectedLoan: (loan: LoanHistoryPayload | null) => void;
   handleAddLoan: (type: string) => void;
   totalSets: number;
   isLoading?: boolean;
@@ -55,7 +55,7 @@ export default function LoanHistoryTabs({
   // When there is only one set, hide tabs and show the table with the button
   if (totalSets <= 1) {
     return (
-      <MainTableComp<LoanHistory>
+      <MainTableComp<LoanHistoryPayload>
         data={loanHistory}
         {...tableProps}
         customHeaderRight={customHeaderRight}
@@ -69,7 +69,7 @@ export default function LoanHistoryTabs({
       <TabListCustomComp tabs={tabs} />
       {loanSets.map((setData, i) => (
         <TabsContent key={i} value={`set-${i + 1}`}>
-          <MainTableComp<LoanHistory>
+          <MainTableComp<LoanHistoryPayload>
             data={setData}
             {...tableProps}
             // Only show customHeaderRight for sets after the first one

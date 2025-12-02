@@ -12,9 +12,8 @@ import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons
 import { ClientPayload } from "@/features/clients/types/client-types";
 import AdvancedLoanActionModal from "@/features/loans/components/AdvancedLoanActionModal";
 import LoanHistoryTabs from "@/features/loans/components/LoanHistoryTabs";
-import { mockLoanHistoryData } from "@/features/loans/data/mock-loans-data";
 import { useLoanLogic } from "@/features/loans/history/hooks/use-loan-logic";
-import { LoanHistory } from "@/features/loans/types/loan-types";
+import { LoanHistoryPayload } from "@/features/loans/history/types/loan-form-types";
 import { useQuery } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -34,8 +33,8 @@ export default function ClientInfoPage() {
     queryFn: () => getClientBySerialNumber(serialNumber),
   });
 
-  const [loanHistory] = useState<LoanHistory[]>(mockLoanHistoryData);
-  const [selectedLoan, setSelectedLoan] = useState<LoanHistory | null>(null);
+  const [loanHistory] = useState<LoanHistoryPayload[]>(clientData?.clientLoanHistory ?? []);
+  const [selectedLoan, setSelectedLoan] = useState<LoanHistoryPayload | null>(null);
   const today = new Date("2025-11-13");
   today.setHours(0, 0, 0, 0);
 

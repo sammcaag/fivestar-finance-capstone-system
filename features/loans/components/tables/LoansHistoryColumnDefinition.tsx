@@ -1,5 +1,5 @@
-import type { ColumnDef } from "@tanstack/react-table";
-import { LoanHistory } from "../../types/loan-types";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,15 +7,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Printer, Eye, Edit, Trash2 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { getProductTypeClass } from "@/utils/get-product-type-class";
-import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
+import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
+import { getProductTypeClass } from "@/utils/get-product-type-class";
+import type { ColumnDef } from "@tanstack/react-table";
+import { Edit, Eye, MoreHorizontal, Printer, Trash2 } from "lucide-react";
+import { LoanHistoryPayload } from "../../history/types/loan-form-types";
 
-export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
+export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
   {
     accessorKey: "dedCode",
     header: "DED Code",
@@ -36,11 +36,11 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "amount",
-    header: "MA",
+    accessorKey: "monthlyAmortization",
+    header: "M.A",
     cell: ({ row }) => (
       <span className="whitespace-nowrap font-semibold text-sm">
-        {formatToPhCurrency(row.original.amount)}
+        {formatToPhCurrency(row.original.monthlyAmortization)}
       </span>
     ),
     enableColumnFilter: false,
@@ -54,10 +54,12 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistory>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "madeDate",
+    accessorKey: "createdAt",
     header: "Made Date",
     cell: ({ row }) => (
-      <span className="whitespace-nowrap">{formatDateToReadable(row.original.madeDate, true)}</span>
+      <span className="whitespace-nowrap">
+        {formatDateToReadable(row.original.createdAt ?? new Date(), true)}
+      </span>
     ),
     enableColumnFilter: false,
     enableSorting: false,

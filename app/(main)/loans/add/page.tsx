@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { mockLoanHistoryData } from "@/features/loans/data/mock-loans-data";
 import { useLoanLogic } from "@/features/loans/history/hooks/use-loan-logic";
-import { LoanHistory } from "@/features/loans/types/loan-types";
+import { LoanHistoryPayload } from "@/features/loans/history/types/loan-form-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -37,8 +37,8 @@ export default function AddLoanPage() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const [loanHistory] = useState<LoanHistory[]>(
-    mockLoanHistoryData.map((l) => ({ ...l, clientId: "12345" })) // give them a clientId for demo
+  const [loanHistory] = useState<LoanHistoryPayload[]>(
+    mockLoanHistoryData.map((l) => ({ ...l, clientId: "2" })) // give them a clientId for demo
   );
 
   const { loanSets } = useLoanLogic(loanHistory, today);

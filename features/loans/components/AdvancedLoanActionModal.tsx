@@ -13,15 +13,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { LoanHistory } from "@/features/loans/types/loan-types";
 import { monthsBetween } from "@/features/loans/utils/loan-utils";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { LoanHistoryPayload } from "../history/types/loan-form-types";
 
 interface AdvancedLoanActionModalProps {
-  selectedLoan: LoanHistory | null;
-  setSelectedLoan: (loan: LoanHistory | null) => void;
+  selectedLoan: LoanHistoryPayload | null;
+  setSelectedLoan: (loan: LoanHistoryPayload | null) => void;
   today: Date;
 }
 
@@ -39,7 +39,7 @@ export default function AdvancedLoanActionModal({
   const valueDate = new Date(selectedLoan.valueDate);
   const maturityDate = new Date(selectedLoan.maturityDate);
   const monthsPaid = monthsBetween(valueDate, today);
-  const termNum = parseInt(selectedLoan.term, 10);
+  const termNum = parseInt(String(selectedLoan.term), 10);
 
   const isSettled = today > maturityDate;
   const eligibleForExtension = !isSettled && monthsPaid >= 6;
@@ -68,7 +68,9 @@ export default function AdvancedLoanActionModal({
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div>
                 <p className="text-muted-foreground">Amount</p>
-                <p className="font-semibold">{formatToPhCurrency(selectedLoan.amount)}</p>
+                <p className="font-semibold">
+                  {formatToPhCurrency(selectedLoan.monthlyAmortization)}
+                </p>
               </div>
               <div>
                 <p className="text-muted-foreground">Term</p>

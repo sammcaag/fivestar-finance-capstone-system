@@ -1,3 +1,4 @@
+import { LoanHistoryPayload } from "@/features/loans/history/types/loan-form-types";
 import { UseFormReturn } from "react-hook-form";
 
 export interface Step {
@@ -337,6 +338,7 @@ export type ClientPayload = {
   clientPension: ClientPension;
   clientAccount: ClientAccount;
   clientFamilyInfos: ClientFamilyInfos[];
+  clientLoanHistory?: LoanHistoryPayload[];
 };
 
 // ClientFamilyInfo type (dynamic, supports any family member)
