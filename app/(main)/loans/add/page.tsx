@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { mockLoanHistoryData } from "@/features/loans/data/mock-loans-data";
-import { useLoanLogic } from "@/features/loans/hooks/use-loan-logic";
+import { useLoanLogic } from "@/features/loans/history/hooks/use-loan-logic";
 import { LoanHistory } from "@/features/loans/types/loan-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";

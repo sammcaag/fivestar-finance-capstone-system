@@ -13,7 +13,7 @@ import { ClientPayload } from "@/features/clients/types/client-types";
 import AdvancedLoanActionModal from "@/features/loans/components/AdvancedLoanActionModal";
 import LoanHistoryTabs from "@/features/loans/components/LoanHistoryTabs";
 import { mockLoanHistoryData } from "@/features/loans/data/mock-loans-data";
-import { useLoanLogic } from "@/features/loans/hooks/use-loan-logic";
+import { useLoanLogic } from "@/features/loans/history/hooks/use-loan-logic";
 import { LoanHistory } from "@/features/loans/types/loan-types";
 import { useQuery } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
