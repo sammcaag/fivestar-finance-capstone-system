@@ -7,7 +7,7 @@ import {
   LoanAttachmentsSchema,
   loanAttachmentsFormDefaults,
 } from "../schema/loan-attachments-schema";
-import { useCreateClientAttachment } from "./use-create-client-attachment";
+import { useCreateClientAttachment } from "./use-attachment-mutations";
 
 export const useAttachmentForm = (userId: number | null | undefined, serialNumber: string) => {
   const attachmentForm = useForm<LoanAttachmentsSchema>({

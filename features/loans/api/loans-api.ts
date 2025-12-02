@@ -22,3 +22,33 @@ export const createClientAttachment = async ({
     throw new Error("Failed to create a client");
   }
 };
+
+// Update Verification Status
+export const verifyAttachment = async ({ attachmentId }: { attachmentId: string }) => {
+  try {
+    const { data } = await axiosInstance.put(`/api/attachments/${attachmentId}/verify`);
+
+    return data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error("Failed to create a client");
+  }
+};
+
+// Update Verification Status
+export const unverifyAttachment = async ({ attachmentId }: { attachmentId: string }) => {
+  try {
+    const { data } = await axiosInstance.put(`/api/attachments/${attachmentId}/unverify`);
+
+    return data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error("Failed to create a client");
+  }
+};

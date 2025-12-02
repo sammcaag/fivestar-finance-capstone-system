@@ -12,7 +12,7 @@ import { TabsContent } from "@/components/ui/tabs";
 import AttachmentsCard from "@/features/loans/components/AttachmentsCard";
 import { Paperclip } from "lucide-react";
 import { UserAttachments } from "../../types/client-types";
-import NewAttachmentDialog from "./NewAttachmentDialog";
+import NewAttachmentDialog from "../dialog/NewAttachmentDialog";
 
 export default function AttachmentsTab({
   userAttachments,
@@ -55,7 +55,12 @@ export default function AttachmentsTab({
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {userAttachments && userAttachments.length > 0 ? (
             userAttachments.map((attachment, index) => (
-              <AttachmentsCard attachment={attachment} key={index} />
+              <AttachmentsCard
+                attachment={attachment}
+                userId={userId?.toString() || ""}
+                serialNumber={serialNumber}
+                key={index}
+              />
             ))
           ) : (
             <div className="col-span-full bg-gray-50 p-8 text-center rounded-md border border-dashed">

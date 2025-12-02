@@ -4,16 +4,34 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import VerifyAttachment from "@/features/clients/components/dialog/VerifyAttachment";
 import { UserAttachments } from "@/features/clients/types/client-types";
 import { formatBytes } from "@/utils/format-bytes";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import clsx from "clsx";
-import { CheckCircle2, Eye, FileClock, FileText, Loader2, Printer } from "lucide-react";
+import {
+  Eye,
+  FileClock,
+  FileText,
+  Loader2,
+  Pencil,
+  Printer,
+  ShieldCheck,
+  Trash2,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
-export default function AttachmentsCard({ attachment }: { attachment: UserAttachments }) {
+export default function AttachmentsCard({
+  attachment,
+  userId,
+  serialNumber,
+}: {
+  attachment: UserAttachments;
+  userId: string;
+  serialNumber: string;
+}) {
   const [isIframeLoading, setIsIframeLoading] = useState(false);
 
   const quickDetails = useMemo(
@@ -108,7 +126,7 @@ export default function AttachmentsCard({ attachment }: { attachment: UserAttach
   }
 
   return (
-    <Card className="border shadow-sm hover:shadow-md transition-shadow space-y-4 overflow-hidden">
+    <Card className="border shadow-sm hover:shadow-md transition-shadow space-y-6 overflow-hidden">
       <CardHeader className="w-full h-54 p-0  rounded-t-md flex items-center justify-center overflow-hidden relative">
         <Image
           src={attachment.thumbnailUrl}
@@ -140,29 +158,36 @@ export default function AttachmentsCard({ attachment }: { attachment: UserAttach
         </Badge>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <CardTitle className="font-semibold text-lg leading-tight">
-              {attachment.title}
-            </CardTitle>
-            <CardDescription className="text-sm text-muted-foreground">
-              Uploaded on {formatDateToReadable(attachment.uploadedAt)}
-            </CardDescription>
-          </div>
-          {attachment.isVerified && (
-            <Badge
-              variant="secondary"
-              className="flex items-center gap-1 text-emerald-700 bg-emerald-50"
-            >
-              <CheckCircle2 className="h-3.5 w-3.5" /> Verified
-            </Badge>
-          )}
+        <div className="mb-2">
+          <CardTitle className="font-semibold text-lg leading-tight">{attachment.title}</CardTitle>
+          <CardDescription className="text-sm text-muted-foreground">
+            Uploaded on {formatDateToReadable(attachment.uploadedAt)}
+          </CardDescription>
         </div>
 
         {attachment.description && (
           <p className="text-sm text-muted-foreground leading-relaxed">{attachment.description}</p>
         )}
 
+        <VerifyAttachment
+          attachmentId={attachment.id}
+          serialNumber={serialNumber}
+          isVerified={attachment.isVerified || false}
+        >
+          <Button
+            variant="outline"
+            type="button"
+            icon={attachment.isVerified ? ShieldCheck : Pencil}
+            iconPlacement="left"
+            className={
+              attachment.isVerified
+                ? "text-emerald-700 bg-emerald-50 border-emerald-600"
+                : "text-amber-700 bg-amber-50 border-amber-600"
+            }
+          >
+            {attachment.isVerified ? "Verified" : "Verify Attachment"}
+          </Button>
+        </VerifyAttachment>
         <div className="rounded-md border /30 p-3">
           <dl className="space-y-3">
             {quickDetails.map((detail, index) => (
@@ -179,7 +204,7 @@ export default function AttachmentsCard({ attachment }: { attachment: UserAttach
           </dl>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="grid sm:grid-cols-2 gap-2 mt-4">
           <Button asChild variant="outline" disabled={isIframeLoading} className="flex-1">
             <Link href={attachment.secureUrl} target="_blank" rel="noreferrer">
               <Eye className="h-4 w-4" />
@@ -195,6 +220,24 @@ export default function AttachmentsCard({ attachment }: { attachment: UserAttach
             disabled={isIframeLoading}
           >
             {isIframeLoading ? "Loading..." : "Print"}
+          </Button>
+          <Button
+            variant="secondary"
+            icon={Pencil}
+            iconPlacement="left"
+            className="flex-1 min-w-[140px]"
+            type="button"
+          >
+            Edit
+          </Button>
+          <Button
+            variant="destructive"
+            icon={Trash2}
+            iconPlacement="left"
+            className="flex-1 min-w-[140px]"
+            type="button"
+          >
+            Delete
           </Button>
         </div>
       </CardContent>
