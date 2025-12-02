@@ -176,10 +176,10 @@ export const useExtensionCalculatorForm = () => {
       ...values,
       results,
       netAmount,
-      id: searchParams.get("id"),
-      clientId: searchParams.get("clientId"),
-      dedCode: searchParams.get("dedCode"),
-      computationType: "Extension",
+      id: searchParams.get("id") ? Number(searchParams.get("id")) : undefined,
+      clientId: searchParams.get("clientId") || undefined,
+      dedCode: searchParams.get("dedCode") || undefined,
+      computationType: "extension",
     };
     console.log("THIS IS THE DATA RETURNED WHEN PROCEED", data);
 

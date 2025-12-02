@@ -8,6 +8,14 @@ export const LoanHistoryProductEnum = {
   EXTENSION: "extension",
 } as const;
 
+export const productTypeMap: Record<string, LoanHistoryProductType> = {
+  "New Client": "new_client",
+  Additional: "additional",
+  Reloan: "reloan",
+  Renewal: "renewal",
+  Extension: "extension",
+};
+
 export const loanHistoryProductOptions = [
   { label: "New Client", value: "new_client" },
   { label: "Additional", value: "additional" },

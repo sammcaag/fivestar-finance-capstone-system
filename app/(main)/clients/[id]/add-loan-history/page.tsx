@@ -9,7 +9,7 @@ import { useAuth } from "@/features/auth/context/AuthContext";
 import useClientAnimation from "@/features/clients/hooks/use-client-animation";
 import LoanHistoryInformation from "@/features/loans/history/components/LoanHistoryInformation";
 import { useLoanHistoryForm } from "@/features/loans/history/hooks/use-loan-form";
-import { useLoanLogic } from "@/features/loans/history/hooks/use-loan-logic";
+import { useLoanStore } from "@/features/loans/history/lib/loan-history-store";
 import { LoanHistoryProductType } from "@/features/loans/history/types/loan-form-types";
 import { SimpleFormButtons } from "@/features/settings/components/SimpleFormButton";
 import { AnimatePresence, motion } from "framer-motion";
@@ -21,14 +21,13 @@ export default function AddLoanPage() {
   const router = useRouter();
   const hasRun = useRef(false);
 
-  // Mock data — replace with real client loans later
-  const mockLoanHistory = [{ clientId: "2", dedCode: "FI-1", term: 24, status: "active" } as any];
-  const { loanSets } = useLoanLogic(mockLoanHistory, new Date());
+  const { loanSets } = useLoanStore();
 
   const { form, clearForm, processForm, isSubmitting } = useLoanHistoryForm();
 
   const { user } = useAuth();
-  const branchId = user!.branchId;
+  const branchId = user?.branchId;
+  console.log("BRANCHHHHH", branchId);
 
   let id: number;
 
@@ -45,7 +44,7 @@ export default function AddLoanPage() {
 
     try {
       const data = JSON.parse(raw) as {
-        computationType: "New Client" | "Reloan" | "Additional" | "Renewal" | "Extension";
+        computationType: "new_client" | "reloan" | "additional" | "renewal" | "extension";
         id: number;
         clientId: string;
         dedCode?: string;
@@ -53,8 +52,11 @@ export default function AddLoanPage() {
         term?: number;
         valueDate?: Date;
         maturityDate?: Date;
+        settedMaturityDate?: Date;
         netAmount?: string;
         results?: any;
+        otherDeduction?: number;
+        outstandingBalance?: number;
       };
 
       id = data.id;
@@ -69,12 +71,12 @@ export default function AddLoanPage() {
       };
       // Generate DED Code
       let dedCode = "";
-      if (data.computationType === "New Client" || data.computationType === "Reloan") {
+      if (data.computationType === "new_client" || data.computationType === "reloan") {
         dedCode = "FI-1";
-      } else if (data.computationType === "Additional") {
+      } else if (data.computationType === "additional") {
         const currentSet = loanSets[loanSets.length - 1] || [];
         dedCode = `FI-${currentSet.length + 1}`;
-      } else if (data.computationType === "Renewal" || data.computationType === "Extension") {
+      } else if (data.computationType === "renewal" || data.computationType === "extension") {
         dedCode = data.dedCode || "FI-1";
       }
 
@@ -87,17 +89,19 @@ export default function AddLoanPage() {
       setTimeout(
         () =>
           form.reset({
-            dedCode: data.dedCode || "",
-            productType: productTypeMap[data.computationType],
+            dedCode: dedCode,
+            productType: data.computationType,
             monthlyAmortization: data.monthlyAmortization || 0,
             term: data.term || 0,
             valueDate: data.valueDate ? new Date(data.valueDate) : undefined,
             maturityDate: data.maturityDate ? new Date(data.maturityDate) : undefined,
-            settedMaturityDate: undefined,
+            settedMaturityDate: data.settedMaturityDate
+              ? new Date(data.settedMaturityDate)
+              : undefined,
             accountNumber: "",
             pnNumber: "",
-            outstandingBalance: undefined,
-            otherDeduction: undefined,
+            outstandingBalance: data.outstandingBalance,
+            otherDeduction: data.otherDeduction,
             processor1Id: 0,
             processor2Id: 0,
             contactedById: 0,
@@ -141,7 +145,7 @@ export default function AddLoanPage() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit((formValues) => {
-                processForm(branchId, id, formValues);
+                processForm(branchId!, id, formValues);
               })}
               className="p-6"
             >
@@ -163,7 +167,7 @@ export default function AddLoanPage() {
                 isEditMode={false} // if register form
                 isSubmitting={isSubmitting}
                 onSubmit={form.handleSubmit((formValues) => {
-                  processForm(branchId, id, formValues);
+                  processForm(branchId!, id, formValues);
                 })}
                 onClearForm={clearForm}
               />

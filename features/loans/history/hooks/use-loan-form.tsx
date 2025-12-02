@@ -18,7 +18,6 @@ export function useLoanHistoryForm() {
   const router = useRouter();
   const { showDialog } = useDialog();
   const { user } = useAuth();
-  const userId = user!.id;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 

@@ -86,38 +86,44 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
             placeholder="Maturity Date"
             required
           />
-          <FormFieldWrapper
-            name="settedMaturityDate"
-            control={form.control}
-            label="Setted Maturity Date"
-            type="date"
-            placeholder="Setted Maturity Date"
-            required
-          />
+          {form.watch("productType") === "renewal" && (
+            <FormFieldWrapper
+              name="settedMaturityDate"
+              control={form.control}
+              label="Setted Maturity Date"
+              type="date"
+              placeholder="Setted Maturity Date"
+              required
+            />
+          )}
         </div>
       </SectionCard>
 
       {/* Loan Identification */}
       <SectionCard variants={itemVariants} icon={User} title="Loan Identification">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormFieldWrapper
-            name="accountNumber"
-            control={form.control}
-            label="Account Number"
-            required
-            type="input"
-            placeholder="Account Number"
-            disabled={
-              form.getValues("productType") !== "new_client" &&
-              form.getValues("productType") !== "reloan"
-            }
-          />
+          {(form.watch("productType") === "new_client" ||
+            form.watch("productType") === "reloan") && (
+            <FormFieldWrapper
+              name="accountNumber"
+              control={form.control}
+              label="Account Number"
+              required
+              type="input"
+              placeholder="Account Number"
+              disabled={
+                form.getValues("productType") !== "new_client" &&
+                form.getValues("productType") !== "reloan"
+              }
+            />
+          )}
           <FormFieldWrapper
             name="pnNumber"
             control={form.control}
             label="PN Number"
             type="input"
             placeholder="PN Number"
+            required
           />
         </div>
       </SectionCard>
@@ -136,9 +142,9 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
           />
 
           <FormFieldWrapper
-            name="outstandingBalance"
+            name="otherDeduction"
             control={form.control}
-            label="Outstanding Balance"
+            label="Other Deductions"
             required
             type="input"
             placeholder="0.00"

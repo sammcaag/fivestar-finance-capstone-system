@@ -13,6 +13,7 @@ import { ClientPayload } from "@/features/clients/types/client-types";
 import AdvancedLoanActionModal from "@/features/loans/components/AdvancedLoanActionModal";
 import LoanHistoryTabs from "@/features/loans/components/LoanHistoryTabs";
 import { useLoanLogic } from "@/features/loans/history/hooks/use-loan-logic";
+import { useLoanStore } from "@/features/loans/history/lib/loan-history-store";
 import { LoanHistoryPayload } from "@/features/loans/history/types/loan-form-types";
 import { useQuery } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
@@ -45,6 +46,14 @@ export default function ClientInfoPage() {
   }, [clientData]);
 
   const { loanSets, buttonLabel } = useLoanLogic(loanHistory, today);
+
+  const { setLoanSets } = useLoanStore();
+
+  useEffect(() => {
+    if (loanSets.length > 0) {
+      setLoanSets(loanSets);
+    }
+  }, [loanSets]);
 
   // Unified handler — now accepts any string (matches LoanHistoryTabs props)
   const handleAddNewLoan = (type: string) => {

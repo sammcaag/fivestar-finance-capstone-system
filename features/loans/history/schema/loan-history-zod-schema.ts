@@ -24,7 +24,7 @@ export const loanHistorySchema = z.object({
       message: "Invalid setted maturity date",
     }),
 
-  accountNumber: z.string().min(1, "Account number is required"),
+  accountNumber: z.string().optional(),
   pnNumber: z.string().min(1, "PN number is required"),
 
   outstandingBalance: z.number().optional(),

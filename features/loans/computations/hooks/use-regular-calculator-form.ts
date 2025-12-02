@@ -3,6 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { productTypeMap } from "../../history/types/loan-form-types";
 import { useRegularLoanCalculator } from "../hooks/use-regular-calculator";
 import type { RegularCalculatorSchema } from "../schema/loan-regular-schema";
 import {
@@ -164,10 +165,11 @@ export const useRegularCalculatorForm = (
       netAmount,
       valueDate,
       maturityDate,
-      id: searchParams.get("id"),
-      clientId: searchParams.get("clientId"),
-      dedCode: searchParams.get("dedCode"), // for renewal/extension
-      computationType: clientType, // New Client / Reloan / Additional / Renewal
+      settedMaturityDate: loanMaturityDate,
+      id: searchParams.get("id") ? Number(searchParams.get("id")) : undefined,
+      clientId: searchParams.get("clientId") || undefined,
+      dedCode: searchParams.get("dedCode") || undefined,
+      computationType: productTypeMap[clientType], // New Client / Reloan / Additional / Renewal
     };
     console.log("THIS IS THE DATA RETURNED WHEN PROCEED", data);
 
