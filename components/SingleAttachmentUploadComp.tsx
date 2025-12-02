@@ -43,7 +43,7 @@ export default function SingleAttachmentUploadComp({
       getInputProps,
     },
   ] = useFileUpload({
-    accept: "image/svg+xml,image/png,image/jpeg,image/jpg,image/gif,image/webp, 'application/pdf'",
+    accept: "image/svg+xml,image/png,image/jpeg,image/jpg,image/gif,image/webp,application/pdf",
     maxSize,
     initialFiles: isUpdate
       ? [

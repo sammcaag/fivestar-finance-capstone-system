@@ -63,7 +63,7 @@ export default function AttachmentsTab({
               />
             ))
           ) : (
-            <div className="col-span-full bg-gray-50 p-8 text-center rounded-md border border-dashed">
+            <div className="col-span-full bg-gray-50 p-8 flex flex-col items-center justify-center rounded-md border border-dashed min-h-[40vh]">
               <Paperclip className="h-10 w-10 mx-auto text-gray-400 mb-2" />
               <p className="text-gray-500">No documents have been uploaded yet</p>
               <p className="text-sm text-gray-400 mt-1">
@@ -76,7 +76,7 @@ export default function AttachmentsTab({
           <div className="bg-blue-50 p-4 rounded-md flex flex-col items-start w-full">
             <h3 className="font-medium text-primary mb-2">Document Requirements</h3>
             <ul className="text-sm text-primary space-y-1 ml-5 list-disc">
-              <li>Maximum file size: 10MB</li>
+              <li>Maximum file size: 2MB</li>
               <li>Supported formats: PDF, JPG, PNG, DOC, DOCX</li>
               <li>Please ensure all documents are legible and complete</li>
               <li>Personal information should be clearly visible</li>
