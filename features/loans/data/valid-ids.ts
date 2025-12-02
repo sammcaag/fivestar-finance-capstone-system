@@ -1,0 +1,35 @@
+// validIds.ts
+export const validIds = [
+  "Philippine Passport",
+  "Driver's License (LTO)",
+  "Unified Multi-Purpose ID (UMID)",
+  "PhilSys National ID",
+  "SSS ID",
+  "GSIS eCard",
+  "PRC ID",
+  "Postal ID",
+  "Senior Citizen ID",
+  "Alien Certificate of Registration (ACR I-Card)",
+  "PWD ID",
+  "Voter's ID / Voter's Certificate",
+  "PhilHealth ID",
+  "TIN ID",
+  "Seaman's Book (MARINA)",
+  "Barangay ID",
+  "NBI Clearance",
+  "Police Clearance",
+  "AFP/PNP/Firefighter ID",
+] as const;
+
+export const attachmentsTitle = [
+  "Selfie Photo",
+  "ATM Photo",
+  "Valid ID 1",
+  "Valid ID 2",
+  "Retiree ID",
+  "Retiree Order",
+  "Beneficiary ID",
+  "Declaration of Beneficiary",
+  "Retirement Order or Postumos",
+  "Marriage Certificate",
+] as const;

@@ -20,7 +20,7 @@ const tabs = [
   { value: "attachments", label: "Attachments" },
 ];
 
-export default function ClientInformation({ client }: { client: ClientPayload }) {
+export default function ClientInformation({ client, serialNumber }: { client: ClientPayload; serialNumber: string }) {
   const router = useRouter();
   // get link details and detect if tab is present then assign it as defaultvalue
   const searchParams = useSearchParams();
@@ -77,7 +77,7 @@ export default function ClientInformation({ client }: { client: ClientPayload })
         />
 
         {/* Attachments Tab */}
-        <AttachmentsTab userAttachments={client.userAttachments} />
+        <AttachmentsTab userAttachments={client.userAttachments} userId={client?.id} serialNumber={serialNumber} />
       </Tabs>
     </>
   );

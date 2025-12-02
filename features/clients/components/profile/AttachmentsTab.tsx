@@ -12,11 +12,16 @@ import { TabsContent } from "@/components/ui/tabs";
 import AttachmentsCard from "@/features/loans/components/AttachmentsCard";
 import { Paperclip } from "lucide-react";
 import { UserAttachments } from "../../types/client-types";
+import NewAttachmentDialog from "./NewAttachmentDialog";
 
 export default function AttachmentsTab({
   userAttachments,
+  userId,
+  serialNumber,
 }: {
   userAttachments: UserAttachments[];
+  userId: number | null | undefined;
+  serialNumber: string;
 }) {
   return (
     <TabsContent value="attachments" className="mt-3">
@@ -34,10 +39,17 @@ export default function AttachmentsTab({
               </CardDescription>
             </div>
           </div>
-          <Button variant="outline" effect="ringHover" className=" border-primary text-primary">
-            <Paperclip className="h-4 w-4 mr-2" />
-            Upload New Document
-          </Button>
+          <NewAttachmentDialog userId={userId} serialNumber={serialNumber}>
+            <Button
+              variant="outline"
+              icon={Paperclip}
+              iconPlacement="left"
+              effect="ringHover"
+              className=" border-primary text-primary"
+            >
+              Upload New Attachment
+            </Button>
+          </NewAttachmentDialog>
         </CardHeader>
         <Separator className="mb-6" />
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

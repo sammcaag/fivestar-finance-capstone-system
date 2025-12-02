@@ -7,12 +7,13 @@ import { Separator } from "@/components/ui/separator";
 import { UserAttachments } from "@/features/clients/types/client-types";
 import { formatBytes } from "@/utils/format-bytes";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
+import clsx from "clsx";
 import { CheckCircle2, Eye, FileClock, FileText, Loader2, Printer } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 export default function AttachmentsCard({ attachment }: { attachment: UserAttachments }) {
-  const isPdf = attachment.format?.toLowerCase() === "pdf";
   const [isIframeLoading, setIsIframeLoading] = useState(false);
 
   const quickDetails = useMemo(
@@ -116,12 +117,24 @@ export default function AttachmentsCard({ attachment }: { attachment: UserAttach
           alt={`${attachment.title} preview`}
           className="w-full h-full object-cover"
         />
-        <Badge className="absolute top-3 left-3 flex items-center gap-1 bg-background/90 text-gray-900">
+        <Badge
+          className={clsx(
+            "absolute top-3 left-3 flex items-center gap-1",
+            attachment.resourceType === "pdf" ? "bg-red-100 text-red-700" : ""
+          )}
+        >
           <FileText className="h-3.5 w-3.5" />
           {attachment.resourceType.toUpperCase()}
         </Badge>
         {/* Status */}
-        <Badge className="absolute top-3 right-3 flex items-center gap-1 bg-background/90 text-gray-900">
+        <Badge
+          className={clsx(
+            "absolute top-3 right-3 flex items-center gap-1",
+            attachment.isVerified
+              ? "bg-emerald-100 text-emerald-700"
+              : "bg-amber-100 text-amber-700"
+          )}
+        >
           <FileClock className="h-3.5 w-3.5" />
           {attachment.isVerified ? "Verified" : "Not Verified"}
         </Badge>
@@ -167,18 +180,13 @@ export default function AttachmentsCard({ attachment }: { attachment: UserAttach
         </div>
 
         <div className="flex flex-col sm:flex-row gap-2">
-          <Button
-            asChild
-            variant="outline"
-            icon={Eye}
-            disabled={isIframeLoading}
-            className="flex-1"
-            iconPlacement="left"
-          >
-            <a href={attachment.secureUrl} target="_blank" rel="noreferrer">
-              View Document
-            </a>
+          <Button asChild variant="outline" disabled={isIframeLoading} className="flex-1">
+            <Link href={attachment.secureUrl} target="_blank" rel="noreferrer">
+              <Eye className="h-4 w-4" />
+              View
+            </Link>
           </Button>
+
           <Button
             icon={isIframeLoading ? Loader2 : Printer}
             iconPlacement="left"
@@ -186,7 +194,7 @@ export default function AttachmentsCard({ attachment }: { attachment: UserAttach
             className="flex-1 hover:cursor-pointer"
             disabled={isIframeLoading}
           >
-            {isIframeLoading ? "Loading..." : "Print Document"}
+            {isIframeLoading ? "Loading..." : "Print"}
           </Button>
         </div>
       </CardContent>
