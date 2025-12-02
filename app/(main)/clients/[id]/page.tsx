@@ -1,5 +1,6 @@
-// src/features/clients/components/ClientInfoPage.tsx
+// src/app/(main)/clients/[id]/page.tsx
 "use client";
+
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import Loading from "@/components/LoadingPage";
 import NotFoundPage from "@/components/NotFoundPage";
@@ -9,7 +10,7 @@ import { getClientBySerialNumber } from "@/features/clients/api/client-service";
 import ClientInformation from "@/features/clients/components/ClientInformation";
 import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons/ClientProfileHeaderSkeleton";
 import { ClientPayload } from "@/features/clients/types/client-types";
-import LoanActionModal from "@/features/loans/components/LoanActionModal";
+import AdvancedLoanActionModal from "@/features/loans/components/AdvancedLoanActionModal";
 import LoanHistoryTabs from "@/features/loans/components/LoanHistoryTabs";
 import { mockLoanHistoryData } from "@/features/loans/data/mock-loans-data";
 import { useLoanLogic } from "@/features/loans/hooks/use-loan-logic";
@@ -26,13 +27,13 @@ export default function ClientInfoPage() {
 
   const params = useParams();
   const serialNumber = params.id as string;
+  const router = useRouter();
 
   const { data: clientData, isLoading } = useQuery<ClientPayload>({
     queryKey: ["clientBySerialNumber", serialNumber],
     queryFn: () => getClientBySerialNumber(serialNumber),
   });
 
-  const router = useRouter();
   const [loanHistory] = useState<LoanHistory[]>(mockLoanHistoryData);
   const [selectedLoan, setSelectedLoan] = useState<LoanHistory | null>(null);
   const today = new Date("2025-11-13");
@@ -40,35 +41,31 @@ export default function ClientInfoPage() {
 
   const { loanSets, buttonLabel } = useLoanLogic(loanHistory, today);
 
-  // Add this function inside your ClientInfoPage component
-  const handleAddNewLoan = (type: "new-client" | "reloan" | "additional") => {
+  // Unified handler — now accepts any string (matches LoanHistoryTabs props)
+  const handleAddNewLoan = (type: string) => {
     sessionStorage.setItem("fromClientProfile", "true");
-    router.push(`/loans/computations/${type}?clientId=${serialNumber}`);
+    const slug = type
+      .toLowerCase()
+      .replace(/ client loan$/, "")
+      .replace(" ", "-");
+    router.push(`/loans/computations/${slug}?clientId=${serialNumber}`);
   };
 
-  // Replace your customHeaderRight with this:
   const customHeaderRight = (
     <Button
-      onClick={() =>
-        handleAddNewLoan(
-          buttonLabel.toLowerCase().includes("new")
-            ? "new-client"
-            : buttonLabel.toLowerCase().includes("reloan")
-              ? "reloan"
-              : "additional"
-        )
-      }
+      onClick={() => {
+        const lower = buttonLabel.toLowerCase();
+        if (lower.includes("new")) handleAddNewLoan("new-client");
+        else if (lower.includes("reloan")) handleAddNewLoan("reloan");
+        else handleAddNewLoan("additional");
+      }}
     >
       {buttonLabel}
     </Button>
   );
 
-  useEffect(() => {
-    console.log("THIS IS THE DATA PASSED", clientData);
-  }, [clientData]);
-
   return (
-    <ContentLayout title={"Client Information"}>
+    <ContentLayout title="Client Information">
       <div className="flex justify-between items-center mb-4">
         <BreadcrumbPages
           links={[
@@ -89,37 +86,36 @@ export default function ClientInfoPage() {
           Edit Client Info
         </Button>
       </div>
+
       {isLoading ? (
         <ClientProfileHeaderSkeleton />
       ) : clientData ? (
         <>
-          <ClientInfoInSuspense client={clientData as ClientPayload} />
+          <ClientInfoInSuspense client={clientData} />
           <LoanHistoryTabs
             loanSets={loanSets}
             loanHistory={loanHistory}
             isLoading={isLoading}
             customHeaderRight={customHeaderRight}
             setSelectedLoan={setSelectedLoan}
-            handleAddLoan={handleAddNewLoan}
+            handleAddLoan={handleAddNewLoan} // now matches the expected type
             totalSets={loanSets.length}
           />
-          <LoanActionModal
+          <AdvancedLoanActionModal
             selectedLoan={selectedLoan}
             setSelectedLoan={setSelectedLoan}
             today={today}
           />
         </>
       ) : (
-        <NotFoundPage title={"Client"} />
+        <NotFoundPage title="Client" />
       )}
     </ContentLayout>
   );
 }
 
-const ClientInfoInSuspense = ({ client }: { client: ClientPayload }) => {
-  return (
-    <Suspense fallback={<Loading />}>
-      <ClientInformation client={client} />
-    </Suspense>
-  );
-};
+const ClientInfoInSuspense = ({ client }: { client: ClientPayload }) => (
+  <Suspense fallback={<Loading />}>
+    <ClientInformation client={client} />
+  </Suspense>
+);

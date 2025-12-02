@@ -1,10 +1,11 @@
+// Same fix — just add handleProceed and use conditional handler
+
 "use client";
 import MainHeader from "@/components/MainHeader";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { motion } from "framer-motion";
 import { ArrowRight, Calculator, PrinterIcon, RefreshCw } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useRegularCalculatorForm } from "../hooks/use-regular-calculator-form";
 import LoanFormRegular from "./regular/LoanFormRegular";
@@ -32,17 +33,15 @@ export default function RegularLoanCalculator({ clientType }: RegularLoanCalcula
     isDoneCalculate,
     isCalculating,
     handleCompute,
+    handleProceed, // Add this!
     handleClear,
     handlePrint,
   } = useRegularCalculatorForm(clientType);
 
-  const searchParams = useSearchParams();
   const fromClient = sessionStorage.getItem("fromClientProfile") === "true";
 
   useEffect(() => {
-    if (fromClient) {
-      sessionStorage.removeItem("fromClientProfile"); // clear after use
-    }
+    if (fromClient) sessionStorage.removeItem("fromClientProfile");
   }, [fromClient]);
 
   const { handleSubmit } = calculatorForm;
@@ -85,7 +84,11 @@ export default function RegularLoanCalculator({ clientType }: RegularLoanCalcula
         variants={itemVariants}
       >
         <Form {...calculatorForm}>
-          <form onSubmit={handleSubmit(handleCompute)} className="p-6 space-y-8">
+          <form
+            onSubmit={handleSubmit(fromClient && isDoneCalculate ? handleProceed : handleCompute)}
+            className="p-6 space-y-8"
+          >
+            {/* Your form */}
             <LoanFormRegular
               selectedCard={selectedCard}
               onCardSelect={setSelectedCard}
@@ -116,6 +119,7 @@ export default function RegularLoanCalculator({ clientType }: RegularLoanCalcula
               </motion.div>
             )}
 
+            {/* Buttons */}
             <div className="flex flex-col sm:flex-row justify-between gap-4 pt-4 border-t">
               <Button
                 type="button"

@@ -6,8 +6,7 @@ import { Form } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
 import { ArrowRight, Calculator, PrinterIcon, RefreshCw } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useExtensionCalculatorForm } from "../hooks/use-extension-calculator-form";
 import LoanFormExtension from "./extension/LoanFormExtension";
 import ReferencesDisplay from "./extension/References";
@@ -21,6 +20,7 @@ export default function ExtensionLoanCalculator() {
     setRenewalExtensionValueDate,
     setRenewalExtensionMaturityDate,
     handleCompute,
+    handleProceed, // Add this!
     handleClear,
     handlePrint,
     isCalculating,
@@ -36,6 +36,27 @@ export default function ExtensionLoanCalculator() {
     setHasDeductions,
   } = useExtensionCalculatorForm();
 
+  const [fromClient, setFromClient] = useState(false);
+
+  useEffect(() => {
+    const flag = sessionStorage.getItem("fromClientProfile");
+    if (flag === "true") {
+      setFromClient(true);
+      // Do NOT remove it yet! Only remove after first render
+    }
+  }, []);
+
+  // Remove the flag only AFTER the component has mounted and read it
+  useEffect(() => {
+    if (fromClient) {
+      // Small delay to ensure state is set first
+      const timer = setTimeout(() => {
+        sessionStorage.removeItem("fromClientProfile");
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [fromClient]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -45,15 +66,6 @@ export default function ExtensionLoanCalculator() {
       },
     },
   };
-
-  const searchParams = useSearchParams();
-  const fromClient = sessionStorage.getItem("fromClientProfile") === "true";
-
-  useEffect(() => {
-    if (fromClient) {
-      sessionStorage.removeItem("fromClientProfile"); // clear after use
-    }
-  }, [fromClient]);
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -83,7 +95,13 @@ export default function ExtensionLoanCalculator() {
         variants={itemVariants}
       >
         <Form {...extensionForm}>
-          <form onSubmit={extensionForm.handleSubmit(handleCompute)} className="space-y-8 p-6">
+          <form
+            onSubmit={extensionForm.handleSubmit(
+              fromClient && isDoneCalculate ? handleProceed : handleCompute
+            )}
+            className="space-y-8 p-6"
+          >
+            {/* Your form content */}
             <LoanFormExtension
               form={extensionForm}
               hasDeductions={hasDeductions}

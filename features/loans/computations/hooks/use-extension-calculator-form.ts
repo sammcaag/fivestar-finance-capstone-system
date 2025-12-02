@@ -1,16 +1,19 @@
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { extensionCalculatorSchema } from "../schema/loan-extension-schema";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { useExtensionCalculator } from "../hooks/use-extension-calculator";
+import {
+  extensionCalculatorDefaultValues,
+  ExtensionCalculatorSchema,
+  extensionCalculatorSchema,
+} from "../schema/loan-extension-schema";
 import type {
   FormValues,
-  ResultsDisplayProps,
   ReferencesDisplayProps,
+  ResultsDisplayProps,
 } from "../types/types-extension";
-import { useState } from "react";
-import { useEffect } from "react";
-import { extensionCalculatorDefaultValues } from "../schema/loan-extension-schema";
-import { toast } from "sonner";
 
 export const useExtensionCalculatorForm = () => {
   const extensionForm = useForm<FormValues>({
@@ -18,6 +21,9 @@ export const useExtensionCalculatorForm = () => {
     defaultValues: extensionCalculatorDefaultValues,
     mode: "onSubmit", // Prevent premature validation
   });
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const {
     watch,
@@ -165,6 +171,18 @@ export const useExtensionCalculatorForm = () => {
       window.print();
     }, 500);
   };
+  const handleProceed = (values: ExtensionCalculatorSchema) => {
+    const data = {
+      ...values,
+      results,
+      netAmount,
+      clientId: searchParams.get("clientId"),
+      dedCode: searchParams.get("dedCode"),
+      computationType: "Extension",
+    };
+    sessionStorage.setItem("pendingLoanData", JSON.stringify(data));
+    router.push("/loans/add");
+  };
   return {
     extensionForm,
     handleCompute,
@@ -185,5 +203,6 @@ export const useExtensionCalculatorForm = () => {
     setRenewalExtensionMaturityDate,
     hasDeductions,
     setHasDeductions,
+    handleProceed,
   };
 };
