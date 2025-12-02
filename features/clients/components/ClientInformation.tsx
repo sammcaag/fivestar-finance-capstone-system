@@ -77,7 +77,7 @@ export default function ClientInformation({ client }: { client: ClientPayload })
         />
 
         {/* Attachments Tab */}
-        <AttachmentsTab />
+        <AttachmentsTab userAttachments={client.userAttachments} />
       </Tabs>
     </>
   );

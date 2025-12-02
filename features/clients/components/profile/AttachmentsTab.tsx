@@ -7,15 +7,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TabsContent } from "@/components/ui/tabs";
-import { File, FileText, ImageIcon, Paperclip, Printer } from "lucide-react";
-import React from "react";
-import { clientData } from "../../data/mock-clients-data";
-import { Download, Eye } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { TabsContent } from "@/components/ui/tabs";
 import AttachmentsCard from "@/features/loans/components/AttachmentsCard";
+import { Paperclip } from "lucide-react";
+import { UserAttachments } from "../../types/client-types";
 
-export default function AttachmentsTab() {
+export default function AttachmentsTab({
+  userAttachments,
+}: {
+  userAttachments: UserAttachments[];
+}) {
   return (
     <TabsContent value="attachments" className="mt-3">
       <Card className="border">
@@ -39,8 +41,8 @@ export default function AttachmentsTab() {
         </CardHeader>
         <Separator className="mb-6" />
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {clientData.attachments && clientData.attachments.length > 0 ? (
-            clientData.attachments.map((attachment, index) => (
+          {userAttachments && userAttachments.length > 0 ? (
+            userAttachments.map((attachment, index) => (
               <AttachmentsCard attachment={attachment} key={index} />
             ))
           ) : (

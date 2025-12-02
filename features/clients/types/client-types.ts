@@ -337,7 +337,38 @@ export type ClientPayload = {
   clientPension: ClientPension;
   clientAccount: ClientAccount;
   clientFamilyInfos: ClientFamilyInfos[];
+  userAttachments: UserAttachments[];
 };
+
+export interface UserAttachments {
+  // Core fields
+  id: string;
+  publicId: string;
+  secureUrl: string;
+  thumbnailUrl: string;
+
+  // Display
+  title: string;
+  description?: string;
+
+  // Metadata
+  originalFilename: string;
+  format: string;
+  resourceType: string;
+  mimeType: string;
+  bytes: number;
+  width?: number; // PDF
+  height?: number; // PDF
+  pages?: number; // PDF
+
+  // Organization
+  category?: string;
+
+  // Tracking
+  isVerified?: boolean;
+  uploadedAt: string;
+  updatedAt?: string;
+}
 
 // ClientFamilyInfo type (dynamic, supports any family member)
 export type ClientFamilyInfos = {
