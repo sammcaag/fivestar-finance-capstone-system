@@ -1,5 +1,5 @@
 // src/features/clients/components/LoanActionModal.tsx
-import { LoanHistory } from "@/features/loans/types/loan-types";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { LoanHistory } from "@/features/loans/types/loan-types";
 import { useRouter } from "next/navigation";
 import { monthsBetween } from "../utils/loan-utils";
 

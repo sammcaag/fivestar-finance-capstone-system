@@ -1,15 +1,17 @@
 "use client";
-import { motion } from "framer-motion";
+import MainHeader from "@/components/MainHeader";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
-import { PrinterIcon, Calculator, ArrowRight, RefreshCw } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import ReferencesDisplay from "./extension/References";
-import ResultsDisplay from "./extension/ResultsDisplayExtension";
+import { motion } from "framer-motion";
+import { ArrowRight, Calculator, PrinterIcon, RefreshCw } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { useExtensionCalculatorForm } from "../hooks/use-extension-calculator-form";
 import LoanFormExtension from "./extension/LoanFormExtension";
-import MainHeader from "@/components/MainHeader";
+import ReferencesDisplay from "./extension/References";
+import ResultsDisplay from "./extension/ResultsDisplayExtension";
 
 export default function ExtensionLoanCalculator() {
   const {
@@ -43,6 +45,15 @@ export default function ExtensionLoanCalculator() {
       },
     },
   };
+
+  const searchParams = useSearchParams();
+  const fromClient = sessionStorage.getItem("fromClientProfile") === "true";
+
+  useEffect(() => {
+    if (fromClient) {
+      sessionStorage.removeItem("fromClientProfile"); // clear after use
+    }
+  }, [fromClient]);
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -164,6 +175,11 @@ export default function ExtensionLoanCalculator() {
                     <>
                       <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
                       Computing...
+                    </>
+                  ) : fromClient && isDoneCalculate ? (
+                    <>
+                      Proceed
+                      <ArrowRight className="ml-2 h-4 w-4" />
                     </>
                   ) : (
                     <>

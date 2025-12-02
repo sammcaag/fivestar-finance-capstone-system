@@ -1,9 +1,9 @@
 // src/features/clients/components/LoanHistoryTabs.tsx
 import { MainTableComp } from "@/components/tables/MainTableComp";
-import { LoanHistory } from "@/features/loans/types/loan-types";
-import { loansHistoryColumnDefinition } from "@/features/loans/components/tables/LoansHistoryColumnDefinition";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
 import TabListCustomComp from "@/components/TabListCustomComp";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { loansHistoryColumnDefinition } from "@/features/loans/components/tables/LoansHistoryColumnDefinition";
+import { LoanHistory } from "@/features/loans/types/loan-types";
 
 interface LoanHistoryTabsProps {
   loanSets: LoanHistory[][];

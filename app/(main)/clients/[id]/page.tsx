@@ -1,23 +1,23 @@
 // src/features/clients/components/ClientInfoPage.tsx
 "use client";
-import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
+import Loading from "@/components/LoadingPage";
+import NotFoundPage from "@/components/NotFoundPage";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
+import { Button } from "@/components/ui/button";
+import { getClientBySerialNumber } from "@/features/clients/api/client-service";
 import ClientInformation from "@/features/clients/components/ClientInformation";
-import { Suspense, useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { LoanHistory } from "@/features/loans/types/loan-types";
+import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons/ClientProfileHeaderSkeleton";
+import { ClientPayload } from "@/features/clients/types/client-types";
+import LoanActionModal from "@/features/loans/components/LoanActionModal";
+import LoanHistoryTabs from "@/features/loans/components/LoanHistoryTabs";
 import { mockLoanHistoryData } from "@/features/loans/data/mock-loans-data";
 import { useLoanLogic } from "@/features/loans/hooks/use-loan-logic";
-import { Button } from "@/components/ui/button";
-import LoanHistoryTabs from "@/features/loans/components/LoanHistoryTabs";
-import LoanActionModal from "@/features/loans/components/LoanActionModal";
+import { LoanHistory } from "@/features/loans/types/loan-types";
 import { useQuery } from "@tanstack/react-query";
-import { getClientBySerialNumber } from "@/features/clients/api/client-service";
-import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons/ClientProfileHeaderSkeleton";
-import NotFoundPage from "@/components/NotFoundPage";
 import { Pencil } from "lucide-react";
-import { ClientPayload } from "@/features/clients/types/client-types";
-import Loading from "@/components/LoadingPage";
+import { useParams, useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 export default function ClientInfoPage() {
   useEffect(() => {
@@ -40,16 +40,25 @@ export default function ClientInfoPage() {
 
   const { loanSets, buttonLabel } = useLoanLogic(loanHistory, today);
 
-  const handleAddLoan = (type: string) => {
-    const slug = type
-      .toLowerCase()
-      .replace(/ client loan$/, "")
-      .replace(" ", "-");
-    router.push(`/loans/computations/${slug}`);
+  // Add this function inside your ClientInfoPage component
+  const handleAddNewLoan = (type: "new-client" | "reloan" | "additional") => {
+    sessionStorage.setItem("fromClientProfile", "true");
+    router.push(`/loans/computations/${type}?clientId=${serialNumber}`);
   };
 
+  // Replace your customHeaderRight with this:
   const customHeaderRight = (
-    <Button variant="default" onClick={() => handleAddLoan(buttonLabel.replace("Add ", ""))}>
+    <Button
+      onClick={() =>
+        handleAddNewLoan(
+          buttonLabel.toLowerCase().includes("new")
+            ? "new-client"
+            : buttonLabel.toLowerCase().includes("reloan")
+              ? "reloan"
+              : "additional"
+        )
+      }
+    >
       {buttonLabel}
     </Button>
   );
@@ -91,7 +100,7 @@ export default function ClientInfoPage() {
             isLoading={isLoading}
             customHeaderRight={customHeaderRight}
             setSelectedLoan={setSelectedLoan}
-            handleAddLoan={handleAddLoan}
+            handleAddLoan={handleAddNewLoan}
             totalSets={loanSets.length}
           />
           <LoanActionModal

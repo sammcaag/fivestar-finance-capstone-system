@@ -1,13 +1,15 @@
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { regularCalculatorSchema } from "../schema/loan-regular-schema";
-import { regularCalculatorDefaultValues } from "../schema/loan-regular-schema";
-import type { RegularCalculatorSchema } from "../schema/loan-regular-schema";
-import { useRegularLoanCalculator } from "../hooks/use-regular-calculator";
-import { useState } from "react";
-import { ResultsProps } from "../types/types-regular";
-import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useRegularLoanCalculator } from "../hooks/use-regular-calculator";
+import type { RegularCalculatorSchema } from "../schema/loan-regular-schema";
+import {
+  regularCalculatorDefaultValues,
+  regularCalculatorSchema,
+} from "../schema/loan-regular-schema";
+import { ResultsProps } from "../types/types-regular";
 
 export const useRegularCalculatorForm = (
   clientType: "Renewal" | "New Client" | "Reloan" | "Additional"
@@ -40,6 +42,8 @@ export const useRegularCalculatorForm = (
   const [netAmount, setNetAmount] = useState<string>(`₱\t0.00`);
   const [isDoneCalculate, setIsDoneCalculate] = useState<boolean>(false);
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const amortizationWatch = clientType === "Renewal" ? watch("monthlyAmortization") : undefined;
 
@@ -152,6 +156,22 @@ export const useRegularCalculatorForm = (
       calculate(getValues(), selectedCard);
     }
   }, [selectedCard]);
+
+  const handleProceed = (values: RegularCalculatorSchema) => {
+    const dataToSave = {
+      ...values,
+      results,
+      netAmount,
+      valueDate,
+      maturityDate,
+      clientId: searchParams.get("clientId"),
+      dedCode: searchParams.get("dedCode"), // for renewal/extension
+      computationType: clientType, // New Client / Reloan / Additional / Renewal
+    };
+
+    sessionStorage.setItem("pendingLoanData", JSON.stringify(dataToSave));
+    router.push("/loans/add");
+  };
   return {
     calculatorForm,
     selectedCard,
@@ -171,5 +191,6 @@ export const useRegularCalculatorForm = (
     handleCompute,
     handleClear,
     handlePrint,
+    handleProceed,
   };
 };

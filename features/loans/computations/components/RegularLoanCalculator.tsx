@@ -1,12 +1,14 @@
 "use client";
-import { motion } from "framer-motion";
+import MainHeader from "@/components/MainHeader";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { PrinterIcon, Calculator, ArrowRight, RefreshCw } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, Calculator, PrinterIcon, RefreshCw } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { useRegularCalculatorForm } from "../hooks/use-regular-calculator-form";
 import LoanFormRegular from "./regular/LoanFormRegular";
 import ResultsDisplay from "./regular/ResultsDisplayRegular";
-import { useRegularCalculatorForm } from "../hooks/use-regular-calculator-form";
-import MainHeader from "@/components/MainHeader";
 
 interface RegularLoanCalculatorProps {
   clientType: "Renewal" | "New Client" | "Reloan" | "Additional";
@@ -33,6 +35,15 @@ export default function RegularLoanCalculator({ clientType }: RegularLoanCalcula
     handleClear,
     handlePrint,
   } = useRegularCalculatorForm(clientType);
+
+  const searchParams = useSearchParams();
+  const fromClient = sessionStorage.getItem("fromClientProfile") === "true";
+
+  useEffect(() => {
+    if (fromClient) {
+      sessionStorage.removeItem("fromClientProfile"); // clear after use
+    }
+  }, [fromClient]);
 
   const { handleSubmit } = calculatorForm;
 
@@ -138,6 +149,11 @@ export default function RegularLoanCalculator({ clientType }: RegularLoanCalcula
                     <>
                       <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
                       Computing...
+                    </>
+                  ) : fromClient && isDoneCalculate ? (
+                    <>
+                      Proceed
+                      <ArrowRight className="ml-2 h-4 w-4" />
                     </>
                   ) : (
                     <>
