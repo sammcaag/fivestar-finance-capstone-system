@@ -2,6 +2,7 @@ import { z } from "zod";
 import { LoanHistoryProductType } from "../types/loan-form-types";
 
 export const loanHistorySchema = z.object({
+  id: z.number().optional(),
   dedCode: z.string().min(1, "Deduction code is required"),
   productType: z.nativeEnum(LoanHistoryProductType),
 

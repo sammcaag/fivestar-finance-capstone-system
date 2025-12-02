@@ -27,6 +27,7 @@ export type LoanHistoryFormValues = {
 };
 
 export type LoanHistoryPayload = {
+  id?: number;
   branchId: number;
   clientId: number;
 
