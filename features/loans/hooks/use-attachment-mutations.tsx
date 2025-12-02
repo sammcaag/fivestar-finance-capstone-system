@@ -1,5 +1,5 @@
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { createClientAttachment, unverifyAttachment, verifyAttachment } from "../api/loans-api";
+import { createClientAttachment, deleteAttachment, unverifyAttachment, verifyAttachment } from "../api/loans-api";
 
 export function useCreateClientAttachment(
   options?: UseMutationOptions<
@@ -36,6 +36,19 @@ export function useUnverifyAttachment(
 ) {
   return useMutation({
     mutationFn: unverifyAttachment,
+    ...options,
+  });
+}
+
+export function useDeleteAttachment(
+  options?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteAttachment>>, // mutation result
+    unknown, // error type
+    Parameters<typeof deleteAttachment>[0] // variables type { userId, payload }
+  >
+) {
+  return useMutation({
+    mutationFn: deleteAttachment,
     ...options,
   });
 }

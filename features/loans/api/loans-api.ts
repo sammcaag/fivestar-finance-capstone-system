@@ -52,3 +52,24 @@ export const unverifyAttachment = async ({ attachmentId }: { attachmentId: strin
     throw new Error("Failed to create a client");
   }
 };
+
+export const deleteAttachment = async ({
+  attachmentId,
+  publicId,
+}: {
+  attachmentId: string;
+  publicId: string;
+}) => {
+  try {
+    const { data } = await axiosInstance.delete(
+      `/api/attachments/${attachmentId}?publicId=${publicId}`
+    );
+
+    return data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw error;
+    }
+    throw new Error("Failed to delete attachment");
+  }
+};

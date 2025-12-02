@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import DeleteAttachmentDialog from "@/features/clients/components/dialog/DeleteAttachmentDialog";
 import VerifyAttachment from "@/features/clients/components/dialog/VerifyAttachment";
 import { UserAttachments } from "@/features/clients/types/client-types";
 import { formatBytes } from "@/utils/format-bytes";
@@ -230,15 +231,21 @@ export default function AttachmentsCard({
           >
             Edit
           </Button>
-          <Button
-            variant="destructive"
-            icon={Trash2}
-            iconPlacement="left"
-            className="flex-1 min-w-[140px]"
-            type="button"
+          <DeleteAttachmentDialog
+            attachmentId={attachment.id}
+            serialNumber={serialNumber}
+            publicId={attachment.publicId}
           >
-            Delete
-          </Button>
+            <Button
+              variant="destructive"
+              icon={Trash2}
+              iconPlacement="left"
+              className="flex-1 min-w-[140px]"
+              type="button"
+            >
+              Delete
+            </Button>
+          </DeleteAttachmentDialog>
         </div>
       </CardContent>
     </Card>
