@@ -1,63 +1,52 @@
-import { ColumnDef, FilterFn } from "@tanstack/react-table";
-import { ClientTableProps } from "../../types/client-types";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Copy, Eye, FileText, Pencil, Flag, MapPin } from "lucide-react";
-import { clientBadgeStatusMap } from "../../utils/client-badge-status-map";
 import { cn } from "@/lib/utils";
-import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { avatarFallBack } from "@/utils/avatar-fallback";
 import { decodeFullName } from "@/utils/decode-full-name";
+import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { formatFullNameFromParts } from "@/utils/format-full-name-from-parts";
+import { ColumnDef, FilterFn } from "@tanstack/react-table";
+import { MapPin } from "lucide-react";
+import { ClientTableProps } from "../../types/client-types";
+import { clientBadgeStatusMap } from "../../utils/client-badge-status-map";
 
 export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTableProps>[] => {
-  const nameSearchFilterFn: FilterFn<ClientTableProps> = (row, columnId, filterValue) => {
-    const searchableRowContent = `${row.original.name} ${
-      row.original.id || ""
-    } ${row.original.email}`.toLowerCase();
-    const searchTerm = (filterValue ?? "").toLowerCase();
-    return searchableRowContent.includes(searchTerm);
+  const nameSearchFilterFn: FilterFn<ClientTableProps> = (row, _, val) => {
+    return `${row.original.name} ${row.original.id ?? ""} ${row.original.email}`
+      .toLowerCase()
+      .includes((val ?? "").toLowerCase());
   };
 
-  const statusFilterFn: FilterFn<ClientTableProps> = (row, columnId, filterValue: string[]) => {
-    if (!filterValue?.length) return true;
-    const status = row.getValue(columnId) as string;
-    return filterValue.includes(status);
-  };
+  const statusFilterFn: FilterFn<ClientTableProps> = (row, columnId, val) =>
+    !val?.length || val.includes(row.getValue(columnId) as string);
 
   const baseColumns: ColumnDef<ClientTableProps>[] = [
     {
       accessorKey: "name",
-      header: "Client Name",
+      header: "Client",
+      size: 310,
       filterFn: nameSearchFilterFn,
-      enableColumnFilter: false,
       enableSorting: true,
-      size: 300,
+      enableColumnFilter: false,
       cell: ({ row }) => {
         const client = row.original;
+        const fullName = formatFullNameFromParts(decodeFullName(client.name));
+
         return (
           <div className="flex items-center gap-3">
-            <Avatar className="size-10 border border-primary/10 flex-shrink-0">
+            <Avatar className="size-10 rounded-full border border-gray-200">
               <AvatarImage src="/avatar.png" alt={client.name} />
-              <AvatarFallback className="bg-primary/5 text-primary text-xs font-semibold">
+              <AvatarFallback className="bg-primary/10 text-primary font-semibold text-sm">
                 {avatarFallBack(client.name)}
               </AvatarFallback>
             </Avatar>
+
             <div className="flex flex-col">
-              <span className="font-medium text-sm">
-                {client.rank} {formatFullNameFromParts(decodeFullName(client.name))}
+              <span className="text-[15px] font-medium text-foreground">
+                {client.rank} {fullName}
               </span>
-              <span className="text-xs text-muted-foreground">{client.email}</span>
+
+              <span className="text-[13px] text-muted-foreground">{client.email}</span>
             </div>
           </div>
         );
@@ -67,15 +56,10 @@ export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTabl
       accessorKey: "gender",
       header: "Gender",
       filterFn: "includesString",
-      enableColumnFilter: true,
-      enableSorting: true,
-      size: 100,
+      size: 110,
       cell: ({ row }) => (
-        <span className="text-sm text-muted-foreground">
-          {row
-            .getValue("gender")
-            ?.toString()
-            .replace(/^./, (c) => c.toUpperCase())}
+        <span className="text-[15px] text-foreground">
+          {String(row.getValue("gender")).replace(/^./, (c) => c.toUpperCase())}
         </span>
       ),
     },
@@ -83,11 +67,10 @@ export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTabl
       accessorKey: "branchName",
       header: "Branch",
       filterFn: "includesString",
-      enableColumnFilter: true,
-      enableSorting: true,
+      size: 150,
       cell: ({ row }) => (
-        <div className="flex items-center gap-1 text-sm text-muted-foreground">
-          <MapPin className="h-3.5 w-3.5" />
+        <div className="flex items-center gap-1.5 text-[15px] text-foreground">
+          <MapPin className="h-4 w-4 text-primary" />
           <span>{String(row.getValue("branchName"))?.replace(/\s*Branch$/, "") || "N/A"}</span>
         </div>
       ),
@@ -96,15 +79,17 @@ export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTabl
       accessorKey: "status",
       header: "Status",
       filterFn: statusFilterFn,
-      enableColumnFilter: true,
-      enableSorting: true,
-      size: 100,
+      size: 150,
       cell: ({ row }) => {
         const status = (row.getValue("status") || "INACTIVE") as keyof typeof clientBadgeStatusMap;
-        const config = clientBadgeStatusMap[status] || clientBadgeStatusMap.INACTIVE;
+        const config = clientBadgeStatusMap[status];
+
         return (
-          <Badge variant={config.variant} className={cn(config.className)}>
-            {status.toUpperCase()}
+          <Badge
+            variant={config.variant}
+            className={cn("text-[13px] font-semibold rounded-md", config.className)}
+          >
+            {status.replace(/_/g, " ").toUpperCase()}
           </Badge>
         );
       },
@@ -112,118 +97,24 @@ export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTabl
     {
       accessorKey: "birthDate",
       header: "Date of Birth",
-      filterFn: "includesString",
-      enableColumnFilter: false,
-      enableSorting: false,
+      size: 130,
       cell: ({ row }) => (
-        <span className="text-sm text-muted-foreground">
-          {formatDateToReadable(row.getValue("birthDate") || new Date(), true)}
+        <span className="text-[14px] text-muted-foreground">
+          {formatDateToReadable(row.getValue("birthDate"), true)}
         </span>
       ),
     },
     {
       accessorKey: "createdAt",
-      header: "Registered At",
-      enableColumnFilter: false,
-      enableSorting: true,
+      header: "Registered",
+      size: 140,
       cell: ({ row }) => (
-        <span className="text-sm text-muted-foreground">
-          {formatDateToReadable(row.getValue("createdAt") || new Date(), true)}
+        <span className="text-[14px] text-muted-foreground">
+          {formatDateToReadable(row.getValue("createdAt"), true)}
         </span>
       ),
     },
   ];
 
-  if (dashboard) {
-    return baseColumns;
-  }
-
-  return [
-    ...baseColumns,
-    {
-      id: "actions",
-      header: "Actions",
-      enableColumnFilter: false,
-      enableSorting: false,
-      size: 100,
-      cell: ({ row }) => {
-        const client = row.original;
-        return (
-          <TooltipProvider>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-[180px]">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem
-                  onClick={() => {
-                    if (client.id) {
-                      navigator.clipboard.writeText(client.id);
-                      alert(`Client ID ${client.id} copied to clipboard`);
-                    } else {
-                      alert("Client ID not available");
-                    }
-                  }}
-                  className="flex cursor-pointer items-center gap-2"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy client ID
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="flex cursor-pointer items-center gap-2"
-                  onClick={() =>
-                    client.id
-                      ? (window.location.href = `/clients/${client.id}`)
-                      : alert("Client ID not available")
-                  }
-                >
-                  <Eye className="h-4 w-4" />
-                  View client details
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="flex cursor-pointer items-center gap-2"
-                  onClick={() =>
-                    client.id
-                      ? (window.location.href = `/loans/${client.id}`)
-                      : alert("Client ID not available")
-                  }
-                >
-                  <FileText className="h-4 w-4" />
-                  View loan details
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="flex cursor-pointer items-center gap-2"
-                  onClick={() =>
-                    client.id
-                      ? (window.location.href = `/clients/${client.id}/edit`)
-                      : alert("Client ID not available")
-                  }
-                >
-                  <Pencil className="h-4 w-4" />
-                  Edit client
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="flex cursor-pointer items-center gap-2 text-destructive"
-                  onClick={() => {
-                    if (confirm(`Flag ${client.name} for review?`)) {
-                      alert(`${client.name} has been flagged for review`);
-                    }
-                  }}
-                >
-                  <Flag className="h-4 w-4" />
-                  Flag for review
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </TooltipProvider>
-        );
-      },
-    },
-  ];
+  return [...baseColumns];
 };
