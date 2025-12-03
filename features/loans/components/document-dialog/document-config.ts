@@ -22,7 +22,7 @@ export const documentSections = {
       title: "Loan Application",
       buttons: [
         { id: "computation-slip", label: "Computation Slip" },
-        { id: "long-app-form", label: "Long Application Form" },
+        { id: "loan-application-long", label: "Long Application Form" },
       ],
     },
     {
@@ -38,8 +38,8 @@ export const documentSections = {
       title: "Loan Contracts",
       buttons: [
         { id: "ledger", label: "Ledger" },
-        { id: "pn", label: "PN" },
-        { id: "ds", label: "DS" },
+        { id: "pn-ren", label: "PN" },
+        { id: "ds-1", label: "DS" },
         { id: "spa", label: "SPA" },
       ],
     },
@@ -58,7 +58,7 @@ export const documentSections = {
       title: "Loan Application",
       buttons: [
         { id: "computation-slip", label: "Computation Slip" },
-        { id: "short-app-form", label: "Short Application Form" },
+        { id: "loan-application-short", label: "Short Application Form" },
       ],
     },
     {
@@ -74,8 +74,8 @@ export const documentSections = {
       title: "Loan Contracts",
       buttons: [
         { id: "ledger", label: "Ledger" },
-        { id: "pn", label: "PN" },
-        { id: "ds", label: "DS" },
+        { id: "pn-ren", label: "PN" },
+        { id: "ds-1", label: "DS" },
         { id: "spa", label: "SPA" },
       ],
     },
@@ -85,7 +85,7 @@ export const documentSections = {
       title: "Loan Application",
       buttons: [
         { id: "computation-slip", label: "Computation Slip" },
-        { id: "short-app-form", label: "Short Application Form" },
+        { id: "loan-application-short", label: "Short Application Form" },
       ],
     },
     {
@@ -104,10 +104,10 @@ export const documentSections = {
         { id: "ledger-2", label: "Ledger 2" },
         { id: "pn-1", label: "PN 1" },
         { id: "pn-2", label: "PN 2" },
-        { id: "pn-ren-e", label: "PN REN-E" },
+        { id: "pn-ren", label: "PN REN-E" },
         { id: "ds-1", label: "DS 1" },
         { id: "ds-2", label: "DS 2" },
-        { id: "ds-ren-e", label: "DS REN-E" },
+        { id: "ds-ren", label: "DS REN-E" },
         { id: "spa", label: "SPA" },
       ],
     },

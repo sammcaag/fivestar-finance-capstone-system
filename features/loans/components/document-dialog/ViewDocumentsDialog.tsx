@@ -25,10 +25,10 @@ interface ViewDocumentsDialogProps {
 type ClickedButtons = Record<string, boolean>;
 
 const documentHandlers: Record<string, (loanHistoryId: number) => Promise<void>> = {
-  "computation-slip": (id) => fetchAndPrint("ren-lc", id), // change this to computation slip if added in backend
+  "computation-slip": (id) => fetchAndPrint("computation-slip", id), // change this to computation slip if added in backend
   "pre-assessment": (id) => fetchAndPrint("pre-assessment", id),
-  "long-app-form": (id) => fetchAndPrint("loan-application-long", id),
-  "short-app-form": (id) => fetchAndPrint("loan-application-short", id),
+  "loan-application-long": (id) => fetchAndPrint("loan-application-long", id),
+  "loan-application-short": (id) => fetchAndPrint("loan-application-short", id),
   apd: (id) => fetchAndPrint("apd", id),
   pba: (id) => fetchAndPrint("pba", id),
   alip: (id) => fetchAndPrint("alip", id),
@@ -36,11 +36,11 @@ const documentHandlers: Record<string, (loanHistoryId: number) => Promise<void>>
   "ledger-1": (id) => fetchAndPrint("ledger-1", id),
   "ledger-2": (id) => fetchAndPrint("ledger-2", id),
   pn: (id) => fetchAndPrint("pn-ren", id),
-  "pn-ren-e": (id) => fetchAndPrint("pn-ren", id),
+  "pn-ren": (id) => fetchAndPrint("pn-ren", id),
   ds: (id) => fetchAndPrint("ds-ren", id),
   "ds-1": (id) => fetchAndPrint("ds-1", id),
   "ds-2": (id) => fetchAndPrint("ds-2", id),
-  "ds-ren-e": (id) => fetchAndPrint("ds-ren-ext", id),
+  "ds-ren": (id) => fetchAndPrint("ds-ren-ext", id),
   spa: (id) => fetchAndPrint("spa", id),
   sbo: (id) => fetchAndPrint("sbo", id),
   nor: (id) => fetchAndPrint("nor", id),

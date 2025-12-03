@@ -10,9 +10,11 @@ interface DocumentCardProps {
 }
 
 export function DocumentCard({ id, label, isClicked, onClick }: DocumentCardProps) {
+  const imageSrc = `/templates/${id}.png`;
   return (
     <div className="group relative cursor-pointer select-none" onClick={() => onClick(id)}>
       {/* Card Container */}
+
       <div
         className={`
           relative w-full h-72 md:h-80 lg:h-64 
@@ -28,9 +30,10 @@ export function DocumentCard({ id, label, isClicked, onClick }: DocumentCardProp
         {/* Thumbnail Image */}
         <div className="relative w-full h-full">
           <Image
-            src="/avatar.png"
+            src={imageSrc}
             alt={label}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-cover transition-all duration-700 group-hover:scale-105"
             priority
           />
