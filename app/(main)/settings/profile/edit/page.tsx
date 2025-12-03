@@ -1,22 +1,22 @@
 "use client";
 
-import { useEffect } from "react";
-import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { Form } from "@/components/ui/form";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 import MainHeader from "@/components/MainHeader";
-import StaffGeneralInformation from "@/features/staff/component/forms/StaffGeneralInformation";
-import { useStaffRegistrationForm } from "@/features/staff/hooks/use-staff-registration-form";
-import { getStaffByStaffId } from "@/features/staff/api/staff-service";
-import { StaffPayload } from "@/features/staff/types/staff-types";
-import { useQuery } from "@tanstack/react-query";
-import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
-import { FormNavigationButtonsSkeleton } from "@/features/clients/components/skeletons/FormNavigationButtonsSkeleton";
 import NotFoundPage from "@/components/NotFoundPage";
 import { useAuth } from "@/features/auth/context/AuthContext";
+import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
+import { FormNavigationButtonsSkeleton } from "@/features/clients/components/skeletons/FormNavigationButtonsSkeleton";
 import { SimpleFormButtons } from "@/features/settings/components/SimpleFormButton";
+import { getStaffByStaffId } from "@/features/staff/api/staff-service";
+import StaffGeneralInformation from "@/features/staff/component/forms/StaffGeneralInformation";
+import { useStaffRegistrationForm } from "@/features/staff/hooks/use-staff-registration-form";
+import { StaffPayload } from "@/features/staff/types/staff-types";
+import { useQuery } from "@tanstack/react-query";
 
 export default function EditProfile() {
   useEffect(() => {

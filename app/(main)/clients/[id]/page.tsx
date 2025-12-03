@@ -29,10 +29,19 @@ export default function ClientInfoPage() {
   const serialNumber = params.id as string;
   const router = useRouter();
 
-  const { data: clientData, isLoading } = useQuery<ClientPayload>({
+  const {
+    data: clientData,
+    isLoading,
+    refetch,
+  } = useQuery<ClientPayload>({
     queryKey: ["clientBySerialNumber", serialNumber],
     queryFn: () => getClientBySerialNumber(serialNumber),
+    refetchOnWindowFocus: true,
   });
+
+  useEffect(() => {
+    refetch();
+  }, [serialNumber]);
 
   const [loanHistory, setLoanHistory] = useState<LoanHistoryPayload[]>([]);
   const [selectedLoan, setSelectedLoan] = useState<LoanHistoryPayload | null>(null);
@@ -47,7 +56,13 @@ export default function ClientInfoPage() {
 
   const { loanSets, buttonLabel } = useLoanLogic(loanHistory, today);
 
-  const { setLoanSets } = useLoanStore();
+  const { setLoanSets, setClientSerialNumber } = useLoanStore();
+
+  useEffect(() => {
+    if (serialNumber) {
+      setClientSerialNumber(serialNumber);
+    }
+  }, [serialNumber]);
 
   useEffect(() => {
     if (loanSets.length > 0) {

@@ -242,6 +242,7 @@ export function FormFieldWrapper<T extends FieldValues>(props: FormFieldWrapperP
                     isFutureDatesUnselectable={true}
                     customDateFormat="MMMM d, yyyy"
                     placeholder={props.placeholder || "Select date"}
+                    editable={!disabled}
                   />
                 </div>
               ) : props.type === "phone" ? (

@@ -1,37 +1,51 @@
 // src/features/clients/components/ClientInfoPage.tsx
 "use client";
-import { ContentLayout } from "@/components/staff-panel/content-layout";
+
 import BreadcrumbPages from "@/components/BreadcrumbPages";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
-import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons/ClientProfileHeaderSkeleton";
 import NotFoundPage from "@/components/NotFoundPage";
-import { Pencil } from "lucide-react";
-import StaffProfileHeader from "@/features/staff/component/StaffProfileHeader";
-import { getStaffByStaffId } from "@/features/staff/api/staff-service";
-import { StaffPayload } from "@/features/staff/types/staff-types";
-import StaffPersonalInformation from "@/features/staff/component/StaffPersonalInformation";
-import { formatFullAddress } from "@/utils/format-full-address";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/context/AuthContext";
+import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons/ClientProfileHeaderSkeleton";
+import { getStaffByStaffId } from "@/features/staff/api/staff-service";
+import StaffPersonalInformation from "@/features/staff/component/StaffPersonalInformation";
+import StaffProfileHeader from "@/features/staff/component/StaffProfileHeader";
+import { StaffPayload } from "@/features/staff/types/staff-types";
+import { formatFullAddress } from "@/utils/format-full-address";
+import { useQuery } from "@tanstack/react-query";
+import { Pencil } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function ProfileInfoPage() {
   useEffect(() => {
     document.title = "User Profile | Stella - Five Star Finance Inc.";
   }, []);
 
-  const { user } = useAuth();
+  // 1. Always call hooks at the top — NEVER conditionally
+  const { user, isLoading: isAuthLoading } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const userId = user!.id;
+  // Only compute userId when user exists
+  const userId = user?.id;
 
-  const { data: ownerData, isLoading } = useQuery<StaffPayload>({
+  // 2. This hook is ALWAYS called (never skipped)
+  const {
+    data: ownerData,
+    isLoading: isOwnerProfileLoading,
+    refetch,
+  } = useQuery<StaffPayload>({
     queryKey: ["ownerByStaffId", userId],
-    queryFn: () => getStaffByStaffId(userId),
+    queryFn: () => getStaffByStaffId(userId!),
+    enabled: !!userId, // ← important: don't run query until we have userId
   });
 
-  const router = useRouter();
+  useEffect(() => {
+    refetch();
+  }, [pathname]);
 
+  // Safe to render everything now
   return (
     <ContentLayout title={"Profile Settings"}>
       <div className="flex justify-between items-center mb-4">
@@ -39,8 +53,8 @@ export default function ProfileInfoPage() {
           links={[
             { href: "/", label: "Home" },
             { href: "/settings", label: "Settings" },
-            { href: `/settings/profile`, label: "Profile" },
-            { href: `/settings/profile/${userId}`, label: userId },
+            { href: "/settings/profile", label: "Profile" },
+            { href: `/settings/profile/${userId}`, label: String(userId) },
           ]}
         />
 
@@ -49,15 +63,14 @@ export default function ProfileInfoPage() {
           size="sm"
           onClick={() => router.push(`/settings/profile/edit`)}
           className="gap-2 p-5 rounded-lg"
-          disabled={isLoading || !ownerData}
         >
           <Pencil className="h-4 w-4" />
           Edit Profile Info
         </Button>
       </div>
-      {isLoading ? (
+      {isAuthLoading || !user || isOwnerProfileLoading ? (
         <ClientProfileHeaderSkeleton />
-      ) : ownerData ? (
+      ) : ownerData && !isAuthLoading && !isOwnerProfileLoading && user ? (
         <>
           <StaffProfileHeader
             staffId={ownerData.staffId}

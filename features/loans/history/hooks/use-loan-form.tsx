@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { createLoanHistoryApi, updateLoanHistoryApi } from "../api/loan-history-service";
 import { defaultValues } from "../lib/loan-history-form";
 import { loanHistoryPayload, mapBackendToLoanHistoryFormValues } from "../lib/loan-history-payload";
+import { useLoanStore } from "../lib/loan-history-store";
 import { loanHistorySchema } from "../schema/loan-history-zod-schema";
 import { LoanHistoryFormValues, LoanHistoryPayload } from "../types/loan-form-types";
 
@@ -18,6 +19,7 @@ export function useLoanHistoryForm() {
   const { showDialog } = useDialog();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { clientSerialNumber } = useLoanStore();
 
   const form = useForm<LoanHistoryFormValues>({
     resolver: zodResolver(loanHistorySchema),
@@ -63,7 +65,7 @@ export function useLoanHistoryForm() {
       const result = await addLoanHistory(backendPayload); // ✅ await
       console.log("Result:", result);
       showDialog(`Loan ${data.dedCode} created successfully!`, "success");
-      router.push(`/clients/${clientId}`);
+      router.push(`/clients/${clientSerialNumber}`);
     } catch (error) {
       console.log("Error:", error);
 
@@ -87,7 +89,7 @@ export function useLoanHistoryForm() {
       console.log("Result:", result);
       showDialog("Loan history information updated successfully!", "success");
 
-      router.push(`/staff/${result.clientId}`);
+      router.push(`/staff/${clientSerialNumber}`);
     } catch (error) {
       console.log("Error:", error);
 
