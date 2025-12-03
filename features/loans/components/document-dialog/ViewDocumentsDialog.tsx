@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { CheckCircle2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { fetchAndPrint } from "../../history/utils/fetch-and-print";
 import { getSectionsForProductType } from "./document-config";
 import { DocumentSections } from "./DocumentSection";
 
@@ -23,32 +24,29 @@ interface ViewDocumentsDialogProps {
 
 type ClickedButtons = Record<string, boolean>;
 
-const documentHandlers = {
-  "computation-slip": () => console.log("[v0] Fetching Computation Slip"),
-  "long-app-form": () => console.log("[v0] Fetching Long Application Form"),
-  "short-app-form": () => console.log("[v0] Fetching Short Application Form"),
-  "pre-assessment": () => console.log("[v0] Fetching Pre-Assessment"),
-  apd: () => console.log("[v0] Fetching APD"),
-  pba: () => console.log("[v0] Fetching PBA"),
-  alip: () => console.log("[v0] Fetching ALIP"),
-  ledger: () => console.log("[v0] Fetching Ledger"),
-  "ledger-1": () => console.log("[v0] Fetching Ledger 1"),
-  "ledger-2": () => console.log("[v0] Fetching Ledger 2"),
-  pn: () => console.log("[v0] Fetching PN"),
-  "pn-1": () => console.log("[v0] Fetching PN 1"),
-  "pn-2": () => console.log("[v0] Fetching PN 2"),
-  "pn-ren-e": () => console.log("[v0] Fetching PN REN-E"),
-  ds: () => console.log("[v0] Fetching DS"),
-  "ds-1": () => console.log("[v0] Fetching DS 1"),
-  "ds-2": () => console.log("[v0] Fetching DS 2"),
-  "ds-ren-e": () => console.log("[v0] Fetching DS REN-E"),
-  spa: () => console.log("[v0] Fetching SPA"),
-  sbo: () => console.log("[v0] Fetching SBO"),
-  nor: () => console.log("[v0] Fetching NOR"),
-  pol: () => console.log("[v0] Fetching POL"),
-  puf: () => console.log("[v0] Fetching PUF"),
+const documentHandlers: Record<string, (loanHistoryId: number) => Promise<void>> = {
+  "computation-slip": (id) => fetchAndPrint("pre-assessment", id), // change this to computation slip if added in backend
+  "pre-assessment": (id) => fetchAndPrint("pre-assessment", id),
+  "long-app-form": (id) => fetchAndPrint("loan-application-long", id),
+  "short-app-form": (id) => fetchAndPrint("loan-application-short", id),
+  apd: (id) => fetchAndPrint("apd", id),
+  pba: (id) => fetchAndPrint("pba", id),
+  alip: (id) => fetchAndPrint("alip", id),
+  ledger: (id) => fetchAndPrint("ledger", id),
+  "ledger-1": (id) => fetchAndPrint("ledger-1", id),
+  "ledger-2": (id) => fetchAndPrint("ledger-2", id),
+  pn: (id) => fetchAndPrint("pn-ren", id),
+  "pn-ren-e": (id) => fetchAndPrint("pn-ren", id),
+  ds: (id) => fetchAndPrint("ds-ren", id),
+  "ds-1": (id) => fetchAndPrint("ds-1", id),
+  "ds-2": (id) => fetchAndPrint("ds-2", id),
+  "ds-ren-e": (id) => fetchAndPrint("ds-ren-ext", id),
+  spa: (id) => fetchAndPrint("spa", id),
+  sbo: (id) => fetchAndPrint("sbo", id),
+  nor: (id) => fetchAndPrint("nor", id),
+  pol: (id) => fetchAndPrint("pol", id),
+  puf: (id) => fetchAndPrint("puf", id),
 };
-
 export default function ViewDocumentsDialog({
   open,
   onOpenChange,
@@ -63,9 +61,17 @@ export default function ViewDocumentsDialog({
   }, [open]);
 
   const handleButtonClick = async (id: string) => {
-    const handler = documentHandlers[id as keyof typeof documentHandlers];
-    if (handler) await handler();
+    if (!loanHistoryId) {
+      alert("No loan selected");
+      return;
+    }
 
+    const handler = documentHandlers[id];
+    if (handler) {
+      await handler(loanHistoryId);
+    }
+
+    // Still show checkmark
     setClickedButtons((prev) => ({ ...prev, [id]: true }));
   };
 
