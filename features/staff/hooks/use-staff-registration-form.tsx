@@ -1,26 +1,26 @@
 "use client";
 
+import { useDialog } from "@/contexts/DialogContext";
+import { useAuth } from "@/features/auth/context/AuthContext";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { StaffFormValues, StaffPayload } from "../types/staff-types";
+import { createStaffApi, updateStaffApi } from "../api/staff-service";
+import { mapBackendToStaffFormValues, staffPayload } from "../libs/staff-payload";
 import { defaultValues, formDates } from "../libs/staff-registration-form";
 import { staffGeneralInfoSchema } from "../schema/staff-zod-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
+import { StaffFormValues, StaffPayload } from "../types/staff-types";
 import { loadDraft, saveDraft } from "../utils/staff-draft-data-storage";
-import { mapBackendToStaffFormValues, staffPayload } from "../libs/staff-payload";
-import { createStaffApi, updateStaffApi } from "../api/staff-service";
-import { useDialog } from "@/contexts/DialogContext";
-import { useAuth } from "@/features/auth/context/AuthContext";
 
 export function useStaffRegistrationForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { showDialog } = useDialog();
-  const { user } = useAuth();
-  const userId = user!.id;
+  const { user, isLoading } = useAuth();
+  const userId = user?.id;
 
   const [formModified, setFormModified] = useState(false);
   const [hasDraft, setHasDraft] = useState(false);
@@ -53,9 +53,10 @@ export function useStaffRegistrationForm() {
 
   // Check for saved draft on mount
   useEffect(() => {
+    if (isLoading) return;
     const draft = loadDraft();
     if (draft) setHasDraft(true);
-  }, []);
+  }, [isLoading]);
 
   // Watch form changes
   useEffect(() => {
@@ -176,6 +177,22 @@ export function useStaffRegistrationForm() {
       setIsSubmitting(false);
     }
   };
+
+  if (isLoading) {
+    return {
+      form,
+      formModified: false,
+      hasDraft: false,
+      handleSaveDraft: () => {},
+      loadSavedDraft: () => {},
+      deleteSavedDraft: () => {},
+      clearForm: () => {},
+      processForm: async () => {},
+      isSubmitting: false,
+      resetForm: () => {},
+      updateForm: async () => {},
+    };
+  }
 
   return {
     form,

@@ -22,7 +22,7 @@ import { type StaffGeneralInformationProps } from "../../types/staff-types";
 const StaffGeneralInformation = ({ form, isOwnProfile = false }: StaffGeneralInformationProps) => {
   const { user } = useAuth();
   const { containerVariants, itemVariants } = useClientAnimation();
-  const isAdmin = user!.role.toUpperCase() === "ADMIN";
+  const isAdmin = user?.role?.toUpperCase() === "ADMIN";
 
   const { data: branchesData, isLoading } = useQuery<BranchTableProps[]>({
     queryKey: ["branchesToStaff"],

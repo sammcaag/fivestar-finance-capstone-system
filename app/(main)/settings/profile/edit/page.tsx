@@ -6,6 +6,7 @@ import { Form } from "@/components/ui/form";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 
+import Loading from "@/components/LoadingPage";
 import MainHeader from "@/components/MainHeader";
 import NotFoundPage from "@/components/NotFoundPage";
 import { useAuth } from "@/features/auth/context/AuthContext";
@@ -23,30 +24,34 @@ export default function EditProfile() {
     document.title = "Edit User Profile | Stella - Five Star Finance Inc.";
   }, []);
 
-  const { user } = useAuth();
-
-  const staffId = user!.id;
-
+  const { user, isLoading: isAuthLoading } = useAuth();
   const { form, resetForm, updateForm } = useStaffRegistrationForm();
 
+  const staffId = user?.id;
+
   // Fetch client data
-  const { data: staffData, isLoading } = useQuery<StaffPayload>({
-    queryKey: ["ownProfileInfo", staffId],
-    queryFn: () => getStaffByStaffId(staffId),
+  const { data: ownerData, isLoading: isOwnerProfileLoading } = useQuery<StaffPayload>({
+    queryKey: ["ownerByStaffId", staffId],
+    queryFn: () => getStaffByStaffId(staffId!),
+    enabled: !!staffId, // ← prevents running until we have staffId
   });
 
   // Reset form when clientData is loaded
   useEffect(() => {
-    if (staffData) {
-      setTimeout(() => resetForm(staffData, false), 0);
+    if (ownerData) {
+      setTimeout(() => resetForm(ownerData, false), 0);
     }
-  }, [staffData, resetForm]);
+  }, [ownerData, resetForm]);
 
   const slideVariants = {
     initial: { opacity: 0, x: 50 },
     animate: { opacity: 1, x: 0 },
     exit: { opacity: 0, x: -50 },
   };
+
+  if (isAuthLoading || !user) {
+    return <Loading />;
+  }
 
   return (
     <ContentLayout title="Edit Profile Information">
@@ -64,12 +69,12 @@ export default function EditProfile() {
         description="Edit and update profile information efficiently, ensuring all records are accurate and up to date."
       />
 
-      {isLoading ? (
+      {isOwnerProfileLoading ? (
         <div className="w-full mx-auto mt-10 space-y-10">
           <ClientGeneralInformationSkeleton />
           <FormNavigationButtonsSkeleton />
         </div>
-      ) : staffData ? (
+      ) : ownerData ? (
         <motion.div
           className="w-full mx-auto mt-10"
           initial={{ opacity: 0, y: 20 }}
@@ -80,8 +85,8 @@ export default function EditProfile() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit((formValues) => {
-                  if (!staffData) return; // safety check
-                  updateForm(formValues, staffData);
+                  if (!ownerData) return; // safety check
+                  updateForm(formValues, ownerData);
                 })}
                 className="p-6"
               >
@@ -100,10 +105,10 @@ export default function EditProfile() {
                 <SimpleFormButtons
                   isEditMode={true}
                   onSubmit={form.handleSubmit((formValues) => {
-                    if (!staffData) return;
-                    updateForm(formValues, staffData);
+                    if (!ownerData) return;
+                    updateForm(formValues, ownerData);
                   })}
-                  onClearForm={() => resetForm(staffData)}
+                  onClearForm={() => resetForm(ownerData)}
                 />
               </form>
             </Form>
