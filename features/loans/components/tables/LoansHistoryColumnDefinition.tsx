@@ -12,8 +12,10 @@ import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { getProductTypeClass } from "@/utils/get-product-type-class";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Edit, Eye, MoreHorizontal, Printer, Trash2 } from "lucide-react";
+import { Eye, MoreHorizontal, Printer } from "lucide-react";
+import { useState } from "react";
 import { LoanHistoryPayload } from "../../history/types/loan-form-types";
+import ViewDocumentsDialog from "../ViewDocumentsDialog";
 
 export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
   {
@@ -103,34 +105,42 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
     accessorKey: "action",
     header: "Action",
     size: 80,
-    cell: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-            <Printer className="h-4 w-4" />
-            Print Documents
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-            <Eye className="h-4 w-4" />
-            View Details
-          </DropdownMenuItem>
-          <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-            <Edit className="h-4 w-4" />
-            Edit
-          </DropdownMenuItem>
-          <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-destructive">
-            <Trash2 className="h-4 w-4" />
-            Delete
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
+    cell: ({ row }) => {
+      const [isViewDocumentsOpen, setIsViewDocumentsOpen] = useState(false);
+
+      return (
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                className="flex items-center gap-2 cursor-pointer"
+                onClick={() => setIsViewDocumentsOpen(true)}
+              >
+                <Printer className="h-4 w-4" />
+                View Documents
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+                <Eye className="h-4 w-4" />
+                View Details
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <ViewDocumentsDialog
+            open={isViewDocumentsOpen}
+            onOpenChange={setIsViewDocumentsOpen}
+            productType={row.original.productType}
+            dedCode={row.original.dedCode}
+          />
+        </>
+      );
+    },
     enableColumnFilter: false,
     enableSorting: false,
   },
