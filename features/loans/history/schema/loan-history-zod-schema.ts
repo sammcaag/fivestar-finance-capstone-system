@@ -26,6 +26,7 @@ export const loanHistorySchema = z.object({
 
   accountNumber: z.string().optional(),
   pnNumber: z.string().min(1, "PN number is required"),
+  purpose: z.string().min(1, "Purpose is required"),
 
   outstandingBalance: z.number().optional(),
   otherDeduction: z.number().optional(),

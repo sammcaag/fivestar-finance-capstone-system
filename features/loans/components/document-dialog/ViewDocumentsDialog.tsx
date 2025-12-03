@@ -18,6 +18,7 @@ interface ViewDocumentsDialogProps {
   onOpenChange: (open: boolean) => void;
   productType: string;
   dedCode: string;
+  loanHistoryId?: number;
 }
 
 type ClickedButtons = Record<string, boolean>;
@@ -53,6 +54,7 @@ export default function ViewDocumentsDialog({
   onOpenChange,
   productType,
   dedCode,
+  loanHistoryId,
 }: ViewDocumentsDialogProps) {
   const [clickedButtons, setClickedButtons] = useState<ClickedButtons>({});
 

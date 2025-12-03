@@ -38,6 +38,7 @@ export type LoanHistoryFormValues = {
 
   accountNumber?: string;
   pnNumber: string;
+  purpose: string;
 
   outstandingBalance?: number;
   otherDeduction?: number;
@@ -62,6 +63,7 @@ export type LoanHistoryPayload = {
 
   accountNumber?: string;
   pnNumber: string;
+  purpose: string;
 
   outstandingBalance?: number;
   otherDeduction?: number;

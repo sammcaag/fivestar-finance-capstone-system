@@ -11,6 +11,7 @@ export const defaultValues: LoanHistoryFormValues = {
 
   accountNumber: "",
   pnNumber: "",
+  purpose: "",
 
   outstandingBalance: undefined,
   otherDeduction: undefined,

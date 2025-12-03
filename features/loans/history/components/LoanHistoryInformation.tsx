@@ -152,6 +152,14 @@ const LoanHistoryInformation = ({ form, isCreate = true }: LoanHistoryInformatio
             placeholder="PN Number"
             required
           />
+          <FormFieldWrapper
+            name="purpose"
+            control={form.control}
+            label="Purpose"
+            type="input"
+            placeholder="Home Renovations"
+            required
+          />
         </div>
       </SectionCard>
 

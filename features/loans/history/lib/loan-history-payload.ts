@@ -21,6 +21,7 @@ export const loanHistoryPayload = (
 
     accountNumber: data.accountNumber,
     pnNumber: data.pnNumber,
+    purpose: data.purpose,
 
     outstandingBalance: data.outstandingBalance,
     otherDeduction: data.otherDeduction,
@@ -45,6 +46,7 @@ export const mapBackendToLoanHistoryFormValues = (
 
     accountNumber: data.accountNumber,
     pnNumber: data.pnNumber,
+    purpose: data.purpose,
 
     outstandingBalance: data.outstandingBalance,
     otherDeduction: data.otherDeduction,

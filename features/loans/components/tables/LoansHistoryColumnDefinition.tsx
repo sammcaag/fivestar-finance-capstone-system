@@ -137,6 +137,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
             onOpenChange={setIsViewDocumentsOpen}
             productType={row.original.productType}
             dedCode={row.original.dedCode}
+            loanHistoryId={row.original.id}
           />
         </>
       );
