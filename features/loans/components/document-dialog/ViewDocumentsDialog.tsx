@@ -25,7 +25,7 @@ interface ViewDocumentsDialogProps {
 type ClickedButtons = Record<string, boolean>;
 
 const documentHandlers: Record<string, (loanHistoryId: number) => Promise<void>> = {
-  "computation-slip": (id) => fetchAndPrint("pre-assessment", id), // change this to computation slip if added in backend
+  "computation-slip": (id) => fetchAndPrint("ren-lc", id), // change this to computation slip if added in backend
   "pre-assessment": (id) => fetchAndPrint("pre-assessment", id),
   "long-app-form": (id) => fetchAndPrint("loan-application-long", id),
   "short-app-form": (id) => fetchAndPrint("loan-application-short", id),
