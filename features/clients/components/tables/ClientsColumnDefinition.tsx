@@ -57,6 +57,8 @@ export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTabl
       header: "Gender",
       filterFn: "includesString",
       size: 110,
+      enableSorting: false,
+      enableColumnFilter: true,
       cell: ({ row }) => (
         <span className="text-[15px] text-foreground">
           {String(row.getValue("gender")).replace(/^./, (c) => c.toUpperCase())}
@@ -67,6 +69,8 @@ export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTabl
       accessorKey: "branchName",
       header: "Branch",
       filterFn: "includesString",
+      enableSorting: false,
+      enableColumnFilter: true,
       size: 150,
       cell: ({ row }) => (
         <div className="flex items-center gap-1.5 text-[15px] text-foreground">
@@ -80,6 +84,8 @@ export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTabl
       header: "Status",
       filterFn: statusFilterFn,
       size: 150,
+      enableSorting: false,
+      enableColumnFilter: true,
       cell: ({ row }) => {
         const status = (row.getValue("status") || "INACTIVE") as keyof typeof clientBadgeStatusMap;
         const config = clientBadgeStatusMap[status];
@@ -108,6 +114,8 @@ export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTabl
       accessorKey: "createdAt",
       header: "Registered",
       size: 140,
+      enableSorting: true,
+      enableColumnFilter: false,
       cell: ({ row }) => (
         <span className="text-[14px] text-muted-foreground">
           {formatDateToReadable(row.getValue("createdAt"), true)}

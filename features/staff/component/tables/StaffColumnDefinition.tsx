@@ -58,7 +58,8 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
     header: "Role",
     size: 120,
     filterFn: "includesString",
-    enableSorting: true,
+    enableSorting: false,
+    enableColumnFilter: true,
     cell: ({ row }) => {
       const role = row.getValue("role") as keyof typeof roleConfig;
       const config = roleConfig[role] || roleConfig.SALES;
@@ -75,23 +76,21 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
     header: "Gender",
     size: 120,
     filterFn: "includesString",
-    enableSorting: true,
+    enableSorting: false,
+    enableColumnFilter: true,
     cell: ({ row }) => (
       <span className="text-[15px] text-foreground">
         {String(row.getValue("gender")).replace(/^./, (c) => c.toUpperCase())}
       </span>
     ),
   },
-
-  // ===================================================
-  // BRANCH
-  // ===================================================
   {
     accessorKey: "branchName",
     header: "Branch",
     size: 200,
     filterFn: "includesString",
     enableSorting: false,
+    enableColumnFilter: true,
     cell: ({ row }) => (
       <div className="flex items-center gap-1.5 text-[15px] text-foreground">
         <MapPin className="h-4 w-4 text-primary" />
@@ -103,7 +102,8 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
     accessorKey: "status",
     header: "Status",
     filterFn: "includesString",
-    enableSorting: true,
+    enableSorting: false,
+    enableColumnFilter: true,
     cell: ({ row }) => {
       const status = (row.getValue("status") || "INACTIVE") as keyof typeof clientBadgeStatusMap;
       const config = clientBadgeStatusMap[status];
@@ -121,7 +121,8 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
   {
     accessorKey: "createdAt",
     header: "Hired",
-    enableSorting: false,
+    enableSorting: true,
+    enableColumnFilter: false,
     cell: ({ row }) => (
       <span className="text-[14px] text-muted-foreground">
         {formatDateToReadable(row.getValue("createdAt"), true)}
@@ -131,7 +132,7 @@ export const staffColumnDefinition: ColumnDef<StaffTableProps>[] = [
   {
     accessorKey: "lastLogin",
     header: "Last Login",
-    enableSorting: true,
+    enableSorting: false,
     cell: ({ row }) => (
       <span className="text-[14px] text-foreground">
         {row.getValue("lastLogin") ? formatDateTime(row.getValue("lastLogin")) : "Never"}
