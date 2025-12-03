@@ -1,17 +1,47 @@
-import type { LoanType } from "../../types/loan-types";
+export type AppointmentStatus =
+  | "PENDING"
+  | "CONFIRMED"
+  | "RESCHEDULE_REQUIRED"
+  | "CANCELLED_BY_USER"
+  | "CANCELLED_BY_ADMIN"
+  | "COMPLETED";
 
-export type AppointmentType = "Consultation" | "Loan Review" | "Document Submission" | "Follow-up";
-
-export type AppointmentStatus = "Scheduled" | "Completed" | "Cancelled" | "No-show";
+export interface AppointmentProps {
+  id: number;
+  clientId: number;
+  branchId: number;
+  staffId: number;
+  status: AppointmentStatus;
+  appointmentDate: string;
+  remarks: string;
+  productType: string;
+  maxLoanAmount: number;
+  monthlyAmortization: number;
+  availableStartDate: string;
+  availableEndDate: string;
+  scheduledDateTime: string;
+  term: number;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface AppointmentTableProps {
-  id: string;
-  name: string;
-  productType: LoanType;
-  type: AppointmentType;
-  appointmentDate: string;
-  appointmentTime: string;
+  id: number;
+  productType: string;
+  maxLoanAmount: number;
+  monthlyAmortization: number;
   status: AppointmentStatus;
-  purpose: string;
-  notes: string;
+  scheduledDateTime: string;
+  client: {
+    id: number;
+    fullName: string;
+  };
+  branch: {
+    id: number;
+    name: string;
+  };
+  staff: {
+    id: number;
+    fullName: string;
+  };
 }

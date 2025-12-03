@@ -1,65 +1,63 @@
-import { ColumnDef, FilterFn } from "@tanstack/react-table";
-import { AppointmentTableProps } from "../types/appointment-types";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Eye, Edit, Trash2, Calendar } from "lucide-react";
+import { formatCurrency } from "@/features/loans/computations/utils/format-currency";
+import { cn } from "@/lib/utils";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { getProductTypeClass, productTypeConfig } from "@/utils/get-product-type-class";
-import { cn } from "@/lib/utils";
+import { ColumnDef, FilterFn } from "@tanstack/react-table";
+import { Calendar, Edit, Eye, MoreHorizontal, Trash2 } from "lucide-react";
+import { AppointmentTableProps } from "../types/appointment-types";
 
 // Configuration for status and type badges
 const statusConfig = {
-  Scheduled: {
+  PENDING: {
+    label: "Pending",
+    variant: "secondary",
+    className:
+      "capitalize bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:hover:bg-amber-900/40",
+  },
+  CONFIRMED: {
+    label: "Confirmed",
     variant: "default",
     className:
       "capitalize bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/40",
   },
-  Completed: {
-    variant: "success",
+  RESCHEDULE_REQUIRED: {
+    label: "Reschedule Required",
+    variant: "outline",
     className:
-      "capitalize bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/40",
+      "capitalize bg-orange-100 text-orange-800 hover:bg-orange-200 dark:bg-orange-900/30 dark:text-orange-300 dark:hover:bg-orange-900/40",
   },
-  Cancelled: {
-    variant: "error",
+  CANCELLED_BY_USER: {
+    label: "Cancelled by Client",
+    variant: "destructive",
     className:
       "capitalize bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/40",
   },
-  "No-show": {
-    variant: "secondary",
+  CANCELLED_BY_ADMIN: {
+    label: "Cancelled by Admin",
+    variant: "destructive",
     className:
-      "capitalize bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-900/30 dark:text-gray-300 dark:hover:bg-gray-900/40",
+      "capitalize bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-900/30 dark:text-rose-300 dark:hover:bg-rose-900/40",
   },
-} as const;
-
-const typeConfig = {
-  Consultation: {
+  COMPLETED: {
+    label: "Completed",
+    variant: "success",
     className:
-      "bg-indigo-100 text-indigo-800 hover:bg-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-300 dark:hover:bg-indigo-900/40",
-  },
-  "Loan Review": {
-    className:
-      "bg-cyan-100 text-cyan-800 hover:bg-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:hover:bg-cyan-900/40",
-  },
-  "Document Submission": {
-    className:
-      "bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:hover:bg-amber-900/40",
-  },
-  "Follow-up": {
-    className:
-      "bg-teal-100 text-teal-800 hover:bg-teal-200 dark:bg-teal-900/30 dark:text-teal-300 dark:hover:bg-teal-900/40",
+      "capitalize bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/40",
   },
 } as const;
 
 // Custom filter function for searching name
 const nameSearchFilterFn: FilterFn<AppointmentTableProps> = (row, columnId, filterValue) => {
-  const searchableRowContent = `${row.original.name} ${row.original.id}`.toLowerCase();
+  const searchableRowContent = `${row.original.client.fullName} ${row.original.id}`.toLowerCase();
   const searchTerm = (filterValue ?? "").toLowerCase();
   return searchableRowContent.includes(searchTerm);
 };
@@ -76,7 +74,8 @@ export const mobileAppointmentsColumnDefinition = (
 ): ColumnDef<AppointmentTableProps>[] => {
   const baseColumns: ColumnDef<AppointmentTableProps>[] = [
     {
-      accessorKey: "name",
+      id: "name",
+      accessorFn: (row) => row.client.fullName,
       header: "Client",
       filterFn: nameSearchFilterFn,
       enableColumnFilter: false,
@@ -87,14 +86,14 @@ export const mobileAppointmentsColumnDefinition = (
         return (
           <div className="flex items-center gap-3">
             <Avatar className="size-10 border border-primary/10 flex-shrink-0">
-              <AvatarImage src="/avatar.png" alt={appointment.name} />
+              <AvatarImage src="/avatar.png" alt={appointment.client.fullName} />
               <AvatarFallback className="bg-primary/5 text-primary text-xs font-semibold">
-                {appointment.name.substring(0, 2).toUpperCase()}
+                {appointment.client.fullName.substring(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <span className="font-medium text-sm">{appointment.name}</span>
-              <span className="text-xs text-muted-foreground">{appointment.id}</span>
+              <span className="font-medium text-sm">{appointment.client.fullName}</span>
+              <span className="text-xs text-muted-foreground">Ref #{appointment.id}</span>
             </div>
           </div>
         );
@@ -114,68 +113,72 @@ export const mobileAppointmentsColumnDefinition = (
       },
     },
     {
-      accessorKey: "type",
-      header: "Type",
-      filterFn: "includesString",
-      enableColumnFilter: true,
+      id: "loanDetails",
+      header: "Loan Offer",
+      accessorFn: (row) => row.maxLoanAmount,
+      enableColumnFilter: false,
       enableSorting: true,
-      size: 150,
-      cell: ({ row }) => {
-        const type = row.getValue("type") as keyof typeof typeConfig;
-        const config = typeConfig[type] || {
-          className: "bg-gray-100 text-gray-800 hover:bg-gray-200",
-        };
-        return <Badge className={cn(config.className)}>{type}</Badge>;
-      },
+      size: 170,
+      cell: ({ row }) => (
+        <div className="flex flex-col leading-tight">
+          <span className="text-sm font-semibold text-foreground">
+            ₱{formatCurrency(row.original.maxLoanAmount)}
+          </span>
+          <span className="text-xs text-muted-foreground">
+            Monthly: ₱{formatCurrency(row.original.monthlyAmortization)}
+          </span>
+        </div>
+      ),
     },
     {
-      accessorKey: "appointmentDate",
-      header: "Date & Time",
+      id: "branchStaff",
+      header: "Branch / Staff",
+      accessorFn: (row) => row.branch.name,
       enableColumnFilter: false,
       enableSorting: true,
       size: 180,
+      cell: ({ row }) => (
+        <div className="flex flex-col leading-tight">
+          <span className="text-sm font-medium">{row.original.branch.name}</span>
+          <span className="text-xs text-muted-foreground">{row.original.staff.fullName}</span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "scheduledDateTime",
+      header: "Date & Time",
+      enableColumnFilter: false,
+      enableSorting: true,
+      size: 200,
       cell: ({ row }) => {
-        const date = new Date(row.getValue("appointmentDate"));
-        const time = row.original.appointmentTime; // Access directly from row.original
+        const dateValue = row.original.scheduledDateTime;
+        const parsedDate = dateValue ? new Date(dateValue) : undefined;
+        const hasValidDate = parsedDate && !Number.isNaN(parsedDate.getTime());
+
         return (
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-muted-foreground" />
             <div className="flex flex-col leading-tight">
               <span className="text-sm font-medium">
-                {new Date(date).toLocaleDateString("en-PH", {
-                  weekday: "long",
-                })}
+                {hasValidDate
+                  ? parsedDate.toLocaleDateString("en-PH", { weekday: "long" })
+                  : "Unknown"}
               </span>
-              <span className="text-sm font-medium">{formatDateToReadable(date, false, true)}</span>
-              <span className="text-xs text-muted-foreground">{time || "N/A"}</span>
+              <span className="text-sm font-medium">
+                {hasValidDate ? formatDateToReadable(parsedDate!, true, true) : "Date pending"}
+              </span>
+              <span className="text-xs text-muted-foreground">
+                {hasValidDate
+                  ? parsedDate.toLocaleTimeString("en-PH", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  : "N/A"}
+              </span>
             </div>
           </div>
         );
       },
-    },
-    {
-      accessorKey: "purpose",
-      header: "Purpose",
-      enableColumnFilter: false,
-      enableSorting: true,
-      size: 150,
-      cell: ({ row }) => (
-        <div className="truncate max-w-xs">
-          <span className="text-sm text-muted-foreground">{row.getValue("purpose")}</span>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "notes",
-      header: "Notes",
-      enableColumnFilter: false,
-      enableSorting: false,
-      size: 150,
-      cell: ({ row }) => (
-        <div className="truncate max-w-xs">
-          <span className="text-sm text-muted-foreground">{row.getValue("notes")}</span>
-        </div>
-      ),
     },
     {
       accessorKey: "status",
@@ -186,10 +189,10 @@ export const mobileAppointmentsColumnDefinition = (
       size: 100,
       cell: ({ row }) => {
         const status = row.getValue("status") as keyof typeof statusConfig;
-        const config = statusConfig[status] || statusConfig["No-show"];
+        const config = statusConfig[status] ?? statusConfig.PENDING;
         return (
           <Badge variant={config.variant} className={cn(config.className)}>
-            {status}
+            {config.label}
           </Badge>
         );
       },

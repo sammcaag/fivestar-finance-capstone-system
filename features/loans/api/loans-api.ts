@@ -53,6 +53,7 @@ export const unverifyAttachment = async ({ attachmentId }: { attachmentId: strin
   }
 };
 
+// Delete Attachment
 export const deleteAttachment = async ({
   attachmentId,
   publicId,
