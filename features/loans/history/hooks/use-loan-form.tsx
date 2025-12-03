@@ -63,7 +63,7 @@ export function useLoanHistoryForm() {
       const result = await addLoanHistory(backendPayload); // ✅ await
       console.log("Result:", result);
       showDialog(`Loan ${data.dedCode} created successfully!`, "success");
-      router.push(`/clients/${clientId}/add-loan-history`);
+      router.push(`/clients/${clientId}`);
     } catch (error) {
       console.log("Error:", error);
 

@@ -37,9 +37,8 @@ export default function AddLoanPage() {
 
     const raw = sessionStorage.getItem("pendingLoanData");
     if (!raw) {
-      toast.error("No computation data found. Redirecting...");
-      router.replace("/clients");
-      return;
+      showDialog("No computation data found. Redirecting...");
+      return router.replace("/clients");
     }
 
     try {

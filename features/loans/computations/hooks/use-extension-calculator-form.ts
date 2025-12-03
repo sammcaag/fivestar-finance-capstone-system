@@ -176,6 +176,8 @@ export const useExtensionCalculatorForm = () => {
       ...values,
       results,
       netAmount,
+      valueDate: renewalExtensionValueDate,
+      maturityDate: renewalExtensionMaturityDate,
       id: searchParams.get("id") ? Number(searchParams.get("id")) : undefined,
       clientId: searchParams.get("clientId") || undefined,
       dedCode: searchParams.get("dedCode") || undefined,
