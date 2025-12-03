@@ -1,5 +1,6 @@
 // components/documents/DocumentCard.tsx
 import { CheckCircle2 } from "lucide-react";
+import Image from "next/image";
 
 interface DocumentCardProps {
   id: string;
@@ -10,39 +11,61 @@ interface DocumentCardProps {
 
 export function DocumentCard({ id, label, isClicked, onClick }: DocumentCardProps) {
   return (
-    <div className="group relative cursor-pointer" onClick={() => onClick(id)}>
+    <div className="group relative cursor-pointer select-none" onClick={() => onClick(id)}>
+      {/* Card Container */}
       <div
-        className={`relative w-full h-72 md:h-[300px] lg:h-[200px] rounded-xl overflow-hidden border-2 transition-all duration-300 ${
-          isClicked
-            ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 shadow-md shadow-emerald-500/20"
-            : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg hover:shadow-2xl hover:border-slate-300 dark:hover:border-slate-600"
-        }`}
+        className={`
+          relative w-full h-72 md:h-80 lg:h-64 
+          rounded-2xl overflow-hidden border-2 
+          transition-all duration-500 ease-out
+          ${
+            isClicked
+              ? "border-emerald-500 shadow-2xl shadow-emerald-500/30 scale-[0.98]"
+              : "border-gray-200 dark:border-gray-700 shadow-xl hover:shadow-2xl hover:scale-[1.02]"
+          }
+        `}
       >
-        <div className="w-full h-full relative bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center">
-          <img
-            src={`/pdf-document.png?key=7fqtq&height=600&width=480&query=PDF document ${label}`}
+        {/* Thumbnail Image */}
+        <div className="relative w-full h-full">
+          <Image
+            src="/avatar.png"
             alt={label}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover transition-all duration-700 group-hover:scale-105"
+            priority
           />
 
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center backdrop-blur-md">
-            <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100">
-              <div className="text-center">
-                <p className="text-white font-semibold text-base md:text-2xl">View</p>
-                <p className="text-white/90 text-sm md:text-base mt-2 px-4 line-clamp-2">{label}</p>
-              </div>
+          {/* Hover Overlay - Blur + Dim */}
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-500 group-hover:backdrop-blur-[2px]" />
+
+          {/* Center Text on Hover */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+            <div className="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+              <p className="text-white text-2xl md:text-3xl font-bold tracking-tight drop-shadow-2xl">
+                View
+              </p>
+              <p className="text-white/90 text-sm md:text-lg font-medium mt-2 max-w-xs line-clamp-2 drop-shadow-lg">
+                {label}
+              </p>
             </div>
           </div>
 
+          {/* Selected Checkmark */}
           {isClicked && (
-            <div className="absolute top-4 right-4 bg-emerald-500 rounded-full p-2 shadow-lg">
-              <CheckCircle2 className="h-6 w-6 text-white" />
+            <div className="absolute top-4 right-4 z-10 bg-emerald-500 rounded-full p-3 shadow-2xl animate-pulse">
+              <CheckCircle2 className="h-7 w-7 text-white" />
             </div>
           )}
+
+          {/* Optional: Subtle shine effect on hover */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-full transition-transform duration-1000" />
+          </div>
         </div>
       </div>
 
-      <p className="mt-3 text-sm md:text-base font-medium text-slate-700 dark:text-slate-300 truncate">
+      {/* Label Below */}
+      <p className="mt-4 text-center text-base md:text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 px-2">
         {label}
       </p>
     </div>

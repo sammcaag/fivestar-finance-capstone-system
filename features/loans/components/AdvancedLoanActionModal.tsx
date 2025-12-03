@@ -1,6 +1,4 @@
-// src/features/loans/components/AdvancedLoanActionModal.tsx
 "use client";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,7 +13,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { monthsBetween } from "@/features/loans/utils/loan-utils";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
-import { CheckCircle, XCircle } from "lucide-react";
+import { AlertCircle, CheckCircle, XCircle } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { LoanHistoryPayload } from "../history/types/loan-form-types";
 
@@ -24,6 +22,7 @@ interface AdvancedLoanActionModalProps {
   selectedLoan: LoanHistoryPayload | null;
   setSelectedLoan: (loan: LoanHistoryPayload | null) => void;
   today: Date;
+  allLoans: LoanHistoryPayload[]; // ← Add this prop from parent
 }
 
 export default function AdvancedLoanActionModal({
@@ -31,6 +30,7 @@ export default function AdvancedLoanActionModal({
   selectedLoan,
   setSelectedLoan,
   today,
+  allLoans, // ← This gives you access to all loans of the client
 }: AdvancedLoanActionModalProps) {
   const router = useRouter();
   const params = useParams();
@@ -42,15 +42,26 @@ export default function AdvancedLoanActionModal({
   const maturityDate = new Date(selectedLoan.maturityDate);
   const monthsPaid = monthsBetween(valueDate, today);
   const termNum = parseInt(String(selectedLoan.term), 10);
+  const isSettled = today >= maturityDate; // Use >= to include maturity date
 
-  const isSettled = today > maturityDate;
-  const eligibleForExtension = !isSettled && monthsPaid >= 6;
-  const eligibleForRenewal = !isSettled && monthsPaid >= termNum / 2;
+  const halfTerm = Math.ceil(termNum / 2);
+
+  // Step 1: Check if this is the LATEST loan with this dedCode
+  const sameDedCodeLoans = allLoans.filter((loan) => loan.dedCode === selectedLoan.dedCode);
+
+  const latestLoanOfThisDedCode = sameDedCodeLoans.reduce((latest, loan) => {
+    return new Date(loan.valueDate) > new Date(latest.valueDate) ? loan : latest;
+  }, sameDedCodeLoans[0]);
+
+  const isLatestLoan = latestLoanOfThisDedCode.id === selectedLoan.id;
+
+  // Step 2: Eligibility Logic (Only for latest loan)
+  const eligibleForExtension =
+    isLatestLoan && !isSettled && monthsPaid >= 6 && monthsPaid < halfTerm;
+  const eligibleForRenewal = isLatestLoan && !isSettled && monthsPaid >= halfTerm;
 
   const navigateToComputation = (type: "extension" | "renewal") => {
-    // This flag is the key to enable "Proceed" button
     sessionStorage.setItem("fromClientProfile", "true");
-
     router.push(
       `/loans/computations/${type}?id=${id}&clientId=${clientId}&dedCode=${selectedLoan.dedCode}`
     );
@@ -99,46 +110,70 @@ export default function AdvancedLoanActionModal({
         <Separator />
 
         <div className="space-y-4">
-          {isSettled ? (
+          {/* Not the latest loan with this dedCode */}
+          {!isLatestLoan && sameDedCodeLoans.length > 1 && (
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800">
+              <AlertCircle className="h-6 w-6 text-orange-600 mt-0.5" />
+              <div>
+                <p className="font-semibold text-orange-800 dark:text-orange-300">
+                  This is not the active loan
+                </p>
+                <p className="text-sm text-orange-700 dark:text-orange-400">
+                  Only the <strong>latest loan</strong> with DED Code{" "}
+                  <strong>{selectedLoan.dedCode}</strong> can be extended or renewed.
+                  <br />
+                  Please select the most recent entry to check eligibility.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Fully settled */}
+          {isSettled && (
             <div className="flex items-center gap-3 text-green-600">
               <CheckCircle className="h-6 w-6" />
               <p className="font-medium">Account is fully settled.</p>
             </div>
-          ) : monthsPaid < 6 ? (
+          )}
+
+          {/* Not enough months paid */}
+          {!isSettled && monthsPaid < 6 && (
             <div className="flex items-center gap-3 text-red-600">
               <XCircle className="h-6 w-6" />
-              <p className="font-medium">Not yet eligible (minimum 6 months required)</p>
+              <p className="font-medium">Not yet eligible — minimum 6 months payment required</p>
             </div>
-          ) : (
-            <>
-              {eligibleForExtension && (
-                <div className="flex items-center justify-between p-4 rounded-lg bg-blue-50 dark:bg-blue-950/20">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-6 w-6 text-blue-600" />
-                    <div>
-                      <p className="font-semibold">Eligible for Extension</p>
-                      <p className="text-sm text-muted-foreground">Paid ≥6 months</p>
-                    </div>
-                  </div>
-                  <Button onClick={() => navigateToComputation("extension")}>
-                    Add Extension Loan
-                  </Button>
-                </div>
-              )}
+          )}
 
-              {eligibleForRenewal && (
-                <div className="flex items-center justify-between p-4 rounded-lg bg-green-50 dark:bg-green-950/20">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-6 w-6 text-green-600" />
-                    <div>
-                      <p className="font-semibold">Eligible for Renewal</p>
-                      <p className="text-sm text-muted-foreground">Paid ≥50% of term</p>
-                    </div>
-                  </div>
-                  <Button onClick={() => navigateToComputation("renewal")}>Add Renewal Loan</Button>
+          {/* Eligible for Extension */}
+          {eligibleForExtension && (
+            <div className="flex items-center justify-between p-4 rounded-lg bg-blue-50 dark:bg-blue-950/20">
+              <div className="flex items-center gap-3">
+                <CheckCircle className="h-6 w-6 text-blue-600" />
+                <div>
+                  <p className="font-semibold">Eligible for Extension</p>
+                  <p className="text-sm text-muted-foreground">
+                    Paid {monthsPaid} months (≥6 months)
+                  </p>
                 </div>
-              )}
-            </>
+              </div>
+              <Button onClick={() => navigateToComputation("extension")}>Add Extension Loan</Button>
+            </div>
+          )}
+
+          {/* Eligible for Renewal */}
+          {eligibleForRenewal && (
+            <div className="flex items-center justify-between p-4 rounded-lg bg-green-50 dark:bg-green-950/20">
+              <div className="flex items-center gap-3">
+                <CheckCircle className="h-6 w-6 text-green-600" />
+                <div>
+                  <p className="font-semibold">Eligible for Renewal</p>
+                  <p className="text-sm text-muted-foreground">
+                    Paid {monthsPaid} months (≥50% of term)
+                  </p>
+                </div>
+              </div>
+              <Button onClick={() => navigateToComputation("renewal")}>Add Renewal Loan</Button>
+            </div>
           )}
         </div>
 

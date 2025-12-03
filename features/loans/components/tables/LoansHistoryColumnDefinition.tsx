@@ -4,7 +4,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
@@ -12,7 +11,7 @@ import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { getProductTypeClass } from "@/utils/get-product-type-class";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Eye, MoreHorizontal, Printer } from "lucide-react";
+import { MoreHorizontal, Printer } from "lucide-react";
 import { useState } from "react";
 import { LoanHistoryPayload } from "../../history/types/loan-form-types";
 import ViewDocumentsDialog from "../document-dialog/ViewDocumentsDialog";
@@ -123,11 +122,6 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
               >
                 <Printer className="h-4 w-4" />
                 View Documents
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-                <Eye className="h-4 w-4" />
-                View Details
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

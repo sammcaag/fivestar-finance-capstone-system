@@ -135,6 +135,7 @@ export default function ClientInfoPage() {
             selectedLoan={selectedLoan}
             setSelectedLoan={setSelectedLoan}
             today={today}
+            allLoans={loanHistory}
           />
         </>
       ) : (
