@@ -1,11 +1,10 @@
-import React from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatCurrency } from "@/features/loans/computations/utils/format-currency";
 import { cn } from "@/lib/utils";
 import { avatarFallBack } from "@/utils/avatar-fallback";
 import { getAge } from "@/utils/get-age";
-import { formatCurrency } from "@/features/loans/computations/utils/format-currency";
 
 interface IClientProfile {
   birthDate: Date;
@@ -45,18 +44,9 @@ export default function ClientProfileHeader({
   const age = getAge(birthDate);
 
   const identityHighlights = [
+    { label: "Rank", value: rank },
     { label: "Age", value: age },
     { label: "Gender", value: gender },
-    { label: "Civil Status", value: civilStatus },
-    { label: "Rank", value: rank },
-    {
-      label: "Last Unit Assigned",
-      value: lastUnitAssigned,
-    },
-    {
-      label: "Current Address",
-      value: address,
-    },
   ].filter((item) => item.value);
 
   const clientBadge = [
@@ -80,11 +70,6 @@ export default function ClientProfileHeader({
     },
     {
       id: 3,
-      title: "FI1",
-      details: "WALA KO KABALO ASA NI",
-    },
-    {
-      id: 4,
       title: "Original Account",
       details: branchName,
     },
@@ -155,6 +140,16 @@ export default function ClientProfileHeader({
                 </p>
               </div>
             ))}
+          </div>
+          <div className="grid gap-4 grid-cols-1">
+            <div className="rounded-xl border border-border/60 p-4 shadow-sm hover-card">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Current Address
+              </p>
+              <p className="mt-2 text-lg font-semibold text-foreground line-clamp-1 capitalize">
+                {address}
+              </p>
+            </div>
           </div>
           {/* Remarks */}
           <div className="space-y-3">

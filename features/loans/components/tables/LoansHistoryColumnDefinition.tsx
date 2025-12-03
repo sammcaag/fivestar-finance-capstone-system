@@ -15,7 +15,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Eye, MoreHorizontal, Printer } from "lucide-react";
 import { useState } from "react";
 import { LoanHistoryPayload } from "../../history/types/loan-form-types";
-import ViewDocumentsDialog from "../ViewDocumentsDialog";
+import ViewDocumentsDialog from "../document-dialog/ViewDocumentsDialog";
 
 export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
   {
