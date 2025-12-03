@@ -15,7 +15,7 @@ export const defaultValues: LoanHistoryFormValues = {
   outstandingBalance: undefined,
   otherDeduction: undefined,
 
-  processor1Id: 0,
-  processor2Id: 0,
-  contactedById: 0,
+  processor1Id: "",
+  processor2Id: "",
+  contactedById: "",
 };

@@ -4,13 +4,32 @@ import { motion } from "framer-motion";
 import { Map, Phone, User } from "lucide-react";
 
 import { FormFieldWrapper } from "@/components/FormFieldWrapper";
+import Loading from "@/components/LoadingPage";
 import { SectionCard } from "@/features/clients/components/SectionCard";
 import { StepTitleCard } from "@/features/clients/components/StepTitleCard";
 import useClientAnimation from "@/features/clients/hooks/use-client-animation";
+import { getStaffs } from "@/features/staff/api/staff-service";
+import { StaffTableProps } from "@/features/staff/types/staff-types";
+import { useQuery } from "@tanstack/react-query";
 import { LoanHistoryInformationProps, loanHistoryProductOptions } from "../types/loan-form-types";
 
-const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
+const LoanHistoryInformation = ({ form, isCreate = true }: LoanHistoryInformationProps) => {
   const { containerVariants, itemVariants } = useClientAnimation();
+
+  const { data: staffsData, isLoading } = useQuery<StaffTableProps[]>({
+    queryKey: ["getProcessors"],
+    queryFn: getStaffs,
+  });
+
+  const staffOptions =
+    staffsData?.map((staff) => ({
+      label: staff.name,
+      value: String(staff.plainId),
+    })) ?? [];
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <motion.div
@@ -35,6 +54,7 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
             required
             type="input"
             placeholder="FI-"
+            disabled={isCreate}
           />
           <FormFieldWrapper
             name="productType"
@@ -43,6 +63,7 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
             type="select"
             placeholder="Which product type?"
             options={loanHistoryProductOptions}
+            disabled={isCreate}
           />
           <FormFieldWrapper
             name="monthlyAmortization"
@@ -51,6 +72,7 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
             type="input"
             placeholder="0.00"
             asNumber
+            disabled={isCreate}
           />
           <FormFieldWrapper
             name="term"
@@ -59,6 +81,7 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
             type="input"
             placeholder="Term in months"
             asNumber
+            disabled={isCreate}
           />
           <FormFieldWrapper
             name="term"
@@ -67,6 +90,7 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
             type="input"
             placeholder="Term in months"
             asNumber
+            disabled={isCreate}
           />
 
           <FormFieldWrapper
@@ -76,6 +100,7 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
             type="date"
             placeholder="Value Date"
             required
+            disabled={isCreate}
           />
 
           <FormFieldWrapper
@@ -85,6 +110,7 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
             type="date"
             placeholder="Maturity Date"
             required
+            disabled={isCreate}
           />
           {form.watch("productType") === "renewal" && (
             <FormFieldWrapper
@@ -94,6 +120,7 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
               type="date"
               placeholder="Setted Maturity Date"
               required
+              disabled={isCreate}
             />
           )}
         </div>
@@ -139,6 +166,7 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
             type="input"
             placeholder="0.00"
             asNumber
+            disabled={isCreate}
           />
 
           <FormFieldWrapper
@@ -149,6 +177,7 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
             type="input"
             placeholder="0.00"
             asNumber
+            disabled={isCreate}
           />
         </div>
       </SectionCard>
@@ -160,24 +189,27 @@ const LoanHistoryInformation = ({ form }: LoanHistoryInformationProps) => {
             name="processor1Id"
             control={form.control}
             label="Processor 1"
-            type="input"
+            type="select"
             placeholder="Name of the processor 1"
+            options={staffOptions}
           />
 
           <FormFieldWrapper
             name="processor2Id"
             control={form.control}
             label="Processor 2"
-            type="input"
+            type="select"
             placeholder="Name of the processor 2"
+            options={staffOptions}
           />
 
           <FormFieldWrapper
             name="contactedById"
             control={form.control}
             label="Contacted By"
-            type="input"
+            type="select"
             placeholder="Who contacted the client"
+            options={staffOptions}
           />
         </div>
       </SectionCard>

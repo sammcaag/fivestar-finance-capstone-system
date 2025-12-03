@@ -36,15 +36,15 @@ export type LoanHistoryFormValues = {
   maturityDate: Date;
   settedMaturityDate?: Date;
 
-  accountNumber: string;
+  accountNumber?: string;
   pnNumber: string;
 
   outstandingBalance?: number;
   otherDeduction?: number;
 
-  processor1Id: number;
-  processor2Id: number;
-  contactedById: number;
+  processor1Id: string;
+  processor2Id: string;
+  contactedById: string;
 };
 
 export type LoanHistoryPayload = {
@@ -60,7 +60,7 @@ export type LoanHistoryPayload = {
   maturityDate: Date;
   settedMaturityDate?: Date;
 
-  accountNumber: string;
+  accountNumber?: string;
   pnNumber: string;
 
   outstandingBalance?: number;
@@ -76,4 +76,5 @@ export type LoanHistoryPayload = {
 
 export interface LoanHistoryInformationProps {
   form: UseFormReturn<LoanHistoryFormValues>;
+  isCreate?: boolean; //if the form is for creating loan history computation and deduction information must be disabled
 }

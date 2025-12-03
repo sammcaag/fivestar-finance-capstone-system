@@ -5,16 +5,16 @@ import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { Form } from "@/components/ui/form";
+import { useDialog } from "@/contexts/DialogContext";
 import { useAuth } from "@/features/auth/context/AuthContext";
 import useClientAnimation from "@/features/clients/hooks/use-client-animation";
 import LoanHistoryInformation from "@/features/loans/history/components/LoanHistoryInformation";
 import { useLoanHistoryForm } from "@/features/loans/history/hooks/use-loan-form";
 import { useLoanStore } from "@/features/loans/history/lib/loan-history-store";
-import { LoanHistoryProductType } from "@/features/loans/history/types/loan-form-types";
 import { SimpleFormButtons } from "@/features/settings/components/SimpleFormButton";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export default function AddLoanPage() {
@@ -24,12 +24,12 @@ export default function AddLoanPage() {
   const { loanSets } = useLoanStore();
 
   const { form, clearForm, processForm, isSubmitting } = useLoanHistoryForm();
+  const [pendingId, setPendingId] = useState<number | null>(null);
+  const { showDialog } = useDialog();
 
   const { user } = useAuth();
   const branchId = user?.branchId;
   console.log("BRANCHHHHH", branchId);
-
-  let id: number;
 
   useEffect(() => {
     if (hasRun.current) return;
@@ -59,32 +59,30 @@ export default function AddLoanPage() {
         outstandingBalance?: number;
       };
 
-      id = data.id;
+      setPendingId(data.id); // ✅ save id to state
+      console.log("THEE IDDDDDDDDD ISSSSSSSSSS", pendingId);
 
-      // Map computation type → productType
-      const productTypeMap: Record<string, LoanHistoryProductType> = {
-        "New Client": "new_client",
-        Reloan: "reloan",
-        Additional: "additional",
-        Renewal: "renewal",
-        Extension: "extension",
-      };
       // Generate DED Code
-      let dedCode = "";
+      // Get current loan set (last group)
+      const currentSet = loanSets[loanSets.length - 1] ?? [];
+      let dedCode = "FI-1";
+
       if (data.computationType === "new_client" || data.computationType === "reloan") {
         dedCode = "FI-1";
       } else if (data.computationType === "additional") {
-        const currentSet = loanSets[loanSets.length - 1] || [];
-        dedCode = `FI-${currentSet.length + 1}`;
+        // Extract highest FI number inside the last set
+        const maxCode = currentSet.reduce((max, loan) => {
+          const match = loan.dedCode?.match(/FI-(\d+)/);
+          if (!match) return max;
+
+          const num = parseInt(match[1], 10);
+          return num > max ? num : max;
+        }, 0);
+
+        dedCode = `FI-${maxCode + 1}`;
       } else if (data.computationType === "renewal" || data.computationType === "extension") {
         dedCode = data.dedCode || "FI-1";
       }
-
-      const formatDate = (date: Date | string | undefined): string => {
-        if (!date) return "";
-        if (typeof date === "string") return date.split("T")[0];
-        return date.toISOString().split("T")[0];
-      };
 
       setTimeout(
         () =>
@@ -102,9 +100,9 @@ export default function AddLoanPage() {
             pnNumber: "",
             outstandingBalance: data.outstandingBalance,
             otherDeduction: data.otherDeduction,
-            processor1Id: 0,
-            processor2Id: 0,
-            contactedById: 0,
+            processor1Id: "",
+            processor2Id: "",
+            contactedById: "",
           }),
         0
       );
@@ -145,7 +143,11 @@ export default function AddLoanPage() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit((formValues) => {
-                processForm(branchId!, id, formValues);
+                if (pendingId === null) {
+                  showDialog("No client ID found. Cannot submit form.");
+                  return;
+                }
+                processForm(branchId!, pendingId, formValues);
               })}
               className="p-6"
             >
@@ -167,7 +169,11 @@ export default function AddLoanPage() {
                 isEditMode={false} // if register form
                 isSubmitting={isSubmitting}
                 onSubmit={form.handleSubmit((formValues) => {
-                  processForm(branchId!, id, formValues);
+                  if (pendingId === null) {
+                    showDialog("No client ID found. Cannot submit form.");
+                    return;
+                  }
+                  processForm(branchId!, pendingId, formValues);
                 })}
                 onClearForm={clearForm}
               />

@@ -1,7 +1,6 @@
 "use client";
 
 import { useDialog } from "@/contexts/DialogContext";
-import { useAuth } from "@/features/auth/context/AuthContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -17,7 +16,6 @@ import { LoanHistoryFormValues, LoanHistoryPayload } from "../types/loan-form-ty
 export function useLoanHistoryForm() {
   const router = useRouter();
   const { showDialog } = useDialog();
-  const { user } = useAuth();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -58,6 +56,7 @@ export function useLoanHistoryForm() {
   const processForm = async (branchId: number, clientId: number, data: LoanHistoryFormValues) => {
     setIsSubmitting(true);
     const backendPayload = loanHistoryPayload(branchId, clientId, data);
+    console.log("THE SUBMITTEDDDD ID ISSSS:", clientId);
     console.log("THIS IS THE DATA PASSED", JSON.stringify(backendPayload, null, 2));
 
     try {

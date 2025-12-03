@@ -15,9 +15,9 @@ export const loanHistoryPayload = (
     productType: data.productType,
     monthlyAmortization: data.monthlyAmortization,
     term: data.term,
-    valueDate: data.valueDate,
-    maturityDate: data.maturityDate,
-    settedMaturityDate: data.settedMaturityDate,
+    valueDate: new Date(data.valueDate),
+    maturityDate: new Date(data.maturityDate),
+    settedMaturityDate: new Date(data.settedMaturityDate ?? new Date()),
 
     accountNumber: data.accountNumber,
     pnNumber: data.pnNumber,
@@ -25,9 +25,9 @@ export const loanHistoryPayload = (
     outstandingBalance: data.outstandingBalance,
     otherDeduction: data.otherDeduction,
 
-    processor1Id: data.processor1Id,
-    processor2Id: data.processor2Id,
-    contactedById: data.contactedById,
+    processor1Id: Number(data.processor1Id),
+    processor2Id: Number(data.processor2Id),
+    contactedById: Number(data.contactedById),
   };
 };
 
@@ -49,8 +49,8 @@ export const mapBackendToLoanHistoryFormValues = (
     outstandingBalance: data.outstandingBalance,
     otherDeduction: data.otherDeduction,
 
-    processor1Id: data.processor1Id,
-    processor2Id: data.processor2Id,
-    contactedById: data.contactedById,
+    processor1Id: String(data.processor1Id),
+    processor2Id: String(data.processor2Id),
+    contactedById: String(data.contactedById),
   };
 };
