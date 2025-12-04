@@ -6,6 +6,7 @@ export interface IRequestUser {
   role: string;
   branchId: number;
   status: string;
+  name: string;
 }
 
 interface Slide {

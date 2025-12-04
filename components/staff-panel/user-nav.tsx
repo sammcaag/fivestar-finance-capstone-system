@@ -1,11 +1,10 @@
 "use client";
 
+import { ChevronDown, FilePenLine, LayoutGrid, LogOut, Users } from "lucide-react";
 import Link from "next/link";
-import { LayoutGrid, LogOut, ChevronDown, Users, FilePenLine } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,19 +14,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ModeToggle } from "../ModeToggle";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAuth } from "@/features/auth/context/AuthContext";
+import { ModeToggle } from "../ModeToggle";
 
 export function UserNav() {
-  const user = {
-    name: "John Doe",
-    email: "johndoe@example.com",
-    avatar: "https://github.com/shadcn.png",
-  };
-  const initials = user.name
-    .split(" ")
-    .map((word) => word[0].toUpperCase())
-    .join("");
   const dropdownItems = [
     {
       label: "Dashboard",
@@ -46,7 +37,11 @@ export function UserNav() {
     },
   ];
 
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
+  const initials = user?.name
+    .split(" ")
+    .map((word) => word[0].toUpperCase())
+    .join("");
   return (
     <DropdownMenu>
       <TooltipProvider disableHoverableContent>
@@ -58,10 +53,10 @@ export function UserNav() {
                 className="relative bg-transparent h-12 hover:border-primary"
               >
                 <Avatar className="size-8 mr-1">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage src={"https://github.com/shadcn.png"} alt={user?.name} />
                   <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
                 </Avatar>
-                <span className="truncate font-semibold">{user.name}</span>
+                <span className="truncate font-semibold">{user?.name}</span>
                 <ChevronDown className="w-4 h-4 ml-2 transition-transform duration-300 ease-in-out group-[data-state=open]:rotate-180" />
               </Button>
             </DropdownMenuTrigger>
@@ -73,8 +68,8 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.name}</p>
-            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+            <p className="text-sm font-medium leading-none">{user?.name}</p>
+            <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
