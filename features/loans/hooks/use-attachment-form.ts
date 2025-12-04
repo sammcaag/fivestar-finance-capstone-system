@@ -2,6 +2,7 @@ import { uploadAttachment } from "@/services/upload-attachment";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import {
   LoanAttachmentsResolver,
   LoanAttachmentsSchema,
@@ -14,10 +15,12 @@ export const useAttachmentForm = (userId: number | null | undefined, serialNumbe
     resolver: LoanAttachmentsResolver,
     defaultValues: loanAttachmentsFormDefaults,
   });
+  const { reset } = attachmentForm;
   const createAttachment = useCreateClientAttachment();
   const updateProfileImage = useUpdateProfileImage();
   const queryClient = useQueryClient();
   const [progress, setProgress] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: LoanAttachmentsSchema) => {
@@ -31,10 +34,17 @@ export const useAttachmentForm = (userId: number | null | undefined, serialNumbe
       }
       if (attachmentType === "Selfie Photo" && uploadResult.data && userId) {
         const profileImageSecureUrl = uploadResult.data.secure_url;
-        await updateProfileImage.mutateAsync({
-          userId: userId,
-          secureUrl: profileImageSecureUrl,
-        });
+        await updateProfileImage.mutateAsync(
+          {
+            userId: userId,
+            secureUrl: profileImageSecureUrl,
+          },
+          {
+            onSuccess: () => toast.success("Profile image updated successfully"),
+            onError: () => toast.error("Profile image update failed"),
+          }
+        );
+        ;
       }
       if (uploadResult.data && userId) {
         await createAttachment.mutateAsync(
@@ -50,11 +60,15 @@ export const useAttachmentForm = (userId: number | null | undefined, serialNumbe
             // Optional: re-fetch user's attachments list after creating one
             onSuccess: () => {
               queryClient.invalidateQueries({ queryKey: ["clientBySerialNumber", serialNumber] });
+              reset();
+              setIsOpen(false);
+              toast.success("Attachment created successfully");
             },
 
             // Optional: easier UI error handling
             onError: (error) => {
               console.error("Attachment creation failed:", error);
+              toast.error("Attachment creation failed");
             },
           }
         );
@@ -71,5 +85,7 @@ export const useAttachmentForm = (userId: number | null | undefined, serialNumbe
     onSubmit,
     progress,
     isLoading,
+    isOpen,
+    setIsOpen,
   };
 };

@@ -15,6 +15,7 @@ import {
 } from "@/features/loans/hooks/use-attachment-mutations";
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 export default function VerifyAttachment({
   children,
@@ -44,11 +45,13 @@ export default function VerifyAttachment({
           // Optional: re-fetch user's attachments list after creating one
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["clientBySerialNumber", serialNumber] });
+            toast.success("Attachment verified successfully");
           },
 
           // Optional: easier UI error handling
           onError: (error) => {
             console.error("Attachment creation failed:", error);
+            toast.error("Attachment verification failed");
           },
         }
       );

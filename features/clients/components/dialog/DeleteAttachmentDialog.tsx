@@ -12,6 +12,7 @@ import {
 import { useDeleteAttachment } from "@/features/loans/hooks/use-attachment-mutations";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function DeleteAttachmentDialog({
   children,
@@ -37,9 +38,11 @@ export default function DeleteAttachmentDialog({
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["clientBySerialNumber", serialNumber] });
+            toast.success("Attachment deleted successfully");
           },
           onError: (error) => {
             console.error("Attachment deletion failed:", error);
+            toast.error("Attachment deletion failed");
           },
         }
       );

@@ -3,6 +3,7 @@ import SingleAttachmentUploadComp from "@/components/SingleAttachmentUploadComp"
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -36,11 +37,14 @@ export default function NewAttachmentDialog({
   userId: number | null | undefined;
   serialNumber: string;
 }) {
-  const { attachmentForm, onSubmit, progress, isLoading } = useAttachmentForm(userId, serialNumber);
+  const { attachmentForm, onSubmit, progress, isLoading, isOpen, setIsOpen } = useAttachmentForm(
+    userId,
+    serialNumber
+  );
   const { control, handleSubmit } = attachmentForm;
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="flex flex-col max-w-3xl bg-white">
         <DialogHeader className="max-h-fit mb-4">
@@ -64,9 +68,11 @@ export default function NewAttachmentDialog({
               render={({ field }) => <SingleAttachmentUploadComp {...field} progress={progress} />}
             />
             <DialogFooter className="mt-8">
-              <Button type="button" variant="outline" disabled={isLoading}>
-                Cancel
-              </Button>
+              <DialogClose className="" asChild>
+                <Button type="button" variant="outline" disabled={isLoading}>
+                  Cancel
+                </Button>
+              </DialogClose>
               <Button type="submit" disabled={isLoading}>
                 {isLoading ? "Saving..." : "Confirm"}
               </Button>
