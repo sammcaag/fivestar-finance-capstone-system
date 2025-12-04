@@ -1,10 +1,10 @@
 "use client";
-import { motion } from "framer-motion";
-import RealTime from "./RealTime";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { CalendarDays, LucideIcon } from "lucide-react";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
+import { motion } from "framer-motion";
+import { CalendarDays, LucideIcon } from "lucide-react";
+import Link from "next/link";
+import RealTime from "./RealTime";
 
 interface MainHeaderProps {
   title: string;
@@ -14,6 +14,7 @@ interface MainHeaderProps {
     label: string;
     href: string;
     icon: LucideIcon;
+    dialogComponent?: React.FC<{ children: React.ReactNode }>;
   }[];
   showDateAndTime?: boolean;
 }
@@ -56,14 +57,28 @@ export default function MainHeader({
 
       {quickActions && (
         <div className="mt-6 space-x-2">
-          {quickActions.map((action) => (
-            <Button variant="outline" className="bg-transparent" asChild key={action.label}>
-              <Link href={action.href}>
-                <action.icon className="h-4 w-4" />
-                {action.label}
-              </Link>
-            </Button>
-          ))}
+          {quickActions.map((action) => {
+            if (action.dialogComponent) {
+              const DialogComponent = action.dialogComponent;
+              return (
+                <DialogComponent key={action.label}>
+                  <Button variant="outline" className="bg-transparent">
+                    <action.icon className="h-4 w-4" />
+                    {action.label}
+                  </Button>
+                </DialogComponent>
+              );
+            }
+
+            return (
+              <Button variant="outline" className="bg-transparent" asChild key={action.label}>
+                <Link href={action.href!}>
+                  <action.icon className="h-4 w-4" />
+                  {action.label}
+                </Link>
+              </Button>
+            );
+          })}
         </div>
       )}
     </motion.div>

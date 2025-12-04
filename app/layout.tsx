@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { TanstackQueryProvider } from "@/components/providers/query-provider";
 import { AuthProvider } from "@/features/auth/context/AuthContext";
 import { DialogProvider } from "@/contexts/DialogContext";
+import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -56,6 +57,7 @@ export default function RootLayout({
           <DialogProvider>
             <AuthProvider>
               <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                <Toaster />
                 {children}
               </ThemeProvider>
             </AuthProvider>

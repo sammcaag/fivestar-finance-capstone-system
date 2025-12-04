@@ -15,18 +15,27 @@ export function getStatusRowClass(row: Row<OriginalData>): string {
   const statusClassMap: Record<string, string> = {
     // Green Group
     active: "bg-green-50/50 hover:bg-green-200/80 dark:bg-green-800/10 dark:hover:bg-green-800/60",
+    confirmed:
+      "bg-green-50/50 hover:bg-green-200/80 dark:bg-green-800/10 dark:hover:bg-green-800/60",
     completed:
       "bg-green-50/50 hover:bg-green-200/80 dark:bg-green-800/10 dark:hover:bg-green-800/60",
     // Red Group
     inactive: "bg-red-50/50 hover:bg-red-200/80 dark:bg-red-800/10 dark:hover:bg-red-800/60",
     rejected: "bg-red-50/50 hover:bg-red-200/80 dark:bg-red-800/10 dark:hover:bg-red-800/60",
     cancelled: "bg-red-50/50 hover:bg-red-200/80 dark:bg-red-800/10 dark:hover:bg-red-800/60",
+    cancelled_by_user:
+      "bg-red-50/50 hover:bg-red-200/80 dark:bg-red-800/10 dark:hover:bg-red-800/60",
+    cancelled_by_admin:
+      "bg-red-50/50 hover:bg-red-200/80 dark:bg-red-800/10 dark:hover:bg-red-800/60",
     // Yellow Group
     pending:
       "bg-yellow-50/50 hover:bg-yellow-200/80 dark:bg-yellow-800/10 dark:hover:bg-yellow-800/60",
     // Gray Group
     "no-show": "bg-gray-50 hover:bg-gray-200/80 dark:bg-gray-800/10 dark:hover:bg-gray-800/60",
     // Purple Group
+    reschedule_required:
+      "bg-purple-50/50 hover:bg-purple-200/80 dark:bg-purple-800/10 dark:hover:bg-purple-800/60",
+
     disbursed:
       "bg-purple-50/50 hover:bg-purple-200/80 dark:bg-purple-800/10 dark:hover:bg-purple-800/60",
     processed:

@@ -1,31 +1,27 @@
 "use client";
 
-import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
-import { dashboardStatistics } from "@/features/clients/data/mock-clients-stats";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
 import StatisticsCard from "@/components/StatisticsCard";
-import TabListCustomComp from "@/components/TabListCustomComp";
-import { Calculator, FileChartColumn, MapPin, Search, UserPlus } from "lucide-react";
-import { ClientTableProps } from "@/features/clients/types/client-types";
-import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
-import { useEffect } from "react";
 import { MainTableComp } from "@/components/tables/MainTableComp";
-import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
-import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
-import { mockAppointmentsData } from "@/features/loans/appointments/data/mock-appointments-data";
-import { useQuery } from "@tanstack/react-query";
+import TabListCustomComp from "@/components/TabListCustomComp";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { getClients } from "@/features/clients/api/client-service";
+import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
+import { dashboardStatistics } from "@/features/clients/data/mock-clients-stats";
+import { ClientTableProps } from "@/features/clients/types/client-types";
+import { getAllAppointments } from "@/features/loans/api/appointments-api";
+import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
+import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
+import { useQuery } from "@tanstack/react-query";
+import { Calculator, FileChartColumn, MapPin, Search, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 // Filter data for the last 30 days
 const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-const recentAppointments = mockAppointmentsData.filter(
-  (appointment) => new Date(appointment.appointmentDate) >= thirtyDaysAgo
-);
 
 const dashboardTabs = [
   { value: "overview", label: "Overview" },
@@ -64,6 +60,13 @@ export default function DashboardPage() {
   const { data: clientsData, isLoading } = useQuery<ClientTableProps[]>({
     queryKey: ["clients"],
     queryFn: getClients,
+  });
+
+  const { data: appointmentsData, isLoading: appointmentsLoading } = useQuery<
+    AppointmentTableProps[]
+  >({
+    queryKey: ["appointments"],
+    queryFn: getAllAppointments,
   });
 
   // Compute recentClients safely, always defined as an array
@@ -112,7 +115,7 @@ export default function DashboardPage() {
           <MainTableComp<AppointmentTableProps>
             title="Recent Mobile Appointments"
             description="See the latest scheduled and completed client appointments. Visit the Appointments tab for the full schedule."
-            data={recentAppointments}
+            data={appointmentsData ?? []}
             columns={mobileAppointmentsColumnDefinition(true)}
             filterColumns={["name", "status"]}
             emptyTitle="No Recent Appointments"
@@ -120,6 +123,7 @@ export default function DashboardPage() {
             emptyActionLabel="Add New Appointment"
             emptyOnAction={() => (window.location.href = "/appointments/new")}
             dashboard={true}
+            isLoading={appointmentsLoading}
             dashboardButtonContent="Appointments"
           />
         </TabsContent>

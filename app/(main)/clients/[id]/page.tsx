@@ -120,7 +120,7 @@ export default function ClientInfoPage() {
         <ClientProfileHeaderSkeleton />
       ) : clientData ? (
         <>
-          <ClientInfoInSuspense client={clientData} />
+          <ClientInfoInSuspense client={clientData} serialNumber={serialNumber} />
           <LoanHistoryTabs
             loanSets={loanSets}
             loanHistory={loanHistory}
@@ -145,8 +145,8 @@ export default function ClientInfoPage() {
   );
 }
 
-const ClientInfoInSuspense = ({ client }: { client: ClientPayload }) => (
+const ClientInfoInSuspense = ({ client, serialNumber }: { client: ClientPayload, serialNumber: string }) => (
   <Suspense fallback={<Loading />}>
-    <ClientInformation client={client} />
+    <ClientInformation client={client} serialNumber={serialNumber} />
   </Suspense>
 );

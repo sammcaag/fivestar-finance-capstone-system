@@ -7,15 +7,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TabsContent } from "@/components/ui/tabs";
-import { File, FileText, ImageIcon, Paperclip, Printer } from "lucide-react";
-import React from "react";
-import { clientData } from "../../data/mock-clients-data";
-import { Download, Eye } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { TabsContent } from "@/components/ui/tabs";
 import AttachmentsCard from "@/features/loans/components/AttachmentsCard";
+import { Paperclip } from "lucide-react";
+import { UserAttachments } from "../../types/client-types";
+import NewAttachmentDialog from "../dialog/NewAttachmentDialog";
 
-export default function AttachmentsTab() {
+export default function AttachmentsTab({
+  userAttachments,
+  userId,
+  serialNumber,
+}: {
+  userAttachments: UserAttachments[];
+  userId: number | null | undefined;
+  serialNumber: string;
+}) {
   return (
     <TabsContent value="attachments" className="mt-3">
       <Card className="border">
@@ -32,19 +39,31 @@ export default function AttachmentsTab() {
               </CardDescription>
             </div>
           </div>
-          <Button variant="outline" effect="ringHover" className=" border-primary text-primary">
-            <Paperclip className="h-4 w-4 mr-2" />
-            Upload New Document
-          </Button>
+          <NewAttachmentDialog userId={userId} serialNumber={serialNumber}>
+            <Button
+              variant="outline"
+              icon={Paperclip}
+              iconPlacement="left"
+              effect="ringHover"
+              className=" border-primary text-primary"
+            >
+              Upload New Attachment
+            </Button>
+          </NewAttachmentDialog>
         </CardHeader>
         <Separator className="mb-6" />
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {clientData.attachments && clientData.attachments.length > 0 ? (
-            clientData.attachments.map((attachment, index) => (
-              <AttachmentsCard attachment={attachment} key={index} />
+          {userAttachments && userAttachments.length > 0 ? (
+            userAttachments.map((attachment, index) => (
+              <AttachmentsCard
+                attachment={attachment}
+                // userId={userId?.toString() || ""}
+                serialNumber={serialNumber}
+                key={index}
+              />
             ))
           ) : (
-            <div className="col-span-full bg-gray-50 p-8 text-center rounded-md border border-dashed">
+            <div className="col-span-full bg-gray-50 p-8 flex flex-col items-center justify-center rounded-md border border-dashed min-h-[40vh]">
               <Paperclip className="h-10 w-10 mx-auto text-gray-400 mb-2" />
               <p className="text-gray-500">No documents have been uploaded yet</p>
               <p className="text-sm text-gray-400 mt-1">
@@ -57,7 +76,7 @@ export default function AttachmentsTab() {
           <div className="bg-blue-50 p-4 rounded-md flex flex-col items-start w-full">
             <h3 className="font-medium text-primary mb-2">Document Requirements</h3>
             <ul className="text-sm text-primary space-y-1 ml-5 list-disc">
-              <li>Maximum file size: 10MB</li>
+              <li>Maximum file size: 2MB</li>
               <li>Supported formats: PDF, JPG, PNG, DOC, DOCX</li>
               <li>Please ensure all documents are legible and complete</li>
               <li>Personal information should be clearly visible</li>
