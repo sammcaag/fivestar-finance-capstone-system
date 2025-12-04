@@ -57,7 +57,7 @@ export default function AttachmentsTab({
             userAttachments.map((attachment, index) => (
               <AttachmentsCard
                 attachment={attachment}
-                userId={userId?.toString() || ""}
+                // userId={userId?.toString() || ""}
                 serialNumber={serialNumber}
                 key={index}
               />

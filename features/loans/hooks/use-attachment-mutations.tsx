@@ -1,5 +1,11 @@
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { createClientAttachment, deleteAttachment, unverifyAttachment, verifyAttachment } from "../api/loans-api";
+import {
+  createClientAttachment,
+  deleteAttachment,
+  unverifyAttachment,
+  updateProfileImage,
+  verifyAttachment,
+} from "../api/loans-api";
 
 export function useCreateClientAttachment(
   options?: UseMutationOptions<
@@ -49,6 +55,19 @@ export function useDeleteAttachment(
 ) {
   return useMutation({
     mutationFn: deleteAttachment,
+    ...options,
+  });
+}
+
+export function useUpdateProfileImage(
+  options?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateProfileImage>>, // mutation result
+    unknown, // error type
+    Parameters<typeof updateProfileImage>[0] // variables type { userid, secureUrl }
+  >
+) {
+  return useMutation({
+    mutationFn: updateProfileImage,
     ...options,
   });
 }

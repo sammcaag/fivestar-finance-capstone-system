@@ -7,7 +7,7 @@ import {
   LoanAttachmentsSchema,
   loanAttachmentsFormDefaults,
 } from "../schema/loan-attachments-schema";
-import { useCreateClientAttachment } from "./use-attachment-mutations";
+import { useCreateClientAttachment, useUpdateProfileImage } from "./use-attachment-mutations";
 
 export const useAttachmentForm = (userId: number | null | undefined, serialNumber: string) => {
   const attachmentForm = useForm<LoanAttachmentsSchema>({
@@ -15,6 +15,7 @@ export const useAttachmentForm = (userId: number | null | undefined, serialNumbe
     defaultValues: loanAttachmentsFormDefaults,
   });
   const createAttachment = useCreateClientAttachment();
+  const updateProfileImage = useUpdateProfileImage();
   const queryClient = useQueryClient();
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,10 +23,18 @@ export const useAttachmentForm = (userId: number | null | undefined, serialNumbe
   const onSubmit = async (data: LoanAttachmentsSchema) => {
     try {
       setIsLoading(true);
+      const attachmentType = data.attachmentType;
 
       const uploadResult = await uploadAttachment(data.attachment, setProgress);
       if (uploadResult.success === false) {
         return;
+      }
+      if (attachmentType === "Selfie Photo" && uploadResult.data && userId) {
+        const profileImageSecureUrl = uploadResult.data.secure_url;
+        await updateProfileImage.mutateAsync({
+          userId: userId,
+          secureUrl: profileImageSecureUrl,
+        });
       }
       if (uploadResult.data && userId) {
         await createAttachment.mutateAsync(

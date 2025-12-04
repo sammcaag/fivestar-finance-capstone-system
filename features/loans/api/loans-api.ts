@@ -74,3 +74,26 @@ export const deleteAttachment = async ({
     throw new Error("Failed to delete attachment");
   }
 };
+
+// Update profile image inside user using attachment
+export const updateProfileImage = async ({
+  userId,
+  secureUrl,
+}: {
+  userId: number;
+  secureUrl: string;
+}) => {
+  try {
+    const { data } = await axiosInstance.patch(`/api/users/${userId}/profile-image`, { secureUrl });
+
+    return data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error.response?.data);
+
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error("Failed to create a client");
+  }
+};

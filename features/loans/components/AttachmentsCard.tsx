@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import AttachmentImageDialog from "@/features/clients/components/dialog/AttachmentImageDialog";
 import DeleteAttachmentDialog from "@/features/clients/components/dialog/DeleteAttachmentDialog";
 import VerifyAttachment from "@/features/clients/components/dialog/VerifyAttachment";
 import { UserAttachments } from "@/features/clients/types/client-types";
@@ -21,16 +22,13 @@ import {
   Trash2,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useMemo, useState } from "react";
 
 export default function AttachmentsCard({
   attachment,
-  userId,
   serialNumber,
 }: {
   attachment: UserAttachments;
-  userId: string;
   serialNumber: string;
 }) {
   const [isIframeLoading, setIsIframeLoading] = useState(false);
@@ -206,31 +204,13 @@ export default function AttachmentsCard({
         </div>
 
         <div className="grid sm:grid-cols-2 gap-2 mt-4">
-          <Button asChild variant="outline" disabled={isIframeLoading} className="flex-1">
-            <Link href={attachment.secureUrl} target="_blank" rel="noreferrer">
+          <AttachmentImageDialog imgUrl={attachment.thumbnailUrl}>
+            <Button variant="outline" disabled={isIframeLoading} className="flex-1">
               <Eye className="h-4 w-4" />
               View
-            </Link>
-          </Button>
+            </Button>
+          </AttachmentImageDialog>
 
-          <Button
-            icon={isIframeLoading ? Loader2 : Printer}
-            iconPlacement="left"
-            onClick={printImage}
-            className="flex-1 hover:cursor-pointer"
-            disabled={isIframeLoading}
-          >
-            {isIframeLoading ? "Loading..." : "Print"}
-          </Button>
-          <Button
-            variant="secondary"
-            icon={Pencil}
-            iconPlacement="left"
-            className="flex-1 min-w-[140px]"
-            type="button"
-          >
-            Edit
-          </Button>
           <DeleteAttachmentDialog
             attachmentId={attachment.id}
             serialNumber={serialNumber}
@@ -246,6 +226,15 @@ export default function AttachmentsCard({
               Delete
             </Button>
           </DeleteAttachmentDialog>
+          <Button
+            icon={isIframeLoading ? Loader2 : Printer}
+            iconPlacement="left"
+            onClick={printImage}
+            className="flex-1 hover:cursor-pointer col-span-2"
+            disabled={isIframeLoading}
+          >
+            {isIframeLoading ? "Loading..." : "Print"}
+          </Button>
         </div>
       </CardContent>
     </Card>
