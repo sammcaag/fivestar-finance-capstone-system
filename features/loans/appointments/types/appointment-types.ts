@@ -6,6 +6,15 @@ export type AppointmentStatus =
   | "CANCELLED_BY_ADMIN"
   | "COMPLETED";
 
+export const AppointmentStatusArray = [
+  "PENDING",
+  "CONFIRMED",
+  "RESCHEDULE_REQUIRED",
+  "CANCELLED_BY_USER",
+  "CANCELLED_BY_ADMIN",
+  "COMPLETED",
+] as const;
+
 export interface AppointmentProps {
   id: number;
   clientId: number;
@@ -27,21 +36,21 @@ export interface AppointmentProps {
 
 export interface AppointmentTableProps {
   id: number;
-  productType: string;
-  maxLoanAmount: number;
-  monthlyAmortization: number;
+  productType?: string | null;
+  maxLoanAmount?: number | null;
+  monthlyAmortization?: number | null;
   status: AppointmentStatus;
-  scheduledDateTime: string;
+  scheduledDateTime?: string | null;
   client: {
     id: number;
     fullName: string;
   };
-  branch: {
+  branch?: {
     id: number;
-    name: string;
-  };
-  staff: {
+    name?: string | null;
+  } | null;
+  staff?: {
     id: number;
-    fullName: string;
-  };
+    fullName?: string | null;
+  } | null;
 }

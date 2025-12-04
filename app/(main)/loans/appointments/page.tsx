@@ -8,16 +8,7 @@ import { getAllAppointments } from "@/features/loans/api/appointments-api";
 import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
 import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
 import { useQuery } from "@tanstack/react-query";
-import { ClipboardPlus } from "lucide-react";
 import { useEffect } from "react";
-
-const quickActions = [
-  {
-    label: "Add New Appointment",
-    href: "/appointments/new",
-    icon: ClipboardPlus,
-  },
-];
 
 export default function LoanAppointments() {
   useEffect(() => {
@@ -40,7 +31,6 @@ export default function LoanAppointments() {
       <MainHeader
         title="Mobile Loan Appointments"
         description="Coordinate and review upcoming loan appointments to help your branch prepare client documents in advance."
-        quickActions={quickActions}
       />
       <MainTableComp<AppointmentTableProps>
         title="Appointments Overview"

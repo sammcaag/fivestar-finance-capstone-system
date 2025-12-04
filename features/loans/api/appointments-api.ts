@@ -1,5 +1,6 @@
 import axiosInstance from "@/lib/axios-instance";
 import axios from "axios";
+import { AppointmentsSchema } from "../appointments/schema/appointments-schema";
 
 export const getAllAppointments = async () => {
   try {
@@ -43,7 +44,13 @@ export const createAppointment = async ({ payload }: { payload: any }) => {
   }
 };
 
-export const updateAppointment = async ({ id, payload }: { id: string; payload: any }) => {
+export const updateAppointment = async ({
+  id,
+  payload,
+}: {
+  id: string;
+  payload: AppointmentsSchema;
+}) => {
   try {
     const { data } = await axiosInstance.put(`/api/loan-appointments/${id}`, payload);
 

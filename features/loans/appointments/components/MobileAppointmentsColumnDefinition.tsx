@@ -1,19 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { formatCurrency } from "@/features/loans/computations/utils/format-currency";
 import { cn } from "@/lib/utils";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { getProductTypeClass, productTypeConfig } from "@/utils/get-product-type-class";
 import { ColumnDef, FilterFn } from "@tanstack/react-table";
-import { Calendar, Edit, Eye, MoreHorizontal, Trash2 } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { AppointmentTableProps } from "../types/appointment-types";
+import UpdateAppointmentsDialog from "./UpdateAppointmentsDialog";
 
 // Configuration for status and type badges
 const statusConfig = {
@@ -107,7 +102,11 @@ export const mobileAppointmentsColumnDefinition = (
       enableSorting: true,
       size: 100,
       cell: ({ row }) => {
-        const productType = row.getValue("productType") as keyof typeof productTypeConfig;
+        const productType = row.getValue("productType") as keyof typeof productTypeConfig | null;
+        if (!productType) {
+          return <Badge className="capitalize  bg-amber-100 text-amber-800">PENDING</Badge>;
+        }
+
         const config = getProductTypeClass(productType);
         return <Badge className={cn(config.className)}>{productType}</Badge>;
       },
@@ -119,34 +118,54 @@ export const mobileAppointmentsColumnDefinition = (
       enableColumnFilter: false,
       enableSorting: true,
       size: 170,
-      cell: ({ row }) => (
-        <div className="flex flex-col leading-tight">
-          <span className="text-sm font-semibold text-foreground">
-            ₱{formatCurrency(row.original.maxLoanAmount)}
-          </span>
-          <span className="text-xs text-muted-foreground">
-            Monthly: ₱{formatCurrency(row.original.monthlyAmortization)}
-          </span>
-        </div>
-      ),
+      cell: ({ row }) => {
+        const { maxLoanAmount, monthlyAmortization } = row.original;
+        console.log(maxLoanAmount, monthlyAmortization);
+
+        return (
+          <div className="flex flex-col leading-tight">
+            <span className="text-sm font-semibold text-foreground">
+              ₱{formatCurrency(maxLoanAmount as number)}
+            </span>
+            <span className="text-xs text-muted-foreground">
+              Monthly: ₱{formatCurrency(monthlyAmortization as number)}
+            </span>
+          </div>
+        );
+      },
     },
     {
       id: "branchStaff",
       header: "Branch / Staff",
-      accessorFn: (row) => row.branch.name,
+      accessorFn: (row) => row.branch?.name ?? "",
       enableColumnFilter: false,
       enableSorting: true,
       size: 180,
-      cell: ({ row }) => (
-        <div className="flex flex-col leading-tight">
-          <span className="text-sm font-medium">{row.original.branch.name}</span>
-          <span className="text-xs text-muted-foreground">{row.original.staff.fullName}</span>
-        </div>
-      ),
+      cell: ({ row }) => {
+        const branchName = row.original.branch?.name ?? null;
+        const staffName = row.original.staff?.fullName ?? null;
+
+        if (!branchName && !staffName) {
+          return (
+            <div className="flex flex-col leading-tight text-sm text-muted-foreground">
+              <span>Branch assignment pending</span>
+            </div>
+          );
+        }
+
+        return (
+          <div className="flex flex-col leading-tight">
+            <span className="text-sm font-medium">{branchName ?? "Branch to be assigned"}</span>
+            <span className="text-xs text-muted-foreground">
+              {staffName ?? "Staff assignment pending"}
+            </span>
+          </div>
+        );
+      },
     },
     {
-      accessorKey: "scheduledDateTime",
-      header: "Date & Time",
+      accessorKey: "appointmentDate",
+      header: "Appointment Date",
       enableColumnFilter: false,
       enableSorting: true,
       size: 200,
@@ -162,18 +181,10 @@ export const mobileAppointmentsColumnDefinition = (
               <span className="text-sm font-medium">
                 {hasValidDate
                   ? parsedDate.toLocaleDateString("en-PH", { weekday: "long" })
-                  : "Unknown"}
+                  : "Schedule pending"}
               </span>
               <span className="text-sm font-medium">
-                {hasValidDate ? formatDateToReadable(parsedDate!, true, true) : "Date pending"}
-              </span>
-              <span className="text-xs text-muted-foreground">
-                {hasValidDate
-                  ? parsedDate.toLocaleTimeString("en-PH", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })
-                  : "N/A"}
+                {hasValidDate ? formatDateToReadable(parsedDate!, true, true) : ""}
               </span>
             </div>
           </div>
@@ -191,7 +202,7 @@ export const mobileAppointmentsColumnDefinition = (
         const status = row.getValue("status") as keyof typeof statusConfig;
         const config = statusConfig[status] ?? statusConfig.PENDING;
         return (
-          <Badge variant={config.variant} className={cn(config.className)}>
+          <Badge variant={config.variant} className={cn(config.className, "uppercase")}>
             {config.label}
           </Badge>
         );
@@ -210,31 +221,25 @@ export const mobileAppointmentsColumnDefinition = (
       header: "Actions",
       enableColumnFilter: false,
       enableSorting: false,
-      size: 100,
-      cell: () => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-              <Eye className="h-4 w-4" />
-              View Details
-            </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-              <Edit className="h-4 w-4" />
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-destructive">
-              <Trash2 className="h-4 w-4" />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
+      size: 120,
+      cell: ({ row }) => {
+        const status = row.getValue("status") as keyof typeof statusConfig;
+        if (status !== "PENDING") {
+          return (
+            <UpdateAppointmentsDialog id={row.original.id.toString()}>
+              <Button variant="outline" className="min-w-[90px]">
+                Edit
+              </Button>
+            </UpdateAppointmentsDialog>
+          );
+        }
+
+        return (
+          <UpdateAppointmentsDialog id={row.original.id.toString()}>
+            <Button className="min-w-[90px]">Confirm</Button>
+          </UpdateAppointmentsDialog>
+        );
+      },
     },
   ];
 };

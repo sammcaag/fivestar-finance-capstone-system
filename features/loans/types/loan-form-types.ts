@@ -6,6 +6,14 @@ export enum LoanHistoryProductType {
   EXTENSION,
 }
 
+export const productTypeArray = [
+  "NEW CLIENT",
+  "ADDITIONAL",
+  "RELOAN",
+  "RENEWAL",
+  "EXTENSION",
+] as const;
+
 export type LoanHistoryFormValues = {
   dedCode: string;
   productType: LoanHistoryProductType;
