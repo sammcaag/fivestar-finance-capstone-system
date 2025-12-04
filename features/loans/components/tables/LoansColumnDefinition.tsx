@@ -1,19 +1,12 @@
-import type { ColumnDef, FilterFn } from "@tanstack/react-table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { MoreHorizontal, Eye, Edit, Trash2, MapPin } from "lucide-react";
-import { LoanTableProps } from "../../types/loan-types";
-import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
-import { formatDateToReadable } from "@/utils/format-date-to-readable";
-import { getProductTypeClass } from "@/utils/get-product-type-class";
 import { cn } from "@/lib/utils";
+import { formatDateToReadable } from "@/utils/format-date-to-readable";
+import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
+import { getProductTypeClass } from "@/utils/get-product-type-class";
+import type { ColumnDef, FilterFn } from "@tanstack/react-table";
+import { MapPin } from "lucide-react";
+import { LoanTableProps } from "../../types/loan-types";
 import { loanStatusClassNames } from "../../utils/loan-status-classnames";
 
 // Custom filter function for multi-column searching (name and id)
@@ -162,35 +155,5 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
         <span className="text-sm text-muted-foreground">{formatDateToReadable(date, true)}</span>
       );
     },
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    enableColumnFilter: false,
-    enableSorting: false,
-    size: 100,
-    cell: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-            <Eye className="h-4 w-4" />
-            View Details
-          </DropdownMenuItem>
-          <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-            <Edit className="h-4 w-4" />
-            Edit
-          </DropdownMenuItem>
-          <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-destructive">
-            <Trash2 className="h-4 w-4" />
-            Delete
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
   },
 ];
