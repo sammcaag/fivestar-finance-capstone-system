@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { attachmentsTitle, validIds } from "../data/valid-ids";
+import { attachmentsTitle, validIds } from "../../data/valid-ids";
 
 const FileSchema = z.instanceof(File);
 

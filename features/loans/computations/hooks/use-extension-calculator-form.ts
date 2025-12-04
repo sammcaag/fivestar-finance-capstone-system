@@ -176,12 +176,17 @@ export const useExtensionCalculatorForm = () => {
       ...values,
       results,
       netAmount,
-      clientId: searchParams.get("clientId"),
-      dedCode: searchParams.get("dedCode"),
-      computationType: "Extension",
+      valueDate: renewalExtensionValueDate,
+      maturityDate: renewalExtensionMaturityDate,
+      id: searchParams.get("id") ? Number(searchParams.get("id")) : undefined,
+      clientId: searchParams.get("clientId") || undefined,
+      dedCode: searchParams.get("dedCode") || undefined,
+      computationType: "extension",
     };
+    console.log("THIS IS THE DATA RETURNED WHEN PROCEED", data);
+
     sessionStorage.setItem("pendingLoanData", JSON.stringify(data));
-    router.push("/loans/add");
+    router.push(`/clients/${data.clientId}/add-loan-history`);
   };
   return {
     extensionForm,

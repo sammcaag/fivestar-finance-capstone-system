@@ -12,6 +12,7 @@ export interface StaffTableProps {
   gender: string;
   branchName: string;
   status: StaffStatus;
+  plainId: number;
   createdAt: string;
   lastLogin?: string;
 }

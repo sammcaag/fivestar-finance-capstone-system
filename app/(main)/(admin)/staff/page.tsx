@@ -17,7 +17,7 @@ export default function StaffManagementPage() {
     document.title = "Staff Overview | Stella - Five Star Finance Inc.";
   }, []);
 
-  const { data: staffstData, isLoading } = useQuery<StaffTableProps[]>({
+  const { data: staffsData, isLoading } = useQuery<StaffTableProps[]>({
     queryKey: ["staffs"],
     queryFn: getStaffs,
   });
@@ -37,7 +37,7 @@ export default function StaffManagementPage() {
       <MainTableComp<StaffTableProps>
         title="Staff Overview"
         description="Manage branch staff accounts, roles, and permissions."
-        data={staffstData ?? []}
+        data={staffsData ?? []}
         isLoading={isLoading}
         columns={staffColumnDefinition}
         filterColumns={["name", "role", "status", "branch"]}

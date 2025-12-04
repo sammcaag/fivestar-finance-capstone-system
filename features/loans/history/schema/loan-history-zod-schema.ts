@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { LoanHistoryProductType } from "../types/loan-form-types";
+import { LoanHistoryProductEnum } from "../types/loan-form-types";
 
 export const loanHistorySchema = z.object({
   id: z.number().optional(),
   dedCode: z.string().min(1, "Deduction code is required"),
-  productType: z.nativeEnum(LoanHistoryProductType),
+  productType: z.nativeEnum(LoanHistoryProductEnum),
 
   monthlyAmortization: z.number().min(1, "Monthly amortization is required"),
   term: z.number().min(1, "Term is required"),
@@ -24,13 +24,14 @@ export const loanHistorySchema = z.object({
       message: "Invalid setted maturity date",
     }),
 
-  accountNumber: z.string().min(1, "Account number is required"),
+  accountNumber: z.string().optional(),
   pnNumber: z.string().min(1, "PN number is required"),
+  purpose: z.string().min(1, "Purpose is required"),
 
   outstandingBalance: z.number().optional(),
   otherDeduction: z.number().optional(),
 
-  processor1Id: z.number().min(1, "Processor 1 is required"),
-  processor2Id: z.number().min(1, "Processor 2 is required"),
-  contactedById: z.number().min(1, "Contacted by is required"),
+  processor1Id: z.string().min(1, "Processor 1 is required"),
+  processor2Id: z.string().min(1, "Processor 2 is required"),
+  contactedById: z.string().min(1, "Contacted by is required"),
 });

@@ -12,9 +12,9 @@ import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons
 import { ClientPayload } from "@/features/clients/types/client-types";
 import AdvancedLoanActionModal from "@/features/loans/components/AdvancedLoanActionModal";
 import LoanHistoryTabs from "@/features/loans/components/LoanHistoryTabs";
-import { mockLoanHistoryData } from "@/features/loans/data/mock-loans-data";
-import { useLoanLogic } from "@/features/loans/hooks/use-loan-logic";
-import { LoanHistory } from "@/features/loans/types/loan-types";
+import { useLoanLogic } from "@/features/loans/history/hooks/use-loan-logic";
+import { useLoanStore } from "@/features/loans/history/lib/loan-history-store";
+import { LoanHistoryPayload } from "@/features/loans/history/types/loan-form-types";
 import { useQuery } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -29,17 +29,46 @@ export default function ClientInfoPage() {
   const serialNumber = params.id as string;
   const router = useRouter();
 
-  const { data: clientData, isLoading } = useQuery<ClientPayload>({
+  const {
+    data: clientData,
+    isLoading,
+    refetch,
+  } = useQuery<ClientPayload>({
     queryKey: ["clientBySerialNumber", serialNumber],
     queryFn: () => getClientBySerialNumber(serialNumber),
+    refetchOnWindowFocus: true,
   });
 
-  const [loanHistory] = useState<LoanHistory[]>(mockLoanHistoryData);
-  const [selectedLoan, setSelectedLoan] = useState<LoanHistory | null>(null);
+  useEffect(() => {
+    refetch();
+  }, [serialNumber]);
+
+  const [loanHistory, setLoanHistory] = useState<LoanHistoryPayload[]>([]);
+  const [selectedLoan, setSelectedLoan] = useState<LoanHistoryPayload | null>(null);
   const today = new Date("2025-11-13");
   today.setHours(0, 0, 0, 0);
 
+  useEffect(() => {
+    if (clientData?.clientLoanHistory) {
+      setLoanHistory(clientData.clientLoanHistory);
+    }
+  }, [clientData]);
+
   const { loanSets, buttonLabel } = useLoanLogic(loanHistory, today);
+
+  const { setLoanSets, setClientSerialNumber } = useLoanStore();
+
+  useEffect(() => {
+    if (serialNumber) {
+      setClientSerialNumber(serialNumber);
+    }
+  }, [serialNumber]);
+
+  useEffect(() => {
+    if (loanSets.length > 0) {
+      setLoanSets(loanSets);
+    }
+  }, [loanSets]);
 
   // Unified handler — now accepts any string (matches LoanHistoryTabs props)
   const handleAddNewLoan = (type: string) => {
@@ -48,7 +77,7 @@ export default function ClientInfoPage() {
       .toLowerCase()
       .replace(/ client loan$/, "")
       .replace(" ", "-");
-    router.push(`/loans/computations/${slug}?clientId=${serialNumber}`);
+    router.push(`/loans/computations/${slug}?id=${clientData!.id}&clientId=${serialNumber}`);
   };
 
   const customHeaderRight = (
@@ -102,9 +131,11 @@ export default function ClientInfoPage() {
             totalSets={loanSets.length}
           />
           <AdvancedLoanActionModal
+            id={clientData!.id}
             selectedLoan={selectedLoan}
             setSelectedLoan={setSelectedLoan}
             today={today}
+            allLoans={loanHistory}
           />
         </>
       ) : (

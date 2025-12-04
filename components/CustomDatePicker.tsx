@@ -1,21 +1,20 @@
 "use client";
 
-import * as React from "react";
 import {
   addDays,
   format,
   getMonth,
   getYear,
+  isAfter,
+  isBefore,
   setMonth,
   setYear,
-  isBefore,
-  isAfter,
   startOfDay,
 } from "date-fns";
+import { AnimatePresence, motion } from "framer-motion";
 import { CalendarIcon, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -26,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 interface DatePickerProps {
   startYear?: number;

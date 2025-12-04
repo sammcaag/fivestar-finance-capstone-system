@@ -1,28 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { User, Phone, Heart, Map } from "lucide-react";
+import { Heart, Map, Phone, User } from "lucide-react";
 
+import { FormFieldWrapper } from "@/components/FormFieldWrapper";
+import { useAuth } from "@/features/auth/context/AuthContext";
+import { getBranches } from "@/features/branch/api/branch-service";
+import { BranchTableProps } from "@/features/branch/types/branch-types";
+import { SectionCard } from "@/features/clients/components/SectionCard";
+import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
+import { StepTitleCard } from "@/features/clients/components/StepTitleCard";
+import useClientAnimation from "@/features/clients/hooks/use-client-animation";
 import {
   civilStatusOptions,
   regionOptions,
   suffixOptions,
 } from "@/features/clients/types/client-types";
-import useClientAnimation from "@/features/clients/hooks/use-client-animation";
-import { StepTitleCard } from "@/features/clients/components/StepTitleCard";
-import { SectionCard } from "@/features/clients/components/SectionCard";
-import { FormFieldWrapper } from "@/components/FormFieldWrapper";
-import { type StaffGeneralInformationProps } from "../../types/staff-types";
 import { useQuery } from "@tanstack/react-query";
-import { BranchTableProps } from "@/features/branch/types/branch-types";
-import { getBranches } from "@/features/branch/api/branch-service";
-import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
-import { useAuth } from "@/features/auth/context/AuthContext";
+import { type StaffGeneralInformationProps } from "../../types/staff-types";
 
 const StaffGeneralInformation = ({ form, isOwnProfile = false }: StaffGeneralInformationProps) => {
   const { user } = useAuth();
   const { containerVariants, itemVariants } = useClientAnimation();
-  const isAdmin = user!.role.toUpperCase() === "ADMIN";
+  const isAdmin = user?.role?.toUpperCase() === "ADMIN";
 
   const { data: branchesData, isLoading } = useQuery<BranchTableProps[]>({
     queryKey: ["branchesToStaff"],
