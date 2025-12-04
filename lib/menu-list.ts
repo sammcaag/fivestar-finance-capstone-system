@@ -4,7 +4,6 @@ import {
   Calculator,
   CalendarClock,
   FileChartColumn,
-  FilePenLine,
   History,
   LayoutGrid,
   LucideIcon,
@@ -65,18 +64,22 @@ export function getMenuList(): Group[] {
       groupLabel: "Loans",
       menus: [
         // All Loans showcase
-        {
-          href: "/loans", // get from /clients
-          label: "Loans Overview",
-          icon: FilePenLine,
-        },
+        // {
+        //   href: "/loans", // get from /clients
+        //   label: "Loans Overview",
+        //   icon: FilePenLine,
+        // },
         // loan appointments
         {
           href: "/loans/appointments",
           label: "Mobile Appointments",
           icon: CalendarClock,
         },
-        //  loan computations
+      ],
+    },
+    {
+      groupLabel: "Computations",
+      menus: [
         {
           href: "/loans/computations",
           label: "Loan Computations",
@@ -180,4 +183,31 @@ export function getMenuList(): Group[] {
       ],
     },
   ];
+}
+
+const ROLE_PERMISSIONS = {
+  ADMIN: ["Home", "Clients", "Loans", "Computations", "Branch", "Staff", "Monitoring", "Settings"],
+  STAFF: ["Home", "Clients", "Loans", "Computations", "Settings"],
+  LOANS: ["Home", "Clients", "Loans", "Computations", "Settings"],
+  CLIENT: [],
+} as const;
+export type RoleKey = keyof typeof ROLE_PERMISSIONS;
+
+export const normalizeRole = (role?: string): RoleKey => {
+  const upper = role?.toUpperCase();
+  return upper && upper in ROLE_PERMISSIONS ? (upper as RoleKey) : "CLIENT";
+};
+
+const getAllowedGroupLabels = (role: RoleKey): readonly string[] => {
+  if (role === "ADMIN") {
+    return getMenuList().map((g) => g.groupLabel);
+  }
+  return ROLE_PERMISSIONS[role];
+};
+
+export function getMenuListWithRole(role: string): Group[] {
+  const normalizedRole = normalizeRole(role);
+  const allowedGroups = getAllowedGroupLabels(normalizedRole);
+
+  return getMenuList().filter((group) => allowedGroups.includes(group.groupLabel));
 }

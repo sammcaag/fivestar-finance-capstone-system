@@ -1,16 +1,16 @@
 "use client";
 
-import Link from "next/link";
-import { Ellipsis, LogOut } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { getMenuList } from "@/lib/menu-list";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { getMenuListWithRole, RoleKey } from "@/lib/menu-list";
+import { cn } from "@/lib/utils";
+import { Ellipsis, LogOut } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import { CollapseMenuButton } from "./collapse-menu-button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAuth } from "@/features/auth/context/AuthContext";
+import { CollapseMenuButton } from "./collapse-menu-button";
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -18,8 +18,12 @@ interface MenuProps {
 
 export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
-  const menuList = getMenuList();
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
+  console.log(user?.role);
+
+  const menuList = getMenuListWithRole((user?.role as RoleKey) ?? "CLIENT");
+
+  console.log(menuList);
 
   return (
     <ScrollArea className="[&>div>div[style]]:!block ">
