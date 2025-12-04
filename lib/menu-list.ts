@@ -186,7 +186,7 @@ export function getMenuList(): Group[] {
 }
 
 const ROLE_PERMISSIONS = {
-  ADMIN: ["Home", "Clients", "Loans", "Computations", "Branch", "Staff", "Monitoring", "Settings"],
+  ADMIN: ["Home", "Clients", "Loans", "Computations", "Branch", "Staff", "Settings"],
   STAFF: ["Home", "Clients", "Loans", "Computations", "Settings"],
   LOANS: ["Home", "Clients", "Loans", "Computations", "Settings"],
   CLIENT: [],
