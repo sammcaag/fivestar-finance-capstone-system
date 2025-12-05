@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import {
+  loanAttachmentsFormDefaults,
   LoanAttachmentsResolver,
   LoanAttachmentsSchema,
-  loanAttachmentsFormDefaults,
-} from "../schema/loan-attachments-schema";
+} from "../history/schema/loan-attachments-schema";
 import { useCreateClientAttachment, useUpdateProfileImage } from "./use-attachment-mutations";
 
 export const useAttachmentForm = (userId: number | null | undefined, serialNumber: string) => {
@@ -44,7 +44,6 @@ export const useAttachmentForm = (userId: number | null | undefined, serialNumbe
             onError: () => toast.error("Profile image update failed"),
           }
         );
-        ;
       }
       if (uploadResult.data && userId) {
         await createAttachment.mutateAsync(
