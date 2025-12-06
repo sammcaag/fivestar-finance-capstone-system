@@ -145,7 +145,13 @@ export default function ClientInfoPage() {
   );
 }
 
-const ClientInfoInSuspense = ({ client, serialNumber }: { client: ClientPayload, serialNumber: string }) => (
+const ClientInfoInSuspense = ({
+  client,
+  serialNumber,
+}: {
+  client: ClientPayload;
+  serialNumber: string;
+}) => (
   <Suspense fallback={<Loading />}>
     <ClientInformation client={client} serialNumber={serialNumber} />
   </Suspense>
