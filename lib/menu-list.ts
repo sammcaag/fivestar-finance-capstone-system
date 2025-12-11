@@ -1,6 +1,4 @@
 import {
-  Building,
-  Building2Icon,
   Calculator,
   CalendarClock,
   FileChartColumn,
@@ -75,11 +73,6 @@ export function getMenuList(): Group[] {
           label: "Mobile Appointments",
           icon: CalendarClock,
         },
-      ],
-    },
-    {
-      groupLabel: "Computations",
-      menus: [
         {
           href: "/loans/computations",
           label: "Loan Computations",
@@ -106,23 +99,6 @@ export function getMenuList(): Group[] {
               label: "Extension",
             },
           ],
-        },
-      ],
-    },
-    {
-      groupLabel: "Branch",
-      menus: [
-        // Branch Overview
-        {
-          href: "/branch",
-          label: "Branch Overview",
-          icon: Building2Icon,
-        },
-        // Register Branch
-        {
-          href: "/branch/register",
-          label: "Register Branch",
-          icon: Building,
         },
       ],
     },
@@ -186,9 +162,9 @@ export function getMenuList(): Group[] {
 }
 
 const ROLE_PERMISSIONS = {
-  ADMIN: ["Home", "Clients", "Loans", "Computations", "Branch", "Staff", "Settings"],
-  STAFF: ["Home", "Clients", "Loans", "Computations", "Settings"],
-  LOANS: ["Home", "Clients", "Loans", "Computations", "Settings"],
+  ADMIN: ["Home", "Clients", "Loans", "Branch", "Staff", "Settings"],
+  STAFF: ["Home", "Clients", "Loans", "Settings"],
+  LOANS: ["Home", "Clients", "Loans", "Settings"],
   CLIENT: [],
 } as const;
 export type RoleKey = keyof typeof ROLE_PERMISSIONS;

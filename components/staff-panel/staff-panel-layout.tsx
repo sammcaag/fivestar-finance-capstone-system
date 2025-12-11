@@ -6,9 +6,9 @@ import { Sidebar } from "@/components/staff-panel/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useStore } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export default function AdminPanelLayout({ children }: { children: React.ReactNode }) {
+export default function StaffPanelLayout({ children }: { children: React.ReactNode }) {
   const sidebar = useStore(useSidebar, (x) => x);
   const [isHovering, setIsHovering] = useState(false);
 

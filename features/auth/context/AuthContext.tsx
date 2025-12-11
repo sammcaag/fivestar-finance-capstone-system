@@ -1,12 +1,12 @@
 "use client";
 
-import { createContext, useContext, ReactNode, useState } from "react";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { AuthContextType, IRequestUser } from "../types/auth.types";
-import { getCurrentUser, refreshTokenApi, signInApi, signOutApi } from "../api/auth-service";
-import axios from "axios";
 import { useDialog } from "@/contexts/DialogContext";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { createContext, ReactNode, useContext, useState } from "react";
+import { getCurrentUser, refreshTokenApi, signInApi, signOutApi } from "../api/auth-service";
+import { AuthContextType, IRequestUser } from "../types/auth.types";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

@@ -1,6 +1,7 @@
-import React from "react";
+"use client";
+
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2, Heart, FileCheck } from "lucide-react";
+import { FileCheck, Heart, Loader2 } from "lucide-react";
 
 export default function Loading({
   message = "Please wait, fetching your data...",

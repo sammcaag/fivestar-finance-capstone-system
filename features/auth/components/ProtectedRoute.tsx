@@ -1,11 +1,11 @@
 "use client";
 
 import Loading from "@/components/LoadingPage";
+import { useDialog } from "@/contexts/DialogContext";
 import { useAuth } from "@/features/auth/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { ProtectedRouteProps } from "../types/auth.types";
-import { useDialog } from "@/contexts/DialogContext";
 
 export default function ProtectedRoute({ allowedRoles, children }: ProtectedRouteProps) {
   const { user, isLoading } = useAuth();
@@ -20,6 +20,7 @@ export default function ProtectedRoute({ allowedRoles, children }: ProtectedRout
       } else if (!allowedRoles.includes(user.role)) {
         // Authenticated but not allowed → redirect to dashboard
         showDialog("Access Denied: You do not have permission", "error");
+        router.push("/dashboard");
       }
     }
   }, [isLoading, user, router, allowedRoles, showDialog]);
