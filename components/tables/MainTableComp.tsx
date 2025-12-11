@@ -1,9 +1,9 @@
 "use client";
-import { Table } from "@/components/ui/table";
-import TablePagination from "@/components/tables/TablePagination";
-import TableHeaderComp from "@/components/tables/TableHeaderComp";
 import TableBodyComp from "@/components/tables/TableBodyComp";
-import { useDataTable } from "@/hooks/use-data-table";
+import { TableFilter } from "@/components/tables/TableFilter";
+import TableHeaderComp from "@/components/tables/TableHeaderComp";
+import TablePagination from "@/components/tables/TablePagination";
+import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
 import {
   Card,
   CardContent,
@@ -12,11 +12,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import TableRowLoadingState from "@/components/tables/TableRowLoadingState";
-import { TableFilter } from "@/components/tables/TableFilter";
-import { useRef, useState } from "react";
-import { ColumnDef, SortingState } from "@tanstack/react-table";
+import { Table } from "@/components/ui/table";
+import { useDataTable } from "@/hooks/use-data-table";
 import { TableData } from "@/types/global-types";
+import { ColumnDef, SortingState } from "@tanstack/react-table";
+import { useRef, useState } from "react";
 
 interface MainTableProps<TData extends TableData> {
   title: string;
@@ -66,7 +66,6 @@ export function MainTableComp<TData extends TableData>({
   const isLoading = externalIsLoading ?? hookIsLoading;
 
   if (isLoading) {
-    console.log("MainTableComp - Rendering TableRowLoadingState");
     return <TableRowLoadingState columns={columns} />;
   }
 

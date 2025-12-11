@@ -1,20 +1,20 @@
-import { useMemo, useState } from "react";
+import { TableData } from "@/types/global-types";
 import {
   ColumnDef,
-  getFacetedUniqueValues,
+  ColumnFiltersState,
   getCoreRowModel,
+  getFacetedUniqueValues,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  Table,
+  PaginationState,
   Row,
   SortingState,
-  ColumnFiltersState,
+  Table,
+  useReactTable,
   VisibilityState,
-  PaginationState,
 } from "@tanstack/react-table";
-import { useReactTable } from "@tanstack/react-table";
-import { TableData } from "@/types/global-types";
+import { useMemo, useState } from "react";
 
 export function useDataTable<TData extends TableData>({
   data,
@@ -98,9 +98,6 @@ export function useDataTable<TData extends TableData>({
       sorting,
     },
   });
-
-  // Log table rows for debugging
-  console.log("useDataTable - rows:", table.getRowModel().rows);
 
   return {
     table,

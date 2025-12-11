@@ -1,15 +1,14 @@
 "use client";
-import React, { useEffect } from "react";
-import { TableBody } from "../ui/table";
-import { AnimatePresence, motion } from "framer-motion";
-import { flexRender, Table, Row } from "@tanstack/react-table";
-import { getStatusRowClass } from "@/utils/get-status-row-class";
 import { getFiRowColors } from "@/features/loans/utils/get-fi-row-colors";
+import { EmptyStateProps, TableData } from "@/types/global-types";
+import { getStatusRowClass } from "@/utils/get-status-row-class";
+import { flexRender, Row, Table } from "@tanstack/react-table";
 import clsx from "clsx";
-import EmptyTableState from "./EmptyTableState";
-import { EmptyStateProps } from "@/types/global-types";
+import { AnimatePresence, motion } from "framer-motion";
+import React from "react";
+import { TableBody } from "../ui/table";
 import EmptySearchTableState from "./EmptySearchTableState";
-import { TableData } from "@/types/global-types";
+import EmptyTableState from "./EmptyTableState";
 
 export default function TableBodyComp<TData extends TableData>({
   table,
@@ -58,19 +57,6 @@ export default function TableBodyComp<TData extends TableData>({
   const hasStatus = (data: TData): data is TData & { status: string } => {
     return typeof data.status === "string";
   };
-
-  useEffect(() => {
-    console.log(
-      "TableBodyComp - rows:",
-      table.getRowModel().rows,
-      "isFiltered:",
-      isFiltered,
-      "globalFilter:",
-      globalFilter,
-      "columnFilters:",
-      columnFilters
-    );
-  }, [table.getRowModel().rows, isFiltered, globalFilter, columnFilters]);
 
   return (
     <TableBody>
