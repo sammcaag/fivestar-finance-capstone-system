@@ -95,7 +95,7 @@ export default function AddLoanPage() {
             settedMaturityDate: data.settedMaturityDate
               ? new Date(data.settedMaturityDate)
               : undefined,
-            accountNumber: "",
+            accountNumber: 0,
             pnNumber: "",
             outstandingBalance: data.outstandingBalance,
             otherDeduction: data.otherDeduction,

@@ -4,24 +4,80 @@ import { z } from "zod";
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
+// Utility for a generic text field with trim, min, max
+export const createStringField = (fieldName: string, min = 8, max = 150) =>
+  z
+    .string()
+    .trim()
+    .min(min, `${fieldName} must be at least ${min} characters`)
+    .max(max, `${fieldName} must be at most ${max} characters`);
+
+// Utility for optional text field that allows empty string
+export const createOptionalStringField = (fieldName: string, min = 8, max = 150) =>
+  z
+    .string()
+    .trim()
+    .min(min, `${fieldName} must be at least ${min} characters`)
+    .max(max, `${fieldName} must be at most ${max} characters`)
+    .optional()
+    .or(z.literal(""));
+
+// Utility for zip code
+
+export const createZipCodeField = (fieldName: string) =>
+  z
+    .number()
+    .int(`${fieldName} must be an integer`)
+    .min(1000, `${fieldName} must be at least 1000`)
+    .max(9999, `${fieldName} must be 4 digits`)
+    .optional();
+
 // -----------------------------
 // Step 1: Client General Info
 // -----------------------------
 export const clientGeneralInfoSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  middleName: z.string().optional(),
-  lastName: z.string().min(1, "Last name is required"),
+  firstName: z
+    .string()
+    .trim()
+    .min(2, "First name is atleast 2 characters")
+    .max(50, "First name is at most 50 characters"),
+  middleName: z
+    .string()
+    .trim()
+    .min(2, "Middle name is atleast 2 characters")
+    .max(50, "Middle name is at most 50 characters")
+    .optional()
+    .or(z.literal("")), // allow empty string
+  lastName: z
+    .string()
+    .trim()
+    .min(2, "Last name is atleast 2 characters")
+    .max(50, "Last name is at most 50 characters"),
   suffix: z.string().optional(),
-  dateOfBirth: z.date(),
+  dateOfBirth: z.date().refine(
+    (dob) => {
+      // The latest allowed birthdate (today minus 18 years)
+      const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+      return dob <= minDate;
+    },
+    {
+      message: "Client must be at least 18 years old.",
+    }
+  ),
   gender: z.string().refine((v) => v !== "", { message: "Gender is required" }),
 
-  addressLine1: z.string().min(1, "Address line 1 is required"),
-  addressLine2: z.string().optional(),
-  barangay: z.string().optional(),
-  cityOrMunicipality: z.string().min(1, "City or municipality is required"),
-  province: z.string().min(1, "Province is required"),
+  addressLine1: createStringField("Address line 1"),
+  addressLine2: createOptionalStringField("Address line 2"),
+  barangay: createOptionalStringField("Barangay"),
+  cityOrMunicipality: createStringField("City or municipality"),
+  province: createStringField("Province"),
   region: z.string().min(1, "Region is required"),
-  zipCode: z.number().min(1, "Zip code is required"),
+  zipCode: z
+    .number()
+    .int("Zip code must be an integer")
+    .min(1000, "Zip code must be at least 1000")
+    .max(9999, "Zip code must be 4 digits"),
 
   primaryContact: z
     .string()
@@ -36,13 +92,33 @@ export const clientGeneralInfoSchema = z.object({
       message: "Phone number must start with +639 and have 10 digits total",
     }),
 
-  religion: z.string().min(1, "Religion is required"),
+  religion: z
+    .string()
+    .trim()
+    .min(4, "Religion must be at least 8 characters")
+    .max(100, "Religion must be at most 100 characters"),
   civilStatus: z.string().refine((v) => v !== "", {
     message: "Civil status is required",
   }),
-  occupation: z.string().min(1, "Occupation is required"),
-  mothersMaidenName: z.string().optional(),
-  placeOfBirth: z.string().min(1, "Place of birth is required"),
+  occupation: z
+    .string()
+    .trim()
+    .min(8, "Occupation must be at least 8 characters")
+    .max(200, "Occupation must be at most 200 characters"),
+
+  mothersMaidenName: z
+    .string()
+    .trim()
+    .min(8, "Mother's maiden name must be at least 8 characters")
+    .max(200, "Mother's maiden name must be at most 200 characters")
+    .optional()
+    .or(z.literal("")), // allow empty string
+
+  placeOfBirth: z
+    .string()
+    .trim()
+    .min(8, "Place of birth must be at least 8 characters")
+    .max(200, "Place of birth must be at most 200 characters"),
 });
 
 // -----------------------------
@@ -56,11 +132,11 @@ export const clientFamilyInfoSchema = z.object({
   spouseDateOfBirth: z.date().optional(),
 
   spouseAddressSameAsClient: z.boolean().optional(),
-  spouseAddressLine1: z.string().optional(),
-  spouseAddressLine2: z.string().optional(),
-  spouseBarangay: z.string().optional(),
-  spouseCityOrMunicipality: z.string().optional(),
-  spouseProvince: z.string().optional(),
+  spouseAddressLine1: createOptionalStringField("Spouse Address Line 1"),
+  spouseAddressLine2: createOptionalStringField("Spouse Address Line 2"),
+  spouseBarangay: createOptionalStringField("Spouse Barangay"),
+  spouseCityOrMunicipality: createOptionalStringField("Spouse City or Municipality"),
+  spouseProvince: createOptionalStringField("Spouse Province"),
   spouseRegion: z.string().optional(),
   spouseZipCode: z.number().optional(),
 
@@ -77,11 +153,11 @@ export const clientFamilyInfoSchema = z.object({
   firstChildAddressSameAsClient: z.boolean().optional(),
   firstChildAddressSameAsSpouse: z.boolean().optional(),
   firstChildBirthOrder: z.number().optional().nullable(),
-  firstChildAddressLine1: z.string().optional(),
-  firstChildAddressLine2: z.string().optional(),
-  firstChildBarangay: z.string().optional(),
-  firstChildCityOrMunicipality: z.string().optional(),
-  firstChildProvince: z.string().optional(),
+  firstChildAddressLine1: createOptionalStringField("First Child Address Line 1"),
+  firstChildAddressLine2: createOptionalStringField("First Child Address Line 2"),
+  firstChildBarangay: createOptionalStringField("First Child Barangay"),
+  firstChildCityOrMunicipality: createOptionalStringField("First Child City or Municipality"),
+  firstChildProvince: createOptionalStringField("First Child Province"),
   firstChildRegion: z.string().optional(),
   firstChildZipCode: z.number().optional(),
 
@@ -91,11 +167,11 @@ export const clientFamilyInfoSchema = z.object({
   secondChildAddressSameAsClient: z.boolean().optional(),
   secondChildAddressSameAsSpouse: z.boolean().optional(),
   secondChildBirthOrder: z.number().optional().nullable(),
-  secondChildAddressLine1: z.string().optional(),
-  secondChildAddressLine2: z.string().optional(),
-  secondChildBarangay: z.string().optional(),
-  secondChildCityOrMunicipality: z.string().optional(),
-  secondChildProvince: z.string().optional(),
+  secondChildAddressLine1: createOptionalStringField("Second Child Address Line 1"),
+  secondChildAddressLine2: createOptionalStringField("Second Child Address Line 2"),
+  secondChildBarangay: createOptionalStringField("Second Child Barangay"),
+  secondChildCityOrMunicipality: createOptionalStringField("Second Child City or Municipality"),
+  secondChildProvince: createOptionalStringField("Second Child Province"),
   secondChildRegion: z.string().optional(),
   secondChildZipCode: z.number().optional(),
 
@@ -105,11 +181,11 @@ export const clientFamilyInfoSchema = z.object({
   thirdChildAddressSameAsClient: z.boolean().optional(),
   thirdChildAddressSameAsSpouse: z.boolean().optional(),
   thirdChildBirthOrder: z.number().optional().nullable(),
-  thirdChildAddressLine1: z.string().optional(),
-  thirdChildAddressLine2: z.string().optional(),
-  thirdChildBarangay: z.string().optional(),
-  thirdChildCityOrMunicipality: z.string().optional(),
-  thirdChildProvince: z.string().optional(),
+  thirdChildAddressLine1: createOptionalStringField("Third Child Address Line 1"),
+  thirdChildAddressLine2: createOptionalStringField("Third Child Address Line 2"),
+  thirdChildBarangay: createOptionalStringField("Third Child Barangay"),
+  thirdChildCityOrMunicipality: createOptionalStringField("Third Child City or Municipality"),
+  thirdChildProvince: createOptionalStringField("Third Child Province"),
   thirdChildRegion: z.string().optional(),
   thirdChildZipCode: z.number().optional(),
 });
@@ -167,6 +243,8 @@ export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
 
   if (spouseNamePresent) {
     const spouseFields: Array<keyof typeof data> = [
+      "spouseFirstName",
+      "spouseLastName",
       "spouseAddressLine1",
       "spouseCityOrMunicipality",
       "spouseProvince",
@@ -189,15 +267,15 @@ export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
           message: (() => {
             switch (field) {
               case "spouseAddressLine1":
-                return "Spouse Address Line 1 is required when spouse name is provided";
+                return "Address Line 1 is required when spouse name is provided";
               case "spouseCityOrMunicipality":
-                return "Spouse City / Municipality is required when spouse name is provided";
+                return "City / Municipality is required when spouse name is provided";
               case "spouseProvince":
-                return "Spouse Province is required when spouse name is provided";
+                return "Province is required when spouse name is provided";
               case "spouseRegion":
-                return "Spouse Region is required when spouse name is provided";
+                return "Region is required when spouse name is provided";
               case "spouseZipCode":
-                return "Spouse Zip Code is required when spouse name is provided";
+                return "Zip Code is required when spouse name is provided";
               default:
                 return "This field is required when spouse name is provided";
             }
@@ -250,27 +328,48 @@ export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
 
   childRules.forEach(({ nameKey, addressKeys, label }) => {
     const nameVal = data[nameKey];
-    if (hasText(nameVal)) {
-      addressKeys.forEach((field) => {
-        const val = data[field];
-        const missing =
-          val === undefined ||
-          val === null ||
-          (typeof val === "string" && val.trim() === "") ||
-          (typeof val === "number" &&
-            (Number.isNaN(val) || (field.toString().includes("ZipCode") && val <= 0)));
+    if (!hasText(nameVal)) return; // skip if no name
+    addressKeys.forEach((field) => {
+      const val = data[field];
+      const missing =
+        val === undefined ||
+        val === null ||
+        (typeof val === "string" && val.trim() === "") ||
+        (typeof val === "number" &&
+          (Number.isNaN(val) || (field.toString().includes("ZipCode") && val <= 0)));
 
-        if (missing) {
-          ctx.addIssue({
-            path: [field as string],
-            code: z.ZodIssueCode.custom,
-            message: `${label} ${String(field)
-              .replace(nameKey.toString().replace("Name", ""), "")
-              .replace(/([A-Z])/g, " $1")
-              .trim()} is required when ${label} name is provided`,
-          });
-        }
+      if (missing) {
+        ctx.addIssue({
+          path: [field as string],
+          code: z.ZodIssueCode.custom,
+          message: `${String(field)
+            .replace(nameKey.toString().replace("Name", ""), "")
+            .replace(/([A-Z])/g, " $1")
+            .trim()} is required when ${label} name is provided`,
+        });
+      }
+    });
+    // Validate date of birth only if name exists
+    const dobField = nameKey.toString().replace("Name", "DateOfBirth") as keyof typeof data;
+    const dobVal = data[dobField];
+
+    if (!dobVal) {
+      ctx.addIssue({
+        path: [dobField as string],
+        code: z.ZodIssueCode.custom,
+        message: `${label} Date of Birth is required when name is provided`,
       });
+    } else {
+      const oneYearAgo = new Date();
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+      if (dobVal > oneYearAgo) {
+        ctx.addIssue({
+          path: [dobField as string],
+          code: z.ZodIssueCode.custom,
+          message: `${label} must be at least 1 year old`,
+        });
+      }
     }
   });
 });

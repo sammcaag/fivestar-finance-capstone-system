@@ -36,7 +36,7 @@ export type LoanHistoryFormValues = {
   maturityDate: Date;
   settedMaturityDate?: Date;
 
-  accountNumber?: string;
+  accountNumber?: number;
   pnNumber: string;
   purpose: string;
 
@@ -61,7 +61,7 @@ export type LoanHistoryPayload = {
   maturityDate: Date;
   settedMaturityDate?: Date;
 
-  accountNumber?: string;
+  accountNumber?: number;
   pnNumber: string;
   purpose: string;
 
