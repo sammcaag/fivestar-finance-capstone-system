@@ -1,7 +1,7 @@
 "use client";
 
 import { GlobalDialog } from "@/components/GlobalDialog";
-import React, { createContext, useContext, useState, ReactNode, useCallback } from "react";
+import { createContext, ReactNode, useCallback, useContext, useState } from "react";
 
 type DialogVariant = "success" | "error" | "info" | "warning";
 

@@ -1,25 +1,18 @@
+import { TanstackQueryProvider } from "@/components/providers/query-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { DialogProvider } from "@/contexts/DialogContext";
+import { AuthProvider } from "@/features/auth/context/AuthContext";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import { TanstackQueryProvider } from "@/components/providers/query-provider";
-import { AuthProvider } from "@/features/auth/context/AuthContext";
-import { DialogProvider } from "@/contexts/DialogContext";
-import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const appUrl =
-  process.env.APP_URL ||
-  (process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : `http://localhost:${process.env.PORT || 3000}`);
-
 export const metadata: Metadata = {
-  metadataBase: new URL(appUrl),
   title: {
     template: "%s  | Five Star Finance Inc.",
     default: "Stella | Five Star Finance Inc.",
