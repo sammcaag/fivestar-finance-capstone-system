@@ -308,7 +308,7 @@ export type ClientAccount = {
   id?: number | null;
   monthlyPension: number;
   monthlyDeduction: number;
-  atmAccountNumber: string;
+  atmAccountNumber: number;
   bankName: string;
   branchOfBank: string;
 };

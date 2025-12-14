@@ -190,37 +190,48 @@ export const clientFamilyInfoSchema = z.object({
   thirdChildZipCode: z.number().optional(),
 });
 
+const oneYearAgo = new Date();
+oneYearAgo.setHours(0, 0, 0, 0);
+oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
 // -----------------------------
 // Step 3: Pensioner Info
 // -----------------------------
 export const pensionerInfoSchema = z.object({
   rank: z.string().min(1, "Rank is required"),
   pensionType: z.string().min(1, "Pension type is required"),
-  serialNumber: z.string().min(1, "Serial Number is required"),
-  idNumber: z.string().min(1, "ID Number is required"),
-  dateEnteredService: z.date().refine((d) => d < today, {
-    message: "Date entered service must be before today",
+  serialNumber: createStringField("Serial number"),
+  idNumber: createStringField("ID number", 4, 100),
+  dateEnteredService: z.date().refine((d) => d <= oneYearAgo, {
+    message: "Date entered service must be at least 1 year ago",
   }),
-  dateSeparationService: z.date().refine((d) => d < today, {
-    message: "Date separation service must be before today",
+
+  dateSeparationService: z.date().refine((d) => d <= oneYearAgo, {
+    message: "Date separation service must be at least 1 year ago",
   }),
-  dateRetiredService: z.date().refine((d) => d < today, {
-    message: "Date retired service must be before today",
+
+  dateRetiredService: z.date().refine((d) => d <= oneYearAgo, {
+    message: "Date retired service must be at least 1 year ago",
   }),
   lengthOfService: z.number().min(1, "Length of service is required"),
-  lastUnitAssigned: z.string().min(1, "Last unit assigned is required"),
-  branchOfService: z.string().min(1, "Branch of service is required"),
+  lastUnitAssigned: createStringField("Last unit assigned", 3, 150),
+  branchOfService: createStringField("Branch of service", 3, 150),
 });
 
 // -----------------------------
 // Step 4: Account Info
 // -----------------------------
 export const accountInfoSchema = z.object({
-  monthlyPension: z.number().min(1, "Monthly pension is required"),
-  monthlyDeduction: z.number().min(1, "Monthly deduction is required"),
-  atmAccountNumber: z.string().min(1, "ATM account number is required"),
-  bankName: z.string().min(1, "Bank name is required"),
-  branchOfBank: z.string().min(1, "Branch of bank is required"),
+  monthlyPension: z.number().min(2000, "Monthly pension is atleast 2000"),
+  monthlyDeduction: z.number().min(1000, "Monthly deduction is atleast 1000"),
+  atmAccountNumber: z
+    .string()
+    .trim()
+    .min(10, "ATM account number must be at least 10 digits")
+    .max(16, "ATM account number cannot exceed 16 digits")
+    .regex(/^\d+$/, "ATM account number must contain only digits"),
+  bankName: createStringField("Bank name", 3, 150),
+  branchOfBank: createStringField("Branch of bank", 3, 150),
 });
 
 // -----------------------------

@@ -1,25 +1,25 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { clientFormSchema } from "../schema/client-zod-schema";
-import type { ClientFormValues, ClientPayload } from "../types/client-types";
-import { loadDraft, saveDraft } from "../utils/draft-computation-storage";
-import { defaultValues, formDates, steps } from "../lib/client-registration-form";
+import { useDialog } from "@/contexts/DialogContext";
+import { useAuth } from "@/features/auth/context/AuthContext";
+import { calculateDate } from "@/utils/calculate-dates";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { createClientApi, updateClientApi } from "../api/client-service";
 import {
   clientPayload,
   clientUpdatePayload,
   mapBackendToClientFormValues,
 } from "../lib/client-payload";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createClientApi, updateClientApi } from "../api/client-service";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import { useAuth } from "@/features/auth/context/AuthContext";
-import { calculateDate } from "@/utils/calculate-dates";
-import { useDialog } from "@/contexts/DialogContext";
+import { defaultValues, formDates, steps } from "../lib/client-registration-form";
+import { clientFormSchema } from "../schema/client-zod-schema";
+import type { ClientFormValues, ClientPayload } from "../types/client-types";
+import { loadDraft, saveDraft } from "../utils/draft-computation-storage";
 
 export function useClientRegistrationForm() {
   const router = useRouter();
