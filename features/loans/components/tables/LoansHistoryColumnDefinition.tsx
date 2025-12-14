@@ -11,9 +11,10 @@ import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { getProductTypeClass } from "@/utils/get-product-type-class";
 import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, Printer } from "lucide-react";
+import { Eye, MoreHorizontal, Printer } from "lucide-react";
 import { useState } from "react";
 import { LoanHistoryPayload } from "../../history/types/loan-form-types";
+import LoanHistoryDetailsDialog from "../dialogs/LoanHistoryDetailsDialog";
 import ViewDocumentsDialog from "../document-dialog/ViewDocumentsDialog";
 
 export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
@@ -40,7 +41,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
     accessorKey: "monthlyAmortization",
     header: "M.A",
     cell: ({ row }) => (
-      <span className="whitespace-nowrap font-semibold text-sm">
+      <span className="text-sm font-semibold whitespace-nowrap">
         {formatToPhCurrency(row.original.monthlyAmortization)}
       </span>
     ),
@@ -106,25 +107,41 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
     size: 80,
     cell: ({ row }) => {
       const [isViewDocumentsOpen, setIsViewDocumentsOpen] = useState(false);
+      const [isViewDetailsOpen, setIsViewDetailsOpen] = useState(false);
 
       return (
         <>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <MoreHorizontal className="h-4 w-4" />
+              <Button variant="ghost" className="p-0 w-8 h-8">
+                <MoreHorizontal className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
-                className="flex items-center gap-2 cursor-pointer"
+                className="flex gap-2 items-center cursor-pointer"
+                onClick={() => setIsViewDetailsOpen(true)}
+              >
+                <Eye className="w-4 h-4" />
+                View Details
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="flex gap-2 items-center cursor-pointer"
                 onClick={() => setIsViewDocumentsOpen(true)}
               >
-                <Printer className="h-4 w-4" />
+                <Printer className="w-4 h-4" />
                 View Documents
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <LoanHistoryDetailsDialog
+            open={isViewDetailsOpen}
+            onOpenChange={setIsViewDetailsOpen}
+            productType={row.original.productType}
+            dedCode={row.original.dedCode}
+            loanHistoryId={row.original.id}
+          />
 
           <ViewDocumentsDialog
             open={isViewDocumentsOpen}
