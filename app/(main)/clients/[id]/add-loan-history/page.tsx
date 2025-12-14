@@ -162,7 +162,7 @@ export default function AddLoanPage() {
 
                 if (loanComputationId === null) {
                   showDialog("Computation data is still saving. Please try again.");
-                  return;
+                  return;scm-history-item:c%3A%5CUsers%5CUser%5CDesktop%5CFive-Star-Finance-System?%7B%22repositoryId%22%3A%22scm0%22%2C%22historyItemId%22%3A%2205221b33ead0a4f35d524b8d11e319d9a93d91a8%22%2C%22historyItemParentId%22%3A%22b3d2e68594d2bda9a1caa784e656c489f28e315c%22%2C%22historyItemDisplayId%22%3A%2205221b3%22%7D
                 }
 
                 processForm(branchId!, pendingClientId, loanComputationId, formValues);

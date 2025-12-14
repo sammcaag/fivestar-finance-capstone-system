@@ -1,18 +1,18 @@
 "use client";
 
+import { useDialog } from "@/contexts/DialogContext";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BranchFormValues, BranchPayload } from "../types/branch-types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { branchInfoSchema } from "../schema/branch-zod-schema";
-import { defaultValues } from "../libs/branch-registration-form";
 import { createBranchApi, updateBranchApi } from "../api/branch-service";
-import { loadDraft, saveDraft } from "../utils/branch-draft-data-storage";
 import { branchPayload, mapBackendToBranchFormValues } from "../libs/branch-payload";
-import axios from "axios";
-import { useDialog } from "@/contexts/DialogContext";
+import { defaultValues } from "../libs/branch-registration-form";
+import { branchInfoSchema } from "../schema/branch-zod-schema";
+import { BranchFormValues, BranchPayload } from "../types/branch-types";
+import { loadDraft, saveDraft } from "../utils/branch-draft-data-storage";
 
 export function useBranchRegistrationForm() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export function useBranchRegistrationForm() {
 
   const form = useForm<BranchFormValues>({
     resolver: zodResolver(branchInfoSchema),
-    mode: "onTouched",
+    mode: "all",
     reValidateMode: "onChange",
     defaultValues,
   });

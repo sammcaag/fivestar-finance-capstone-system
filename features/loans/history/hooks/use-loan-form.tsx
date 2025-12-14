@@ -23,7 +23,7 @@ export function useLoanHistoryForm() {
 
   const form = useForm<LoanHistoryFormValues>({
     resolver: zodResolver(loanHistorySchema),
-    mode: "onTouched",
+    mode: "all",
     reValidateMode: "onChange",
     defaultValues,
   });

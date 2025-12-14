@@ -29,7 +29,7 @@ export function useStaffRegistrationForm() {
 
   const form = useForm<StaffFormValues>({
     resolver: zodResolver(staffGeneralInfoSchema),
-    mode: "onTouched",
+    mode: "all",
     reValidateMode: "onChange",
     defaultValues,
   });

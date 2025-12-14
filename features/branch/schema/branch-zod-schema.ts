@@ -35,11 +35,11 @@ export const branchInfoSchema = z.object({
       { message: "Email domain is not allowed" }
     ),
 
-  addressLine1: createStringField("Address line 1"),
-  addressLine2: createOptionalStringField("Address line 2"),
-  barangay: createOptionalStringField("Barangay"),
-  cityOrMunicipality: createStringField("City or municipality"),
-  province: createStringField("Province"),
+  addressLine1: createStringField("Address line 1", 4, 150),
+  addressLine2: createOptionalStringField("Address line 2", 4, 150),
+  barangay: createOptionalStringField("Barangay", 4, 150),
+  cityOrMunicipality: createStringField("City or municipality", 4, 150),
+  province: createStringField("Province", 4, 150),
   region: z.string().min(1, "Region is required"),
   zipCode: z
     .number()
