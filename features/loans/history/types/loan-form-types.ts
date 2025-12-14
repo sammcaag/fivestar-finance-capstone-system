@@ -80,3 +80,19 @@ export interface LoanHistoryInformationProps {
   form: UseFormReturn<LoanHistoryFormValues>;
   isCreate?: boolean; //if the form is for creating loan history computation and deduction information must be disabled
 }
+
+export interface IStaffsByBranch {
+  id: number;
+  fullName: string;
+  userAuth: {
+    email: string;
+    role: string;
+  };
+}
+
+// Type for branch with users
+export interface IBranchWithUsers {
+  id: number;
+  name: string;
+  users: IStaffsByBranch[];
+}

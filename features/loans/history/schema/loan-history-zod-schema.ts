@@ -37,7 +37,8 @@ export const loanHistorySchema = z.object({
     .min(10, "Account number must be at least 10 digits")
     .max(16, "Account number cannot exceed 16 digits")
     .regex(/^\d+$/, "Account number must contain only digits")
-    .optional(),
+    .optional()
+    .or(z.literal("")),
 
   pnNumber: createStringField("PN number", 5, 150),
   purpose: createStringField("Purpose", 5, 150),

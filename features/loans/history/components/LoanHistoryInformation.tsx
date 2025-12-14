@@ -8,18 +8,33 @@ import Loading from "@/components/LoadingPage";
 import { SectionCard } from "@/features/clients/components/SectionCard";
 import { StepTitleCard } from "@/features/clients/components/StepTitleCard";
 import useClientAnimation from "@/features/clients/hooks/use-client-animation";
-import { getStaffs } from "@/features/staff/api/staff-service";
+import { getStaffByBranchId, getStaffs } from "@/features/staff/api/staff-service";
 import { StaffTableProps } from "@/features/staff/types/staff-types";
 import { useQuery } from "@tanstack/react-query";
-import { LoanHistoryInformationProps, loanHistoryProductOptions } from "../types/loan-form-types";
+import {
+  IBranchWithUsers,
+  LoanHistoryInformationProps,
+  loanHistoryProductOptions,
+} from "../types/loan-form-types";
 
 const LoanHistoryInformation = ({ form, isCreate = true }: LoanHistoryInformationProps) => {
   const { containerVariants, itemVariants } = useClientAnimation();
 
-  const { data: staffsData, isLoading } = useQuery<StaffTableProps[]>({
+  const { data: staffsByBranchData, isLoading } = useQuery<IBranchWithUsers>({
     queryKey: ["getProcessors"],
+    queryFn: getStaffByBranchId,
+  });
+
+  const { data: staffsData, isLoading: isStaffLoading } = useQuery<StaffTableProps[]>({
+    queryKey: ["getContactedBy"],
     queryFn: getStaffs,
   });
+
+  const staffSameBranchOptions =
+    staffsByBranchData?.users.map((staff) => ({
+      label: staff.fullName,
+      value: String(staff.id),
+    })) ?? [];
 
   const staffOptions =
     staffsData?.map((staff) => ({
@@ -27,7 +42,7 @@ const LoanHistoryInformation = ({ form, isCreate = true }: LoanHistoryInformatio
       value: String(staff.plainId),
     })) ?? [];
 
-  if (isLoading) {
+  if (isLoading || isStaffLoading) {
     return <Loading />;
   }
 
@@ -199,7 +214,7 @@ const LoanHistoryInformation = ({ form, isCreate = true }: LoanHistoryInformatio
             label="Processor 1"
             type="select"
             placeholder="Name of the processor 1"
-            options={staffOptions}
+            options={staffSameBranchOptions}
           />
 
           <FormFieldWrapper
@@ -208,7 +223,7 @@ const LoanHistoryInformation = ({ form, isCreate = true }: LoanHistoryInformatio
             label="Processor 2"
             type="select"
             placeholder="Name of the processor 2"
-            options={staffOptions}
+            options={staffSameBranchOptions}
           />
 
           <FormFieldWrapper

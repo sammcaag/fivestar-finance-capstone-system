@@ -1,6 +1,6 @@
 // src/features/clients/api/getClients.ts
-import axios from "axios";
 import axiosInstance from "@/lib/axios-instance";
+import axios from "axios";
 import { StaffPayload, StaffTableProps } from "../types/staff-types";
 
 export const getStaffs = async (): Promise<StaffTableProps[]> => {
@@ -33,6 +33,19 @@ export const getStaffByStaffId = async (staffId: string): Promise<StaffPayload> 
       throw error;
     }
     throw new Error(`Failed to fetch staff ${staffId}`);
+  }
+};
+
+export const getStaffByBranchId = async () => {
+  try {
+    const { data } = await axiosInstance.get(`/api/users/staffs-branch`);
+    return data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error(`Failed to fetch staff within the same branch`);
   }
 };
 

@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { createLoanHistoryApi, updateLoanHistoryApi } from "../api/loan-history-service";
 import { defaultValues } from "../lib/loan-history-form";
@@ -27,6 +27,15 @@ export function useLoanHistoryForm() {
     reValidateMode: "onChange",
     defaultValues,
   });
+
+  const { errors } = form.formState;
+
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      console.log("There are validation errors:", errors);
+      // You can do something here, e.g., show a toast or focus the first field
+    }
+  }, [errors]);
 
   const { mutateAsync: addLoanHistory } = useMutation({
     mutationKey: ["createLoanHistory"],
