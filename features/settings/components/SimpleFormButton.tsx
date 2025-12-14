@@ -1,15 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import { Eraser, Rotate3DIcon, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { ArrowRight, Eraser, Rotate3DIcon } from "lucide-react";
 
 interface SimpleFormButtonsProps {
   isSubmitting?: boolean;
   isEditMode?: boolean;
   onSubmit: () => void;
   onClearForm: () => void;
+  disableClearButton?: boolean;
 }
 
 export function SimpleFormButtons({
@@ -17,6 +18,7 @@ export function SimpleFormButtons({
   isEditMode = false,
   onSubmit,
   onClearForm,
+  disableClearButton = false,
 }: SimpleFormButtonsProps) {
   const buttonStyles = {
     primary:
@@ -36,24 +38,26 @@ export function SimpleFormButtons({
       transition={{ duration: 0.3, delay: 0.2 }}
     >
       {/* LEFT SECTION */}
-      <Button
-        type="button"
-        variant="outline"
-        onClick={onClearForm}
-        className={buttonStyles.outline}
-      >
-        {isEditMode ? (
-          <>
-            <Rotate3DIcon className="size-4" />
-            Reset Data
-          </>
-        ) : (
-          <>
-            <Eraser className="size-4" />
-            Clear Data
-          </>
-        )}
-      </Button>
+      {!disableClearButton && (
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onClearForm}
+          className={buttonStyles.outline}
+        >
+          {isEditMode ? (
+            <>
+              <Rotate3DIcon className="size-4" />
+              Reset Data
+            </>
+          ) : (
+            <>
+              <Eraser className="size-4" />
+              Clear Data
+            </>
+          )}
+        </Button>
+      )}
 
       {/* RIGHT SECTION */}
       <Button

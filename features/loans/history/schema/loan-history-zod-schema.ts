@@ -24,7 +24,14 @@ export const loanHistorySchema = z.object({
       message: "Invalid setted maturity date",
     }),
 
-  accountNumber: z.number().optional(),
+  accountNumber: z
+    .string()
+    .trim()
+    .min(10, "Account number must be at least 10 digits")
+    .max(16, "Account number cannot exceed 16 digits")
+    .regex(/^\d+$/, "Account number must contain only digits")
+    .optional(),
+
   pnNumber: z.string().min(1, "PN number is required"),
   purpose: z.string().min(1, "Purpose is required"),
 

@@ -9,7 +9,7 @@ export const defaultValues: LoanHistoryFormValues = {
   maturityDate: new Date(),
   settedMaturityDate: undefined, // optional
 
-  accountNumber: 0,
+  accountNumber: "",
   pnNumber: "",
   purpose: "",
 
