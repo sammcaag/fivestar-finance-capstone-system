@@ -151,13 +151,13 @@ export default function ClientProfileHeader({
               </p>
             </div>
           </div>
-          {/* Remarks */}
+          {/* //Remarks
           <div className="space-y-3">
             <h3 className="text-base font-semibold text-foreground">Remarks</h3>
             <div className="rounded-lg shadow-sm border border-border/60 p-4 text-sm leading-relaxed hover-card">
               <p>{remarks || "No remarks yet"}</p>
             </div>
-          </div>
+          </div> */}
         </div>
         {/* Pension Overview */}
         <Card className="border border-border/60 hover-card">

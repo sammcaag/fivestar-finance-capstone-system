@@ -18,10 +18,18 @@ interface MenuProps {
 
 export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
-  const { user, signOut } = useAuth();
+  const { user, signOut, isLoading } = useAuth();
   console.log(user?.role);
 
-  const menuList = getMenuListWithRole((user?.role as RoleKey) ?? "CLIENT");
+  // Show loading skeleton or nothing until user data is ready
+  if (isLoading) {
+    return <div className="h-full w-full flex justify-center items-center">Loading...</div>;
+  }
+
+  // Fallback if no user (not logged in)
+  if (!user) return null;
+
+  const menuList = getMenuListWithRole(user.role as RoleKey);
 
   console.log(menuList);
 

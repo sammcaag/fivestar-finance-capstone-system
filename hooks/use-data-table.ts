@@ -14,7 +14,7 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export function useDataTable<TData extends TableData>({
   data,
@@ -36,8 +36,22 @@ export function useDataTable<TData extends TableData>({
     pageSize: 10,
   });
 
-  // Set isLoading to false since data is provided
+  const safeData = data ?? [];
   const isLoading = !data;
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+    }
+  }, [safeData]);
 
   const memoColumns = useMemo(
     () =>
