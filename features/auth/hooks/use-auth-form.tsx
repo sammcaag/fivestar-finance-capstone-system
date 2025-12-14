@@ -1,8 +1,8 @@
 "use client";
 
-import { useAuth } from "../context/AuthContext";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useAuth } from "../context/AuthContext";
 import { defaultValues, loginSchema, LoginSchema } from "../libs/auth-form";
 import { AuthFormValues } from "../types/auth.types";
 
@@ -11,7 +11,7 @@ export function useAuthSignInForm() {
 
   const form = useForm<AuthFormValues>({
     resolver: zodResolver(loginSchema),
-    mode: "onTouched",
+    mode: "all",
     reValidateMode: "onChange",
     defaultValues,
   });
