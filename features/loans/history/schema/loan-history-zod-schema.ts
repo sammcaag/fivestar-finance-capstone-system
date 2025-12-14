@@ -1,12 +1,19 @@
 import { z } from "zod";
 import { LoanHistoryProductEnum } from "../types/loan-form-types";
 
+export const createStringField = (fieldName: string, min = 8, max = 150) =>
+  z
+    .string()
+    .trim()
+    .min(min, `${fieldName} must be at least ${min} characters`)
+    .max(max, `${fieldName} must be at most ${max} characters`);
+
 export const loanHistorySchema = z.object({
   id: z.number().optional(),
   dedCode: z.string().min(1, "Deduction code is required"),
   productType: z.nativeEnum(LoanHistoryProductEnum),
 
-  monthlyAmortization: z.number().min(1, "Monthly amortization is required"),
+  monthlyAmortization: z.number().min(1000, "Monthly amortization is atleast 1000"),
   term: z.number().min(1, "Term is required"),
 
   valueDate: z.date().refine((d) => d instanceof Date && !isNaN(d.getTime()), {
@@ -32,8 +39,8 @@ export const loanHistorySchema = z.object({
     .regex(/^\d+$/, "Account number must contain only digits")
     .optional(),
 
-  pnNumber: z.string().min(1, "PN number is required"),
-  purpose: z.string().min(1, "Purpose is required"),
+  pnNumber: createStringField("PN number", 5, 150),
+  purpose: createStringField("Purpose", 5, 150),
 
   outstandingBalance: z.number().optional(),
   otherDeduction: z.number().optional(),

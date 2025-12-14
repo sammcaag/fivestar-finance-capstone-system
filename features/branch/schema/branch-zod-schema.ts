@@ -1,9 +1,29 @@
 import { z } from "zod";
 
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+export const createStringField = (fieldName: string, min = 8, max = 150) =>
+  z
+    .string()
+    .trim()
+    .min(min, `${fieldName} must be at least ${min} characters`)
+    .max(max, `${fieldName} must be at most ${max} characters`);
+
+// Utility for optional text field that allows empty string
+export const createOptionalStringField = (fieldName: string, min = 8, max = 150) =>
+  z
+    .string()
+    .trim()
+    .min(min, `${fieldName} must be at least ${min} characters`)
+    .max(max, `${fieldName} must be at most ${max} characters`)
+    .optional()
+    .or(z.literal(""));
+
 const allowedDomains = new Set(["fsfi.com.ph", "gmail.com"]);
 
 export const branchInfoSchema = z.object({
-  name: z.string().min(1, "First name is required"),
+  name: createStringField("Name", 3, 150),
   email: z
     .string()
     .email("Invalid email address")
@@ -15,13 +35,17 @@ export const branchInfoSchema = z.object({
       { message: "Email domain is not allowed" }
     ),
 
-  addressLine1: z.string().min(1, "Address line 1 is required"),
-  addressLine2: z.string().optional(),
-  barangay: z.string().optional(),
-  cityOrMunicipality: z.string().min(1, "City or municipality is required"),
-  province: z.string().min(1, "Province is required"),
+  addressLine1: createStringField("Address line 1"),
+  addressLine2: createOptionalStringField("Address line 2"),
+  barangay: createOptionalStringField("Barangay"),
+  cityOrMunicipality: createStringField("City or municipality"),
+  province: createStringField("Province"),
   region: z.string().min(1, "Region is required"),
-  zipCode: z.number().min(1, "Zip code is required"),
+  zipCode: z
+    .number()
+    .int("Zip code must be an integer")
+    .min(1000, "Zip code must be at least 1000")
+    .max(9999, "Zip code must be 4 digits"),
 
   primaryContact: z
     .string()
