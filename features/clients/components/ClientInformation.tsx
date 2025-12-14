@@ -1,17 +1,16 @@
 "use client";
+import TabListCustomComp from "@/components/TabListCustomComp";
 import { Tabs } from "@/components/ui/tabs";
-import PersonalInformationTab from "./profile/PersonalInformationTab";
+import { decodeFullName } from "@/utils/decode-full-name";
+import { formatFullAddress } from "@/utils/format-full-address";
+import { formatFullNameFromParts } from "@/utils/format-full-name-from-parts";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ClientPayload } from "../types/client-types";
+import AttachmentsTab from "./profile/AttachmentsTab";
+import ClientProfileHeader from "./profile/ClientProfileHeader";
 import FamilyInformationTab from "./profile/FamilyInformationTab";
 import PensionInformationTab from "./profile/PensionInformationTab";
-import AttachmentsTab from "./profile/AttachmentsTab";
-import TabListCustomComp from "@/components/TabListCustomComp";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { ClientPayload } from "../types/client-types";
-import { formatFullAddress } from "@/utils/format-full-address";
-import ClientProfileHeader from "./profile/ClientProfileHeader";
-import { decodeFullName } from "@/utils/decode-full-name";
-import { formatFullNameFromParts } from "@/utils/format-full-name-from-parts";
+import PersonalInformationTab from "./profile/PersonalInformationTab";
 
 const tabs = [
   { value: "personal", label: "Personal Information" },
@@ -84,7 +83,7 @@ export default function ClientInformation({
 
         {/* Attachments Tab */}
         <AttachmentsTab
-          userAttachments={client.userAttachments}
+          userAttachments={client.userAttachments ?? []}
           userId={client?.id}
           serialNumber={serialNumber}
         />

@@ -339,7 +339,7 @@ export type ClientPayload = {
   clientAccount: ClientAccount;
   clientFamilyInfos: ClientFamilyInfos[];
   clientLoanHistory?: LoanHistoryPayload[];
-  userAttachments: UserAttachments[];
+  userAttachments?: UserAttachments[];
 };
 
 export interface UserAttachments {
