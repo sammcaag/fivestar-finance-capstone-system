@@ -1,35 +1,39 @@
 // src/features/clients/components/ClientInfoPage.tsx
 "use client";
-import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
-import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons/ClientProfileHeaderSkeleton";
+import Loading from "@/components/LoadingPage";
 import NotFoundPage from "@/components/NotFoundPage";
-import { Pencil } from "lucide-react";
-import StaffProfileHeader from "@/features/staff/component/StaffProfileHeader";
-import { getStaffByStaffId } from "@/features/staff/api/staff-service";
-import { StaffPayload } from "@/features/staff/types/staff-types";
-import { useAuth } from "@/features/auth/context/AuthContext";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
+import { Button } from "@/components/ui/button";
 import SecurtiyInformation from "@/features/auth/components/SecurityInformation";
+import { useAuth } from "@/features/auth/context/AuthContext";
+import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons/ClientProfileHeaderSkeleton";
+import { getStaffByStaffId } from "@/features/staff/api/staff-service";
+import StaffProfileHeader from "@/features/staff/component/StaffProfileHeader";
+import { StaffPayload } from "@/features/staff/types/staff-types";
+import { useQuery } from "@tanstack/react-query";
+import { Pencil } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function SecurityInfoPage() {
   useEffect(() => {
     document.title = "User Security | Stella - Five Star Finance Inc.";
   }, []);
 
-  const { user } = useAuth();
+  const { user, isLoading: isAuthLoading } = useAuth();
+  const router = useRouter();
 
-  const userId = user!.id;
+  const userId = user?.id;
 
   const { data: ownerData, isLoading } = useQuery<StaffPayload>({
     queryKey: ["ownerByStaffId", userId],
-    queryFn: () => getStaffByStaffId(userId),
+    queryFn: () => getStaffByStaffId(userId!),
+    enabled: !!userId,
   });
 
-  const router = useRouter();
+  if (isAuthLoading) return <Loading />;
+  if (!userId) return <NotFoundPage title="User" />;
 
   return (
     <ContentLayout title={"Security Settings"}>

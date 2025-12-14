@@ -1,25 +1,25 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
 import { useDialog } from "@/contexts/DialogContext";
 import { useAuth } from "@/features/auth/context/AuthContext";
-import { SecurityFormValues, SecurityPayload } from "../types/security-types";
-import { updateSecurityApi } from "../api/security-service";
-import { useForm } from "react-hook-form";
-import { securityAuthSchema } from "../schema/security-zod-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { defaultValues } from "../libs/securtiy-update-form";
-import { mapBackendToSecurityFormValues, securityPayload } from "../libs/security-payload";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
+import { updateSecurityApi } from "../api/security-service";
+import { mapBackendToSecurityFormValues, securityPayload } from "../libs/security-payload";
+import { defaultValues } from "../libs/securtiy-update-form";
+import { securityAuthSchema } from "../schema/security-zod-schema";
+import { SecurityFormValues, SecurityPayload } from "../types/security-types";
 
 export function useSecurityUpdateForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { showDialog } = useDialog();
   const { user } = useAuth();
-  const userId = user!.id;
+  const userId = user?.id;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -27,6 +27,7 @@ export function useSecurityUpdateForm() {
     mutationKey: ["updateSecurity"],
     mutationFn: ({ payload }: { payload: SecurityPayload }) => updateSecurityApi(payload),
     onSuccess: () => {
+      if (!userId) return; // prevent crash if userId undefined
       // variables contains the object passed to mutate
       queryClient.invalidateQueries({
         queryKey: ["ownerByStaffId", userId],

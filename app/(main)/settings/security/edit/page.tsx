@@ -1,19 +1,19 @@
 "use client";
 
-import { useEffect } from "react";
-import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { Form } from "@/components/ui/form";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 import MainHeader from "@/components/MainHeader";
+import NotFoundPage from "@/components/NotFoundPage";
+import SecurityInformationForm from "@/features/auth/components/forms/SecurityInformationForm";
+import { useAuth } from "@/features/auth/context/AuthContext";
 import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
 import { FormNavigationButtonsSkeleton } from "@/features/clients/components/skeletons/FormNavigationButtonsSkeleton";
-import NotFoundPage from "@/components/NotFoundPage";
-import { useAuth } from "@/features/auth/context/AuthContext";
-import { useSecurityUpdateForm } from "@/features/settings/hooks/use-security-update-form";
 import { SimpleFormButtons } from "@/features/settings/components/SimpleFormButton";
-import SecurityInformationForm from "@/features/auth/components/forms/SecurityInformationForm";
+import { useSecurityUpdateForm } from "@/features/settings/hooks/use-security-update-form";
 
 export default function EditSecurity() {
   useEffect(() => {
@@ -23,14 +23,10 @@ export default function EditSecurity() {
   const { form, isSubmitting, resetForm, updateForm } = useSecurityUpdateForm();
 
   const { user, isLoading } = useAuth();
-  const email = user!.email;
-
-  // Reset form when clientData is loaded
   useEffect(() => {
-    if (email) {
-      setTimeout(() => resetForm(email, false), 0);
-    }
-  }, [email, resetForm]);
+    if (!user) return;
+    setTimeout(() => resetForm(user.email, false), 0);
+  }, [user, resetForm]);
 
   const slideVariants = {
     initial: { opacity: 0, x: 50 },
