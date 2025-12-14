@@ -64,9 +64,14 @@ export function useLoanHistoryForm() {
   );
 
   // Process form
-  const processForm = async (branchId: number, clientId: number, data: LoanHistoryFormValues) => {
+  const processForm = async (
+    branchId: number,
+    clientId: number,
+    loanComputationId: number,
+    data: LoanHistoryFormValues
+  ) => {
     setIsSubmitting(true);
-    const backendPayload = loanHistoryPayload(branchId, clientId, data);
+    const backendPayload = loanHistoryPayload(branchId, clientId, loanComputationId, data);
     console.log("THE SUBMITTEDDDD ID ISSSS:", clientId);
     console.log("THIS IS THE DATA PASSED", JSON.stringify(backendPayload, null, 2));
 
@@ -90,8 +95,8 @@ export function useLoanHistoryForm() {
 
   const updateForm = async (data: LoanHistoryFormValues, fetchedData: LoanHistoryPayload) => {
     setIsSubmitting(true);
-    const { branchId, clientId, id } = fetchedData;
-    const backendPayload = loanHistoryPayload(branchId, clientId, data, id);
+    const { branchId, clientId, loanComputationId, id } = fetchedData;
+    const backendPayload = loanHistoryPayload(branchId, clientId, loanComputationId, data, id);
     console.log("THIS IS THE UPDATED DATA PASSED", JSON.stringify(backendPayload, null, 2));
     try {
       const result = await updateLoanHistory({ payload: backendPayload }); // ✅ await

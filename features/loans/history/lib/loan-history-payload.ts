@@ -3,6 +3,7 @@ import { LoanHistoryFormValues, LoanHistoryPayload } from "../types/loan-form-ty
 export const loanHistoryPayload = (
   branchId: number,
   clientId: number,
+  loanComputationId: number,
   data: LoanHistoryFormValues,
   id?: number
 ): LoanHistoryPayload => {
@@ -10,6 +11,8 @@ export const loanHistoryPayload = (
     id: id,
     branchId: branchId,
     clientId: clientId,
+
+    loanComputationId: loanComputationId,
 
     dedCode: data.dedCode,
     productType: data.productType,

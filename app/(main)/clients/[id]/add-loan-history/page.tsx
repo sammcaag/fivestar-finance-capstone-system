@@ -8,6 +8,8 @@ import { Form } from "@/components/ui/form";
 import { useDialog } from "@/contexts/DialogContext";
 import { useAuth } from "@/features/auth/context/AuthContext";
 import useClientAnimation from "@/features/clients/hooks/use-client-animation";
+import { createLoanComputationApi } from "@/features/loans/computations/api/loan-computation-service";
+import { loanComputationPayloadFromPendingData } from "@/features/loans/computations/utils/loan-computation-payload";
 import LoanHistoryInformation from "@/features/loans/history/components/LoanHistoryInformation";
 import { useLoanHistoryForm } from "@/features/loans/history/hooks/use-loan-form";
 import { useLoanStore } from "@/features/loans/history/lib/loan-history-store";
@@ -24,7 +26,8 @@ export default function AddLoanPage() {
   const { loanSets } = useLoanStore();
 
   const { form, clearForm, processForm, isSubmitting } = useLoanHistoryForm();
-  const [pendingId, setPendingId] = useState<number | null>(null);
+  const [pendingClientId, setPendingClientId] = useState<number | null>(null);
+  const [loanComputationId, setLoanComputationId] = useState<number | null>(null);
   const { showDialog } = useDialog();
 
   const { user } = useAuth();
@@ -58,8 +61,18 @@ export default function AddLoanPage() {
         outstandingBalance?: number;
       };
 
-      setPendingId(data.id); // ✅ save id to state
-      console.log("THEE IDDDDDDDDD ISSSSSSSSSS", pendingId);
+      (async () => {
+        try {
+          const payload = loanComputationPayloadFromPendingData(data);
+          const created = await createLoanComputationApi(payload);
+          setLoanComputationId(created.id);
+        } catch (error) {
+          console.error(error);
+          toast.error("Failed to save computation data");
+        }
+      })();
+
+      setPendingClientId(data.id);
 
       // Generate DED Code
       // Get current loan set (last group)
@@ -142,11 +155,17 @@ export default function AddLoanPage() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit((formValues) => {
-                if (pendingId === null) {
+                if (pendingClientId === null) {
                   showDialog("No client ID found. Cannot submit form.");
                   return;
                 }
-                processForm(branchId!, pendingId, formValues);
+
+                if (loanComputationId === null) {
+                  showDialog("Computation data is still saving. Please try again.");
+                  return;
+                }
+
+                processForm(branchId!, pendingClientId, loanComputationId, formValues);
               })}
               className="p-6"
             >
@@ -168,11 +187,17 @@ export default function AddLoanPage() {
                 isEditMode={false} // if register form
                 isSubmitting={isSubmitting}
                 onSubmit={form.handleSubmit((formValues) => {
-                  if (pendingId === null) {
+                  if (pendingClientId === null) {
                     showDialog("No client ID found. Cannot submit form.");
                     return;
                   }
-                  processForm(branchId!, pendingId, formValues);
+
+                  if (loanComputationId === null) {
+                    showDialog("Computation data is still saving. Please try again.");
+                    return;
+                  }
+
+                  processForm(branchId!, pendingClientId, loanComputationId, formValues);
                 })}
                 onClearForm={clearForm}
               />

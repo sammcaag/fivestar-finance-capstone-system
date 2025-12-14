@@ -53,6 +53,8 @@ export type LoanHistoryPayload = {
   branchId: number;
   clientId: number;
 
+  loanComputationId: number;
+
   dedCode: string;
   productType: LoanHistoryProductType;
   monthlyAmortization: number;
