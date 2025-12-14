@@ -1,4 +1,6 @@
 import {
+  Building,
+  Building2Icon,
   Calculator,
   CalendarClock,
   LayoutGrid,
@@ -97,6 +99,23 @@ export function getMenuList(): Group[] {
               label: "Extension",
             },
           ],
+        },
+      ],
+    },
+    {
+      groupLabel: "Branch",
+      menus: [
+        // Branch Overview
+        {
+          href: "/branch",
+          label: "Branch Overview",
+          icon: Building2Icon,
+        },
+        // Register Branch
+        {
+          href: "/branch/register",
+          label: "Register Branch",
+          icon: Building,
         },
       ],
     },

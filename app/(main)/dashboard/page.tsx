@@ -17,7 +17,7 @@ import { getAllAppointments } from "@/features/loans/api/appointments-api";
 import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
 import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
 import { useQuery } from "@tanstack/react-query";
-import { Calculator, FileChartColumn, MapPin, Search, UserPlus } from "lucide-react";
+import { Calculator, MapPin, Search, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -40,11 +40,6 @@ const dashboardQuickActions = [
     label: "New Client Computation",
     href: "/loans/computations/new-client",
     icon: Calculator,
-  },
-  {
-    label: "View Reports",
-    href: "/reports",
-    icon: FileChartColumn,
   },
   {
     label: "Search Client",

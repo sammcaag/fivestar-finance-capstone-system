@@ -1,18 +1,18 @@
-// src/features/clients/components/ClientInfoPage.tsx
 "use client";
-import { ContentLayout } from "@/components/staff-panel/content-layout";
+
 import BreadcrumbPages from "@/components/BreadcrumbPages";
-import { useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
-import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons/ClientProfileHeaderSkeleton";
 import NotFoundPage from "@/components/NotFoundPage";
-import { Pencil } from "lucide-react";
-import { BranchPayload } from "@/features/branch/types/branch-types";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
+import { Button } from "@/components/ui/button";
 import { getBranchById } from "@/features/branch/api/branch-service";
-import BranchProfileHeader from "@/features/branch/components/BranchProfileHeader";
 import BranchInformation from "@/features/branch/components/BranchInformation";
+import BranchProfileHeader from "@/features/branch/components/BranchProfileHeader";
+import { BranchPayload } from "@/features/branch/types/branch-types";
+import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons/ClientProfileHeaderSkeleton";
+import { useQuery } from "@tanstack/react-query";
+import { Pencil } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function ClientInfoPage() {
   useEffect(() => {

@@ -1,8 +1,8 @@
 // app/not-found.tsx
 "use client";
 
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function UnauthorizedPage() {
