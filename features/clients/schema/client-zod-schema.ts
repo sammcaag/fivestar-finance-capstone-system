@@ -24,12 +24,15 @@ export const createOptionalStringField = (fieldName: string, min = 8, max = 150)
 
 // Utility for zip code
 
-export const createZipCodeField = (fieldName: string) =>
+export const createOptionalZipCodeField = (fieldName: string) =>
   z
-    .number()
+    .number({
+      invalid_type_error: `${fieldName} must be a number`,
+    })
     .int(`${fieldName} must be an integer`)
-    .min(1000, `${fieldName} must be at least 1000`)
-    .max(9999, `${fieldName} must be 4 digits`)
+    .refine((v) => v === 0 || (v >= 1000 && v <= 9999), {
+      message: `${fieldName} must be a 4-digit ZIP code`,
+    })
     .optional();
 
 // -----------------------------
@@ -76,8 +79,9 @@ export const clientGeneralInfoSchema = z.object({
   zipCode: z
     .number()
     .int("Zip code must be an integer")
-    .min(1000, "Zip code must be at least 1000")
-    .max(9999, "Zip code must be 4 digits"),
+    .refine((v) => v === 0 || (v >= 1000 && v <= 9999), {
+      message: `Zip code must be a 4-digit ZIP code`,
+    }),
 
   primaryContact: z
     .string()
@@ -126,9 +130,9 @@ export const clientGeneralInfoSchema = z.object({
 // -----------------------------
 export const clientFamilyInfoSchema = z.object({
   // Spouse
-  spouseFirstName: z.string().optional(),
-  spouseMiddleName: z.string().optional(),
-  spouseLastName: z.string().optional(),
+  spouseFirstName: createOptionalStringField("Spouse First Name", 3, 150),
+  spouseMiddleName: createOptionalStringField("Spouse Middle Name", 3, 150),
+  spouseLastName: createOptionalStringField("Spouse Last Name", 3, 150),
   spouseDateOfBirth: z.date().optional(),
 
   spouseAddressSameAsClient: z.boolean().optional(),
@@ -138,7 +142,7 @@ export const clientFamilyInfoSchema = z.object({
   spouseCityOrMunicipality: createOptionalStringField("Spouse City or Municipality"),
   spouseProvince: createOptionalStringField("Spouse Province"),
   spouseRegion: z.string().optional(),
-  spouseZipCode: z.number().optional(),
+  spouseZipCode: createOptionalZipCodeField("Spouse ZIP Code"),
 
   spouseContactNumber: z
     .string()
@@ -148,7 +152,7 @@ export const clientFamilyInfoSchema = z.object({
     }),
 
   // First child
-  firstChildName: z.string().optional(),
+  firstChildName: createOptionalStringField("First Child Name", 5, 150),
   firstChildDateOfBirth: z.date().optional(),
   firstChildAddressSameAsClient: z.boolean().optional(),
   firstChildAddressSameAsSpouse: z.boolean().optional(),
@@ -159,10 +163,10 @@ export const clientFamilyInfoSchema = z.object({
   firstChildCityOrMunicipality: createOptionalStringField("First Child City or Municipality"),
   firstChildProvince: createOptionalStringField("First Child Province"),
   firstChildRegion: z.string().optional(),
-  firstChildZipCode: z.number().optional(),
+  firstChildZipCode: createOptionalZipCodeField("First Child ZIP Code"),
 
   // Second child
-  secondChildName: z.string().optional(),
+  secondChildName: createOptionalStringField("Second Child Name", 5, 150),
   secondChildDateOfBirth: z.date().optional(),
   secondChildAddressSameAsClient: z.boolean().optional(),
   secondChildAddressSameAsSpouse: z.boolean().optional(),
@@ -173,10 +177,10 @@ export const clientFamilyInfoSchema = z.object({
   secondChildCityOrMunicipality: createOptionalStringField("Second Child City or Municipality"),
   secondChildProvince: createOptionalStringField("Second Child Province"),
   secondChildRegion: z.string().optional(),
-  secondChildZipCode: z.number().optional(),
+  secondChildZipCode: createOptionalZipCodeField("Second Child ZIP Code"),
 
   // Third child
-  thirdChildName: z.string().optional(),
+  thirdChildName: createOptionalStringField("Third Child Name", 5, 150),
   thirdChildDateOfBirth: z.date().optional(),
   thirdChildAddressSameAsClient: z.boolean().optional(),
   thirdChildAddressSameAsSpouse: z.boolean().optional(),
@@ -187,12 +191,16 @@ export const clientFamilyInfoSchema = z.object({
   thirdChildCityOrMunicipality: createOptionalStringField("Third Child City or Municipality"),
   thirdChildProvince: createOptionalStringField("Third Child Province"),
   thirdChildRegion: z.string().optional(),
-  thirdChildZipCode: z.number().optional(),
+  thirdChildZipCode: createOptionalZipCodeField("Third Child ZIP Code"),
 });
 
 const oneYearAgo = new Date();
 oneYearAgo.setHours(0, 0, 0, 0);
 oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+const twoYearsAgo = new Date();
+twoYearsAgo.setHours(0, 0, 0, 0);
+twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 1);
 
 // -----------------------------
 // Step 3: Pensioner Info
@@ -202,16 +210,16 @@ export const pensionerInfoSchema = z.object({
   pensionType: z.string().min(1, "Pension type is required"),
   serialNumber: createStringField("Serial number"),
   idNumber: createStringField("ID number", 4, 100),
-  dateEnteredService: z.date().refine((d) => d <= oneYearAgo, {
-    message: "Date entered service must be at least 1 year ago",
+  dateEnteredService: z.date().refine((d) => d <= twoYearsAgo, {
+    message: "Date entered service must be at least 2 years ago",
   }),
 
-  dateSeparationService: z.date().refine((d) => d <= oneYearAgo, {
-    message: "Date separation service must be at least 1 year ago",
+  dateSeparationService: z.date().refine((d) => d <= twoYearsAgo, {
+    message: "Date separation service must be at least 2 years ago",
   }),
 
-  dateRetiredService: z.date().refine((d) => d <= oneYearAgo, {
-    message: "Date retired service must be at least 1 year ago",
+  dateRetiredService: z.date().refine((d) => d <= twoYearsAgo, {
+    message: "Date retired service must be at least 2 years ago",
   }),
   lengthOfService: z.number().min(1, "Length of service is required"),
   lastUnitAssigned: createStringField("Last unit assigned", 3, 150),
@@ -241,6 +249,12 @@ const baseSchema = clientGeneralInfoSchema
   .merge(clientFamilyInfoSchema)
   .merge(pensionerInfoSchema)
   .merge(accountInfoSchema);
+
+const isAtLeast18YearsOld = (date: Date) => {
+  const today = new Date();
+  const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+  return date <= eighteenYearsAgo;
+};
 
 // -----------------------------
 // Attach superRefine on the combined schema (single place for conditional rules)
@@ -294,6 +308,23 @@ export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
         });
       }
     });
+
+    // ---- spouse date of birth (18+ rule) ----
+    const dob = data.spouseDateOfBirth;
+
+    if (!dob || !(dob instanceof Date) || isNaN(dob.getTime())) {
+      ctx.addIssue({
+        path: ["spouseDateOfBirth"],
+        code: z.ZodIssueCode.custom,
+        message: "Spouse date of birth is required when spouse name is provided",
+      });
+    } else if (!isAtLeast18YearsOld(dob)) {
+      ctx.addIssue({
+        path: ["spouseDateOfBirth"],
+        code: z.ZodIssueCode.custom,
+        message: "Spouse must be at least 18 years old",
+      });
+    }
   }
 
   // -------- children ----------
@@ -383,6 +414,81 @@ export const clientFormSchema = baseSchema.superRefine((data, ctx) => {
       }
     }
   });
+
+  const { dateEnteredService, dateSeparationService, dateRetiredService } = data;
+
+  if (dateEnteredService) {
+    const twoYearsAgo = new Date();
+    twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
+
+    if (dateEnteredService > twoYearsAgo) {
+      ctx.addIssue({
+        path: ["dateEnteredService"],
+        code: z.ZodIssueCode.custom,
+        message: "Date entered service must be at least 2 years ago",
+      });
+    }
+  }
+
+  if (dateSeparationService) {
+    if (!dateEnteredService) {
+      ctx.addIssue({
+        path: ["dateSeparationService"],
+        code: z.ZodIssueCode.custom,
+        message: "Date entered service is required to validate separation date",
+      });
+    } else {
+      const oneYearAfterEntered = new Date(dateEnteredService);
+      oneYearAfterEntered.setFullYear(oneYearAfterEntered.getFullYear() + 1);
+
+      if (dateSeparationService < dateEnteredService) {
+        ctx.addIssue({
+          path: ["dateSeparationService"],
+          code: z.ZodIssueCode.custom,
+          message: "Date separation service cannot be before date entered service",
+        });
+      }
+      if (dateSeparationService < oneYearAfterEntered) {
+        ctx.addIssue({
+          path: ["dateSeparationService"],
+          code: z.ZodIssueCode.custom,
+          message: "Date separation service must be at least 1 year after date entered service",
+        });
+      }
+    }
+  }
+
+  if (dateRetiredService) {
+    if (!dateEnteredService) {
+      ctx.addIssue({
+        path: ["dateRetiredService"],
+        code: z.ZodIssueCode.custom,
+        message: "Date entered service is required to validate retired date",
+      });
+    }
+    if (dateSeparationService && dateRetiredService < dateSeparationService) {
+      ctx.addIssue({
+        path: ["dateRetiredService"],
+        code: z.ZodIssueCode.custom,
+        message: "Date retired service cannot be before date separation service",
+      });
+    }
+    if (dateEnteredService && dateRetiredService < dateEnteredService) {
+      ctx.addIssue({
+        path: ["dateRetiredService"],
+        code: z.ZodIssueCode.custom,
+        message: "Date retired service cannot be before date entered service",
+      });
+    }
+  }
+
+  if (data.monthlyDeduction > data.monthlyPension) {
+    ctx.addIssue({
+      path: ["monthlyDeduction"],
+      code: z.ZodIssueCode.custom,
+      message: "Monthly deduction cannot be higher than monthly pension",
+    });
+  }
 });
 
 // Export type

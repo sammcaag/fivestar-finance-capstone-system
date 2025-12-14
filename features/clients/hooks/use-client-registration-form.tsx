@@ -35,7 +35,7 @@ export function useClientRegistrationForm() {
 
   const form = useForm<ClientFormValues>({
     resolver: zodResolver(clientFormSchema),
-    mode: "onTouched",
+    mode: "all",
     reValidateMode: "onChange",
     defaultValues,
   });

@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const role = user?.role;
 
   useEffect(() => {
-    if (!isLoading && (!user || role !== "CLIENT")) {
+    if (!isLoading && (!user || role === "CLIENT")) {
       router.replace("/unauthorized");
     }
   }, [isLoading, user, role, router]);
@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }
 
   // Prevent flash of protected content
-  if (!user || role !== "CLIENT") {
+  if (!user || role === "CLIENT") {
     return <Loading />;
   }
 
