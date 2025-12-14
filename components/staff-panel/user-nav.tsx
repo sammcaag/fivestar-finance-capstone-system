@@ -38,10 +38,15 @@ export function UserNav() {
   ];
 
   const { user, signOut } = useAuth();
-  const initials = user?.name
-    .split(" ")
-    .map((word) => word[0].toUpperCase())
-    .join("");
+  // Safe initials computation
+  const initials = (() => {
+    if (!user?.name) return " "; // fallback if name is missing
+    return user.name
+      .split(" ")
+      .filter(Boolean) // remove empty strings
+      .map((word) => word[0].toUpperCase()) // now word[0] is guaranteed
+      .join("");
+  })();
   return (
     <DropdownMenu>
       <TooltipProvider disableHoverableContent>
