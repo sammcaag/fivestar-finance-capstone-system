@@ -12,6 +12,7 @@ export const appointmentsSchema = z.object({
   monthlyAmortization: z.number(),
   availableStartDate: z.date(),
   availableEndDate: z.date(),
+  scheduledDateTime: z.date(),
   term: z.number(),
 });
 
@@ -28,5 +29,6 @@ export const appointmentsFormDefaultValues: AppointmentsSchema = {
   monthlyAmortization: 0,
   availableStartDate: new Date(),
   availableEndDate: new Date(),
+  scheduledDateTime: new Date(),
   term: 0,
 };
