@@ -1,8 +1,6 @@
 import {
   Calculator,
   CalendarClock,
-  FileChartColumn,
-  History,
   LayoutGrid,
   LucideIcon,
   Settings,
@@ -117,23 +115,6 @@ export function getMenuList(): Group[] {
 
           label: "Register Staff",
           icon: UserCog,
-        },
-      ],
-    },
-    {
-      groupLabel: "Monitoring",
-      menus: [
-        // Activity & Audit Logs
-        {
-          href: "/activity-logs",
-          label: "Activity & Audit Logs",
-          icon: History,
-        },
-        // Reports & Analytics
-        {
-          href: "/reports",
-          label: "Reports & Analytics",
-          icon: FileChartColumn,
         },
       ],
     },

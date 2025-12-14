@@ -1,10 +1,9 @@
-import { UserNav } from "@/components/staff-panel/user-nav";
 import { SheetMenu } from "@/components/staff-panel/sheet-menu";
-import NavBarSearchInput from "@/components/NavBarSearchInput";
-import Link from "next/link";
+import { UserNav } from "@/components/staff-panel/user-nav";
 import { Button } from "@/components/ui/button";
-import { UserPlus, Calculator } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Calculator, UserPlus } from "lucide-react";
+import Link from "next/link";
 
 export function Navbar({ title }: { title: string }) {
   return (
@@ -19,7 +18,6 @@ export function Navbar({ title }: { title: string }) {
         </div>
         <div className="flex flex-1 items-center justify-end gap-3">
           {/* Cover this button with popover */}
-          <NavBarSearchInput fullWidth={false} />
           <AddClientButton />
           <NewClientComputationButton />
           <UserNav />

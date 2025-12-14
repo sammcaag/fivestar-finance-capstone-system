@@ -3,13 +3,11 @@
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
-import StatisticsCard from "@/components/StatisticsCard";
 import { MainTableComp } from "@/components/tables/MainTableComp";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { getClients } from "@/features/clients/api/client-service";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
-import { dashboardStatistics } from "@/features/clients/data/mock-clients-stats";
 import { ClientTableProps } from "@/features/clients/types/client-types";
 import { getAllAppointments } from "@/features/loans/api/appointments-api";
 import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
@@ -88,7 +86,6 @@ export default function DashboardPage() {
         quickActions={dashboardQuickActions}
         icon={MapPin}
       />
-      <StatisticsCard statistics={dashboardStatistics} />
       <Tabs defaultValue="overview" className="w-full">
         <TabListCustomComp tabs={dashboardTabs} />
         <TabsContent value="overview" className="mt-4 flex flex-col md:flex-row gap-8">
