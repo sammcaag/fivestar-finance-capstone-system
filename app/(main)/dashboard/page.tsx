@@ -2,10 +2,14 @@
 
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
+import MainHeaderSkeleton from "@/components/MainHeaderSkeleton";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { MainTableComp } from "@/components/tables/MainTableComp";
 import TabListCustomComp from "@/components/TabListCustomComp";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { useAuth } from "@/features/auth/context/AuthContext";
+import { getBranchById } from "@/features/branch/api/branch-service";
+import { BranchPayload } from "@/features/branch/types/branch-types";
 import { getClients } from "@/features/clients/api/client-service";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
 import { ClientTableProps } from "@/features/clients/types/client-types";
@@ -50,10 +54,13 @@ const dashboardQuickActions = [
 ];
 
 export default function DashboardPage() {
-  const router = useRouter();
   useEffect(() => {
     document.title = "Dashboard | Stella - Five Star Finance Inc.";
   }, []);
+  const router = useRouter();
+  const { user } = useAuth();
+
+  const branchId = user?.branchId;
 
   const { data: clientsData, isLoading } = useQuery<ClientTableProps[]>({
     queryKey: ["clients"],
@@ -66,6 +73,16 @@ export default function DashboardPage() {
     queryKey: ["appointments"],
     queryFn: getAllAppointments,
   });
+
+  const { data: branchData, isLoading: isBranchLoading } = useQuery<BranchPayload>({
+    queryKey: ["userBranchId", branchId],
+    queryFn: () => getBranchById(branchId!),
+    enabled: branchId !== undefined && !isNaN(branchId), // safe check
+  });
+
+  const branchName = isBranchLoading
+    ? "Loading..."
+    : branchData && branchData.name.replace(` Branch`, "");
 
   // Compute recentClients safely, always defined as an array
   const recentClients = (clientsData || []).filter(
@@ -80,12 +97,16 @@ export default function DashboardPage() {
           { href: "/dashboard", label: "Dashboard" },
         ]}
       />
-      <MainHeader
-        title="Welcome to STELLA!"
-        description="Branch of Cagayan de Oro"
-        quickActions={dashboardQuickActions}
-        icon={MapPin}
-      />
+      {isBranchLoading ? (
+        <MainHeaderSkeleton showDateAndTime showQuickActions />
+      ) : (
+        <MainHeader
+          title="Welcome to STELLA!"
+          description={`Branch of ${branchName}`}
+          quickActions={dashboardQuickActions}
+          icon={MapPin}
+        />
+      )}
       <Tabs defaultValue="overview" className="w-full">
         <TabListCustomComp tabs={dashboardTabs} />
         <TabsContent value="overview" className="mt-4 flex flex-col md:flex-row gap-8">
