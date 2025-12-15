@@ -90,7 +90,20 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: "Account Status",
+    cell: ({ row }) => {
+      const status = row.original.status;
+      if (status === "PROCESS") {
+        return <Badge className="bg-amber-400">{status}</Badge>;
+      }
+      return <Badge>{status}</Badge>;
+    },
+    enableColumnFilter: true,
+    enableSorting: false,
+  },
+  {
+    accessorKey: "approvalStatus",
+    header: "Approval Status",
     cell: ({ row }) => {
       const status = row.original.status;
       if (status === "PROCESS") {

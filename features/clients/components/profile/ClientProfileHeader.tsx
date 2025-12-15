@@ -17,7 +17,7 @@ interface IClientProfile {
   branchOfService: string;
   monthlyPension: number;
   monthlyDeduction: number;
-  clientStatus: string;
+  approvalStatus: string;
   fullName: string;
   profileImageUrl?: string;
   remarks?: string;
@@ -33,7 +33,7 @@ export default function ClientProfileHeader({
   branchOfService,
   monthlyPension,
   monthlyDeduction,
-  clientStatus,
+  approvalStatus,
   fullName,
   profileImageUrl,
   remarks,
@@ -73,9 +73,9 @@ export default function ClientProfileHeader({
     },
   ].filter((item) => item.details);
 
-  type ClientStatus = "APPROVED" | "PENDING" | "DISAPPROVED" | "DECEASED";
+  type ApprovalStatus = "APPROVED" | "PENDING" | "DISAPPROVED" | "DECEASED";
 
-  const statusStyles: Record<ClientStatus, { badge: string; dot: string }> = {
+  const statusStyles: Record<ApprovalStatus, { badge: string; dot: string }> = {
     APPROVED: {
       badge: "bg-green-100 border-green-500 text-green-700",
       dot: "bg-green-500",
@@ -100,13 +100,16 @@ export default function ClientProfileHeader({
         <Badge
           className={cn(
             "absolute right-6 top-6 flex items-center gap-2 rounded-full border px-4 py-1 text-sm font-semibold uppercase tracking-[0.2em]",
-            statusStyles[clientStatus as ClientStatus].badge
+            statusStyles[approvalStatus as ApprovalStatus].badge
           )}
         >
           <span
-            className={cn("h-2 w-2 rounded-full", statusStyles[clientStatus as ClientStatus].dot)}
+            className={cn(
+              "h-2 w-2 rounded-full",
+              statusStyles[approvalStatus as ApprovalStatus].dot
+            )}
           />
-          {clientStatus}
+          {approvalStatus}
         </Badge>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:gap-10">
           <Avatar className="h-28 w-28 border-4 border-white/70 shadow-xl ring-4 ring-white/30 md:h-32 md:w-32">
