@@ -17,7 +17,7 @@ interface IClientProfile {
   branchOfService: string;
   monthlyPension: number;
   monthlyDeduction: number;
-  status: string;
+  clientStatus: string;
   fullName: string;
   profileImageUrl?: string;
   remarks?: string;
@@ -27,15 +27,13 @@ interface IClientProfile {
 export default function ClientProfileHeader({
   birthDate,
   gender,
-  civilStatus,
   rank,
-  lastUnitAssigned,
   address,
   serialNumber,
   branchOfService,
   monthlyPension,
   monthlyDeduction,
-  status,
+  clientStatus,
   fullName,
   profileImageUrl,
   remarks,
@@ -75,24 +73,40 @@ export default function ClientProfileHeader({
     },
   ].filter((item) => item.details);
 
+  type ClientStatus = "APPROVED" | "PENDING" | "DISAPPROVED" | "DECEASED";
+
+  const statusStyles: Record<ClientStatus, { badge: string; dot: string }> = {
+    APPROVED: {
+      badge: "bg-green-100 border-green-500 text-green-700",
+      dot: "bg-green-500",
+    },
+    PENDING: {
+      badge: "bg-yellow-100 border-yellow-500 text-yellow-700",
+      dot: "bg-yellow-500",
+    },
+    DISAPPROVED: {
+      badge: "bg-red-100 border-red-500 text-red-700",
+      dot: "bg-red-500",
+    },
+    DECEASED: {
+      badge: "bg-gray-100 border-gray-500 text-gray-700",
+      dot: "bg-gray-500",
+    },
+  };
+
   return (
     <Card className="overflow-hidden border border-border/50 shadow-md">
       <CardHeader className="relative bg-gradient-to-r from-primary via-primary/90 to-primary/70 text-primary-foreground p-8 pb-12">
         <Badge
           className={cn(
-            "absolute right-6 top-6 flex items-center gap-2 rounded-full border border-white/20 px-4 py-1 text-sm font-semibold uppercase tracking-[0.2em] text-white",
-            status === "ACTIVE"
-              ? "bg-green-100 border-green-500 text-green-700"
-              : "bg-red-100 border-red-500 text-red-700"
+            "absolute right-6 top-6 flex items-center gap-2 rounded-full border px-4 py-1 text-sm font-semibold uppercase tracking-[0.2em]",
+            statusStyles[clientStatus as ClientStatus].badge
           )}
         >
           <span
-            className={cn(
-              "h-2 w-2 rounded-full",
-              status === "ACTIVE" ? "bg-green-500" : "bg-red-500"
-            )}
+            className={cn("h-2 w-2 rounded-full", statusStyles[clientStatus as ClientStatus].dot)}
           />
-          {status}
+          {clientStatus}
         </Badge>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:gap-10">
           <Avatar className="h-28 w-28 border-4 border-white/70 shadow-xl ring-4 ring-white/30 md:h-32 md:w-32">
@@ -151,13 +165,13 @@ export default function ClientProfileHeader({
               </p>
             </div>
           </div>
-          {/* //Remarks
+          {/* Remarks */}
           <div className="space-y-3">
             <h3 className="text-base font-semibold text-foreground">Remarks</h3>
             <div className="rounded-lg shadow-sm border border-border/60 p-4 text-sm leading-relaxed hover-card">
               <p>{remarks || "No remarks yet"}</p>
             </div>
-          </div> */}
+          </div>
         </div>
         {/* Pension Overview */}
         <Card className="border border-border/60 hover-card">

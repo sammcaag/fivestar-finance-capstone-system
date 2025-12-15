@@ -328,6 +328,7 @@ export type ClientPayload = {
   occupation: string;
   placeOfBirth: string;
   status?: string;
+  clientStatus?: string;
   profileImageUrl?: string;
   remarks?: string;
   branch?: Branch;

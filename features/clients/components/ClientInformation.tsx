@@ -48,7 +48,7 @@ export default function ClientInformation({
         branchOfService={client.clientPension.branchOfService}
         monthlyPension={client.clientAccount.monthlyPension}
         monthlyDeduction={client.clientAccount.monthlyDeduction}
-        status={client.status ?? "INACTIVE"}
+        clientStatus={client.clientStatus ?? "PENDING"}
         fullName={formatFullNameFromParts(decodeFullName(client.fullName))}
         profileImageUrl={client.profileImageUrl}
         remarks={client.remarks}

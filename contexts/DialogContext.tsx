@@ -7,6 +7,7 @@ type DialogVariant = "success" | "error" | "info" | "warning";
 
 interface DialogContextType {
   showDialog: (message: string, variant?: DialogVariant, time?: number) => void;
+  isVisible: boolean;
 }
 
 const DialogContext = createContext<DialogContextType | undefined>(undefined);
@@ -37,7 +38,7 @@ export const DialogProvider = ({ children }: DialogProviderProps) => {
   }, []);
 
   return (
-    <DialogContext.Provider value={{ showDialog }}>
+    <DialogContext.Provider value={{ showDialog, isVisible: visible }}>
       {children}
       <GlobalDialog message={message} visible={visible} variant={variant} time={time} />
     </DialogContext.Provider>

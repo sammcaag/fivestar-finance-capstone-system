@@ -6,6 +6,7 @@ import Loading from "@/components/LoadingPage";
 import NotFoundPage from "@/components/NotFoundPage";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { Button } from "@/components/ui/button";
+import { useDialog } from "@/contexts/DialogContext";
 import { getClientBySerialNumber } from "@/features/clients/api/client-service";
 import ClientInformation from "@/features/clients/components/ClientInformation";
 import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons/ClientProfileHeaderSkeleton";
@@ -28,6 +29,7 @@ export default function ClientInfoPage() {
   const params = useParams();
   const serialNumber = params.id as string;
   const router = useRouter();
+  const { showDialog } = useDialog();
 
   const {
     data: clientData,
@@ -70,8 +72,12 @@ export default function ClientInfoPage() {
     }
   }, [loanSets]);
 
+  const canAddLoan = clientData?.clientStatus === "APPROVED";
+
   // Unified handler — now accepts any string (matches LoanHistoryTabs props)
   const handleAddNewLoan = (type: string) => {
+    if (!canAddLoan) return showDialog("Client Informatin is NOT APPROVED", "error", 3);
+
     sessionStorage.setItem("fromClientProfile", "true");
     const slug = type
       .toLowerCase()
@@ -136,6 +142,7 @@ export default function ClientInfoPage() {
             setSelectedLoan={setSelectedLoan}
             today={today}
             allLoans={loanHistory}
+            canAddLoan={canAddLoan}
           />
         </>
       ) : (

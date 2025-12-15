@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import { useDialog } from "@/contexts/DialogContext";
 import { monthsBetween } from "@/features/loans/utils/loan-utils";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { AlertCircle, CheckCircle, XCircle } from "lucide-react";
@@ -23,6 +24,7 @@ interface AdvancedLoanActionModalProps {
   setSelectedLoan: (loan: LoanHistoryPayload | null) => void;
   today: Date;
   allLoans: LoanHistoryPayload[]; // ← Add this prop from parent
+  canAddLoan: boolean;
 }
 
 export default function AdvancedLoanActionModal({
@@ -31,9 +33,11 @@ export default function AdvancedLoanActionModal({
   setSelectedLoan,
   today,
   allLoans, // ← This gives you access to all loans of the client
+  canAddLoan,
 }: AdvancedLoanActionModalProps) {
   const router = useRouter();
   const params = useParams();
+  const { showDialog, isVisible } = useDialog();
   const clientId = params.id as string;
 
   if (!selectedLoan) return null;
@@ -61,6 +65,8 @@ export default function AdvancedLoanActionModal({
   const eligibleForRenewal = isLatestLoan && !isSettled && monthsPaid >= halfTerm;
 
   const navigateToComputation = (type: "extension" | "renewal") => {
+    if (!canAddLoan) return showDialog("Client Informatin is NOT APPROVED", "error", 3);
+
     sessionStorage.setItem("fromClientProfile", "true");
     router.push(
       `/loans/computations/${type}?id=${id}&clientId=${clientId}&dedCode=${selectedLoan.dedCode}`
@@ -69,7 +75,7 @@ export default function AdvancedLoanActionModal({
   };
 
   return (
-    <Dialog open={!!selectedLoan} onOpenChange={() => setSelectedLoan(null)}>
+    <Dialog open={!!selectedLoan && !isVisible} onOpenChange={() => setSelectedLoan(null)}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="text-2xl">Loan Actions – {selectedLoan.dedCode}</DialogTitle>

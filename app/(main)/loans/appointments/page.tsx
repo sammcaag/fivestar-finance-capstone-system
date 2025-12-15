@@ -38,11 +38,9 @@ export default function LoanAppointments() {
         data={appointmentsData ?? []}
         columns={mobileAppointmentsColumnDefinition(false)}
         filterColumns={["name", "status", "productType", "type"]}
-        emptyTitle="No Appointments Found"
-        emptyDescription="There are no appointments scheduled. Add a new appointment to get started."
-        emptyActionLabel="Add New Appointment"
+        emptyTitle="No Appointments Data Found"
+        emptyDescription=" "
         isLoading={isLoading}
-        emptyOnAction={() => (window.location.href = "/appointments/new")}
       />
     </ContentLayout>
   );
