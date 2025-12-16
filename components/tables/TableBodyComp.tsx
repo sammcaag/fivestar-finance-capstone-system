@@ -1,7 +1,6 @@
 "use client";
 import { getFiRowColors } from "@/features/loans/utils/get-fi-row-colors";
 import { EmptyStateProps, TableData } from "@/types/global-types";
-import { getStatusRowClass } from "@/utils/get-status-row-class";
 import { flexRender, Row, Table } from "@tanstack/react-table";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
@@ -77,9 +76,7 @@ export default function TableBodyComp<TData extends TableData>({
                 "border-b transition-colors",
                 hasDedCode(row.original)
                   ? getFiRowColors(row as Row<{ dedCode: string }>)
-                  : hasStatus(row.original)
-                    ? getStatusRowClass(row as Row<{ status: string }>)
-                    : "hover:bg-primary/20"
+                  : "hover:bg-primary/20"
               )}
               data-state={row.getIsSelected() && "selected"}
               onDoubleClick={() => onRowDoubleClick?.(row.original)}

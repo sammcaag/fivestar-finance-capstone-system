@@ -77,6 +77,8 @@ export function Menu({ isOpen }: MenuProps) {
                     pathname === "/branch" ||
                     (/^\/branch\/[^/]+(\/.*)?$/.test(pathname) &&
                       !pathname.startsWith("/branch/register"));
+                } else if (href === "/finance/clients") {
+                  isActive = pathname.startsWith("/finance/clients/");
                 } else {
                   isActive = pathname === href;
                 }

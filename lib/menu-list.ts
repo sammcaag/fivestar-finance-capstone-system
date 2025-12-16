@@ -156,7 +156,7 @@ export function getMenuList(): Group[] {
         },
         {
           href: "/finance/deceased",
-          label: "Clients Deceased",
+          label: "Deceased Clients",
           icon: UserX,
         },
       ],
