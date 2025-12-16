@@ -258,6 +258,7 @@ export type ClientTableProps = {
     | "inactive"
     | "processed"
     | "released";
+  approvalStatus: string;
   createdAt: string | Date;
   gender: string;
   birthDate: string | Date;
