@@ -3,6 +3,7 @@ import {
   Building2Icon,
   Calculator,
   CalendarClock,
+  ClipboardList,
   LayoutGrid,
   LucideIcon,
   Settings,
@@ -11,6 +12,7 @@ import {
   UserRoundPlus,
   Users,
   Users2,
+  UserX,
 } from "lucide-react";
 
 type Submenu = {
@@ -139,6 +141,27 @@ export function getMenuList(): Group[] {
       ],
     },
     {
+      groupLabel: "Verification",
+      menus: [
+        // Client Information Verfication
+        {
+          href: "/finance/clients",
+          label: "Clients Overview",
+          icon: User,
+        },
+        {
+          href: "/finance/loans",
+          label: "Loan Applications",
+          icon: ClipboardList,
+        },
+        {
+          href: "/finance/deceased",
+          label: "Clients Deceased",
+          icon: UserX,
+        },
+      ],
+    },
+    {
       groupLabel: "Settings",
       menus: [
         // Settings
@@ -159,17 +182,6 @@ export function getMenuList(): Group[] {
         },
       ],
     },
-    {
-      groupLabel: "Verifcation",
-      menus: [
-        // Client Information Verfication
-        {
-          href: "/client-info",
-          label: "Client Info",
-          icon: User,
-        },
-      ],
-    },
   ];
 }
 
@@ -177,7 +189,7 @@ const ROLE_PERMISSIONS = {
   ADMIN: ["Home", "Clients", "Loans", "Branch", "Staff", "Settings"],
   SALES: ["Home", "Clients", "Loans", "Settings"],
   LOANS: ["Home", "Clients", "Loans", "Settings"],
-  FINANCE: ["Verification"],
+  FINANCE: ["Verification", "Settings"],
   CLIENT: [],
 } as const;
 export type RoleKey = keyof typeof ROLE_PERMISSIONS;
@@ -188,9 +200,6 @@ export const normalizeRole = (role?: string): RoleKey => {
 };
 
 const getAllowedGroupLabels = (role: RoleKey): readonly string[] => {
-  if (role === "ADMIN") {
-    return getMenuList().map((g) => g.groupLabel);
-  }
   return ROLE_PERMISSIONS[role];
 };
 

@@ -20,7 +20,14 @@ export default function ProtectedRoute({ allowedRoles, children }: ProtectedRout
       } else if (!allowedRoles.includes(user.role)) {
         // Authenticated but not allowed → redirect to dashboard
         showDialog("Access Denied: You do not have permission", "error");
-        router.push("/dashboard");
+
+        setTimeout(() => {
+          if (user.role.toUpperCase() === "FINANCE") {
+            router.push("/finance/clients");
+          } else {
+            router.push("/dashboard");
+          }
+        }, 0);
       }
     }
   }, [isLoading, user, router, allowedRoles, showDialog]);

@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const role = user?.role;
 
   useEffect(() => {
-    if (!isLoading && (!user || role === "CLIENT")) {
+    if (!isLoading && role === "CLIENT") {
       router.replace("/unauthorized");
     }
   }, [isLoading, user, role, router]);

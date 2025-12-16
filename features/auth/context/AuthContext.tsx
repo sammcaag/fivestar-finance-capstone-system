@@ -81,7 +81,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       showDialog(response.message || "Login successful! Welcome back.", "success");
 
       console.log("🚀 Redirecting to dashboard...");
+
       // Small delay to show success message before redirect
+
+      if (freshUser && freshUser.role === "FINANCE") {
+        console.log("User is FINANCE, going to finance pages...");
+
+        setTimeout(() => {
+          router.push("/finance/client-info");
+        }, 1000);
+        return;
+      }
+
       setTimeout(() => {
         router.push("/dashboard");
       }, 1000);
@@ -121,7 +132,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await signOutMutate();
       queryClient.removeQueries({ queryKey: ["currentUser"] });
       showDialog("Logged out successfully.", "success");
-      router.push("/sign-in");
+      router.replace("/sign-in");
     } catch {
       // ignore
     }

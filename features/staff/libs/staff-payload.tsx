@@ -1,9 +1,9 @@
-import { formatFullName } from "@/utils/format-full-name";
-import { generateEmail } from "@/utils/generate-email";
-import { StaffFormValues, StaffPayload } from "../types/staff-types";
-import { format } from "date-fns";
 import { decodeFullName } from "@/utils/decode-full-name";
 import { formatContactNumber } from "@/utils/format-contact-number";
+import { formatFullName } from "@/utils/format-full-name";
+import { generateEmail } from "@/utils/generate-email";
+import { format } from "date-fns";
+import { StaffFormValues, StaffPayload } from "../types/staff-types";
 
 export const staffPayload = (data: StaffFormValues): StaffPayload => {
   return {
@@ -18,6 +18,7 @@ export const staffPayload = (data: StaffFormValues): StaffPayload => {
     religion: data.religion,
     civilStatus: data.civilStatus,
     occupation: "STAFF",
+    status: "ACTIVE",
     branchId: Number(data.branchId),
     placeOfBirth: data.placeOfBirth,
     staffId: data.staffId,
