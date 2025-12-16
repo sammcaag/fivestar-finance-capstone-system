@@ -6,6 +6,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ApprovalStatus, statusStyles } from "@/features/clients/types/client-types";
 import { cn } from "@/lib/utils";
 import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
@@ -94,7 +96,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       if (status === "PROCESS") {
-        return <Badge className="bg-amber-400">{status}</Badge>;
+        return <Badge className={cn("bg-amber-400")}>{status}</Badge>;
       }
       return <Badge>{status}</Badge>;
     },
@@ -105,11 +107,23 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
     accessorKey: "approvalStatus",
     header: "Approval Status",
     cell: ({ row }) => {
-      const status = row.original.status;
-      if (status === "PROCESS") {
-        return <Badge className="bg-amber-400">{status}</Badge>;
-      }
-      return <Badge>{status}</Badge>;
+      const approvalStatus = row.original.approvalStatus;
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Badge
+                className={cn("bg-amber-400", statusStyles[approvalStatus as ApprovalStatus].badge)}
+              >
+                {approvalStatus}
+              </Badge>
+            </TooltipTrigger>
+            <TooltipContent>
+              {approvalStatus?.toUpperCase() === "NSF" ? "Non-Sufficient Funds" : approvalStatus}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
     },
     enableColumnFilter: true,
     enableSorting: false,
@@ -121,6 +135,9 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
     cell: ({ row }) => {
       const [isViewDocumentsOpen, setIsViewDocumentsOpen] = useState(false);
       const [isViewDetailsOpen, setIsViewDetailsOpen] = useState(false);
+
+      const approvalStatus = row.original.approvalStatus;
+      const canViewDocuments = approvalStatus === "APPROVED";
 
       return (
         <>
@@ -138,13 +155,27 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
                 <Eye className="w-4 h-4" />
                 View Details
               </DropdownMenuItem>
-              <DropdownMenuItem
-                className="flex gap-2 items-center cursor-pointer"
-                onClick={() => setIsViewDocumentsOpen(true)}
-              >
-                <Printer className="w-4 h-4" />
-                View Documents
-              </DropdownMenuItem>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div>
+                      <DropdownMenuItem
+                        disabled={!canViewDocuments}
+                        className="flex gap-2 items-center"
+                        onClick={() => canViewDocuments && setIsViewDocumentsOpen(true)}
+                      >
+                        <Printer className="w-4 h-4" />
+                        View Documents
+                      </DropdownMenuItem>
+                    </div>
+                  </TooltipTrigger>
+
+                  {!canViewDocuments && (
+                    <TooltipContent>Documents are available only for APPROVED loans</TooltipContent>
+                  )}
+                </Tooltip>
+              </TooltipProvider>
             </DropdownMenuContent>
           </DropdownMenu>
 

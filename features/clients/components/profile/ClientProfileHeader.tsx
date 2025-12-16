@@ -5,6 +5,7 @@ import { formatCurrency } from "@/features/loans/computations/utils/format-curre
 import { cn } from "@/lib/utils";
 import { avatarFallBack } from "@/utils/avatar-fallback";
 import { getAge } from "@/utils/get-age";
+import { ApprovalStatus, statusStyles } from "../../types/client-types";
 
 interface IClientProfile {
   birthDate: Date;
@@ -72,27 +73,6 @@ export default function ClientProfileHeader({
       details: branchName,
     },
   ].filter((item) => item.details);
-
-  type ApprovalStatus = "APPROVED" | "PENDING" | "DISAPPROVED" | "DECEASED";
-
-  const statusStyles: Record<ApprovalStatus, { badge: string; dot: string }> = {
-    APPROVED: {
-      badge: "bg-green-100 border-green-500 text-green-700",
-      dot: "bg-green-500",
-    },
-    PENDING: {
-      badge: "bg-yellow-100 border-yellow-500 text-yellow-700",
-      dot: "bg-yellow-500",
-    },
-    DISAPPROVED: {
-      badge: "bg-red-100 border-red-500 text-red-700",
-      dot: "bg-red-500",
-    },
-    DECEASED: {
-      badge: "bg-gray-100 border-gray-500 text-gray-700",
-      dot: "bg-gray-500",
-    },
-  };
 
   return (
     <Card className="overflow-hidden border border-border/50 shadow-md">

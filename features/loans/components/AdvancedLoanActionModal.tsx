@@ -65,7 +65,7 @@ export default function AdvancedLoanActionModal({
   const eligibleForRenewal = isLatestLoan && !isSettled && monthsPaid >= halfTerm;
 
   const navigateToComputation = (type: "extension" | "renewal") => {
-    if (!canAddLoan) return showDialog("Client Informatin is NOT APPROVED", "error", 3);
+    if (!canAddLoan) return showDialog("Client Information is NOT APPROVED", "error", 3);
 
     sessionStorage.setItem("fromClientProfile", "true");
     router.push(

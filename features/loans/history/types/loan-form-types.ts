@@ -75,6 +75,7 @@ export type LoanHistoryPayload = {
   contactedById: number;
 
   status?: string;
+  approvalStatus?: string;
   createdAt?: Date;
 };
 

@@ -387,3 +387,28 @@ export type ClientFamilyInfos = {
   addressSameAsClient?: boolean;
   addressSameAsSpouse?: boolean;
 };
+
+export type ApprovalStatus = "APPROVED" | "PENDING" | "DISAPPROVED" | "DECEASED" | "NSF";
+
+export const statusStyles: Record<ApprovalStatus, { badge: string; dot: string }> = {
+  APPROVED: {
+    badge: "bg-green-100 border-green-500 text-green-700",
+    dot: "bg-green-500",
+  },
+  PENDING: {
+    badge: "bg-yellow-100 border-yellow-500 text-yellow-700",
+    dot: "bg-yellow-500",
+  },
+  DISAPPROVED: {
+    badge: "bg-red-100 border-red-500 text-red-700",
+    dot: "bg-red-500",
+  },
+  DECEASED: {
+    badge: "bg-gray-100 border-gray-500 text-gray-700",
+    dot: "bg-gray-500",
+  },
+  NSF: {
+    badge: "bg-red-100 border-red-500 text-red-700",
+    dot: "bg-red-500",
+  },
+};

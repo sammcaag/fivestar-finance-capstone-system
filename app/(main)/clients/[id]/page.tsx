@@ -76,7 +76,7 @@ export default function ClientInfoPage() {
 
   // Unified handler — now accepts any string (matches LoanHistoryTabs props)
   const handleAddNewLoan = (type: string) => {
-    if (!canAddLoan) return showDialog("Client Informatin is NOT APPROVED", "error", 3);
+    if (!canAddLoan) return showDialog("Client Information is NOT APPROVED", "error", 3);
 
     sessionStorage.setItem("fromClientProfile", "true");
     const slug = type
