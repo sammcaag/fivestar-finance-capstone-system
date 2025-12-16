@@ -1,28 +1,28 @@
 "use client";
 
-import { useEffect } from "react";
-import { ContentLayout } from "@/components/staff-panel/content-layout";
 import BreadcrumbPages from "@/components/BreadcrumbPages";
-import { StepIndicator } from "@/features/clients/components/StepIndicator";
-import { FormNavigationButtons } from "@/features/clients/components/FormNavigationButtons";
-import { useClientRegistrationForm } from "@/features/clients/hooks/use-client-registration-form";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
 import { Form } from "@/components/ui/form";
-import { motion, AnimatePresence } from "framer-motion";
-import { useParams } from "next/navigation";
+import { FormNavigationButtons } from "@/features/clients/components/FormNavigationButtons";
+import { StepIndicator } from "@/features/clients/components/StepIndicator";
+import { useClientRegistrationForm } from "@/features/clients/hooks/use-client-registration-form";
 import { useQuery } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
+import { useParams } from "next/navigation";
+import { useEffect } from "react";
 
+import MainHeader from "@/components/MainHeader";
+import NotFoundPage from "@/components/NotFoundPage";
+import { getClientBySerialNumber } from "@/features/clients/api/client-service";
+import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
+import { FormNavigationButtonsSkeleton } from "@/features/clients/components/skeletons/FormNavigationButtonsSkeleton";
+import { StepIndicatorSkeleton } from "@/features/clients/components/skeletons/StepIndicatorSkeleton";
+import AccountsInformation from "@/features/clients/components/steps/AccountsInformation";
 import ClientGeneralInformation from "@/features/clients/components/steps/ClientGeneralInformation";
 import FamilyInformation from "@/features/clients/components/steps/FamilyInformation";
 import PensionersInformation from "@/features/clients/components/steps/PensionersInformation";
-import AccountsInformation from "@/features/clients/components/steps/AccountsInformation";
 import { steps } from "@/features/clients/lib/client-registration-form";
-import { getClientBySerialNumber } from "@/features/clients/api/client-service";
 import type { ClientPayload } from "@/features/clients/types/client-types";
-import ClientGeneralInformationSkeleton from "@/features/clients/components/skeletons/ClientGeneralInformationSkeleton";
-import NotFoundPage from "@/components/NotFoundPage";
-import { FormNavigationButtonsSkeleton } from "../../../../../features/clients/components/skeletons/FormNavigationButtonsSkeleton";
-import { StepIndicatorSkeleton } from "@/features/clients/components/skeletons/StepIndicatorSkeleton";
-import MainHeader from "@/components/MainHeader";
 
 export default function EditClientPage() {
   useEffect(() => {
