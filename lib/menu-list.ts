@@ -6,6 +6,7 @@ import {
   LayoutGrid,
   LucideIcon,
   Settings,
+  User,
   UserCog,
   UserRoundPlus,
   Users,
@@ -158,6 +159,17 @@ export function getMenuList(): Group[] {
         },
       ],
     },
+    {
+      groupLabel: "Verifcation",
+      menus: [
+        // Client Information Verfication
+        {
+          href: "/client-info",
+          label: "Client Info",
+          icon: User,
+        },
+      ],
+    },
   ];
 }
 
@@ -165,6 +177,7 @@ const ROLE_PERMISSIONS = {
   ADMIN: ["Home", "Clients", "Loans", "Branch", "Staff", "Settings"],
   SALES: ["Home", "Clients", "Loans", "Settings"],
   LOANS: ["Home", "Clients", "Loans", "Settings"],
+  FINANCE: ["Verification"],
   CLIENT: [],
 } as const;
 export type RoleKey = keyof typeof ROLE_PERMISSIONS;

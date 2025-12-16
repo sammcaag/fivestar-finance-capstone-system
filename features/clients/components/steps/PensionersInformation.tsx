@@ -1,21 +1,33 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Medal, Calendar, Hash, Building, Clock } from "lucide-react";
+import { Building, Calendar, Clock, Hash, Medal } from "lucide-react";
 
-import { StepTitleCard } from "../StepTitleCard";
-import { SectionCard } from "../SectionCard";
 import { FormFieldWrapper } from "../../../../components/FormFieldWrapper";
+import { SectionCard } from "../SectionCard";
+import { StepTitleCard } from "../StepTitleCard";
 
+import { useEffect } from "react";
+import useClientAnimation from "../../hooks/use-client-animation";
 import {
   pensionTypeOptions,
   rankOptions,
   type PensionersInformationProps,
 } from "../../types/client-types";
-import useClientAnimation from "../../hooks/use-client-animation";
 
 const PensionersInformation = ({ form }: PensionersInformationProps) => {
   const { containerVariants, itemVariants } = useClientAnimation();
+
+  const dateSeparationService = form.watch("dateSeparationService");
+
+  useEffect(() => {
+    if (!dateSeparationService) return;
+
+    const date = new Date(dateSeparationService);
+    date.setDate(date.getDate() + 1);
+
+    form.setValue("dateRetiredService", date);
+  }, [dateSeparationService, form]);
 
   return (
     <motion.div
@@ -104,6 +116,7 @@ const PensionersInformation = ({ form }: PensionersInformationProps) => {
             label="Date Retired Service"
             type="date"
             placeholder="Select retirement date"
+            disabled
             required
           />
         </div>

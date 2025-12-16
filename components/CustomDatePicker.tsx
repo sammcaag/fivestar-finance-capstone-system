@@ -207,7 +207,7 @@ export default function CustomDatePicker({
             "shadow-sm hover:shadow-md transition-all duration-200",
             "text-foreground h-[38px]",
             !date && "text-muted-foreground",
-            !editable && "pointer-events-none opacity-60"
+            !editable && "pointer-events-none opacity-100!"
           )}
           disabled={!editable}
         >

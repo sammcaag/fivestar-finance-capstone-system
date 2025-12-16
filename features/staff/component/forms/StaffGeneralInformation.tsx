@@ -17,6 +17,7 @@ import {
   suffixOptions,
 } from "@/features/clients/types/client-types";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { type StaffGeneralInformationProps } from "../../types/staff-types";
 
 const StaffGeneralInformation = ({ form, isOwnProfile = false }: StaffGeneralInformationProps) => {
@@ -42,7 +43,19 @@ const StaffGeneralInformation = ({ form, isOwnProfile = false }: StaffGeneralInf
 
   if (isAdmin) {
     roleOptions.push({ value: "ADMIN", label: "Admin" });
+    roleOptions.push({ value: "FINANCE", label: "Finance" });
   }
+
+  const role = form.watch("role");
+
+  useEffect(() => {
+    if (!isAdmin) return;
+    if (!role) return;
+
+    if (role === "FINANCE") {
+      form.setValue("branchId", "1");
+    }
+  }, [role, isAdmin, form]);
 
   const title = isOwnProfile ? "Profile" : "Staff";
 
@@ -274,7 +287,7 @@ const StaffGeneralInformation = ({ form, isOwnProfile = false }: StaffGeneralInf
             type="select"
             placeholder="Select Branch"
             options={branchOptions}
-            disabled={!isAdmin}
+            disabled={!isAdmin || role === "FINANCE"}
           />
         </div>
       </SectionCard>

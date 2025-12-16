@@ -1,0 +1,146 @@
+"use client";
+
+import BreadcrumbPages from "@/components/BreadcrumbPages";
+import MainHeader from "@/components/MainHeader";
+import MainHeaderSkeleton from "@/components/MainHeaderSkeleton";
+import { ContentLayout } from "@/components/staff-panel/content-layout";
+import { MainTableComp } from "@/components/tables/MainTableComp";
+import TabListCustomComp from "@/components/TabListCustomComp";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { useAuth } from "@/features/auth/context/AuthContext";
+import { getBranchById } from "@/features/branch/api/branch-service";
+import { BranchPayload } from "@/features/branch/types/branch-types";
+import { getClients } from "@/features/clients/api/client-service";
+import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
+import { ClientTableProps } from "@/features/clients/types/client-types";
+import { getAllAppointments } from "@/features/loans/api/appointments-api";
+import { mobileAppointmentsColumnDefinition } from "@/features/loans/appointments/components/MobileAppointmentsColumnDefinition";
+import { AppointmentTableProps } from "@/features/loans/appointments/types/appointment-types";
+import { useQuery } from "@tanstack/react-query";
+import { Calculator, MapPin, Search, UserPlus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+// Filter data for the last 30 days
+const thirtyDaysAgo = new Date();
+thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+const dashboardTabs = [
+  { value: "overview", label: "Overview" },
+  { value: "appointments", label: "Mobile Appointments" },
+];
+
+const dashboardQuickActions = [
+  {
+    label: "Register New Client",
+    href: "/clients/register",
+    icon: UserPlus,
+  },
+  {
+    label: "New Client Computation",
+    href: "/loans/computations/new-client",
+    icon: Calculator,
+  },
+  {
+    label: "Search Client",
+    href: "/#",
+    icon: Search,
+  },
+];
+
+export default function DashboardPage() {
+  useEffect(() => {
+    document.title = "Dashboard | Stella - Five Star Finance Inc.";
+  }, []);
+  const router = useRouter();
+  const { user } = useAuth();
+
+  const branchId = user?.branchId;
+
+  const { data: clientsData, isLoading } = useQuery<ClientTableProps[]>({
+    queryKey: ["clients"],
+    queryFn: getClients,
+  });
+
+  const { data: appointmentsData, isLoading: appointmentsLoading } = useQuery<
+    AppointmentTableProps[]
+  >({
+    queryKey: ["appointments"],
+    queryFn: getAllAppointments,
+  });
+
+  const { data: branchData, isLoading: isBranchLoading } = useQuery<BranchPayload>({
+    queryKey: ["userBranchId", branchId],
+    queryFn: () => getBranchById(branchId!),
+    enabled: branchId !== undefined && !isNaN(branchId), // safe check
+  });
+
+  const branchName = isBranchLoading
+    ? "Loading..."
+    : branchData && branchData.name.replace(` Branch`, "");
+
+  // Compute recentClients safely, always defined as an array
+  const recentClients = (clientsData || []).filter(
+    (client) => new Date(client.createdAt) >= thirtyDaysAgo
+  );
+
+  return (
+    <ContentLayout title="Dashboard">
+      <BreadcrumbPages
+        links={[
+          { href: "/", label: "Home" },
+          { href: "/dashboard", label: "Dashboard" },
+        ]}
+      />
+      {isBranchLoading ? (
+        <MainHeaderSkeleton showDateAndTime showQuickActions />
+      ) : (
+        <MainHeader
+          title="Welcome to STELLA!"
+          description={`Branch of ${branchName}`}
+          quickActions={dashboardQuickActions}
+          icon={MapPin}
+        />
+      )}
+      <Tabs defaultValue="overview" className="w-full">
+        <TabListCustomComp tabs={dashboardTabs} />
+        <TabsContent value="overview" className="mt-4 flex flex-col md:flex-row gap-8">
+          <MainTableComp<ClientTableProps>
+            title="Recent Client & Loan Activities"
+            description="A quick overview of your most recent client transactions, loan updates, and payment statuses."
+            data={recentClients}
+            isLoading={isLoading}
+            columns={clientsColumnDefinition(true)}
+            filterColumns={["name", "status"]}
+            emptyTitle="No Recent Clients"
+            emptyDescription="No clients have been registered in the last 30 days."
+            emptyActionLabel="Register New Client"
+            emptyOnAction={() => (window.location.href = "/clients/register")}
+            dashboard={true}
+            dashboardButtonContent="Clients"
+            onRowDoubleClick={(client) => {
+              // Navigate to dynamic route [id]/page.tsx using the client (id = serial number)
+              router.push(`/clients/${client.id}`);
+            }}
+          />
+        </TabsContent>
+        <TabsContent value="appointments" className="mt-4">
+          <MainTableComp<AppointmentTableProps>
+            title="Recent Mobile Appointments"
+            description="See the latest scheduled and completed client appointments. Visit the Appointments tab for the full schedule."
+            data={appointmentsData ?? []}
+            columns={mobileAppointmentsColumnDefinition(true)}
+            filterColumns={["name", "status"]}
+            emptyTitle="No Recent Appointments"
+            emptyDescription="No appointments have been scheduled in the last 30 days."
+            emptyActionLabel="Add New Appointment"
+            emptyOnAction={() => (window.location.href = "/appointments/new")}
+            dashboard={true}
+            isLoading={appointmentsLoading}
+            dashboardButtonContent="Appointments"
+          />
+        </TabsContent>
+      </Tabs>
+    </ContentLayout>
+  );
+}
