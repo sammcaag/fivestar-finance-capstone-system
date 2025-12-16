@@ -47,11 +47,17 @@ export function useDataTable<TData extends TableData>({
     };
   }, []);
 
+  // ✅ Only reset pageIndex after mount
   useEffect(() => {
-    if (isMounted.current) {
+    if (!isMounted.current) return;
+
+    // Use setTimeout to ensure table state updates asynchronously after mount
+    const id = setTimeout(() => {
       setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    }
-  }, [safeData]);
+    }, 0);
+
+    return () => clearTimeout(id);
+  }, [data]); // safeData replaced with data
 
   const memoColumns = useMemo(
     () =>

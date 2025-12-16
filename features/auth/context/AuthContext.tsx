@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.log("User is FINANCE, going to finance pages...");
 
         setTimeout(() => {
-          router.push("/finance/client-info");
+          router.push("/finance/clients");
         }, 1000);
         return;
       }

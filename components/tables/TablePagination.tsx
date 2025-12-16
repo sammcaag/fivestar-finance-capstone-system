@@ -1,6 +1,6 @@
-import React from "react";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useId } from "react";
+import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
 import {
   Select,
   SelectContent,
@@ -8,11 +8,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
-import { Button } from "@/components/ui/button";
-import { ChevronFirstIcon, ChevronLeftIcon, ChevronRightIcon, ChevronLastIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Table } from "@tanstack/react-table";
+import { ChevronFirstIcon, ChevronLastIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useEffect, useId, useRef } from "react";
 
 interface TablePagination<TData> {
   table: Table<TData>;
@@ -21,9 +20,35 @@ interface TablePagination<TData> {
 
 export default function TablePagination<TData>({ table, totalCount }: TablePagination<TData>) {
   const id = useId();
+  const mounted = useRef(false);
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
 
   const buttonClassname =
     "disabled:pointer-events-none disabled:opacity-50 border-primary/80 disabled:border-border hover:bg-primary hover:text-primary-foreground transition-colors duration-300";
+
+  // Safe table actions
+  const safeSetPageSize = (value: string) => {
+    if (mounted.current) table.setPageSize(Number(value));
+  };
+
+  const safeFirstPage = () => {
+    if (mounted.current) table.firstPage();
+  };
+  const safePreviousPage = () => {
+    if (mounted.current) table.previousPage();
+  };
+  const safeNextPage = () => {
+    if (mounted.current) table.nextPage();
+  };
+  const safeLastPage = () => {
+    if (mounted.current) table.lastPage();
+  };
 
   return (
     <div className="flex items-center justify-between gap-8 flex-1">
@@ -34,9 +59,7 @@ export default function TablePagination<TData>({ table, totalCount }: TablePagin
         </Label>
         <Select
           value={table.getState().pagination.pageSize.toString()}
-          onValueChange={(value) => {
-            table.setPageSize(Number(value));
-          }}
+          onValueChange={safeSetPageSize}
         >
           <SelectTrigger id={id} className="w-fit whitespace-nowrap">
             <SelectValue placeholder="Select number of results" />
@@ -50,11 +73,12 @@ export default function TablePagination<TData>({ table, totalCount }: TablePagin
           </SelectContent>
         </Select>
       </div>
+
       {/* Page number information */}
       <div className="text-muted-foreground flex grow justify-end text-sm whitespace-nowrap">
         <p className="text-muted-foreground text-sm whitespace-nowrap" aria-live="polite">
           <span className="text-foreground">
-            {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}-
+            {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}-{" "}
             {Math.min(
               Math.max(
                 table.getState().pagination.pageIndex * table.getState().pagination.pageSize +
@@ -78,7 +102,7 @@ export default function TablePagination<TData>({ table, totalCount }: TablePagin
                 size="icon"
                 variant="outline"
                 className={cn(buttonClassname)}
-                onClick={() => table.firstPage()}
+                onClick={safeFirstPage}
                 disabled={!table.getCanPreviousPage()}
                 aria-label="Go to first page"
               >
@@ -91,7 +115,7 @@ export default function TablePagination<TData>({ table, totalCount }: TablePagin
                 size="icon"
                 variant="outline"
                 className={cn(buttonClassname)}
-                onClick={() => table.previousPage()}
+                onClick={safePreviousPage}
                 disabled={!table.getCanPreviousPage()}
                 aria-label="Go to previous page"
               >
@@ -104,7 +128,7 @@ export default function TablePagination<TData>({ table, totalCount }: TablePagin
                 size="icon"
                 variant="outline"
                 className={cn(buttonClassname)}
-                onClick={() => table.nextPage()}
+                onClick={safeNextPage}
                 disabled={!table.getCanNextPage()}
                 aria-label="Go to next page"
               >
@@ -117,7 +141,7 @@ export default function TablePagination<TData>({ table, totalCount }: TablePagin
                 size="icon"
                 variant="outline"
                 className={cn(buttonClassname)}
-                onClick={() => table.lastPage()}
+                onClick={safeLastPage}
                 disabled={!table.getCanNextPage()}
                 aria-label="Go to last page"
               >
