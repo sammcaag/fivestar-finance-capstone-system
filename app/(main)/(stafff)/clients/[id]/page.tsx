@@ -72,11 +72,11 @@ export default function ClientInfoPage() {
     }
   }, [loanSets]);
 
-  const canAddLoan = true;
+  const canAddLoan = clientData?.approvalStatus === "APPROVED";
 
   // Unified handler — now accepts any string (matches LoanHistoryTabs props)
   const handleAddNewLoan = (type: string) => {
-    if (!canAddLoan) return showDialog("Client Information is NOT APPROVED", "error", 3);
+    if (!canAddLoan) return showDialog("Client Information is NOT APPROVED", "error", 2);
 
     sessionStorage.setItem("fromClientProfile", "true");
     const slug = type

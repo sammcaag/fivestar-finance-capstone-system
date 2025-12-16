@@ -1,7 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { useDialog } from "@/contexts/DialogContext";
-import { useAuth } from "@/features/auth/context/AuthContext";
 import { cn } from "@/lib/utils";
 import { avatarFallBack } from "@/utils/avatar-fallback";
 import { decodeFullName } from "@/utils/decode-full-name";
@@ -13,8 +11,6 @@ import { ClientTableProps } from "../../types/client-types";
 import { clientBadgeStatusMap } from "../../utils/client-badge-status-map";
 
 export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTableProps>[] => {
-  const { user } = useAuth();
-  const { showDialog } = useDialog();
   const nameSearchFilterFn: FilterFn<ClientTableProps> = (row, _, val) => {
     return `${row.original.name} ${row.original.id ?? ""} ${row.original.email}`
       .toLowerCase()
@@ -23,8 +19,6 @@ export const clientsColumnDefinition = (dashboard = false): ColumnDef<ClientTabl
 
   const statusFilterFn: FilterFn<ClientTableProps> = (row, columnId, val) =>
     !val?.length || val.includes(row.getValue(columnId) as string);
-
-  const isFinance = user?.role.toUpperCase() === "ADMIN";
 
   const baseColumns: ColumnDef<ClientTableProps>[] = [
     {

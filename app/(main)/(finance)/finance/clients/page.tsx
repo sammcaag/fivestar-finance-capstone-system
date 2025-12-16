@@ -8,22 +8,8 @@ import { getClients } from "@/features/clients/api/client-service";
 import { clientsColumnDefinition } from "@/features/clients/components/tables/ClientsColumnDefinition";
 import { ClientTableProps } from "@/features/clients/types/client-types";
 import { useQuery } from "@tanstack/react-query";
-import { Search, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
-const quickActions = [
-  {
-    label: "Register New Client",
-    href: "/clients/register",
-    icon: UserPlus,
-  },
-  {
-    label: "Search Client",
-    href: "/#",
-    icon: Search,
-  },
-];
+import { useEffect, useMemo } from "react";
 
 export default function ClientsPage() {
   const router = useRouter(); // initialize router
@@ -36,6 +22,12 @@ export default function ClientsPage() {
     queryKey: ["clients"],
     queryFn: getClients,
   });
+
+  const pendingClients = useMemo(() => {
+    return (
+      clientsData?.filter((client) => client.approvalStatus?.toUpperCase() === "PENDING") ?? []
+    );
+  }, [clientsData]);
 
   useEffect(() => {
     console.log("THE DATA IS:", clientsData);
@@ -51,25 +43,20 @@ export default function ClientsPage() {
       />
       <MainHeader
         title="Clients Overview"
-        description="Manage your client portfolio and loan statuses"
-        quickActions={quickActions}
+        description="Manage client portfolio and verify information"
       />
       <MainTableComp<ClientTableProps>
         title="Clients Overview"
-        description="View and manage the complete list of clients across all branches."
-        data={clientsData ?? []}
+        description="View and manage the complete list of pending clients."
+        data={pendingClients ?? []}
         isLoading={isLoading}
         columns={clientsColumnDefinition(false)}
-        filterColumns={["name", "status", "branchName"]}
-        emptyTitle="No Clients Found"
-        emptyDescription="There are no clients recorded yet. Add a client to get started."
-        emptyActionLabel="Register New Client"
-        emptyOnAction={() => {
-          router.push("/clients/register");
-        }}
+        filterColumns={["name", "branchName"]}
+        emptyTitle="No Pending Clients Found"
+        emptyDescription="There are no pending clients yet."
         onRowDoubleClick={(client) => {
           // Navigate to dynamic route [id]/page.tsx using the client (id = serial number)
-          router.push(`/clients/${client.id}`);
+          router.push(`/finance/clients/${client.id}`);
         }}
       />
     </ContentLayout>
