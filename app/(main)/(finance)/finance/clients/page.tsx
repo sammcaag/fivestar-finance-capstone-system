@@ -11,11 +11,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
-export default function ClientsPage() {
+export default function ClientsVerificationPage() {
   const router = useRouter(); // initialize router
 
   useEffect(() => {
-    document.title = "Clients Overview | Stella - Five Star Finance Inc.";
+    document.title = "Clients Verification Overview | Stella - Five Star Finance Inc.";
   }, []);
 
   const { data: clientsData, isLoading } = useQuery<ClientTableProps[]>({
@@ -34,11 +34,11 @@ export default function ClientsPage() {
   }, [clientsData]);
 
   return (
-    <ContentLayout title="Clients Overview">
+    <ContentLayout title="Clients  Overview">
       <BreadcrumbPages
         links={[
-          { href: "/dashboard", label: "Home" },
-          { href: "/clients", label: "Clients" },
+          { href: "/", label: "Verification" },
+          { href: "/finance/clients", label: "Clients" },
         ]}
       />
       <MainHeader
