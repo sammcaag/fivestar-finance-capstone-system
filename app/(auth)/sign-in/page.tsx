@@ -60,10 +60,10 @@ export default function LoginPage() {
   ];
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 dark:from-sky-900 dark:to-sky-500 p-6 md:p-10">
+    <div className="flex flex-col justify-center items-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 min-h-svh dark:from-sky-900 dark:to-sky-500 md:p-10">
       <div className="w-full max-w-sm md:max-w-4xl">
         <Card className="overflow-hidden border-0 shadow-lg">
-          <CardContent className="relative grid p-0 md:grid-cols-2">
+          <CardContent className="grid relative p-0 md:grid-cols-2">
             <LoginForm
               form={form}
               onSubmit={form.handleSubmit(handleLogin)}
