@@ -18,7 +18,7 @@ import {
 } from "../lib/client-payload";
 import { defaultValues, formDates, steps } from "../lib/client-registration-form";
 import { clientFormSchema } from "../schema/client-zod-schema";
-import type { ClientFormValues, ClientPayload } from "../types/client-types";
+import type { ApprovalStatus, ClientFormValues, ClientPayload } from "../types/client-types";
 import { loadDraft, saveDraft } from "../utils/draft-computation-storage";
 
 export function useClientRegistrationForm() {
@@ -184,7 +184,20 @@ export function useClientRegistrationForm() {
 
   const updateForm = async (data: ClientFormValues, fetchedData: ClientPayload) => {
     setIsSubmitting(true);
-    const backendPayload = clientUpdatePayload(data, fetchedData);
+
+    const isDisapproved =
+      fetchedData.approvalStatus?.toUpperCase() === ("DISAPPROVED" as ApprovalStatus);
+    let approvalStatus: ApprovalStatus;
+
+    if (isDisapproved) {
+      approvalStatus = "PENDING" as ApprovalStatus;
+    } else {
+      approvalStatus = fetchedData.approvalStatus as ApprovalStatus;
+    }
+
+    console.log("     IS DISAPPROVED    :", isDisapproved);
+
+    const backendPayload = clientUpdatePayload(data, fetchedData, approvalStatus);
     console.log("THIS IS THE UPDATED DATA PASSED", JSON.stringify(backendPayload, null, 2));
     try {
       console.log("SERIAL NUMBER", fetchedData.clientPension.serialNumber);

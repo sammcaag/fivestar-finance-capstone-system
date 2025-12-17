@@ -1,15 +1,16 @@
 import { decodeFullName } from "@/utils/decode-full-name";
+import { decodeSpouseFullName } from "@/utils/decode-spouse-full-name";
+import { formatContactNumber } from "@/utils/format-contact-number";
+import { formatFullName } from "@/utils/format-full-name";
+import { formatSpouseFullName } from "@/utils/format-spouse-full-name";
+import { generateEmail } from "@/utils/generate-email";
 import type {
   Address,
+  ApprovalStatus,
   ClientFamilyInfos,
   ClientFormValues,
   ClientPayload,
 } from "../types/client-types";
-import { formatFullName } from "@/utils/format-full-name";
-import { formatSpouseFullName } from "@/utils/format-spouse-full-name";
-import { decodeSpouseFullName } from "@/utils/decode-spouse-full-name";
-import { formatContactNumber } from "@/utils/format-contact-number";
-import { generateEmail } from "@/utils/generate-email";
 
 export const clientPayload = (data: ClientFormValues, branchId: number): ClientPayload => {
   return {
@@ -182,7 +183,8 @@ export const clientPayload = (data: ClientFormValues, branchId: number): ClientP
 
 export const clientUpdatePayload = (
   formData: ClientFormValues,
-  fetchedData: ClientPayload
+  fetchedData: ClientPayload,
+  approvalStatus: ApprovalStatus
 ): ClientPayload => {
   // Helper to get child by birthOrder
   const getChildByBirthOrder = (order: number) =>
@@ -202,6 +204,7 @@ export const clientUpdatePayload = (
     civilStatus: formData.civilStatus,
     occupation: formData.occupation,
     placeOfBirth: formData.placeOfBirth,
+    approvalStatus: approvalStatus,
     branchId: fetchedData.branchId,
 
     address: {
