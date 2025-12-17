@@ -1,20 +1,22 @@
 "use client";
-import { useState } from "react";
 import type React from "react";
+import { useEffect, useState } from "react";
 
+import CustomDatePicker from "@/components/CustomDatePicker";
+import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormField, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { getYear } from "date-fns";
+import { motion } from "framer-motion";
+import { AlertCircle, Calendar, Clock, AudioLines as PhilippinePeso } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useFormContext, type UseFormReturn } from "react-hook-form";
 import {
   preventInvalidInput,
   preventNegativeAndLimitDecimals,
 } from "../../../../../utils/handling-input-numbers";
-import { Checkbox } from "@/components/ui/checkbox";
-import { motion } from "framer-motion";
-import { AlertCircle, AudioLines as PhilippinePeso, Calendar, Clock } from "lucide-react";
-import CustomDatePicker from "@/components/CustomDatePicker";
-import { getYear } from "date-fns";
-import { useFormContext, type UseFormReturn } from "react-hook-form";
+import { ExtensionCalculatorSchema } from "../../schema/loan-extension-schema";
 import type { FormValues } from "../../types/types-extension";
 import {
   COLORS,
@@ -24,7 +26,6 @@ import {
   FormHeader,
   formItemVariants,
 } from "../StyleHelper";
-import { ExtensionCalculatorSchema } from "../../schema/loan-extension-schema";
 
 interface LoanFormExtensionProps {
   form: UseFormReturn<FormValues>;
@@ -40,6 +41,7 @@ export default function LoanFormExtension({
 }: LoanFormExtensionProps) {
   const { control } = useFormContext<ExtensionCalculatorSchema>();
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const searchParams = useSearchParams();
 
   const createInputHandlers = (fieldName: string, onChange: (value: string | number) => void) => ({
     onFocus: () => setFocusedField(fieldName),
@@ -48,6 +50,18 @@ export default function LoanFormExtension({
     onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
       preventNegativeAndLimitDecimals(e, onChange),
   });
+
+  const id = searchParams.get("id") ?? undefined;
+  const ma = searchParams.get("ma") ?? undefined;
+
+  // Check if ma is a number
+  const isMaNumber = ma !== undefined && !isNaN(Number(ma));
+
+  useEffect(() => {
+    if (isMaNumber) {
+      form.setValue("monthlyAmortization", Number(ma));
+    }
+  }, [form, isMaNumber, ma]);
 
   return (
     <div className="space-y-8">
@@ -83,6 +97,7 @@ export default function LoanFormExtension({
                       className={FORM_STYLES.input}
                       {...field}
                       {...createInputHandlers("monthlyAmortization", field.onChange)}
+                      disabled={id !== undefined && isMaNumber}
                     />
                   </FormControl>
                 </div>

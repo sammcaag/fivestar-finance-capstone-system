@@ -14,6 +14,7 @@ const roleConfig = {
   ADMIN: { variant: "info" },
   LOANS: { variant: "warning" },
   SALES: { variant: "default" },
+  FINANCE: { variant: "finance" },
 } as const;
 
 // Search by name + email

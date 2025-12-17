@@ -72,7 +72,9 @@ export default function ClientInfoPage() {
     }
   }, [loanSets]);
 
-  const canAddLoan = clientData?.approvalStatus === "APPROVED";
+  const canAddLoan =
+    clientData?.approvalStatus?.toUpperCase() === "APPROVED" &&
+    selectedLoan?.approvalStatus?.toUpperCase() === "APPROVED";
 
   // Unified handler — now accepts any string (matches LoanHistoryTabs props)
   const handleAddNewLoan = (type: string) => {

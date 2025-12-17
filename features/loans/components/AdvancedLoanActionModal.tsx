@@ -69,7 +69,7 @@ export default function AdvancedLoanActionModal({
 
     sessionStorage.setItem("fromClientProfile", "true");
     router.push(
-      `/loans/computations/${type}?id=${id}&clientId=${clientId}&dedCode=${selectedLoan.dedCode}`
+      `/loans/computations/${type}?id=${id}&clientId=${clientId}&dedCode=${selectedLoan.dedCode}&ma=${selectedLoan.monthlyAmortization}`
     );
     setSelectedLoan(null);
   };

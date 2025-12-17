@@ -1,7 +1,9 @@
 "use client";
-import { useState } from "react";
 import type React from "react";
+import { useEffect, useState } from "react";
 
+import CustomDatePicker from "@/components/CustomDatePicker";
+import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormField, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,17 +14,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import type { LoanFormRegularProps, RateProps } from "../../types/types-regular";
-import RateCards from "./RateCards";
+import { getYear } from "date-fns";
+import { motion } from "framer-motion";
+import { AlertCircle, Calendar, Clock, PhilippinePeso } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useFormContext } from "react-hook-form";
 import {
   preventInvalidInput,
   preventNegativeAndLimitDecimals,
 } from "../../../../../utils/handling-input-numbers";
-import { Checkbox } from "@/components/ui/checkbox";
-import { motion } from "framer-motion";
-import { Calendar, Clock, AlertCircle, PhilippinePeso } from "lucide-react";
-import CustomDatePicker from "@/components/CustomDatePicker";
-import { getYear } from "date-fns";
+import { RegularCalculatorSchema } from "../../schema/loan-regular-schema";
+import type { LoanFormRegularProps, RateProps } from "../../types/types-regular";
 import {
   COLORS,
   containerVariants,
@@ -31,8 +33,7 @@ import {
   FormHeader,
   formItemVariants,
 } from "../StyleHelper";
-import { useFormContext } from "react-hook-form";
-import { RegularCalculatorSchema } from "../../schema/loan-regular-schema";
+import RateCards from "./RateCards";
 
 export default function LoanFormRegular({
   selectedCard,
@@ -44,7 +45,7 @@ export default function LoanFormRegular({
   setMaturityDate,
   isDoneCalculate,
 }: LoanFormRegularProps) {
-  const { control } = useFormContext<RegularCalculatorSchema>();
+  const { control, setValue } = useFormContext<RegularCalculatorSchema>();
   const rates: RateProps[] = [
     { id: "1", title: "Regular Rate" },
     { id: "2", title: "Special Rate" },
@@ -52,6 +53,7 @@ export default function LoanFormRegular({
   ];
 
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const searchParams = useSearchParams();
 
   const createInputHandlers = (fieldName: string, onChange: (value: string | number) => void) => ({
     onFocus: () => setFocusedField(fieldName),
@@ -60,6 +62,18 @@ export default function LoanFormRegular({
     onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
       preventNegativeAndLimitDecimals(e, onChange),
   });
+
+  const id = searchParams.get("id") ?? undefined;
+  const ma = searchParams.get("ma") ?? undefined;
+
+  // Check if ma is a number
+  const isMaNumber = ma !== undefined && !isNaN(Number(ma));
+
+  useEffect(() => {
+    if (isMaNumber) {
+      setValue("monthlyAmortization", Number(ma));
+    }
+  }, [setValue, isMaNumber, ma]);
 
   return (
     <div className="space-y-8">
@@ -96,6 +110,7 @@ export default function LoanFormRegular({
                       className={FORM_STYLES.input}
                       {...field}
                       {...createInputHandlers("monthlyAmortization", field.onChange)}
+                      disabled={id !== undefined && isMaNumber}
                     />
                   </FormControl>
                 </div>
