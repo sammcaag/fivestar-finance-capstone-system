@@ -108,27 +108,27 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
     cell: ({ row }) => <span className="text-sm font-medium">{row.original.term} months</span>,
   },
   // LOAN STATUS
-  {
-    accessorKey: "status",
-    header: "Loan Status",
-    filterFn: statusFilterFn,
-    enableColumnFilter: true,
-    enableSorting: true,
-    cell: ({ row }) => {
-      const status = row.original.status;
-      const config = loanStatusClassNames(status);
-      return (
-        <Badge
-          className={cn(
-            "text-xs font-medium px-2 py-1",
-            config ? `${config.bg} ${config.text}` : ""
-          )}
-        >
-          {status}
-        </Badge>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "status",
+  //   header: "Loan Status",
+  //   filterFn: statusFilterFn,
+  //   enableColumnFilter: true,
+  //   enableSorting: true,
+  //   cell: ({ row }) => {
+  //     const status = row.original.status;
+  //     const config = loanStatusClassNames(status);
+  //     return (
+  //       <Badge
+  //         className={cn(
+  //           "text-xs font-medium px-2 py-1",
+  //           config ? `${config.bg} ${config.text}` : ""
+  //         )}
+  //       >
+  //         {status}
+  //       </Badge>
+  //     );
+  //   },
+  // },
   // APPROVAL STATUS
   {
     accessorKey: "approvalStatus",

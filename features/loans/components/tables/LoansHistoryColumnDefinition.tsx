@@ -99,7 +99,16 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
     accessorKey: "status",
     header: "Account Status",
     cell: ({ row }) => {
-      const status = row.original.status;
+      const approvalStatus = row.original.approvalStatus?.toUpperCase();
+
+      let status;
+
+      if (approvalStatus === "NSF" || approvalStatus === "PENDING") {
+        status = "INACTIVE";
+      } else {
+        status = "ACTIVE";
+      }
+
       const config = loanStatusClassNames(status!);
       return (
         <Badge
@@ -207,7 +216,7 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
                 </TooltipProvider>
               )}
 
-              {isFinance && (
+              {isFinance && approvalStatus !== "APPROVED" && (
                 <>
                   <DropdownMenuItem
                     className="flex gap-2 items-center cursor-pointer"

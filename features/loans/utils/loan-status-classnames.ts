@@ -36,6 +36,12 @@ export function loanStatusClassNames(status: string) {
         text: "text-white",
         label: "Rejected",
       };
+    case "INACTIVE":
+      return {
+        bg: "bg-destructive",
+        text: "text-white",
+        label: "Rejected",
+      };
     case "DISAPPROVED":
       return {
         bg: "bg-destructive",

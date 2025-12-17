@@ -15,7 +15,7 @@ export default function ClientsVerificationPage() {
   const router = useRouter(); // initialize router
 
   useEffect(() => {
-    document.title = "For Validation | Stella - Five Star Finance Inc.";
+    document.title = "Client Pending Validation | Stella - Five Star Finance Inc.";
   }, []);
 
   const { data: clientsData, isLoading } = useQuery<ClientTableProps[]>({
@@ -34,7 +34,7 @@ export default function ClientsVerificationPage() {
   }, [clientsData]);
 
   return (
-    <ContentLayout title="For Validation">
+    <ContentLayout title="Clients For Validation">
       <BreadcrumbPages
         links={[
           { href: "/finance/client/overview", label: "Verification" },
@@ -43,11 +43,11 @@ export default function ClientsVerificationPage() {
         ]}
       />
       <MainHeader
-        title="For Validation"
+        title="Clients For Validation"
         description="Manage pending clients and validate their information"
       />
       <MainTableComp<ClientTableProps>
-        title="For Validation"
+        title="Clients For Validation"
         description="View and manage the complete list of pending clients."
         data={pendingClients ?? []}
         isLoading={isLoading}
