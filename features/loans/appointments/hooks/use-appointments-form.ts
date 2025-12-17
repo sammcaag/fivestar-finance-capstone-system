@@ -30,6 +30,8 @@ export const useAppointmentsForm = (id: string) => {
       return;
     }
     reset({
+      branchId: Number(appointmentsData.branchId),
+      staffId: Number(appointmentsData.staffId),
       status: appointmentsData.status as AppointmentStatus,
       appointmentDate: new Date(appointmentsData.appointmentDate),
       remarks: appointmentsData.remarks,
