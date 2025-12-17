@@ -162,6 +162,27 @@ export function getMenuList(): Group[] {
       ],
     },
     {
+      groupLabel: "Reports",
+      menus: [
+        // Settings
+        {
+          href: "/reports",
+          label: "Reports",
+          icon: Settings,
+          submenus: [
+            {
+              href: `/reports/loan-deductions`,
+              label: "Loan Deductions",
+            },
+            {
+              href: `/reports/financial-status`,
+              label: "Financial Status",
+            },
+          ],
+        },
+      ],
+    },
+    {
       groupLabel: "Settings",
       menus: [
         // Settings
