@@ -107,8 +107,7 @@ export const mobileAppointmentsColumnDefinition = (
           return <Badge className="text-amber-800 capitalize bg-amber-100">PENDING</Badge>;
         }
 
-        const config = getProductTypeClass(productType);
-        return <Badge className={cn(config.className)}>{productType}</Badge>;
+        return <Badge className={cn(getProductTypeClass(productType))}>{productType}</Badge>;
       },
     },
     {
