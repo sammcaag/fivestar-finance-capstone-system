@@ -1,5 +1,6 @@
 import { FormFieldWrapper } from "@/components/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogClose,
@@ -35,16 +36,21 @@ const ProductTypeSelectVersion: { value: string; label: string }[] = productType
   })
 );
 
+type UpdateAppointmentsDialogProps = {
+  children: React.ReactNode;
+  id: string;
+  mode?: "confirm" | "edit";
+};
+
 export default function UpdateAppointmentsDialog({
   children,
   id,
-}: {
-  children: React.ReactNode;
-  id: string;
-}) {
+  mode,
+}: UpdateAppointmentsDialogProps) {
   const { appointmentForm, isLoading, onSubmit, appointmentIsLoading } = useAppointmentsForm(id);
   const { control, handleSubmit, watch, setValue } = appointmentForm;
   const selectedBranchId = watch("branchId");
+  const isConfirmMode = mode === "confirm";
 
   const { data: branchesData } = useQuery<BranchTableProps[]>({
     queryKey: ["branchesToAppointments"],
@@ -83,6 +89,11 @@ export default function UpdateAppointmentsDialog({
     (staff) => staff.value === String(selectedStaffId)
   );
 
+  const termOptions = [12, 24, 36, 48, 60].map((months) => ({
+    value: String(months),
+    label: `${months} Months`,
+  }));
+
   return (
     <Dialog>
       <DialogTrigger asChild className="cursor-pointer">
@@ -97,7 +108,15 @@ export default function UpdateAppointmentsDialog({
           <div>Loading...</div>
         ) : (
           <Form {...appointmentForm}>
-            <form onSubmit={handleSubmit(onSubmit)} action="">
+            <form
+              onSubmit={handleSubmit((data) =>
+                onSubmit({
+                  ...data,
+                  status: isConfirmMode ? "CONFIRMED" : data.status,
+                })
+              )}
+              action=""
+            >
               <div className="space-y-6">
                 <div>
                   <div className="text-sm font-semibold text-foreground">Assignment</div>
@@ -139,15 +158,28 @@ export default function UpdateAppointmentsDialog({
                 <div>
                   <div className="text-sm font-semibold text-foreground">Loan Details</div>
                   <div className="mt-4 grid grid-cols-2 gap-4">
-                    <FormFieldWrapper
-                      name="status"
-                      control={control}
-                      label="Status"
-                      required
-                      type="select"
-                      placeholder="Select status"
-                      options={AppointmentSelectVersion}
-                    />
+                    {isConfirmMode ? (
+                      <Card className="col-span-2 border-amber-200 bg-amber-50">
+                        <CardContent className="py-4">
+                          <div className="text-sm font-medium text-amber-900">
+                            Saving these details will automatically confirm this appointment.
+                          </div>
+                          <div className="mt-1 text-sm text-amber-800">
+                            Status will be set to CONFIRMED.
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ) : (
+                      <FormFieldWrapper
+                        name="status"
+                        control={control}
+                        label="Status"
+                        required
+                        type="select"
+                        placeholder="Select status"
+                        options={AppointmentSelectVersion}
+                      />
+                    )}
                     <FormFieldWrapper
                       name="productType"
                       control={control}
@@ -180,9 +212,12 @@ export default function UpdateAppointmentsDialog({
                       control={control}
                       label="Term"
                       required
-                      type="input"
-                      asNumber
-                      placeholder="Enter term"
+                      type="select"
+                      placeholder="Select term"
+                      options={termOptions}
+                      onChange={(value, field) => {
+                        field.onChange(Number(value));
+                      }}
                     />
                     <FormFieldWrapper
                       name="remarks"
