@@ -31,7 +31,8 @@ export default function LoansVerificationPage() {
     <ContentLayout title="Loans Overview">
       <BreadcrumbPages
         links={[
-          { href: "/", label: "Verification" },
+          { href: "/finance/client/overview", label: "Verification" },
+          { href: "/finance/loans/overview", label: "Loans" },
           { href: "/finance/loans", label: "Loans Overview" },
         ]}
       />
@@ -47,7 +48,7 @@ export default function LoansVerificationPage() {
         emptyDescription="There are no pending clients yet."
         onRowDoubleClick={(loan) => {
           // Navigate to dynamic route [id]/page.tsx using the client (id = serial number)
-          router.push(`/finance/loans/${loan.serialNumber}`);
+          router.push(`/finance/loans/overview/${loan.serialNumber}`);
         }}
       />
     </ContentLayout>

@@ -162,8 +162,18 @@ export function getMenuList(): Group[] {
         },
         {
           href: "/finance/loans",
-          label: "Loans Overview",
+          label: "Loans",
           icon: ClipboardList,
+          submenus: [
+            {
+              href: "/finance/loans/overview",
+              label: "Overview",
+            },
+            {
+              href: "/finance/loans/validation",
+              label: "For Validation",
+            },
+          ],
         },
         {
           href: "/finance/deceased",

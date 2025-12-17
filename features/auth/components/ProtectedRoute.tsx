@@ -23,7 +23,7 @@ export default function ProtectedRoute({ allowedRoles, children }: ProtectedRout
 
         setTimeout(() => {
           if (user.role.toUpperCase() === "FINANCE") {
-            router.push("/finance/clients");
+            router.push("/finance/clients/overview");
           } else {
             router.push("/dashboard");
           }

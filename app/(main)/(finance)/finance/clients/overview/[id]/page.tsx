@@ -124,9 +124,9 @@ export default function ClientVerificationInfoPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <BreadcrumbPages
           links={[
-            { href: "/", label: "Verification" },
-            { href: "/finance/clients", label: "Clients" },
-            { href: `/finance/clients/${serialNumber}`, label: serialNumber },
+            { href: "/finance/client/overview", label: "Verification" },
+            { href: "/finance/clients/overview", label: "Clients" },
+            { href: `/finance/clients/overview/${serialNumber}`, label: serialNumber },
           ]}
         />
 

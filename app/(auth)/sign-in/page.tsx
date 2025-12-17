@@ -27,7 +27,7 @@ export default function LoginPage() {
     }
 
     if (user && user.role === "FINANCE") {
-      router.push("/finance/clients");
+      router.push("/finance/clients/overview");
     }
   }, [user, router]);
 

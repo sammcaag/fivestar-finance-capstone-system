@@ -37,7 +37,7 @@ export default function ClientsVerificationPage() {
     <ContentLayout title="Deceased Clients">
       <BreadcrumbPages
         links={[
-          { href: "/", label: "Verification" },
+          { href: "/finance/client/overview", label: "Verification" },
           { href: "/finance/deceased", label: "Deceased Clients" },
         ]}
       />

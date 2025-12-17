@@ -31,7 +31,7 @@ export default function ClientsVerificationPage() {
     <ContentLayout title="Clients  Overview">
       <BreadcrumbPages
         links={[
-          { href: "/", label: "Verification" },
+          { href: "/finance/client/overview", label: "Verification" },
           { href: "/finance/clients/overview", label: "Clients" },
           { href: "/finance/clients/overview", label: "Clients Overview" },
         ]}

@@ -103,7 +103,7 @@ export default function ClientInfoPage() {
       <div className="flex justify-between items-center mb-4">
         <BreadcrumbPages
           links={[
-            { href: "/", label: "Verification" },
+            { href: "/finance/client/overview", label: "Verification" },
             { href: "/finance/deceased", label: "Deceased Clients" },
             { href: `/finance/deceased/${serialNumber}`, label: serialNumber },
           ]}
