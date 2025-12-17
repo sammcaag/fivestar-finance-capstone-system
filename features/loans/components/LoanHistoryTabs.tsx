@@ -48,7 +48,7 @@ export default function LoanHistoryTabs({
     emptyTitle: "No Loans Found",
     emptyDescription: "There are no loans. Add a new loan to get started.",
     emptyActionLabel: "Add New Loan",
-    emptyOnAction: () => handleAddLoan("New Client Loan"),
+    emptyOnAction: () => handleAddLoan("new-client"),
     onRowDoubleClick: setSelectedLoan,
   };
 
