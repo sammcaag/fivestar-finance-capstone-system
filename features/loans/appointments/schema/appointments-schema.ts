@@ -4,6 +4,8 @@ import { productTypeArray } from "../../types/loan-form-types";
 import { AppointmentStatusArray } from "../types/appointment-types";
 
 export const appointmentsSchema = z.object({
+  branchId: z.number(),
+  staffId: z.number(),
   status: z.enum(AppointmentStatusArray),
   appointmentDate: z.date(),
   remarks: z.string(),
@@ -12,7 +14,6 @@ export const appointmentsSchema = z.object({
   monthlyAmortization: z.number(),
   availableStartDate: z.date(),
   availableEndDate: z.date(),
-  scheduledDateTime: z.date(),
   term: z.number(),
 });
 
@@ -21,6 +22,8 @@ export type AppointmentsSchema = z.infer<typeof appointmentsSchema>;
 export const AppointmentsResolver = zodResolver(appointmentsSchema);
 
 export const appointmentsFormDefaultValues: AppointmentsSchema = {
+  branchId: 0,
+  staffId: 0,
   status: "PENDING",
   appointmentDate: new Date(),
   remarks: "",
@@ -29,6 +32,5 @@ export const appointmentsFormDefaultValues: AppointmentsSchema = {
   monthlyAmortization: 0,
   availableStartDate: new Date(),
   availableEndDate: new Date(),
-  scheduledDateTime: new Date(),
   term: 0,
 };

@@ -75,7 +75,7 @@ export default function TableBodyComp<TData extends TableData>({
               className={clsx(
                 "border-b transition-colors",
                 hasDedCode(row.original)
-                  ? getFiRowColors(row as Row<{ dedCode: string }>)
+                  ? getFiRowColors(row as unknown as Row<{ dedCode: string }>)
                   : "hover:bg-primary/20"
               )}
               data-state={row.getIsSelected() && "selected"}

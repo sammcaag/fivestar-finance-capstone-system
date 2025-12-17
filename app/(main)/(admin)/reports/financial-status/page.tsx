@@ -3,7 +3,8 @@
 import BreadcrumbPages from "@/components/BreadcrumbPages";
 import MainHeader from "@/components/MainHeader";
 import { ContentLayout } from "@/components/staff-panel/content-layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TableOnlyComp } from "@/components/tables/TableOnlyComp";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -11,27 +12,50 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { loanDeductionsColumnDefinition } from "@/features/reports/components/tables/LoanDeductionsColumnDefinition";
+import { getAnnualReportClients } from "@/features/reports/services/annual-report-clients-service";
 import { getAnnualReports } from "@/features/reports/services/annual-reports-service";
 import { AnnualReportRow } from "@/features/reports/types/annual-report-types";
+import { LoanDeductionTableRow } from "@/features/reports/types/loan-deductions-types";
 import { formatToPhCurrency } from "@/utils/format-to-ph-currency";
 import { useQuery } from "@tanstack/react-query";
-import { Banknote, CalendarRange, CircleDollarSign, CreditCard, Users } from "lucide-react";
+import { Banknote, CircleDollarSign, CreditCard, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+
+type AnnualReportClientMetric = "loans" | "accounts" | "payments" | "deceased";
 
 type StatCardProps = {
   title: string;
   value: string;
   summary: string;
   icon: React.ElementType;
+  isActive?: boolean;
+  onClick?: () => void;
 };
 
-function StatCard({ title, value, summary, icon: Icon }: StatCardProps) {
+function StatCard({ title, value, summary, icon: Icon, isActive, onClick }: StatCardProps) {
   return (
-    <Card className="relative overflow-hidden rounded-lg border bg-card shadow-sm">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+    <Card
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onClick={onClick}
+      onKeyDown={(e) => {
+        if (!onClick) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      className={
+        isActive
+          ? "overflow-hidden relative rounded-lg border ring-1 shadow-sm cursor-pointer bg-card ring-primary"
+          : "overflow-hidden relative rounded-lg border shadow-sm cursor-pointer bg-card"
+      }
+    >
+      <CardHeader className="flex flex-row justify-between items-center pb-2 space-y-0">
         <CardTitle className="text-sm font-medium text-card-foreground">{title}</CardTitle>
-        <div className="rounded-full bg-primary/10 p-2 text-primary">
-          <Icon className="h-4 w-4" />
+        <div className="p-2 rounded-full bg-primary/10 text-primary">
+          <Icon className="w-4 h-4" />
         </div>
       </CardHeader>
       <CardContent>
@@ -69,42 +93,49 @@ export default function FinancialStatus() {
     return annualReports.find((r) => r.year === selectedYear) ?? null;
   }, [annualReports, selectedYear]);
 
-  const stats = useMemo(() => {
-    const year = selectedReport?.year;
-    const yearLabel = year ? String(year) : "-";
+  const [selectedMetric, setSelectedMetric] = useState<AnnualReportClientMetric>("loans");
 
+  const { data: annualReportClients, isLoading: isClientsLoading } = useQuery<
+    LoanDeductionTableRow[]
+  >({
+    queryKey: ["annual-report-clients", selectedYear, selectedMetric],
+    queryFn: () =>
+      getAnnualReportClients({
+        year: selectedYear as number,
+        metric: selectedMetric as AnnualReportClientMetric,
+      }),
+    enabled: Boolean(selectedYear && selectedMetric),
+  });
+
+  const stats = useMemo(() => {
     return [
       {
-        title: "Reporting Year",
-        value: yearLabel,
-        summary: "Latest available annual report",
-        icon: CalendarRange,
-      },
-      {
         title: "Total Loans",
-        value: selectedReport ? formatToPhCurrency(Number(selectedReport.totalLoans)) : "-",
-        summary: "Sum of net proceeds (approved loans)",
+        value: selectedReport ? String(selectedReport.totalLoans) : "-",
+        summary: "Active loan records for the selected year",
         icon: Banknote,
+        metric: "loans" as const,
       },
       {
         title: "Total Accounts",
         value: selectedReport ? String(selectedReport.totalAccounts) : "-",
-        summary: "Approved loan history count",
+        summary: "Loan history account records for the selected year",
         icon: Users,
+        metric: "accounts" as const,
       },
       {
         title: "Total Payments",
-        value: selectedReport ? formatToPhCurrency(Number(selectedReport.totalPayments)) : "-",
-        summary: "Sum of monthly amortizations",
+        value: selectedReport ? formatToPhCurrency(selectedReport.totalPayments) : "-",
+        summary: "Payment-related loan records for the selected year",
         icon: CreditCard,
+        metric: "payments" as const,
       },
       {
         title: "Deceased Amortizations",
-        value: selectedReport
-          ? formatToPhCurrency(Number(selectedReport.totalDeceasedAmortizations))
-          : "-",
-        summary: "Deficiency payments from deceased clients",
+        value: selectedReport ? String(selectedReport.totalDeceasedAmortizations) : "-",
+        summary: "Loan records for deceased clients for the selected year",
         icon: CircleDollarSign,
+        metric: "deceased" as const,
       },
     ];
   }, [selectedReport]);
@@ -123,41 +154,47 @@ export default function FinancialStatus() {
         description="Annual breakdown of loans, accounts, payments, and deficiencies."
       />
 
-      <div className="flex items-center justify-end pb-4">
-        <Select
-          value={selectedYear ? String(selectedYear) : undefined}
-          onValueChange={(val) => setSelectedYear(Number(val))}
-          disabled={!years.length}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select year" />
-          </SelectTrigger>
-          <SelectContent>
-            {years.map((y) => (
-              <SelectItem key={String(y)} value={String(y)}>
-                {y}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <Card className="flex flex-row justify-between items-center">
+        <CardHeader>
+          <CardTitle className="text-4xl">{selectedYear}</CardTitle>
+          <CardDescription>Financial Year</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Select
+            value={selectedYear ? String(selectedYear) : undefined}
+            onValueChange={(val) => setSelectedYear(Number(val))}
+            disabled={!years.length}
+          >
+            <SelectTrigger className="w-[180px] h-12!">
+              <SelectValue placeholder="Select year" />
+            </SelectTrigger>
+            <SelectContent>
+              {years.map((y) => (
+                <SelectItem key={String(y)} value={String(y)}>
+                  {y}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </CardContent>
+      </Card>
 
       {isLoading ? (
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-4">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Card key={String(i)} className="rounded-lg border bg-card shadow-sm">
+            <Card key={String(i)} className="rounded-lg border shadow-sm bg-card">
               <CardHeader className="space-y-2">
-                <div className="h-4 w-32 rounded bg-muted" />
+                <div className="w-32 h-4 rounded bg-muted" />
               </CardHeader>
               <CardContent className="space-y-2">
-                <div className="h-7 w-40 rounded bg-muted" />
-                <div className="h-4 w-56 rounded bg-muted" />
+                <div className="w-40 h-7 rounded bg-muted" />
+                <div className="w-56 h-4 rounded bg-muted" />
               </CardContent>
             </Card>
           ))}
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-4">
           {stats.map((s) => (
             <StatCard
               key={s.title}
@@ -165,10 +202,31 @@ export default function FinancialStatus() {
               value={s.value}
               summary={s.summary}
               icon={s.icon}
+              isActive={selectedMetric === s.metric}
+              onClick={() => {
+                if (!selectedYear) return;
+                setSelectedMetric((prev) => (prev === s.metric ? "loans" : s.metric));
+              }}
             />
           ))}
         </div>
       )}
+
+      {selectedMetric ? (
+        <div className="pt-6">
+          <TableOnlyComp<LoanDeductionTableRow>
+            title={stats.find((s) => s.metric === selectedMetric)?.title ?? "Results"}
+            description={`Clients included for ${selectedYear} based on the selected metric.`}
+            data={annualReportClients ?? []}
+            isLoading={isClientsLoading}
+            columns={loanDeductionsColumnDefinition}
+            filterColumns={["name", "deductNumber"]}
+            initialSort={[{ id: "loanStarted", desc: true }]}
+            emptyTitle="No Clients Found"
+            emptyDescription="No matching clients were found for the selected year and metric."
+          />
+        </div>
+      ) : null}
     </ContentLayout>
   );
 }

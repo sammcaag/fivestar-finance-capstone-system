@@ -79,15 +79,15 @@ export const mobileAppointmentsColumnDefinition = (
       cell: ({ row }) => {
         const appointment = row.original;
         return (
-          <div className="flex items-center gap-3">
-            <Avatar className="size-10 border border-primary/10 flex-shrink-0">
+          <div className="flex gap-3 items-center">
+            <Avatar className="flex-shrink-0 border size-10 border-primary/10">
               <AvatarImage src="/avatar.png" alt={appointment.client.fullName} />
-              <AvatarFallback className="bg-primary/5 text-primary text-xs font-semibold">
+              <AvatarFallback className="text-xs font-semibold bg-primary/5 text-primary">
                 {appointment.client.fullName.substring(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <span className="font-medium text-sm">{appointment.client.fullName}</span>
+              <span className="text-sm font-medium">{appointment.client.fullName}</span>
               <span className="text-xs text-muted-foreground">Ref #{appointment.id}</span>
             </div>
           </div>
@@ -104,7 +104,7 @@ export const mobileAppointmentsColumnDefinition = (
       cell: ({ row }) => {
         const productType = row.getValue("productType") as keyof typeof productTypeConfig | null;
         if (!productType) {
-          return <Badge className="capitalize  bg-amber-100 text-amber-800">PENDING</Badge>;
+          return <Badge className="text-amber-800 capitalize bg-amber-100">PENDING</Badge>;
         }
 
         const config = getProductTypeClass(productType);
@@ -147,7 +147,7 @@ export const mobileAppointmentsColumnDefinition = (
 
         if (!branchName && !staffName) {
           return (
-            <div className="flex flex-col leading-tight text-sm text-muted-foreground">
+            <div className="flex flex-col text-sm leading-tight text-muted-foreground">
               <span>Branch assignment pending</span>
             </div>
           );
@@ -175,8 +175,8 @@ export const mobileAppointmentsColumnDefinition = (
         const hasValidDate = parsedDate && !Number.isNaN(parsedDate.getTime());
 
         return (
-          <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+          <div className="flex gap-2 items-center">
+            <Calendar className="w-4 h-4 text-muted-foreground" />
             <div className="flex flex-col leading-tight">
               <span className="text-sm font-medium">
                 {hasValidDate
@@ -226,7 +226,7 @@ export const mobileAppointmentsColumnDefinition = (
         const status = row.getValue("status") as keyof typeof statusConfig;
         if (status !== "PENDING") {
           return (
-            <UpdateAppointmentsDialog id={row.original.id.toString()}>
+            <UpdateAppointmentsDialog id={row.original.id.toString()} mode="edit">
               <Button variant="outline" className="min-w-[90px]">
                 Edit
               </Button>
@@ -235,7 +235,7 @@ export const mobileAppointmentsColumnDefinition = (
         }
 
         return (
-          <UpdateAppointmentsDialog id={row.original.id.toString()}>
+          <UpdateAppointmentsDialog id={row.original.id.toString()} mode="confirm">
             <Button className="min-w-[90px]">Confirm</Button>
           </UpdateAppointmentsDialog>
         );
