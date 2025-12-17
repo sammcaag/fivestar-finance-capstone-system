@@ -25,13 +25,13 @@ import ClientProfileHeaderSkeleton from "@/features/clients/components/skeletons
 import { ApprovalStatus, ClientPayload } from "@/features/clients/types/client-types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { CheckCircle, UserX, XCircle } from "lucide-react";
+import { CheckCircle, XCircle } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
 export default function ClientVerificationInfoPage() {
   useEffect(() => {
-    document.title = "Client Verification Information | Stella - Five Star Finance Inc.";
+    document.title = "Client Pending Verification | Stella - Five Star Finance Inc.";
   }, []);
 
   const params = useParams();
@@ -106,7 +106,7 @@ export default function ClientVerificationInfoPage() {
         },
       });
       console.log("Result:", result);
-      showDialog("Client information registered successfully!", "success");
+      showDialog("Client information validated successfully!", "success");
       refetch();
     } catch (error) {
       console.log("Error:", error);
@@ -131,20 +131,6 @@ export default function ClientVerificationInfoPage() {
         />
 
         <div className="flex gap-3 w-full sm:w-auto">
-          <Button
-            className="flex-1 sm:flex-none
-                    bg-slate-50 hover:bg-slate-100
-                    text-slate-700 border border-slate-200
-                    dark:bg-slate-950 dark:hover:bg-slate-900
-                    dark:text-slate-300 dark:border-slate-800
-                        transition-all duration-200 shadow-sm hover:shadow-md font-medium"
-            onClick={() => handleOpen("DECEASED")}
-            disabled={isLoading}
-          >
-            <UserX className="mr-2 h-4 w-4" />
-            Deceased
-          </Button>
-
           <Button
             className="flex-1 sm:flex-none bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 dark:bg-red-950 dark:hover:bg-red-900 dark:text-red-300 dark:border-red-800 transition-all duration-200 shadow-sm hover:shadow-md font-medium"
             onClick={() => handleOpen("DISAPPROVED")}

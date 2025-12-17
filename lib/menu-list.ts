@@ -147,9 +147,13 @@ export function getMenuList(): Group[] {
         // Client Information Verfication
         {
           href: "/finance/clients",
-          label: "Clients Overview",
+          label: "Clients",
           icon: User,
           submenus: [
+            {
+              href: "/finance/clients/overview",
+              label: "Overview",
+            },
             {
               href: "/finance/clients/validation",
               label: "For Validation",

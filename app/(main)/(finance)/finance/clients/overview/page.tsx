@@ -9,7 +9,7 @@ import { clientsColumnDefinition } from "@/features/clients/components/tables/Cl
 import { ClientTableProps } from "@/features/clients/types/client-types";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 export default function ClientsVerificationPage() {
   const router = useRouter(); // initialize router
@@ -23,12 +23,6 @@ export default function ClientsVerificationPage() {
     queryFn: getClients,
   });
 
-  const pendingClients = useMemo(() => {
-    return (
-      clientsData?.filter((client) => client.approvalStatus?.toUpperCase() === "PENDING") ?? []
-    );
-  }, [clientsData]);
-
   useEffect(() => {
     console.log("THE DATA IS:", clientsData);
   }, [clientsData]);
@@ -38,7 +32,8 @@ export default function ClientsVerificationPage() {
       <BreadcrumbPages
         links={[
           { href: "/", label: "Verification" },
-          { href: "/finance/clients", label: "Clients" },
+          { href: "/finance/clients/overview", label: "Clients" },
+          { href: "/finance/clients/overview", label: "Clients Overview" },
         ]}
       />
       <MainHeader
@@ -48,7 +43,7 @@ export default function ClientsVerificationPage() {
       <MainTableComp<ClientTableProps>
         title="Clients Overview"
         description="View and manage the complete list of pending clients."
-        data={pendingClients ?? []}
+        data={clientsData ?? []}
         isLoading={isLoading}
         columns={clientsColumnDefinition(false)}
         filterColumns={["name", "branchName"]}
@@ -56,7 +51,7 @@ export default function ClientsVerificationPage() {
         emptyDescription="There are no pending clients yet."
         onRowDoubleClick={(client) => {
           // Navigate to dynamic route [id]/page.tsx using the client (id = serial number)
-          router.push(`/finance/clients/${client.id}`);
+          router.push(`/finance/clients/overview/${client.id}`);
         }}
       />
     </ContentLayout>
