@@ -1,5 +1,6 @@
 import axiosInstance from "@/lib/axios-instance";
 import axios from "axios";
+import { LoanTableProps } from "../../types/loan-types";
 import { LoanHistoryPayload } from "../types/loan-form-types";
 
 export const createLoanHistoryApi = async (payload: LoanHistoryPayload) => {
@@ -50,5 +51,18 @@ export const getLoanDocumentByType = async (type: string, loanHistoryId: number)
       throw error;
     }
     throw new Error("Failed to update a staff");
+  }
+};
+
+export const getClientLoanHistories = async (): Promise<LoanTableProps[]> => {
+  try {
+    const { data } = await axiosInstance.get("/api/loan-history");
+    return data.data; // <-- return the inner array
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error(`Failed to fetch clients`);
   }
 };

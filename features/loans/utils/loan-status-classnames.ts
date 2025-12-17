@@ -1,16 +1,22 @@
 export function loanStatusClassNames(status: string) {
   switch (status) {
-    case "Approved by HQ":
+    case "APPROVED":
       return {
         bg: "bg-blue-100",
         text: "text-blue-800",
-        label: "Approved by HQ",
+        label: "APPROVED",
       };
-    case "Pending":
+    case "ACTIVE":
+      return {
+        bg: "bg-green-100",
+        text: "text-green-800",
+        label: "ACTIVE",
+      };
+    case "PENDING":
       return {
         bg: "bg-yellow-100",
         text: "text-yellow-800",
-        label: "Pending",
+        label: "PENDING",
       };
     case "Disbursed":
       return {
@@ -29,6 +35,18 @@ export function loanStatusClassNames(status: string) {
         bg: "bg-destructive",
         text: "text-white",
         label: "Rejected",
+      };
+    case "DISAPPROVED":
+      return {
+        bg: "bg-destructive",
+        text: "text-white",
+        label: "DISAPPROVED",
+      };
+    case "NSF":
+      return {
+        bg: "bg-destructive",
+        text: "text-white",
+        label: "NSF",
       };
     case "Forwarded to HQ":
       return {

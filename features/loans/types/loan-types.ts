@@ -4,13 +4,15 @@ type LoanStatus = "Approved by HQ" | "Pending" | "Disbursed" | "Rejected" | "For
 export interface LoanTableProps {
   id: string;
   name: string;
+  serialNumber: string;
   productType: LoanType;
-  amount: number;
-  status: LoanStatus;
-  branch: string;
-  startDate: string;
+  monthlyAmortization: number;
+  status: string;
+  approvalStatus: string;
+  branchName: string;
+  valueDate: string;
   term: number;
-  applicationDate: string;
+  createdAt: string;
 }
 
 interface LoanDocument {

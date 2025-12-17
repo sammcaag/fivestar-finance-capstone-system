@@ -43,7 +43,7 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
       const loan = row.original;
       return (
         <div className="flex items-center gap-3">
-          <Avatar className="size-10 border border-primary/10 flex-shrink-0">
+          <Avatar className="size-12 border border-primary/10 flex-shrink-0">
             <AvatarImage src="/avatar.png" alt={loan.name} />
             <AvatarFallback className="bg-primary/5 text-primary text-xs font-semibold">
               {loan.name.substring(0, 2).toUpperCase()}
@@ -51,7 +51,10 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
           </Avatar>
           <div className="flex flex-col">
             <span className="font-medium text-sm">{loan.name}</span>
-            <span className="text-xs text-muted-foreground">{loan.id}</span>
+            <span className="text-xs text-muted-foreground">Loan ID: {loan.id}</span>
+            <span className="text-xs text-muted-foreground">
+              Serial Number: {loan.serialNumber}
+            </span>
           </div>
         </div>
       );
@@ -64,7 +67,6 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
     filterFn: productTypeFilterFn,
     enableColumnFilter: true,
     enableSorting: true,
-    size: 150,
     cell: ({ row }) => (
       <Badge className={cn(getProductTypeClass(row.original.productType))}>
         {row.original.productType}
@@ -73,51 +75,27 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
   },
   // AMOUNT
   {
-    accessorKey: "amount",
-    header: "Amount",
+    accessorKey: "monthlyAmortization",
+    header: "M . A .",
     enableColumnFilter: false,
     enableSorting: true,
-    size: 120,
     cell: ({ row }) => (
-      <span className="font-semibold text-sm">{formatToPhCurrency(row.original.amount)}</span>
+      <span className="font-semibold text-sm">
+        {formatToPhCurrency(row.original.monthlyAmortization)}
+      </span>
     ),
   },
-  // STATUS
-  {
-    accessorKey: "status",
-    header: "Status",
-    filterFn: statusFilterFn,
-    enableColumnFilter: true,
-    enableSorting: true,
-    size: 150,
-    cell: ({ row }) => {
-      const status = row.original.status;
-      const config = loanStatusClassNames(status);
-      return (
-        <Badge
-          className={cn(
-            "text-xs font-medium px-2 py-1",
-            config ? `${config.bg} ${config.text}` : ""
-          )}
-        >
-          {config?.label || status}
-        </Badge>
-      );
-    },
-  },
+
   // BRANCH
   {
-    accessorKey: "branch",
+    accessorKey: "branchName",
     header: "Branch",
     enableColumnFilter: true,
     enableSorting: true,
-    size: 150,
     cell: ({ row }) => (
-      <div className="truncate max-w-[150px] overflow-hidden text-ellipsis whitespace-nowrap">
-        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-          <MapPin className="h-3.5 w-3.5 flex-shrink-0" />
-          <span>{row.original.branch}</span>
-        </div>
+      <div className="flex items-center gap-1.5 text-[15px] text-foreground">
+        <MapPin className="h-4 w-4 text-primary" />
+        <span>{String(row.getValue("branchName"))?.replace(/\s*Branch$/, "") || "N/A"}</span>
       </div>
     ),
   },
@@ -127,32 +105,41 @@ export const loansColumnDefinition: ColumnDef<LoanTableProps>[] = [
     header: "Term",
     enableColumnFilter: false,
     enableSorting: true,
-    size: 100,
     cell: ({ row }) => <span className="text-sm font-medium">{row.original.term} months</span>,
   },
-  // START DATE
+  // APPROVAL STATUS
   {
-    accessorKey: "startDate",
-    header: "Start Date",
-    enableColumnFilter: false,
+    accessorKey: "approvalStatus",
+    header: "Approval Status",
+    filterFn: statusFilterFn,
+    enableColumnFilter: true,
     enableSorting: true,
-    size: 120,
     cell: ({ row }) => {
-      const date = new Date(row.original.startDate);
-      return <span className="text-sm">{formatDateToReadable(date, true)}</span>;
+      const approvalStatus = row.original.approvalStatus;
+      const config = loanStatusClassNames(approvalStatus);
+      return (
+        <Badge
+          className={cn(
+            "text-xs font-medium px-2 py-1",
+            config ? `${config.bg} ${config.text}` : ""
+          )}
+        >
+          {approvalStatus}
+        </Badge>
+      );
     },
   },
   // APPLICATION DATE
   {
-    accessorKey: "applicationDate",
+    accessorKey: "createdAt",
     header: "Applied On",
     enableColumnFilter: false,
     enableSorting: true,
-    size: 120,
     cell: ({ row }) => {
-      const date = new Date(row.original.applicationDate);
       return (
-        <span className="text-sm text-muted-foreground">{formatDateToReadable(date, true)}</span>
+        <span className="text-sm text-muted-foreground">
+          {formatDateToReadable(row.getValue("createdAt"), true)}
+        </span>
       );
     },
   },
