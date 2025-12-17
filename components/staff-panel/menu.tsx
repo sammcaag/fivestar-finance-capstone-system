@@ -80,6 +80,9 @@ export function Menu({ isOpen }: MenuProps) {
                 } else if (href === "/finance/clients") {
                   isActive =
                     pathname === "/finance/clients" || pathname.startsWith("/finance/clients/");
+                } else if (href === "/finance/loans") {
+                  isActive =
+                    pathname === "/finance/loans" || pathname.startsWith("/finance/loans/");
                 } else {
                   isActive = pathname === href;
                 }

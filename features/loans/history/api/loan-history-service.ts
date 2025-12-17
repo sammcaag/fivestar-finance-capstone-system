@@ -1,3 +1,4 @@
+import { ApprovalStatus } from "@/features/clients/types/client-types";
 import axiosInstance from "@/lib/axios-instance";
 import axios from "axios";
 import { LoanTableProps } from "../../types/loan-types";
@@ -64,5 +65,22 @@ export const getClientLoanHistories = async (): Promise<LoanTableProps[]> => {
       throw error;
     }
     throw new Error(`Failed to fetch clients`);
+  }
+};
+
+export const updateLoanHistoryApprovalStatusApi = async (
+  id: number,
+  approvalStatus: ApprovalStatus
+) => {
+  try {
+    const { data } = await axiosInstance.patch(`/api/loan-history/${id}`, { approvalStatus });
+
+    return data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // throw the actual axios error back to the UI
+      throw error;
+    }
+    throw new Error("Failed to update client approval status");
   }
 };

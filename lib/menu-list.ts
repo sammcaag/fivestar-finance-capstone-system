@@ -151,7 +151,7 @@ export function getMenuList(): Group[] {
         },
         {
           href: "/finance/loans",
-          label: "Loan Applications",
+          label: "Loans Overview",
           icon: ClipboardList,
         },
         {
