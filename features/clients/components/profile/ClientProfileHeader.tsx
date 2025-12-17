@@ -96,15 +96,17 @@ export default function ClientProfileHeader({
             {approvalStatus}
           </Badge>
 
-          <Badge
-            className={cn(
-              "absolute right-6 top-16 flex items-center gap-2 rounded-full border px-4 py-1 text-sm font-semibold uppercase tracking-[0.2em]",
-              statusStyles[approvalStatus as ApprovalStatus].badge
-            )}
-          >
-            <span className={cn("h-2 w-2 rounded-full")} />
-            Deceased At: {formatDateToReadable(deceasedAt, true)}
-          </Badge>
+          {approvalStatus.toUpperCase() === "DECEASED" && (
+            <Badge
+              className={cn(
+                "absolute right-6 top-16 flex items-center gap-2 rounded-full border px-4 py-1 text-sm font-semibold uppercase tracking-[0.2em]",
+                statusStyles[approvalStatus as ApprovalStatus].badge
+              )}
+            >
+              <span className={cn("h-2 w-2 rounded-full")} />
+              Deceased At: {formatDateToReadable(deceasedAt, true)}
+            </Badge>
+          )}
         </div>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:gap-10">
           <Avatar className="h-28 w-28 border-4 border-white/70 shadow-xl ring-4 ring-white/30 md:h-32 md:w-32">
