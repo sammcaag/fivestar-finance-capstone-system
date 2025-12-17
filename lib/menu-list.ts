@@ -4,6 +4,7 @@ import {
   Calculator,
   CalendarClock,
   ClipboardList,
+  File,
   LayoutGrid,
   LucideIcon,
   Settings,
@@ -168,7 +169,7 @@ export function getMenuList(): Group[] {
         {
           href: "/reports",
           label: "Reports",
-          icon: Settings,
+          icon: File,
           submenus: [
             {
               href: `/reports/loan-deductions`,
@@ -207,7 +208,7 @@ export function getMenuList(): Group[] {
 }
 
 const ROLE_PERMISSIONS = {
-  ADMIN: ["Home", "Clients", "Loans", "Branch", "Staff", "Settings"],
+  ADMIN: ["Home", "Clients", "Loans", "Branch", "Staff", "Reports", "Settings"],
   SALES: ["Home", "Clients", "Loans", "Settings"],
   LOANS: ["Home", "Clients", "Loans", "Settings"],
   FINANCE: ["Verification", "Settings"],
