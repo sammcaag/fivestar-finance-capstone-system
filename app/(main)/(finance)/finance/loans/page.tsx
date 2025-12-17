@@ -19,7 +19,7 @@ export default function LoansVerificationPage() {
   }, []);
 
   const { data: loanClientHistoriesData, isLoading } = useQuery<LoanTableProps[]>({
-    queryKey: ["loan-histories"],
+    queryKey: ["loanHistories"],
     queryFn: getClientLoanHistories,
   });
 

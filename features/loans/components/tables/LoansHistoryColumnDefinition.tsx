@@ -20,6 +20,7 @@ import { CheckCircle, Eye, MoreHorizontal, Printer, X } from "lucide-react";
 import { useState } from "react";
 import { updateLoanHistoryApprovalStatusApi } from "../../history/api/loan-history-service";
 import { LoanHistoryPayload } from "../../history/types/loan-form-types";
+import { loanStatusClassNames } from "../../utils/loan-status-classnames";
 import LoanHistoryDetailsDialog from "../dialogs/LoanHistoryDetailsDialog";
 import ViewDocumentsDialog from "../document-dialog/ViewDocumentsDialog";
 
@@ -99,10 +100,17 @@ export const loansHistoryColumnDefinition: ColumnDef<LoanHistoryPayload>[] = [
     header: "Account Status",
     cell: ({ row }) => {
       const status = row.original.status;
-      if (status === "PROCESS") {
-        return <Badge className={cn("bg-amber-400")}>{status}</Badge>;
-      }
-      return <Badge>{status}</Badge>;
+      const config = loanStatusClassNames(status!);
+      return (
+        <Badge
+          className={cn(
+            "text-xs font-medium px-2 py-1",
+            config ? `${config.bg} ${config.text}` : ""
+          )}
+        >
+          {status}
+        </Badge>
+      );
     },
     enableColumnFilter: true,
     enableSorting: false,

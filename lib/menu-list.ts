@@ -149,6 +149,12 @@ export function getMenuList(): Group[] {
           href: "/finance/clients",
           label: "Clients Overview",
           icon: User,
+          submenus: [
+            {
+              href: "/finance/clients/validation",
+              label: "For Validation",
+            },
+          ],
         },
         {
           href: "/finance/loans",
