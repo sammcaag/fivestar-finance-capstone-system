@@ -41,6 +41,7 @@ export default function ClientsVerificationPage() {
           { href: "/finance/deceased", label: "Deceased Clients" },
         ]}
       />
+
       <MainHeader
         title="Deceased Clients"
         description="Manage client portfolio and verify information"
@@ -56,7 +57,7 @@ export default function ClientsVerificationPage() {
         emptyDescription="There are no deceased clients yet."
         onRowDoubleClick={(client) => {
           // Navigate to dynamic route [id]/page.tsx using the client (id = serial number)
-          router.push(`/finance/clients/${client.id}`);
+          router.push(`/finance/deceased/${client.id}`);
         }}
       />
     </ContentLayout>

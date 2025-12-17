@@ -13,6 +13,7 @@ interface LoanHistoryTabsProps {
   handleAddLoan: (type: string) => void;
   totalSets: number;
   isLoading?: boolean;
+  isDeceased?: boolean;
 }
 
 export default function LoanHistoryTabs({
@@ -23,6 +24,7 @@ export default function LoanHistoryTabs({
   handleAddLoan,
   totalSets,
   isLoading = false,
+  isDeceased = false,
 }: LoanHistoryTabsProps) {
   const getOrdinal = (n: number): string => {
     const s = ["th", "st", "nd", "rd"];
@@ -46,9 +48,11 @@ export default function LoanHistoryTabs({
       { id: "valueDate", desc: false },
     ],
     emptyTitle: "No Loans Found",
-    emptyDescription: "There are no loans. Add a new loan to get started.",
-    emptyActionLabel: "Add New Loan",
-    emptyOnAction: () => handleAddLoan("new-client"),
+    emptyDescription: !isDeceased
+      ? "There are no loans. Add a new loan to get started."
+      : "There are no loan history of this deceased clients",
+    emptyActionLabel: !isDeceased ? "Add New Loan" : "",
+    emptyOnAction: !isDeceased ? () => handleAddLoan("new-client") : undefined,
     onRowDoubleClick: setSelectedLoan,
   };
 
@@ -58,7 +62,7 @@ export default function LoanHistoryTabs({
       <MainTableComp<LoanHistoryPayload>
         data={loanHistory}
         {...tableProps}
-        customHeaderRight={customHeaderRight}
+        customHeaderRight={!isDeceased ? customHeaderRight : undefined}
       />
     );
   }

@@ -53,6 +53,7 @@ export default function ClientInformation({
         profileImageUrl={client.profileImageUrl}
         remarks={client.remarks}
         branchName={client.branch!.name.replace(/branch/i, "").trim()}
+        deceasedAt={client.deceasedAt}
       />
       <Tabs
         className="w-full"

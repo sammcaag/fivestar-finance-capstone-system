@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { formatCurrency } from "@/features/loans/computations/utils/format-currency";
 import { cn } from "@/lib/utils";
 import { avatarFallBack } from "@/utils/avatar-fallback";
+import { formatDateToReadable } from "@/utils/format-date-to-readable";
 import { getAge } from "@/utils/get-age";
 import { ApprovalStatus, statusStyles } from "../../types/client-types";
 
@@ -23,6 +24,7 @@ interface IClientProfile {
   profileImageUrl?: string;
   remarks?: string;
   branchName: string;
+  deceasedAt?: Date;
 }
 
 export default function ClientProfileHeader({
@@ -39,6 +41,7 @@ export default function ClientProfileHeader({
   profileImageUrl,
   remarks,
   branchName,
+  deceasedAt = new Date(),
 }: IClientProfile) {
   const age = getAge(birthDate);
 
@@ -77,20 +80,32 @@ export default function ClientProfileHeader({
   return (
     <Card className="overflow-hidden border border-border/50 shadow-md">
       <CardHeader className="relative bg-gradient-to-r from-primary via-primary/90 to-primary/70 text-primary-foreground p-8 pb-12">
-        <Badge
-          className={cn(
-            "absolute right-6 top-6 flex items-center gap-2 rounded-full border px-4 py-1 text-sm font-semibold uppercase tracking-[0.2em]",
-            statusStyles[approvalStatus as ApprovalStatus].badge
-          )}
-        >
-          <span
+        <div className="flex flex-col">
+          <Badge
             className={cn(
-              "h-2 w-2 rounded-full",
-              statusStyles[approvalStatus as ApprovalStatus].dot
+              "absolute right-6 top-6 flex items-center gap-2 rounded-full border px-4 py-1 text-sm font-semibold uppercase tracking-[0.2em]",
+              statusStyles[approvalStatus as ApprovalStatus].badge
             )}
-          />
-          {approvalStatus}
-        </Badge>
+          >
+            <span
+              className={cn(
+                "h-2 w-2 rounded-full",
+                statusStyles[approvalStatus as ApprovalStatus].dot
+              )}
+            />
+            {approvalStatus}
+          </Badge>
+
+          <Badge
+            className={cn(
+              "absolute right-6 top-16 flex items-center gap-2 rounded-full border px-4 py-1 text-sm font-semibold uppercase tracking-[0.2em]",
+              statusStyles[approvalStatus as ApprovalStatus].badge
+            )}
+          >
+            <span className={cn("h-2 w-2 rounded-full")} />
+            Deceased At: {formatDateToReadable(deceasedAt, true)}
+          </Badge>
+        </div>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:gap-10">
           <Avatar className="h-28 w-28 border-4 border-white/70 shadow-xl ring-4 ring-white/30 md:h-32 md:w-32">
             <AvatarImage src={profileImageUrl || "/placeholder.svg"} alt="Profile picture" />

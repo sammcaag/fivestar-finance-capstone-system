@@ -333,6 +333,7 @@ export type ClientPayload = {
   profileImageUrl?: string;
   remarks?: string;
   branch?: Branch;
+  deceasedAt?: Date;
 
   address: Address;
   contactInfo: ContactInfo;

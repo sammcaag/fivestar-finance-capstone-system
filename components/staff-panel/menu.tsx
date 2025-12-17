@@ -83,6 +83,9 @@ export function Menu({ isOpen }: MenuProps) {
                 } else if (href === "/finance/loans") {
                   isActive =
                     pathname === "/finance/loans" || pathname.startsWith("/finance/loans/");
+                } else if (href === "/finance/deceased") {
+                  isActive =
+                    pathname === "/finance/deceased" || pathname.startsWith("/finance/deceased/");
                 } else {
                   isActive = pathname === href;
                 }
