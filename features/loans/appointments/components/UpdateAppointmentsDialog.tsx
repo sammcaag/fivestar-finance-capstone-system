@@ -50,6 +50,8 @@ export default function UpdateAppointmentsDialog({
   const { appointmentForm, isLoading, onSubmit, appointmentIsLoading } = useAppointmentsForm(id);
   const { control, handleSubmit, watch, setValue } = appointmentForm;
   const selectedBranchId = watch("branchId");
+  const selectedStaffId = watch("staffId");
+
   const isConfirmMode = mode === "confirm";
 
   const { data: branchesData } = useQuery<BranchTableProps[]>({
@@ -84,7 +86,6 @@ export default function UpdateAppointmentsDialog({
         value: String(staff.plainId),
       })) ?? [];
 
-  const selectedStaffId = watch("staffId");
   const isSelectedStaffValid = staffOptions.some(
     (staff) => staff.value === String(selectedStaffId)
   );
@@ -120,7 +121,7 @@ export default function UpdateAppointmentsDialog({
               <div className="space-y-6">
                 <div>
                   <div className="text-sm font-semibold text-foreground">Assignment</div>
-                  <div className="mt-4 grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4 mt-4">
                     <FormFieldWrapper
                       name="branchId"
                       control={control}
@@ -131,7 +132,7 @@ export default function UpdateAppointmentsDialog({
                       options={branchOptions}
                       onChange={(value) => {
                         const branchId = Number(value);
-                        setValue("branchId", branchId, { shouldDirty: true, shouldValidate: true });
+                        setValue("branchId", branchId);
                         if (Number.isFinite(branchId) && branchId > 0) {
                           setValue("staffId", 0, { shouldDirty: true, shouldValidate: true });
                         }
@@ -146,6 +147,10 @@ export default function UpdateAppointmentsDialog({
                       placeholder="Select staff"
                       options={staffOptions}
                       disabled={!selectedBranchId || Number(selectedBranchId) <= 0}
+                      onChange={(value) => {
+                        const staffId = Number(value);
+                        setValue("staffId", staffId);
+                      }}
                     />
                   </div>
                   {!isSelectedStaffValid && Number(selectedStaffId) > 0 ? (
@@ -157,9 +162,9 @@ export default function UpdateAppointmentsDialog({
 
                 <div>
                   <div className="text-sm font-semibold text-foreground">Loan Details</div>
-                  <div className="mt-4 grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4 mt-4">
                     {isConfirmMode ? (
-                      <Card className="col-span-2 border-amber-200 bg-amber-50">
+                      <Card className="col-span-2 bg-amber-50 border-amber-200">
                         <CardContent className="py-4">
                           <div className="text-sm font-medium text-amber-900">
                             Saving these details will automatically confirm this appointment.
@@ -232,7 +237,7 @@ export default function UpdateAppointmentsDialog({
 
                 <div>
                   <div className="text-sm font-semibold text-foreground">Schedule</div>
-                  <div className="mt-4 grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4 mt-4">
                     <FormFieldWrapper
                       name="availableStartDate"
                       control={control}
@@ -247,6 +252,7 @@ export default function UpdateAppointmentsDialog({
                       label="Available End Date"
                       required
                       type="date"
+                      isFutureDatesUnselectable={false}
                       placeholder="Select available end date"
                     />
                     <FormFieldWrapper
@@ -255,15 +261,8 @@ export default function UpdateAppointmentsDialog({
                       label="Appointment Date"
                       required
                       type="date"
+                      isFutureDatesUnselectable={false}
                       placeholder="Select appointment date"
-                    />
-                    <FormFieldWrapper
-                      name="scheduledDateTime"
-                      control={control}
-                      label="Scheduled Date & Time"
-                      required
-                      type="date"
-                      placeholder="Select scheduled date and time"
                     />
                   </div>
                 </div>

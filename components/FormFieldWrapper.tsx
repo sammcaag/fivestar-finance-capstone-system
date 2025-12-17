@@ -34,6 +34,7 @@ interface BaseProps<T extends FieldValues> extends CustomOnChangeProps<T> {
   formItemClassName?: string;
   customFunctionOnChange?: () => void;
   disabled?: boolean;
+  isFutureDatesUnselectable?: boolean;
 }
 
 // Input — now with asNumber
@@ -92,6 +93,7 @@ export function FormFieldWrapper<T extends FieldValues>(props: FormFieldWrapperP
     formItemClassName,
     onChange: customOnChange,
     disabled = false,
+    isFutureDatesUnselectable = true,
   } = props;
 
   return (
@@ -112,14 +114,14 @@ export function FormFieldWrapper<T extends FieldValues>(props: FormFieldWrapperP
         return (
           <FormItem
             className={cn(
-              "w-full min-h-[80px] flex flex-col",
+              "flex flex-col w-full min-h-[80px]",
               disabled ? "cursor-not-allowed" : "cursor-text",
               formItemClassName
             )}
           >
-            <FormLabel className="text-foreground font-medium">
+            <FormLabel className="font-medium text-foreground">
               {label}
-              {required && <span className="text-destructive ml-1">*</span>}
+              {required && <span className="ml-1 text-destructive">*</span>}
             </FormLabel>
 
             <FormControl>
@@ -239,7 +241,7 @@ export function FormFieldWrapper<T extends FieldValues>(props: FormFieldWrapperP
                     date={normalizeDate(field.value)}
                     setDate={handleChange}
                     endYear={getYear(new Date())}
-                    isFutureDatesUnselectable={true}
+                    isFutureDatesUnselectable={isFutureDatesUnselectable}
                     customDateFormat="MMMM d, yyyy"
                     placeholder={props.placeholder || "Select date"}
                     editable={!disabled}
@@ -252,7 +254,7 @@ export function FormFieldWrapper<T extends FieldValues>(props: FormFieldWrapperP
                   defaultCountry="PH"
                   placeholder="+63 912 345 6789"
                   disabled={props.disabled}
-                  className="w-full rounded-md border-0 bg-background shadow-sm focus:shadow-md transition-all duration-200"
+                  className="w-full rounded-md border-0 shadow-sm transition-all duration-200 bg-background focus:shadow-md"
                 />
               ) : (
                 <>{props.children({ ...field, onChange: handleChange })}</>

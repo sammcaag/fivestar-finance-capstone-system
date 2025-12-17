@@ -26,9 +26,10 @@ export const useAppointmentsForm = (id: string) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (!appointmentsData) {
+    if (!appointmentsData || appointmentsData.status === "PENDING") {
       return;
     }
+
     reset({
       branchId: Number(appointmentsData.branchId),
       staffId: Number(appointmentsData.staffId),
@@ -45,7 +46,6 @@ export const useAppointmentsForm = (id: string) => {
       monthlyAmortization: Number(appointmentsData.monthlyAmortization),
       availableStartDate: new Date(appointmentsData.availableStartDate),
       availableEndDate: new Date(appointmentsData.availableEndDate),
-      scheduledDateTime: new Date(appointmentsData.scheduledDateTime),
       term: Number(appointmentsData.term),
     });
   }, [appointmentsData, isLoading]);
